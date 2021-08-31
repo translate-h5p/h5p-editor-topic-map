@@ -5,7 +5,7 @@ export interface H5PObject {
 }
 
 export interface H5PEditorObject {
-  TopicMap: typeof H5PWrapper;  
+  TopicMap: typeof H5PWrapper;
 }
 
 declare class EventDispatcher {
@@ -63,4 +63,14 @@ declare class EventDispatcher {
     bubbles?: boolean;
     external?: boolean;
   }) => void;
+}
+
+declare interface IH5PWrapper {
+  attach($wrapper: JQuery<HTMLElement>): void;
+}
+
+declare interface IH5PEditorWrapper {
+  appendTo($wrapper: JQuery<HTMLElement>): void;
+  validate(): boolean;
+  remove(): void;
 }
