@@ -1,0 +1,20 @@
+{
+  "title": "Topic Map Editor",
+  "machineName": "H5PEditor.TopicMap",
+  "majorVersion": 1,
+  "minorVersion": 0,
+  "patchVersion": 0,
+  "runnable": 1,
+  "preloadedJs": [
+    {
+      "path": "src/topic-map.js"
+    }
+  ],
+  "preloadedDependencies": [
+    {
+      "machineName": "H5P.TopicMap",
+      "majorVersion": 1,
+      "minorVersion": 0
+    }
+  ]
+}
