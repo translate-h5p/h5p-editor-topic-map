@@ -14,7 +14,7 @@ export class H5PWrapper
     parent: JQuery<HTMLElement>,
     field: unknown,
     params: unknown,
-    setValue: (value: unknown) => void
+    setValue: (value: unknown) => void,
   ) {
     super();
     this.wrapper = H5PWrapper.createWrapperElement();
@@ -31,6 +31,7 @@ export class H5PWrapper
     return true;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   remove(): void {}
 
   private static createWrapperElement(): HTMLDivElement {
