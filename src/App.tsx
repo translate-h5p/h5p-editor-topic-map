@@ -6,7 +6,7 @@ type AppProps = {
   setValue: (value: any) => void;
 };
 
-const App = ({ adjective }: AppProps): JSX.Element => {
+const App = ({ adjective, setValue }: AppProps): JSX.Element => {
   return (
     <>
       <h1>Hi, you&apos;re {adjective}</h1>
