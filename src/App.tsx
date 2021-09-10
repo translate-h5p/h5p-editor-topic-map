@@ -1,11 +1,12 @@
 import * as React from "react";
 import { hot } from "react-hot-loader/root";
 
-type Props = {
+type AppProps = {
   adjective: string;
+  setValue: (value: any) => void;
 };
 
-const App = ({ adjective }: Props): JSX.Element => {
+const App = ({ adjective }: AppProps): JSX.Element => {
   return (
     <>
       <h1>Hi, you&apos;re {adjective}</h1>

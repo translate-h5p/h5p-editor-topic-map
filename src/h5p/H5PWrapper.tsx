@@ -19,7 +19,14 @@ export class H5PWrapper
     super();
     this.wrapper = H5PWrapper.createWrapperElement();
 
-    ReactDOM.render(<App adjective="luminous" />, this.wrapper);
+    // Intentional log.
+    // TODO: Remove this before official release
+    console.info({ parent, field, params });
+
+    ReactDOM.render(
+      <App adjective="luminous" setValue={setValue} />,
+      this.wrapper,
+    );
   }
 
   appendTo([containerElement]: JQuery<HTMLElement>): void {
