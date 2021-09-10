@@ -7,14 +7,13 @@
   "runnable": 1,
   "preloadedJs": [
     {
-      "path": "src/topic-map.js"
+      "path": "dist/bundle.js"
     }
   ],
-  "preloadedDependencies": [
+  "preloadedCss": [
     {
-      "machineName": "H5P.TopicMap",
-      "majorVersion": 1,
-      "minorVersion": 0
+      "path": "dist/main.css"
     }
-  ]
+  ],
+  "preloadedDependencies": []
 }
