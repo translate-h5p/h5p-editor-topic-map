@@ -8,7 +8,7 @@ export interface H5PEditorObject {
   TopicMap: typeof H5PWrapper;
   widgets: {
     topicMap: typeof H5PWrapper;
-  }
+  };
 }
 
 declare class EventDispatcher {
