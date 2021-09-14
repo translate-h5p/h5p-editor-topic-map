@@ -1,0 +1,17 @@
+/* eslint-disable react/jsx-props-no-spreading */
+import * as React from "react";
+import { ComponentStory, ComponentMeta } from "@storybook/react";
+
+import { GridIndicator } from "./GridIndicator";
+
+export default {
+  title: "Components/GridIndicator",
+  component: GridIndicator,
+} as ComponentMeta<typeof GridIndicator>;
+
+const Template: ComponentStory<typeof GridIndicator> = args => (
+  <GridIndicator {...args} />
+);
+
+export const Primary = Template.bind({});
+Primary.args = {};
