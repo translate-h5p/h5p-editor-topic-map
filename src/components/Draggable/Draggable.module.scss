@@ -6,6 +6,11 @@
   cursor: move;
   height: 200px;
   position: absolute;
+  transition: transform 0.2s ease-out;
   width: 200px;
   will-change: transform;
+
+  &[aria-grabbed="true"] {
+    transition: none;
+  }
 }
