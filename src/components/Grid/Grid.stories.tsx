@@ -7,15 +7,17 @@ import { Grid } from "./Grid";
 export default {
   title: "Components/Grid",
   component: Grid,
+  args: {
+    numberOfColumns: 10,
+    numberOfRows: 10,
+    items: [],
+  },
 } as ComponentMeta<typeof Grid>;
 
 const Template: ComponentStory<typeof Grid> = args => <Grid {...args} />;
 
 export const Empty = Template.bind({});
-Empty.args = {
-  numberOfColumns: 16,
-  numberOfRows: 16,
-};
+Empty.args = {};
 
 const TemplateWithDraggable: ComponentStory<typeof Grid> = args => (
   <Grid {...args} />
@@ -23,8 +25,6 @@ const TemplateWithDraggable: ComponentStory<typeof Grid> = args => (
 
 export const GridWithDraggable = TemplateWithDraggable.bind({});
 GridWithDraggable.args = {
-  numberOfColumns: 16,
-  numberOfRows: 16,
   items: [
     {
       id: "1",

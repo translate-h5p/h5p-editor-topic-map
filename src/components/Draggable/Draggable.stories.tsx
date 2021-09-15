@@ -8,14 +8,20 @@ export default {
   title: "Components/Draggable",
   component: Draggable,
   args: {
-    updatePosition: newPos => {
-      console.info("New position", newPos);
-    },
+    updatePosition: newPos => console.info("New position", newPos),
     initialXPosition: 200,
     initialYPosition: 200,
     height: 100,
     width: 100,
     updateSize: newSize => console.info("New size:", newSize),
+    gapSize: 10,
+    gridIndicatorSize: 10,
+    gridSize: {
+      width: 200,
+      height: 100,
+    },
+    initialHeight: 45,
+    initialWidth: 95,
   },
 } as ComponentMeta<typeof Draggable>;
 
