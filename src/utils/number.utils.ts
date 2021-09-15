@@ -41,20 +41,18 @@ export const calculateClosestValidXPosition = (
   gridWidth: number,
   width: number,
 ): number => {
-  const delta = pointerX % (gapSize + gridIndicatorSize);
-  const closestToTheLeft = xPosition - delta;
-  const closestToTheRight = xPosition + delta;
+  
+  gapSize = (gapSize / 2) - 6;
+  const closestToTheLeft = Math.floor(xPosition / (gridIndicatorSize + gapSize)) * (gridIndicatorSize + gapSize);
+  const closestToTheRight = Math.ceil(xPosition / (gridIndicatorSize + gapSize)) * (gridIndicatorSize + gapSize);
 
-  const minimum = 0;
-  const maximum = gridWidth - width;
+  if(Math.abs(pointerX - closestToTheRight) > Math.abs(pointerX - closestToTheLeft))
+  {
+    return closestToTheLeft;
+  } else {
+    return closestToTheRight;
+  }
 
-  return clamp(
-    minimum,
-    pointerX - closestToTheLeft < closestToTheRight - pointerX
-      ? closestToTheLeft
-      : closestToTheRight,
-    maximum,
-  );
 };
 
 export const calculateClosestValidYPosition = (
@@ -65,18 +63,29 @@ export const calculateClosestValidYPosition = (
   gridHeight: number,
   height: number,
 ): number => {
-  const delta = pointerY % (gapSize + gridIndicatorSize);
-  const closestAbove = yPosition - delta;
-  const closestBelow = yPosition + delta;
+  gapSize = (gapSize / 2) - 6;
+  const closestAbove = Math.floor(yPosition / (gridIndicatorSize + gapSize)) * (gridIndicatorSize + gapSize);
+  const closestBelow = Math.ceil(yPosition / (gridIndicatorSize + gapSize)) * (gridIndicatorSize + gapSize);
 
-  const minimum = 0;
-  const maximum = gridHeight - height;
+  if(Math.abs(pointerY - closestAbove) > Math.abs(pointerY - closestBelow))
+  {
+    return closestBelow;
+  } else {
+    return closestAbove;
+  }
 
-  return clamp(
-    minimum,
-    pointerY - closestAbove < closestBelow - pointerY
-      ? closestAbove
-      : closestBelow,
-    maximum,
-  );
+  // const delta = pointerY % (gapSize + gridIndicatorSize);
+  // const closestAbove = yPosition - delta;
+  // const closestBelow = yPosition + delta;
+
+  // const minimum = 0;
+  // const maximum = gridHeight - height;
+
+  // return clamp(
+  //   minimum,
+  //   pointerY - closestAbove < closestBelow - pointerY
+  //     ? closestAbove
+  //     : closestBelow,
+  //   maximum,
+  // );
 };
