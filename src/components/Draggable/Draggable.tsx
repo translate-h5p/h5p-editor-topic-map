@@ -2,7 +2,12 @@ import * as React from "react";
 import { Position } from "../../types/Position";
 import { Size } from "../../types/Size";
 import { isMouseEvent } from "../../utils/event.utils";
-import { clamp } from "../../utils/number.utils";
+import {
+  calculateClosestValidHeight,
+  calculateClosestValidWidth,
+  calculateClosestValidXPosition,
+  calculateClosestValidYPosition,
+} from "../../utils/number.utils";
 import { ScaleHandle } from "../ScaleHandle/ScaleHandle";
 import styles from "./Draggable.module.scss";
 
@@ -35,18 +40,42 @@ export const Draggable: React.FC<DraggableProps> = ({
   gridIndicatorSize,
   gridSize,
 }) => {
-  const [position, setPosition] = React.useState<Position>({
-    x: initialXPosition,
-    y: initialYPosition,
-  });
   const [isDragging, setIsDragging] = React.useState(false);
   const [isSelected, setIsSelected] = React.useState(false);
   const [labelText, setLabelText] = React.useState(labelTexts.notSelected);
   const [pointerStartPosition, setPointerStartPosition] =
     React.useState<Position | null>(null);
   const [{ width, height }, setSize] = React.useState<Size>({
-    width: initialWidth,
-    height: initialHeight,
+    width: calculateClosestValidWidth(
+      initialWidth,
+      gapSize,
+      gridIndicatorSize,
+      gridSize.width,
+    ),
+    height: calculateClosestValidHeight(
+      initialHeight,
+      gapSize,
+      gridIndicatorSize,
+      gridSize.height,
+    ),
+  });
+  const [position, setPosition] = React.useState<Position>({
+    x: calculateClosestValidXPosition(
+      initialXPosition,
+      gapSize,
+      gridIndicatorSize,
+      initialXPosition,
+      gridSize.width,
+      width,
+    ),
+    y: calculateClosestValidYPosition(
+      initialYPosition,
+      gapSize,
+      gridIndicatorSize,
+      initialYPosition,
+      gridSize.height,
+      height,
+    ),
   });
   const elementRef = React.useRef<HTMLButtonElement>(null);
 
@@ -80,41 +109,30 @@ export const Draggable: React.FC<DraggableProps> = ({
   );
 
   const getClosestValidXPosition = React.useCallback(
-    x => {
-      const closestToTheLeft = x - (x % (gapSize + gridIndicatorSize));
-      const closestToTheRight = x + (x % (gapSize + gridIndicatorSize));
-
-      const minimum = 0;
-      const maximum = gridSize.width - width;
-
-      return clamp(
-        minimum,
-        x - closestToTheLeft < closestToTheRight - x
-          ? closestToTheLeft
-          : closestToTheRight,
-        maximum,
-      );
-    },
-    [gapSize, gridIndicatorSize, gridSize.width, width],
+    (pointerX: number) =>
+      calculateClosestValidXPosition(
+        pointerX,
+        gapSize,
+        gridIndicatorSize,
+        position.x,
+        gridSize.width,
+        width,
+      ),
+    [gapSize, gridIndicatorSize, gridSize.width, position.x, width],
   );
 
-  const getClosestValidYosition = React.useCallback(
-    y => {
-      const closestAbove = y - (y % (gapSize + gridIndicatorSize));
-      const closestBelow = y + (y % (gapSize + gridIndicatorSize));
-
-      const minimum = 0;
-      const maximum = gridSize.height - height;
-
-      return clamp(
-        minimum,
-        y - closestAbove < closestBelow - y ? closestAbove : closestBelow,
-        maximum,
-      );
-    },
-    [gapSize, gridIndicatorSize, gridSize.height, height],
+  const getClosestValidYPosition = React.useCallback(
+    (pointerY: number) =>
+      calculateClosestValidYPosition(
+        pointerY,
+        gapSize,
+        gridIndicatorSize,
+        position.y,
+        gridSize.height,
+        height,
+      ),
+    [gapSize, gridIndicatorSize, gridSize.height, height, position.y],
   );
-
   const stopDrag = React.useCallback(() => {
     if (!isDragging || !pointerStartPosition) {
       return;
@@ -123,7 +141,7 @@ export const Draggable: React.FC<DraggableProps> = ({
     const { x, y } = position;
 
     const closestValidXPosition = getClosestValidXPosition(x);
-    const closestValidYPosition = getClosestValidYosition(y);
+    const closestValidYPosition = getClosestValidYPosition(y);
 
     if (closestValidXPosition != null && closestValidYPosition != null) {
       const newPosition = getNewPosition(
@@ -140,7 +158,7 @@ export const Draggable: React.FC<DraggableProps> = ({
     pointerStartPosition,
     position,
     getClosestValidXPosition,
-    getClosestValidYosition,
+    getClosestValidYPosition,
     getNewPosition,
   ]);
 
@@ -227,7 +245,7 @@ export const Draggable: React.FC<DraggableProps> = ({
       let newHeight: number = height;
       let newY: number = position.y;
 
-      const closestValidYPosition = getClosestValidYosition(pointerY);
+      const closestValidYPosition = getClosestValidYPosition(pointerY);
       const yDifference = position.y - closestValidYPosition;
 
       if (isTop) {
@@ -246,7 +264,7 @@ export const Draggable: React.FC<DraggableProps> = ({
 
       setSize(oldSize => ({ ...oldSize, height: newHeight }));
     },
-    [getClosestValidYosition, height, position],
+    [getClosestValidYPosition, height, position],
   );
 
   React.useEffect(() => {

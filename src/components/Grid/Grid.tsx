@@ -62,12 +62,24 @@ export const Grid: React.FC<GridProps> = ({
     elementRef.current,
   ]);
 
-  const calculateXPosition = React.useCallback(
-    (xPercentage: number) => (size?.width ?? 0) * (xPercentage / 100),
+  const scaleX = React.useCallback(
+    (xPercentage: number) => {
+      if (!size?.width) {
+        throw new Error("Grid has no size.");
+      }
+
+      return size.width * (xPercentage / 100);
+    },
     [size?.width],
   );
-  const calculateYPosition = React.useCallback(
-    (yPercentage: number) => (size?.height ?? 0) * (yPercentage / 100),
+  const scaleY = React.useCallback(
+    (yPercentage: number) => {
+      if (!size?.height) {
+        throw new Error("Grid has no size.");
+      }
+
+      return size.height * (yPercentage / 100);
+    },
     [size?.height],
   );
 
@@ -101,22 +113,16 @@ export const Grid: React.FC<GridProps> = ({
     return items.map(item => (
       <Draggable
         key={item.id}
-        initialXPosition={calculateXPosition(item.xPercentagePosition)}
-        initialYPosition={calculateYPosition(item.yPercentagePosition)}
+        initialXPosition={scaleX(item.xPercentagePosition)}
+        initialYPosition={scaleY(item.yPercentagePosition)}
         updatePosition={newPosition => {
           // eslint-disable-next-line no-param-reassign
           item.xPercentagePosition = calculateXPercentage(newPosition.x);
           // eslint-disable-next-line no-param-reassign
           item.yPercentagePosition = calculateYPercentage(newPosition.y);
         }}
-        initialWidth={
-          calculateXPosition(item.xPercentageSize) -
-          calculateXPosition(item.xPercentagePosition)
-        }
-        initialHeight={
-          calculateYPosition(item.yPercentageSize) -
-          calculateYPosition(item.yPercentagePosition)
-        }
+        initialWidth={Math.abs(scaleX(item.xPercentageSize))}
+        initialHeight={Math.abs(scaleY(item.yPercentageSize))}
         updateSize={newSize => {
           // eslint-disable-next-line no-param-reassign
           item.xPercentageSize = calculateXPercentage(newSize.width);
@@ -130,9 +136,9 @@ export const Grid: React.FC<GridProps> = ({
     ));
   }, [
     calculateXPercentage,
-    calculateXPosition,
+    scaleX,
     calculateYPercentage,
-    calculateYPosition,
+    scaleY,
     gapSize,
     gridIndicatorSize,
     items,

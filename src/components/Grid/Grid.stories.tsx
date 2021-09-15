@@ -36,10 +36,10 @@ GridWithDraggable.args = {
 
     {
       id: "2",
-      xPercentagePosition: 45,
+      xPercentagePosition: 25,
       yPercentagePosition: 60,
-      xPercentageSize: 15,
-      yPercentageSize: 10,
+      xPercentageSize: 65,
+      yPercentageSize: 32,
     },
   ],
 };
