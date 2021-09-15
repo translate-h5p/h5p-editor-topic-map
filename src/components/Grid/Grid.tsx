@@ -194,8 +194,8 @@ export const Grid: React.FC<GridProps> = ({
         aspectRatio: `${numberOfColumns} / ${numberOfRows}`,
       }}
     >
-      {gridIndicators}
       {renderChildren()}
+      {gridIndicators}
     </div>
   );
 };
