@@ -18,7 +18,6 @@ export const Grid: React.FC<GridProps> = ({
   items,
 }) => {
   const [size, setSize] = React.useState<Size | null>();
-  const [gapSize, setGapSize] = React.useState<number | null>();
 
   const elementRef = React.useRef<HTMLDivElement>(null);
 
@@ -41,6 +40,24 @@ export const Grid: React.FC<GridProps> = ({
         )),
     [numberOfColumns, numberOfRows],
   );
+
+  const gapSize = React.useMemo(() => {
+    if (!elementRef.current) {
+      return 0;
+    }
+
+    const { columnGap } = window.getComputedStyle(elementRef.current);
+
+    if (!columnGap) {
+      throw new Error("Gap was not set on the grid element.");
+    }
+
+    return Number.parseInt(columnGap, 10);
+
+    // This value changes whenever `numberOfColumns` or `numberOfRows`
+    // changes. Therefore, they are needed in the dependency array.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [numberOfColumns, numberOfRows, elementRef.current]);
 
   const getGridIndicatorSize = React.useCallback(() => {
     if (!elementRef.current) {
@@ -145,16 +162,6 @@ export const Grid: React.FC<GridProps> = ({
     size,
   ]);
 
-  const calculateGapSize = React.useCallback(
-    (height: number, width: number) => {
-      return Math.max(
-        (width / numberOfColumns) * 0.25,
-        (height / numberOfRows) * 0.25,
-      );
-    },
-    [numberOfColumns, numberOfRows],
-  );
-
   const resize = React.useCallback(() => {
     if (!elementRef.current) {
       return;
@@ -163,15 +170,6 @@ export const Grid: React.FC<GridProps> = ({
     const { width, height } = elementRef.current.getBoundingClientRect();
     setSize({ width, height });
   }, []);
-
-  React.useEffect(() => {
-    if (!size) {
-      return;
-    }
-
-    const { width, height } = size;
-    setGapSize(calculateGapSize(width, height));
-  }, [size, calculateGapSize]);
 
   React.useEffect(() => {
     const gridElement = elementRef.current;
