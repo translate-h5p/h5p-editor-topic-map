@@ -3,11 +3,9 @@ import { Position } from "../../types/Position";
 import { Size } from "../../types/Size";
 import { isMouseEvent } from "../../utils/event.utils";
 import {
-  calculateClosestValidHeight,
-  calculateClosestValidWidth,
-  calculateClosestValidXPosition,
-  calculateClosestValidYPosition,
-} from "../../utils/number.utils";
+  calculateClosestValidSizeComponent,
+  calculateClosestValidPositionComponent,
+} from "../../utils/draggable.utils";
 import { ScaleHandle } from "../ScaleHandle/ScaleHandle";
 import styles from "./Draggable.module.scss";
 
@@ -46,13 +44,13 @@ export const Draggable: React.FC<DraggableProps> = ({
   const [pointerStartPosition, setPointerStartPosition] =
     React.useState<Position | null>(null);
   const [{ width, height }, setSize] = React.useState<Size>({
-    width: calculateClosestValidWidth(
+    width: calculateClosestValidSizeComponent(
       initialWidth,
       gapSize,
       gridIndicatorSize,
       gridSize.width,
     ),
-    height: calculateClosestValidHeight(
+    height: calculateClosestValidSizeComponent(
       initialHeight,
       gapSize,
       gridIndicatorSize,
@@ -60,7 +58,7 @@ export const Draggable: React.FC<DraggableProps> = ({
     ),
   });
   const [position, setPosition] = React.useState<Position>({
-    x: calculateClosestValidXPosition(
+    x: calculateClosestValidPositionComponent(
       initialXPosition,
       gapSize,
       gridIndicatorSize,
@@ -68,7 +66,7 @@ export const Draggable: React.FC<DraggableProps> = ({
       gridSize.width,
       width,
     ),
-    y: calculateClosestValidYPosition(
+    y: calculateClosestValidPositionComponent(
       initialYPosition,
       gapSize,
       gridIndicatorSize,
@@ -110,7 +108,7 @@ export const Draggable: React.FC<DraggableProps> = ({
 
   const getClosestValidXPosition = React.useCallback(
     (pointerX: number) =>
-      calculateClosestValidXPosition(
+      calculateClosestValidPositionComponent(
         pointerX,
         gapSize,
         gridIndicatorSize,
@@ -123,7 +121,7 @@ export const Draggable: React.FC<DraggableProps> = ({
 
   const getClosestValidYPosition = React.useCallback(
     (pointerY: number) =>
-      calculateClosestValidYPosition(
+      calculateClosestValidPositionComponent(
         pointerY,
         gapSize,
         gridIndicatorSize,
