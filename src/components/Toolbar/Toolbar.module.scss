@@ -4,16 +4,16 @@
   border: 1px solid #d1d1d1;
 }
 
-.toolbarItem {
+.toolbarButton {
   box-sizing: content-box;
   vertical-align: top;
   position: relative;
   font-size: 1.2em;
 
-  width: 1em;
-  height: 1.1em;
+  width: 1.45em;
+  height: 1.25em;
   margin-right: 0.4em;
-  padding: 0.25em 0.65em;
+  padding: 0.2em 0.5em;
 
   cursor: pointer;
   border: 1px solid #ccc;
@@ -36,39 +36,32 @@
   }
 
   &:active {
-    border-color: #0079D2;
+    border-color: #999999;
     transition: 0.1s;
-    background: #0079D2;
-    color: #FFF;
+    background: #dddddd;
   }
-}
 
-.toolbarItemActive {
-  box-sizing: content-box;
-  vertical-align: top;
-  position: relative;
-  font-size: 1.2em;
+  .icon {
+    fill: #333;
+  }
 
-  width: 1em;
-  height: 1.1em;
-  margin-right: 0.4em;
-  padding: 0.25em 0.65em;
-
-  cursor: pointer;
-  border: 1px solid #0079D2;
-  border-radius: 0.25em;
-  color: #FFF;
-  background: #0079D2;
-  background: -webkit-linear-gradient(top, #0485E3 0, #0079D2 100%);
-  background: -moz-linear-gradient(top, #0485E3 0, #0079D2 100%);
-  background: -ms-linear-gradient(top, #0485E3 0, #0079D2 100%);
-  background: -o-linear-gradient(top, #0485E3 0, #0079D2 100%);
-
-  &:hover {
+  &.active {
+    border: 1px solid #0079D2;
+    color: #FFF;
     background: #0079D2;
+    background: -webkit-linear-gradient(top, #0485E3 0, #0079D2 100%);
+    background: -moz-linear-gradient(top, #0485E3 0, #0079D2 100%);
+    background: -ms-linear-gradient(top, #0485E3 0, #0079D2 100%);
+    background: -o-linear-gradient(top, #0485E3 0, #0079D2 100%);
 
-    .tooltip {
-      display: block;
+    &:hover {
+      border-color: #0079D2;
+      transition: none;
+      background: #0079D2;
+    }
+  
+    .icon {
+      fill: #FFF;
     }
   }
 }

@@ -1,55 +1,46 @@
 import * as React from "react";
 import styles from "./Toolbar.module.scss";
+import { Icons } from "../../icons/icons";
 
-export type ToolbarProps = {
-  initialHeight: number;
-  initialWidth: number;
-};
-
-export const Toolbar: React.FC<ToolbarProps> = ({
-  initialHeight,
-  initialWidth,
-}) => {
-  const [activeKey, setActiveKey] = React.useState<string | null>();
+export const Toolbar: React.FC = () => {
+  const [activeButton, setActiveButton] = React.useState<string | null>();
 
   const libraryList = [
     {
-      name: "ThemeColor",
-      title: "Theme color",
-      content: "A",
-      allowActive: false
+      name: "H5P.MapColor",
+      title: "Map color",
+      setActive: false
     },
     {
-      name: "AddBox",
+      name: "H5P.AddBox",
       title: "Add box",
-      content: "B",
-      allowActive: true
+      setActive: true
     },
     {
-      name: "AddArrow",
+      name: "H5P.AddArrow",
       title: "Add arrow",
-      content: "C",
-      allowActive: true
+      setActive: true
     }
   ];
   return (
     <div className={styles.toolbar}>
       {
         libraryList.map(library => {
-          const changeActive = library.allowActive && library.name != activeKey;
-          const className = activeKey === library.name ? styles.toolbarItemActive : styles.toolbarItem;
-          const iconClassName = library.name
+          const isActiveButton = library.name === activeButton;
+          const newActiveButton = library.setActive && !isActiveButton;
+          const iconName = library.name
             .toLowerCase()
             .replace('.', '-');
-                    
+          
           return (
             <button
               type="button"
               key={library.name}
-              className={className + " " + iconClassName}
-              onClick={() => setActiveKey(changeActive ? library.name : null)}
+              className={isActiveButton ? `${styles.toolbarButton} ${styles.active}` : styles.toolbarButton}
+              onClick={() => setActiveButton(newActiveButton ? library.name : null)}
+              aria-label={library.title}
             >
-              {library.content}
+              <Icons icon={iconName} className={styles.icon}/>
               <div className={styles.tooltip}>
                 {library.title}
               </div>
