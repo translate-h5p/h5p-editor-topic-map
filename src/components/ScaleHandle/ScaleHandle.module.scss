@@ -1,0 +1,37 @@
+$scale-offset: 0.25rem;
+.scaleHandle {
+  background-color: darkorchid;
+  position: absolute;
+}
+
+.scaleHandleLeft,
+.scaleHandleRight {
+  cursor: col-resize;
+  height: 100%;
+  top: 0;
+  width: $scale-offset;
+}
+
+.scaleHandleLeft {
+  left: -$scale-offset;
+}
+
+.scaleHandleRight {
+  right: -$scale-offset;
+}
+
+.scaleHandleTop,
+.scaleHandleBottom {
+  cursor: row-resize;
+  left: 0;
+  height: $scale-offset;
+  width: 100%;
+}
+
+.scaleHandleTop {
+  top: -$scale-offset;
+}
+
+.scaleHandleBottom {
+  bottom: -$scale-offset;
+}
