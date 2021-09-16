@@ -1,0 +1,18 @@
+.draggable {
+  background-color: #2bf;
+  border: none;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+  cursor: move;
+  font-family: monospace;
+  height: 200px;
+  padding: 0;
+  position: absolute;
+  transition: transform 0.2s ease-out;
+  width: 200px;
+  will-change: transform;
+
+  &[aria-grabbed="true"] {
+    transition: none;
+  }
+}
