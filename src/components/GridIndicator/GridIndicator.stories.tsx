@@ -5,7 +5,7 @@ import { ComponentStory, ComponentMeta } from "@storybook/react";
 import { GridIndicator } from "./GridIndicator";
 
 export default {
-  title: "Components/GridIndicator",
+  title: "Atoms/GridIndicator",
   component: GridIndicator,
 } as ComponentMeta<typeof GridIndicator>;
 
@@ -14,4 +14,7 @@ const Template: ComponentStory<typeof GridIndicator> = args => (
 );
 
 export const Primary = Template.bind({});
-Primary.args = {};
+Primary.args = {
+  onClick: () => console.info("On click"),
+  label: "Heihei",
+};

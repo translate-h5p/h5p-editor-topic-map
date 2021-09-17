@@ -5,7 +5,7 @@ import { ComponentStory, ComponentMeta } from "@storybook/react";
 import { Grid } from "./Grid";
 
 export default {
-  title: "Components/Grid",
+  title: "Organisms/Grid",
   component: Grid,
   args: {
     numberOfColumns: 10,
