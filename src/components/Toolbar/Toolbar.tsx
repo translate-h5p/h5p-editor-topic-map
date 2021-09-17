@@ -1,6 +1,6 @@
 import * as React from "react";
 import styles from "./Toolbar.module.scss";
-import { Icons } from "../../icons/icons";
+import { Icons } from "../../icons";
 
 export const Toolbar: React.FC = () => {
   const [activeButton, setActiveButton] = React.useState<string | null>();
@@ -12,13 +12,13 @@ export const Toolbar: React.FC = () => {
       setActive: false,
     },
     {
-      name: "H5P.AddBox",
-      title: "Add box",
+      name: "H5P.CreateBox",
+      title: "Create box",
       setActive: true,
     },
     {
-      name: "H5P.AddArrow",
-      title: "Add arrow",
+      name: "H5P.CreateArrow",
+      title: "Create arrow",
       setActive: true,
     },
   ];
