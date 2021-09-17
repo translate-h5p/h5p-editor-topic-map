@@ -19,7 +19,7 @@
     "start": "webpack serve --hot --mode=development",
     "test": "jest",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook -o docs-build"
+    "build-storybook": "build-storybook"
   },
   "dependencies": {
     "react": "^17.0.2",
