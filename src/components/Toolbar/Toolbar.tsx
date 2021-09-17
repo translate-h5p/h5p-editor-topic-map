@@ -9,45 +9,45 @@ export const Toolbar: React.FC = () => {
     {
       name: "H5P.MapColor",
       title: "Map color",
-      setActive: false
+      setActive: false,
     },
     {
       name: "H5P.AddBox",
       title: "Add box",
-      setActive: true
+      setActive: true,
     },
     {
       name: "H5P.AddArrow",
       title: "Add arrow",
-      setActive: true
-    }
+      setActive: true,
+    },
   ];
   return (
     <div className={styles.toolbar}>
-      {
-        libraryList.map(library => {
-          const isActiveButton = library.name === activeButton;
-          const newActiveButton = library.setActive && !isActiveButton;
-          const iconName = library.name
-            .toLowerCase()
-            .replace('.', '-');
-          
-          return (
-            <button
-              type="button"
-              key={library.name}
-              className={isActiveButton ? `${styles.toolbarButton} ${styles.active}` : styles.toolbarButton}
-              onClick={() => setActiveButton(newActiveButton ? library.name : null)}
-              aria-label={library.title}
-            >
-              <Icons icon={iconName} className={styles.icon}/>
-              <div className={styles.tooltip}>
-                {library.title}
-              </div>
-            </button>
-          ); 
-        })
-      }
+      {libraryList.map(library => {
+        const isActiveButton = library.name === activeButton;
+        const newActiveButton = library.setActive && !isActiveButton;
+        const iconName = library.name.toLowerCase().replace(".", "-");
+
+        return (
+          <button
+            type="button"
+            key={library.name}
+            className={
+              isActiveButton
+                ? `${styles.toolbarButton} ${styles.active}`
+                : styles.toolbarButton
+            }
+            onClick={() =>
+              setActiveButton(newActiveButton ? library.name : null)
+            }
+            aria-label={library.title}
+          >
+            <Icons icon={iconName} className={styles.icon} />
+            <div className={styles.tooltip}>{library.title}</div>
+          </button>
+        );
+      })}
     </div>
   );
 };

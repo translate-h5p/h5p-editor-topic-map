@@ -42,18 +42,18 @@
   }
 
   &.active {
-    border: 1px solid #0079D2;
-    color: #FFF;
-    background: linear-gradient(top, #0485E3 0, #0079D2 100%);
+    border: 1px solid #0079d2;
+    color: #fff;
+    background: linear-gradient(top, #0485e3 0, #0079d2 100%);
 
     &:hover {
-      border-color: #0079D2;
+      border-color: #0079d2;
       transition: none;
-      background: #0079D2;
+      background: #0079d2;
     }
-  
+
     .icon {
-      fill: #FFF;
+      fill: #fff;
     }
   }
 }

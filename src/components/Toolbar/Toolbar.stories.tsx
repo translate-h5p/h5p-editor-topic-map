@@ -13,9 +13,7 @@ export default {
   },
 } as ComponentMeta<typeof Toolbar>;
 
-const Template: ComponentStory<typeof Toolbar> = args => (
-  <Toolbar {...args} />
-);
+const Template: ComponentStory<typeof Toolbar> = args => <Toolbar {...args} />;
 
 export const Primary = Template.bind({});
 Primary.args = {};
