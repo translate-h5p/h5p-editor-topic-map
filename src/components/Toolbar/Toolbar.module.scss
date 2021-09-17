@@ -20,6 +20,10 @@
   border-radius: 0.25em;
   color: #333;
   background: linear-gradient(top, #fff 0, #f2f2f2 100%);
+  background: -webkit-linear-gradient(top, #fff 0, #f2f2f2 100%);
+  background: -moz-linear-gradient(top, #fff 0, #f2f2f2 100%);
+  background: -ms-linear-gradient(top, #fff 0, #f2f2f2 100%);
+  background: -o-linear-gradient(top, #fff 0, #f2f2f2 100%);
 
   &:hover {
     border-color: #999999;
@@ -45,6 +49,10 @@
     border: 1px solid #0079d2;
     color: #fff;
     background: linear-gradient(top, #0485e3 0, #0079d2 100%);
+    background: -webkit-linear-gradient(top, #0485e3 0, #0079d2 100%);
+    background: -moz-linear-gradient(top, #0485e3 0, #0079d2 100%);
+    background: -ms-linear-gradient(top, #0485e3 0, #0079d2 100%);
+    background: -o-linear-gradient(top, #0485e3 0, #0079d2 100%);
 
     &:hover {
       border-color: #0079d2;

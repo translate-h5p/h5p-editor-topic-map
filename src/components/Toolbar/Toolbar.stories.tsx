@@ -7,13 +7,9 @@ import { Toolbar } from "./Toolbar";
 export default {
   title: "Components/Toolbar",
   component: Toolbar,
-  args: {
-    initialHeight: 50,
-    initialWidth: 918,
-  },
 } as ComponentMeta<typeof Toolbar>;
 
-const Template: ComponentStory<typeof Toolbar> = args => <Toolbar {...args} />;
+const Template: ComponentStory<typeof Toolbar> = args => <Toolbar />;
 
 export const Primary = Template.bind({});
 Primary.args = {};
