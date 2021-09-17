@@ -9,7 +9,7 @@ export default {
   component: Toolbar,
 } as ComponentMeta<typeof Toolbar>;
 
-const Template: ComponentStory<typeof Toolbar> = args => <Toolbar />;
+const Template: ComponentStory<typeof Toolbar> = () => <Toolbar />;
 
 export const Primary = Template.bind({});
 Primary.args = {};
