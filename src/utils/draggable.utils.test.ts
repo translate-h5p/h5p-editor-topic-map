@@ -153,7 +153,6 @@ describe("draggable utils", () => {
             attemptedXPosition,
             gapSize,
             gridIndicatorSize,
-            attemptedXPosition,
             gridWidth,
             width,
           );
@@ -170,7 +169,6 @@ describe("draggable utils", () => {
         attemptedXPosition,
         gapSize,
         gridIndicatorSize,
-        attemptedXPosition,
         gridWidth,
         width,
       );
@@ -186,7 +184,6 @@ describe("draggable utils", () => {
         attemptedXPosition,
         gapSize,
         gridIndicatorSize,
-        attemptedXPosition,
         gridWidth,
         width,
       );
@@ -202,7 +199,6 @@ describe("draggable utils", () => {
         attemptedXPosition,
         gapSize,
         gridIndicatorSize,
-        attemptedXPosition,
         gridWidth,
         width,
       );
@@ -218,7 +214,6 @@ describe("draggable utils", () => {
         attemptedXPosition,
         gapSize,
         gridIndicatorSize,
-        attemptedXPosition,
         gridWidth,
         width,
       );
