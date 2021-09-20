@@ -8,9 +8,10 @@ export default {
   title: "Organisms/Grid",
   component: Grid,
   args: {
-    numberOfColumns: 10,
-    numberOfRows: 10,
+    numberOfColumns: 30,
+    numberOfRows: 30,
     items: [],
+    gapSize: 8,
   },
 } as ComponentMeta<typeof Grid>;
 

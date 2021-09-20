@@ -48,3 +48,32 @@ export const calculateClosestValidPositionComponent = (
 
   return clamp(minimum, closestValue, maximum);
 };
+
+/**
+ * @returns {[number, number]} [the new size (width or height), the new position (x or y)]
+ */
+export const scale = (
+  attemptedPosition: number,
+  negativeSideWasMoved: boolean,
+  currentSize: number,
+  currentPosition: number,
+): [number, number] => {
+  let newSize: number = currentSize;
+  let newPosition: number = currentPosition;
+
+  const difference =
+    currentPosition -
+    (negativeSideWasMoved ? 0 : currentSize) -
+    attemptedPosition;
+
+  if (negativeSideWasMoved) {
+    // If the negative side (left or top) was moved,
+    // we need to set a new position in addition
+    // to changing the size.
+    newPosition = attemptedPosition;
+  }
+
+  newSize = currentSize + difference;
+
+  return [newSize, newPosition];
+};

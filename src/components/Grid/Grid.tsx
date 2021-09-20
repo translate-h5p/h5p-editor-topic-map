@@ -9,6 +9,7 @@ export type GridProps = {
   numberOfColumns: number;
   numberOfRows: number;
   items: Array<TopicMapItem>;
+  gapSize: number;
   children: never;
 };
 
@@ -16,6 +17,7 @@ export const Grid: React.FC<GridProps> = ({
   numberOfColumns,
   numberOfRows,
   items,
+  gapSize,
 }) => {
   const [size, setSize] = React.useState<Size | null>();
 
@@ -40,24 +42,6 @@ export const Grid: React.FC<GridProps> = ({
         )),
     [numberOfColumns, numberOfRows],
   );
-
-  const gapSize = React.useMemo(() => {
-    if (!elementRef.current) {
-      return 0;
-    }
-
-    const { columnGap } = window.getComputedStyle(elementRef.current);
-
-    if (!columnGap) {
-      throw new Error("Gap was not set on the grid element.");
-    }
-
-    return Number.parseInt(columnGap, 10);
-
-    // This value changes whenever `numberOfColumns` or `numberOfRows`
-    // changes. Therefore, they are needed in the dependency array.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [numberOfColumns, numberOfRows, elementRef.current]);
 
   const getGridIndicatorSize = React.useCallback(() => {
     if (!elementRef.current) {
@@ -189,9 +173,10 @@ export const Grid: React.FC<GridProps> = ({
       role="application" /* https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/Application_Role */
       className={styles.grid}
       style={{
+        aspectRatio: `${numberOfColumns} / ${numberOfRows}`,
+        gap: `${gapSize}px`,
         gridTemplateColumns: `repeat(${numberOfColumns}, 1fr)`,
         gridTemplateRows: `repeat(${numberOfRows}, 1fr)`,
-        aspectRatio: `${numberOfColumns} / ${numberOfRows}`,
       }}
     >
       {renderChildren()}

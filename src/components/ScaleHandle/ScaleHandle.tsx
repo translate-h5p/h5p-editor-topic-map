@@ -1,30 +1,43 @@
 import * as React from "react";
 import { isMouseEvent } from "../../utils/event.utils";
+import { capitalize } from "../../utils/string.utils";
 import styles from "./ScaleHandle.module.scss";
 
 export type ScaleHandleProps = {
   labelText: string;
   position: "top" | "bottom" | "left" | "right";
-  onScale: (newValue: number, wasMovedInPositiveDirection: boolean) => void;
+  onScale: (newValue: number) => void;
+  onScaleStop: () => void;
 };
 
 export const ScaleHandle: React.FC<ScaleHandleProps> = ({
   labelText,
   position,
   onScale,
+  onScaleStop,
 }) => {
   const [isDragging, setIsDragging] = React.useState(false);
   const elementRef = React.useRef<HTMLDivElement>(null);
   const isVerticalScaleHandle = ["top", "bottom"].includes(position);
-  const className = styles[`scaleHandle${position.toUpperCase()}`];
+  const className = styles[`scaleHandle${capitalize(position)}`];
 
-  const startDrag = React.useCallback(() => {
-    setIsDragging(true);
-  }, []);
+  const startDrag = React.useCallback(
+    (event: React.MouseEvent | React.TouchEvent) => {
+      setIsDragging(true);
+
+      event.stopPropagation();
+    },
+    [],
+  );
 
   const stopDrag = React.useCallback(() => {
+    if (!isDragging) {
+      return;
+    }
+
     setIsDragging(false);
-  }, []);
+    onScaleStop();
+  }, [isDragging, onScaleStop]);
 
   const dragHorizontal = React.useCallback(
     (event: React.MouseEvent | React.TouchEvent) => {
@@ -32,14 +45,14 @@ export const ScaleHandle: React.FC<ScaleHandleProps> = ({
         return;
       }
 
+      event.stopPropagation();
       const pointerX = isMouseEvent(event)
         ? event.clientX
         : event.touches[0].clientX;
 
-      const wasMovedInPositiveDirection = position === "right";
-      onScale(pointerX, wasMovedInPositiveDirection);
+      onScale(pointerX);
     },
-    [isDragging, onScale, position],
+    [isDragging, onScale],
   );
 
   const dragVertical = React.useCallback(
@@ -52,10 +65,9 @@ export const ScaleHandle: React.FC<ScaleHandleProps> = ({
         ? event.clientY
         : event.touches[0].clientY;
 
-      const wasMovedInPositiveDirection = position === "bottom";
-      onScale(pointerY, wasMovedInPositiveDirection);
+      onScale(pointerY);
     },
-    [isDragging, onScale, position],
+    [isDragging, onScale],
   );
 
   React.useEffect(() => {
