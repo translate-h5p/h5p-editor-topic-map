@@ -5,7 +5,7 @@ import { ComponentStory, ComponentMeta } from "@storybook/react";
 import { Grid } from "./Grid";
 
 export default {
-  title: "Components/Grid",
+  title: "Organisms/Grid",
   component: Grid,
   args: {
     numberOfColumns: 10,
@@ -30,16 +30,16 @@ GridWithDraggable.args = {
       id: "1",
       xPercentagePosition: 25,
       yPercentagePosition: 20,
-      xPercentageSize: 10,
-      yPercentageSize: 10,
+      widthPercentage: 10,
+      heightPercentage: 10,
     },
 
     {
       id: "2",
       xPercentagePosition: 25,
       yPercentagePosition: 60,
-      xPercentageSize: 65,
-      yPercentageSize: 32,
+      widthPercentage: 65,
+      heightPercentage: 32,
     },
   ],
 };

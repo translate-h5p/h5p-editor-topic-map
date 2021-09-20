@@ -138,13 +138,13 @@ export const Grid: React.FC<GridProps> = ({
           // eslint-disable-next-line no-param-reassign
           item.yPercentagePosition = calculateYPercentage(newPosition.y);
         }}
-        initialWidth={Math.abs(scaleX(item.xPercentageSize))}
-        initialHeight={Math.abs(scaleY(item.yPercentageSize))}
+        initialWidth={Math.abs(scaleX(item.widthPercentage))}
+        initialHeight={Math.abs(scaleY(item.heightPercentage))}
         updateSize={newSize => {
           // eslint-disable-next-line no-param-reassign
-          item.xPercentageSize = calculateXPercentage(newSize.width);
+          item.widthPercentage = calculateXPercentage(newSize.width);
           // eslint-disable-next-line no-param-reassign
-          item.yPercentageSize = calculateXPercentage(newSize.height);
+          item.heightPercentage = calculateXPercentage(newSize.height);
         }}
         gapSize={gapSize}
         gridIndicatorSize={gridIndicatorSize}

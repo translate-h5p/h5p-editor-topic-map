@@ -7,3 +7,6 @@ package.json
 package-lock.json
 README.md
 webpack.config.js
+.storybook
+storybook-static
+docs

@@ -5,7 +5,7 @@ import { ComponentStory, ComponentMeta } from "@storybook/react";
 import { Draggable } from "./Draggable";
 
 export default {
-  title: "Components/Draggable",
+  title: "Molecules/Draggable",
   component: Draggable,
   args: {
     updatePosition: newPos => console.info("New position", newPos),
