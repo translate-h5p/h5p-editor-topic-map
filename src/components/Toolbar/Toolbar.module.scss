@@ -25,7 +25,8 @@
   background: -ms-linear-gradient(top, #fff 0, #f2f2f2 100%);
   background: -o-linear-gradient(top, #fff 0, #f2f2f2 100%);
 
-  &:hover {
+  &:hover,
+  &:focus {
     border-color: #999999;
     transition: 0.1s;
     background: #f2f2f2;
