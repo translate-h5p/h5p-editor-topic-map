@@ -8,7 +8,7 @@ export default {
   title: "Atoms/ToolbarButton",
   component: ToolbarButton,
   args: {
-    onClick: () => console.info("hei"),
+    onClick: () => console.info("Toolbar button clicked"),
     label: "Map Color",
     showActive: false,
     activeButton: null,

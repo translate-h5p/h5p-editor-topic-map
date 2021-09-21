@@ -4,9 +4,9 @@ import { ToolbarButton } from "../ToolbarButton/ToolbarButton";
 
 /* TODO: Translate */
 const labelTexts = {
-  mapcolor: "Map color",
-  createbox: "Create box",
-  createarrow: "Create arrow",
+  mapColor: "Map color",
+  createBox: "Create box",
+  createArrow: "Create arrow",
 };
 
 export const Toolbar: React.FC = () => {
@@ -23,19 +23,19 @@ export const Toolbar: React.FC = () => {
   return (
     <div className={styles.toolbar}>
       <ToolbarButton
-        label={labelTexts.mapcolor}
+        label={labelTexts.mapColor}
         onClick={setActive}
         showActive={false}
         activeButton={activeButton}
       />
       <ToolbarButton
-        label={labelTexts.createbox}
+        label={labelTexts.createBox}
         onClick={setActive}
         showActive
         activeButton={activeButton}
       />
       <ToolbarButton
-        label={labelTexts.createarrow}
+        label={labelTexts.createArrow}
         onClick={setActive}
         showActive
         activeButton={activeButton}
