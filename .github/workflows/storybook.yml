@@ -2,7 +2,7 @@ name: Build and Deploy
 on:
   push:
     branches:
-      - feat/deployment-for-gh-pages
+      - main
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -10,15 +10,7 @@ jobs:
       - name: Checkout ️
         uses: actions/checkout@v2.3.1
         with:
-          ref: gh-pages
-      - name: setup git config
-        run: |
-          # setup the username and email.
-          git config user.name "GitHub Actions Bot"
-          git config user.email "<>"
-      - name: Rebasing
-        run: |
-          git rebase upstream main && git push --force
+          persist-credentials: false
       - name: Install and Build
         run: |
           npm install
