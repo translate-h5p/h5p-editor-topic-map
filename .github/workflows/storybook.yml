@@ -2,7 +2,7 @@ name: Build and Deploy
 on:
   push:
     branches:
-      - main
+      - feat/deployment-for-gh-pages
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -10,7 +10,15 @@ jobs:
       - name: Checkout ️
         uses: actions/checkout@v2.3.1
         with:
-          persist-credentials: false
+          ref: gh-pages
+      - name: setup git config
+        run: |
+          # setup the username and email.
+          git config user.name "GitHub Actions Bot"
+          git config user.email "<>"
+      - name: Rebasing
+        run: |
+          git rebase upstream main && git push --force
       - name: Install and Build
         run: |
           npm install
@@ -19,7 +27,7 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@3.6.2
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BRANCH: main
+          BRANCH: gh-pages
           FOLDER: storybook-static
           CLEAN: true
           TARGET_FOLDER: docs
