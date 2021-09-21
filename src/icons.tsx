@@ -9,13 +9,13 @@ export type IconsProps = {
 };
 
 export const Icons: React.FC<IconsProps> = ({ icon, className }) => {
-  if (icon === "h5p-mapcolor") {
+  if (icon === "mapcolor") {
     return <MapColor className={className} />;
   }
-  if (icon === "h5p-createbox") {
+  if (icon === "createbox") {
     return <CreateBox className={className} />;
   }
-  if (icon === "h5p-createarrow") {
+  if (icon === "createarrow") {
     return <CreateArrow className={className} />;
   }
 
