@@ -8,14 +8,26 @@ export default {
   title: "Atoms/ToolbarButton",
   component: ToolbarButton,
   args: {
-    onClick: () => console.log("hei"),
+    onClick: () => console.info("hei"),
     label: "Map Color",
     showActive: false,
     activeButton: null,
   },
 } as ComponentMeta<typeof ToolbarButton>;
 
-const Template: ComponentStory<typeof ToolbarButton> = args => <ToolbarButton {...args}/>;
+const Template: ComponentStory<typeof ToolbarButton> = args => (
+  <ToolbarButton {...args} />
+);
 
 export const Primary = Template.bind({});
 Primary.args = {};
+
+const TemplateActive: ComponentStory<typeof ToolbarButton> = args => (
+  <ToolbarButton {...args} />
+);
+
+export const Active = TemplateActive.bind({});
+Active.args = {
+  showActive: true,
+  activeButton: "mapcolor",
+};

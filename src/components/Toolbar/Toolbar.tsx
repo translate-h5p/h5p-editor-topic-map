@@ -12,9 +12,9 @@ const labelTexts = {
 export const Toolbar: React.FC = () => {
   const [activeButton, setActiveButton] = React.useState<string | null>();
 
-  function setActive(newValue: string) {
-    setActiveButton(activeButton != newValue ? newValue : null);
-  }
+  const setActive = (newValue: string): void => {
+    setActiveButton(activeButton !== newValue ? newValue : null);
+  };
 
   /*
     The button label and svg icon should have 
@@ -22,22 +22,22 @@ export const Toolbar: React.FC = () => {
   */
   return (
     <div className={styles.toolbar}>
-      <ToolbarButton 
+      <ToolbarButton
         label={labelTexts.mapcolor}
         onClick={setActive}
         showActive={false}
         activeButton={activeButton}
       />
-      <ToolbarButton 
+      <ToolbarButton
         label={labelTexts.createbox}
         onClick={setActive}
-        showActive={true}
+        showActive
         activeButton={activeButton}
       />
-      <ToolbarButton 
+      <ToolbarButton
         label={labelTexts.createarrow}
         onClick={setActive}
-        showActive={true}
+        showActive
         activeButton={activeButton}
       />
     </div>
