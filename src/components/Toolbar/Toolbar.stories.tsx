@@ -5,7 +5,7 @@ import { ComponentStory, ComponentMeta } from "@storybook/react";
 import { Toolbar } from "./Toolbar";
 
 export default {
-  title: "Components/Toolbar",
+  title: "Organisms/Toolbar",
   component: Toolbar,
 } as ComponentMeta<typeof Toolbar>;
 
