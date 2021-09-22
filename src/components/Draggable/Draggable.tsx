@@ -74,6 +74,63 @@ export const Draggable: React.FC<DraggableProps> = ({
       height,
     ),
   });
+
+  React.useEffect(
+    () =>
+      setSize({
+        width: calculateClosestValidSizeComponent(
+          initialWidth,
+          gapSize,
+          gridIndicatorSize,
+          gridSize.width,
+        ),
+        height: calculateClosestValidSizeComponent(
+          initialHeight,
+          gapSize,
+          gridIndicatorSize,
+          gridSize.height,
+        ),
+      }),
+    [
+      gapSize,
+      gridIndicatorSize,
+      gridSize.height,
+      gridSize.width,
+      initialHeight,
+      initialWidth,
+    ],
+  );
+
+  React.useEffect(
+    () =>
+      setPosition({
+        x: calculateClosestValidPositionComponent(
+          initialXPosition,
+          gapSize,
+          gridIndicatorSize,
+          gridSize.width,
+          width,
+        ),
+        y: calculateClosestValidPositionComponent(
+          initialYPosition,
+          gapSize,
+          gridIndicatorSize,
+          gridSize.height,
+          height,
+        ),
+      }),
+    [
+      gapSize,
+      gridIndicatorSize,
+      gridSize.height,
+      gridSize.width,
+      height,
+      initialXPosition,
+      initialYPosition,
+      width,
+    ],
+  );
+
   const elementRef = React.useRef<HTMLButtonElement>(null);
 
   const startDrag = React.useCallback(
@@ -126,7 +183,7 @@ export const Draggable: React.FC<DraggableProps> = ({
         gridSize.height,
         height,
       ),
-    [gapSize, gridIndicatorSize, gridSize.height, height, position.y],
+    [gapSize, gridIndicatorSize, gridSize.height, height],
   );
   const stopDrag = React.useCallback(() => {
     const { x, y } = position;
@@ -140,6 +197,8 @@ export const Draggable: React.FC<DraggableProps> = ({
         closestValidYPosition,
       );
       setPosition(newPosition);
+
+      updatePosition(newPosition);
     }
 
     setPointerStartPosition(null);
@@ -149,6 +208,7 @@ export const Draggable: React.FC<DraggableProps> = ({
     getClosestValidXPosition,
     getClosestValidYPosition,
     getNewPosition,
+    updatePosition,
   ]);
 
   const drag = React.useCallback(
@@ -298,18 +358,20 @@ export const Draggable: React.FC<DraggableProps> = ({
       };
 
       setPosition(newPosition);
+
       setSize({ width: newWidth, height: newHeight });
+      updateSize({ width: newWidth, height: newHeight });
     },
-    [getClosestValidYPosition, height, position.x, position.y, stopDrag, width],
+    [
+      getClosestValidYPosition,
+      height,
+      position.x,
+      position.y,
+      stopDrag,
+      updateSize,
+      width,
+    ],
   );
-
-  React.useEffect(() => {
-    updateSize({ width, height });
-  }, [updateSize, width, height]);
-
-  React.useEffect(() => {
-    updatePosition(position);
-  }, [updatePosition, position]);
 
   return (
     <button

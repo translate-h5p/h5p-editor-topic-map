@@ -4,6 +4,8 @@ import styles from "./Grid.module.scss";
 import { Draggable } from "../Draggable/Draggable";
 import { Size } from "../../types/Size";
 import { TopicMapItem } from "../../types/TopicMapItem";
+import { Position } from "../../types/Position";
+import { resizeItems } from "../../utils/grid.utils";
 
 export type GridProps = {
   numberOfColumns: number;
@@ -20,6 +22,7 @@ export const Grid: React.FC<GridProps> = ({
   gapSize,
 }) => {
   const [size, setSize] = React.useState<Size | null>();
+  const [hasRendered, setHasRendered] = React.useState<boolean>(false);
 
   const elementRef = React.useRef<HTMLDivElement>(null);
 
@@ -69,10 +72,13 @@ export const Grid: React.FC<GridProps> = ({
         throw new Error("Grid has no size.");
       }
 
+      console.log("scaling x", size.width, xPercentage);
+
       return size.width * (xPercentage / 100);
     },
     [size?.width],
   );
+
   const scaleY = React.useCallback(
     (yPercentage: number) => {
       if (!size?.height) {
@@ -90,6 +96,8 @@ export const Grid: React.FC<GridProps> = ({
         return 0;
       }
 
+      console.log("calculateXPercentage", xPxPosition, size.width);
+
       return xPxPosition / size.width;
     },
     [size],
@@ -106,6 +114,26 @@ export const Grid: React.FC<GridProps> = ({
     [size],
   );
 
+  const updateItemPosition = React.useCallback(
+    (item: TopicMapItem, newPosition: Position) => {
+      /* eslint-disable no-param-reassign */
+      item.xPercentagePosition = calculateXPercentage(newPosition.x);
+      item.yPercentagePosition = calculateYPercentage(newPosition.y);
+      /* eslint-enable no-param-reassign */
+    },
+    [calculateXPercentage, calculateYPercentage],
+  );
+
+  const updateItemSize = React.useCallback(
+    (item: TopicMapItem, newSize: Size) => {
+      /* eslint-disable no-param-reassign */
+      item.widthPercentage = calculateXPercentage(newSize.width);
+      item.heightPercentage = calculateYPercentage(newSize.height);
+      /* eslint-enable no-param-reassign */
+    },
+    [calculateXPercentage, calculateYPercentage],
+  );
+
   const renderChildren = React.useCallback(() => {
     if (gapSize == null || gridIndicatorSize == null || size == null) {
       return null;
@@ -116,34 +144,24 @@ export const Grid: React.FC<GridProps> = ({
         key={item.id}
         initialXPosition={scaleX(item.xPercentagePosition)}
         initialYPosition={scaleY(item.yPercentagePosition)}
-        updatePosition={newPosition => {
-          // eslint-disable-next-line no-param-reassign
-          item.xPercentagePosition = calculateXPercentage(newPosition.x);
-          // eslint-disable-next-line no-param-reassign
-          item.yPercentagePosition = calculateYPercentage(newPosition.y);
-        }}
+        updatePosition={newPosition => updateItemPosition(item, newPosition)}
         initialWidth={Math.abs(scaleX(item.widthPercentage))}
         initialHeight={Math.abs(scaleY(item.heightPercentage))}
-        updateSize={newSize => {
-          // eslint-disable-next-line no-param-reassign
-          item.widthPercentage = calculateXPercentage(newSize.width);
-          // eslint-disable-next-line no-param-reassign
-          item.heightPercentage = calculateXPercentage(newSize.height);
-        }}
+        updateSize={newSize => updateItemSize(item, newSize)}
         gapSize={gapSize}
         gridIndicatorSize={gridIndicatorSize}
         gridSize={size}
       />
     ));
   }, [
-    calculateXPercentage,
-    scaleX,
-    calculateYPercentage,
-    scaleY,
     gapSize,
     gridIndicatorSize,
-    items,
     size,
+    items,
+    scaleX,
+    scaleY,
+    updateItemPosition,
+    updateItemSize,
   ]);
 
   const resize = React.useCallback(() => {
@@ -152,20 +170,39 @@ export const Grid: React.FC<GridProps> = ({
     }
 
     const { width, height } = elementRef.current.getBoundingClientRect();
+
+    const isFirstRender = size == null;
+    if (!isFirstRender) {
+      const scaleFactor = size?.width / width;
+
+      if (scaleFactor !== 1) {
+        items = resizeItems(items, scaleFactor);
+      }
+    }
+
     setSize({ width, height });
-  }, []);
+  }, [items, size]);
 
   React.useEffect(() => {
-    const gridElement = elementRef.current;
-    gridElement?.addEventListener("resize", resize);
+    if (hasRendered) {
+      return () => {
+        /* Intentionally left empty */
+      };
+    }
+
+    window.addEventListener("resize", resize);
 
     // Resize once on first render
     resize();
 
     return () => {
-      gridElement?.removeEventListener("resize", resize);
+      window.removeEventListener("resize", resize);
     };
-  }, [resize]);
+  }, [hasRendered, resize]);
+
+  React.useEffect(() => {
+    setHasRendered(true);
+  }, []);
 
   return (
     <div
