@@ -1,0 +1,18 @@
+.mapEditorView {
+  font-size: 16px;
+
+  .gridBorder {
+    overflow: hidden;
+    padding: 1em;
+    border-right: 1px solid #d1d1d1;
+    border-bottom: 1px solid #d1d1d1;
+    border-left: 1px solid #d1d1d1;
+  }
+}
+
+/*
+  Class to use in Storybook to set editor width
+*/
+.mapEditorViewWidth {
+  max-width: 918px;
+}
