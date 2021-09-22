@@ -41,14 +41,18 @@ declare class EventDispatcher {
    *
    * @throws {TypeError}
    *   listener must be a function
-   * @param {string} type
+   * @param type
    *   Event type
-   * @param {H5P.EventCallback} listener
+   * @param listener
    *   Event listener
-   * @param {Object} thisArg
+   * @param thisArg
    *   Optionally specify the this value when calling listener.
    */
-  once: (type: string, listener: any, thisArg: any) => void;
+  once: (
+    type: string,
+    listener: (event: unknown) => void,
+    thisArg?: ThisType<unknown>,
+  ) => void;
 
   /**
    * Remove event listener.
@@ -61,7 +65,7 @@ declare class EventDispatcher {
    * @param {H5P.EventCallback} listener
    *   Event listener
    */
-  off: (type: string, listener: any) => void;
+  off: (type: string, listener: (event: unknown) => void) => void;
 
   /**
    * Dispatch event.
@@ -76,8 +80,8 @@ declare class EventDispatcher {
    * @param {boolean} [extras.external]
    */
   trigger: (
-    event: string | any,
-    eventData?: any,
+    event: string | unknown,
+    eventData?: unknown,
     extras?: {
       bubbles?: boolean;
       external?: boolean;

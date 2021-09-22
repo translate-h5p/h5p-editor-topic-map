@@ -3,7 +3,7 @@ import { hot } from "react-hot-loader/root";
 
 type AppProps = {
   adjective: string;
-  setValue: (value: any) => void;
+  setValue: (value: unknown) => void;
 };
 
 const App = ({ adjective, setValue }: AppProps): JSX.Element => {
