@@ -125,7 +125,7 @@ export const Draggable: React.FC<DraggableProps> = ({
         gridSize.height,
         height,
       ),
-    [gapSize, gridIndicatorSize, gridSize.height, position.y],
+    [gapSize, gridIndicatorSize, gridSize.height, height position.y],
   );
   const stopDrag = React.useCallback(() => {
     if (!isDragging || !pointerStartPosition) {
