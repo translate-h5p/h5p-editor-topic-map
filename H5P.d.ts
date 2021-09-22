@@ -9,6 +9,16 @@ export interface H5PEditorObject {
   widgets: {
     topicMap: typeof H5PWrapper;
   };
+
+  /**
+   * Translate text strings.
+   *
+   * @param library The library name(machineName), or "core".
+   * @param key Translation string identifier.
+   * @param vars Placeholders and values to replace in the text.
+   * @returns Translated string, or a text if string translation is missing.
+   */
+  t: (library: string, key: string, vars?: Record<string, string>) => string;
 }
 
 declare class EventDispatcher {
