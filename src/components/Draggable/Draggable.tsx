@@ -63,7 +63,6 @@ export const Draggable: React.FC<DraggableProps> = ({
       initialXPosition,
       gapSize,
       gridIndicatorSize,
-      initialXPosition,
       gridSize.width,
       width,
     ),
@@ -71,7 +70,6 @@ export const Draggable: React.FC<DraggableProps> = ({
       initialYPosition,
       gapSize,
       gridIndicatorSize,
-      initialYPosition,
       gridSize.height,
       height,
     ),
@@ -113,11 +111,10 @@ export const Draggable: React.FC<DraggableProps> = ({
         pointerX,
         gapSize,
         gridIndicatorSize,
-        position.x,
         gridSize.width,
         width,
       ),
-    [gapSize, gridIndicatorSize, gridSize.width, position.x, width],
+    [gapSize, gridIndicatorSize, gridSize.width, width],
   );
 
   const getClosestValidYPosition = React.useCallback(
@@ -126,7 +123,6 @@ export const Draggable: React.FC<DraggableProps> = ({
         pointerY,
         gapSize,
         gridIndicatorSize,
-        position.y,
         gridSize.height,
         height,
       ),

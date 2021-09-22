@@ -23,10 +23,9 @@ export const calculateClosestValidSizeComponent = (
 };
 
 export const calculateClosestValidPositionComponent = (
-  pointerPos: number,
+  position: number,
   gapSize: number,
   gridIndicatorSize: number,
-  position: number,
   gridSizeComponent: number,
   elementSizeComponent: number,
 ): number => {
@@ -36,8 +35,8 @@ export const calculateClosestValidPositionComponent = (
   const closestInPositiveDirection = Math.ceil(position / stepSize) * stepSize;
 
   const negativeIsClosest =
-    Math.abs(pointerPos - closestInNegativeDirection) <
-    Math.abs(pointerPos - closestInPositiveDirection);
+    Math.abs(position - closestInNegativeDirection) <
+    Math.abs(position - closestInPositiveDirection);
 
   const closestValue = negativeIsClosest
     ? closestInNegativeDirection

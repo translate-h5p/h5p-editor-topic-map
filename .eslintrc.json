@@ -67,5 +67,11 @@
       "typescript": {}
     }
   },
-  "ignorePatterns": ["dist", "stories", "storybook-static", "node_modules"]
+  "ignorePatterns": [
+    "dist",
+    "stories",
+    "storybook-static",
+    "node_modules",
+    "docs"
+  ]
 }
