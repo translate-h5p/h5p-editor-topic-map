@@ -9,6 +9,16 @@ const labelTexts = {
   createArrow: "Create arrow",
 };
 
+/*
+  Name of svg icon should be similar to this,
+  specify the svg icon in icons.tsx
+*/
+export enum ToolbarButtons {
+  MapColor = "mapColor",
+  CreateBox = "createBox",
+  CreateArrow = "createArrow",
+}
+
 export const Toolbar: React.FC = () => {
   const [activeButton, setActiveButton] = React.useState<string | null>();
 
@@ -16,29 +26,28 @@ export const Toolbar: React.FC = () => {
     setActiveButton(activeButton !== newValue ? newValue : null);
   };
 
-  /*
-    The button label and svg icon should have 
-    similar names, so it is easy to find.
-  */
   return (
     <div className={styles.toolbar}>
       <ToolbarButton
+        icon={ToolbarButtons.MapColor}
         label={labelTexts.mapColor}
-        onClick={setActive}
+        onClick={() => setActive(ToolbarButtons.MapColor)}
+        active={activeButton === ToolbarButtons.MapColor}
         showActive={false}
-        activeButton={activeButton}
       />
       <ToolbarButton
+        icon={ToolbarButtons.CreateBox}
         label={labelTexts.createBox}
-        onClick={setActive}
+        onClick={() => setActive(ToolbarButtons.CreateBox)}
+        active={activeButton === ToolbarButtons.CreateBox}
         showActive
-        activeButton={activeButton}
       />
       <ToolbarButton
+        icon={ToolbarButtons.CreateArrow}
         label={labelTexts.createArrow}
-        onClick={setActive}
+        onClick={() => setActive(ToolbarButtons.CreateArrow)}
+        active={activeButton === ToolbarButtons.CreateArrow}
         showActive
-        activeButton={activeButton}
       />
     </div>
   );

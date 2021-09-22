@@ -1,11 +1,11 @@
 .toolbarButton {
-  box-sizing: content-box;
+  box-sizing: border-box;
   vertical-align: top;
   position: relative;
   font-size: 1.2em;
 
-  width: 1.45em;
-  height: 1.25em;
+  width: 2.5em;
+  height: 1.75em;
   margin-right: 0.4em;
   padding: 0.2em 0.5em;
 
@@ -17,7 +17,7 @@
 
   &:hover {
     .tooltip {
-      display: block;
+      z-index: 2;
     }
   }
 
@@ -26,6 +26,10 @@
     border-color: #999999;
     transition: 0.1s;
     background: #f2f2f2;
+
+    .tooltip {
+      display: block;
+    }
   }
 
   &:active {

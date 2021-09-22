@@ -2,6 +2,7 @@ import * as React from "react";
 import { MapColor } from "./icons/MapColor";
 import { CreateBox } from "./icons/CreateBox";
 import { CreateArrow } from "./icons/CreateArrow";
+import { ToolbarButtons } from "./components/Toolbar/Toolbar";
 
 export type IconsProps = {
   icon: string;
@@ -9,13 +10,13 @@ export type IconsProps = {
 };
 
 export const Icons: React.FC<IconsProps> = ({ icon, className }) => {
-  if (icon === "mapcolor") {
+  if (icon === ToolbarButtons.MapColor) {
     return <MapColor className={className} />;
   }
-  if (icon === "createbox") {
+  if (icon === ToolbarButtons.CreateBox) {
     return <CreateBox className={className} />;
   }
-  if (icon === "createarrow") {
+  if (icon === ToolbarButtons.CreateArrow) {
     return <CreateArrow className={className} />;
   }
 

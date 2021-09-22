@@ -3,21 +3,20 @@ import styles from "./ToolbarButton.module.scss";
 import { Icons } from "../../icons";
 
 export type ToolbarButtonProps = {
+  icon: string;
   label: string;
-  onClick: any;
+  onClick: React.MouseEventHandler;
   showActive: boolean;
-  activeButton: string | null | undefined;
+  active: boolean;
 };
 
 export const ToolbarButton: React.FC<ToolbarButtonProps> = ({
+  icon,
   label,
   onClick,
   showActive,
-  activeButton,
+  active,
 }) => {
-  const id = label.toLowerCase().replace(" ", "");
-  const active = activeButton === id;
-
   return (
     <button
       type="button"
@@ -26,10 +25,10 @@ export const ToolbarButton: React.FC<ToolbarButtonProps> = ({
           ? `${styles.toolbarButton} ${styles.active}`
           : styles.toolbarButton
       }
-      onClick={() => onClick(id)}
+      onClick={onClick}
       aria-label={label}
     >
-      <Icons icon={id} className={styles.icon} />
+      <Icons icon={icon} className={styles.icon} />
       <div className={styles.tooltip}>{label}</div>
     </button>
   );
