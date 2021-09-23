@@ -223,93 +223,93 @@ describe("draggable utils", () => {
     });
   });
 
-  describe(scale.name, () => {
-    /*
-      We have placed a box in (1, 1) with the dimensions w: 2, h: 2.
+  // describe(scale.name, () => {
+  //   /*
+  //     We have placed a box in (1, 1) with the dimensions w: 2, h: 2.
 
-      The grid looks like this:
-      ([ ] = grid indicator)
-      ([x] = our 2*2 box)
+  //     The grid looks like this:
+  //     ([ ] = grid indicator)
+  //     ([x] = our 2*2 box)
 
-      [ ] [ ] [ ] [ ]
-      [ ] [x] [x] [ ]
-      [ ] [x] [x] [ ]
-      [ ] [ ] [ ] [ ]
-    */
+  //     [ ] [ ] [ ] [ ]
+  //     [ ] [x] [x] [ ]
+  //     [ ] [x] [x] [ ]
+  //     [ ] [ ] [ ] [ ]
+  //   */
 
-    const width = 2;
-    const xPosition = 1;
+  //   const width = 2;
+  //   const xPosition = 1;
 
-    it("should add the difference in size when scaling to the right", () => {
-      const attemptedPosition = 3;
-      const negativeSideWasMoved = false;
+  //   it("should add the difference in size when scaling to the right", () => {
+  //     const attemptedPosition = 3;
+  //     const negativeSideWasMoved = false;
 
-      const expectedWidth = 3;
-      const expectedXPosition = 1;
+  //     const expectedWidth = 3;
+  //     const expectedXPosition = 1;
 
-      const [actualWidth, actualXPosition] = scale(
-        attemptedPosition,
-        negativeSideWasMoved,
-        width,
-        xPosition,
-      );
+  //     const [actualWidth, actualXPosition] = scale(
+  //       attemptedPosition,
+  //       negativeSideWasMoved,
+  //       width,
+  //       xPosition,
+  //     );
 
-      expect(actualWidth).toBe(expectedWidth);
-      expect(actualXPosition).toBe(expectedXPosition);
-    });
+  //     expect(actualWidth).toBe(expectedWidth);
+  //     expect(actualXPosition).toBe(expectedXPosition);
+  //   });
 
-    it("should add the difference in size, and move the position to the left when scaling to the left", () => {
-      const attemptedPosition = 0;
-      const negativeSideWasMoved = true;
+  //   it("should add the difference in size, and move the position to the left when scaling to the left", () => {
+  //     const attemptedPosition = 0;
+  //     const negativeSideWasMoved = true;
 
-      const expectedWidth = 3;
-      const expectedXPosition = 0;
+  //     const expectedWidth = 3;
+  //     const expectedXPosition = 0;
 
-      const [actualWidth, actualXPosition] = scale(
-        attemptedPosition,
-        negativeSideWasMoved,
-        width,
-        xPosition,
-      );
+  //     const [actualWidth, actualXPosition] = scale(
+  //       attemptedPosition,
+  //       negativeSideWasMoved,
+  //       width,
+  //       xPosition,
+  //     );
 
-      expect(actualWidth).toBe(expectedWidth);
-      expect(actualXPosition).toBe(expectedXPosition);
-    });
+  //     expect(actualWidth).toBe(expectedWidth);
+  //     expect(actualXPosition).toBe(expectedXPosition);
+  //   });
 
-    it("should make the element smaller if we move the right edge to the left", () => {
-      const attemptedPosition = 2;
-      const negativeSideWasMoved = false;
+  //   it("should make the element smaller if we move the right edge to the left", () => {
+  //     const attemptedPosition = 2;
+  //     const negativeSideWasMoved = false;
 
-      const expectedWidth = 1;
-      const expectedXPosition = 1;
+  //     const expectedWidth = 1;
+  //     const expectedXPosition = 1;
 
-      const [actualWidth, actualXPosition] = scale(
-        attemptedPosition,
-        negativeSideWasMoved,
-        width,
-        xPosition,
-      );
+  //     const [actualWidth, actualXPosition] = scale(
+  //       attemptedPosition,
+  //       negativeSideWasMoved,
+  //       width,
+  //       xPosition,
+  //     );
 
-      expect(actualWidth).toBe(expectedWidth);
-      expect(actualXPosition).toBe(expectedXPosition);
-    });
+  //     expect(actualWidth).toBe(expectedWidth);
+  //     expect(actualXPosition).toBe(expectedXPosition);
+  //   });
 
-    it("should make the element smaller, and move the left edge to the right if we move the left edge to the right", () => {
-      const attemptedPosition = 2;
-      const negativeSideWasMoved = true;
+  //   it("should make the element smaller, and move the left edge to the right if we move the left edge to the right", () => {
+  //     const attemptedPosition = 2;
+  //     const negativeSideWasMoved = true;
 
-      const expectedWidth = 1;
-      const expectedXPosition = 2;
+  //     const expectedWidth = 1;
+  //     const expectedXPosition = 2;
 
-      const [actualWidth, actualXPosition] = scale(
-        attemptedPosition,
-        negativeSideWasMoved,
-        width,
-        xPosition,
-      );
+  //     const [actualWidth, actualXPosition] = scale(
+  //       attemptedPosition,
+  //       negativeSideWasMoved,
+  //       width,
+  //       xPosition,
+  //     );
 
-      expect(actualWidth).toBe(expectedWidth);
-      expect(actualXPosition).toBe(expectedXPosition);
-    });
-  });
+  //     expect(actualWidth).toBe(expectedWidth);
+  //     expect(actualXPosition).toBe(expectedXPosition);
+  //   });
+  // });
 });
