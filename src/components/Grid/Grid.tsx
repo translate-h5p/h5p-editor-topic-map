@@ -9,7 +9,7 @@ export type GridProps = {
   numberOfColumns: number;
   numberOfRows: number;
   items: Array<TopicMapItem>;
-  children: never;
+  children?: never;
 };
 
 export const Grid: React.FC<GridProps> = ({
