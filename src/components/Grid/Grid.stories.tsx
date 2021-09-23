@@ -10,8 +10,9 @@ export default {
   args: {
     numberOfColumns: 30,
     numberOfRows: 30,
-    items: [],
+    initialItems: [],
     gapSize: 8,
+    updateItems: () => console.info("Items updated"),
   },
 } as ComponentMeta<typeof Grid>;
 
@@ -26,7 +27,7 @@ const TemplateWithDraggable: ComponentStory<typeof Grid> = args => (
 
 export const GridWithDraggable = TemplateWithDraggable.bind({});
 GridWithDraggable.args = {
-  items: [
+  initialItems: [
     {
       id: "1",
       xPercentagePosition: 25,
