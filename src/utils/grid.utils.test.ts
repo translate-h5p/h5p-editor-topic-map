@@ -175,12 +175,21 @@ describe(updateItem.name, () => {
       heightPercentage: 20,
     };
 
-    const actualItem = updateItem(items, item, width, height, {
+    const actualItems = updateItem(items, item, width, height, {
       newPosition,
       newSize,
     });
 
-    expect(actualItem).toEqual(expectedItem);
+    expect(actualItems).toEqual([
+      expectedItem,
+      {
+        id: "2",
+        xPercentagePosition: 25,
+        yPercentagePosition: 60,
+        widthPercentage: 65,
+        heightPercentage: 32,
+      },
+    ]);
   });
 
   it("should update without changing the list, and without changing the item object itself", () => {
@@ -279,11 +288,20 @@ describe(updateItem.name, () => {
       heightPercentage: 20,
     };
 
-    const actualItem = updateItem(items, item, width, height, {
+    const actualItems = updateItem(items, item, width, height, {
       newSize,
     });
 
-    expect(actualItem).toEqual(expectedItem);
+    expect(actualItems).toEqual([
+      expectedItem,
+      {
+        id: "2",
+        xPercentagePosition: 25,
+        yPercentagePosition: 60,
+        widthPercentage: 65,
+        heightPercentage: 32,
+      },
+    ]);
   });
 
   it("should be able to update only the position", () => {
@@ -322,10 +340,19 @@ describe(updateItem.name, () => {
       heightPercentage: 10,
     };
 
-    const actualItem = updateItem(items, item, width, height, {
+    const actualItems = updateItem(items, item, width, height, {
       newPosition,
     });
 
-    expect(actualItem).toEqual(expectedItem);
+    expect(actualItems).toEqual([
+      expectedItem,
+      {
+        id: "2",
+        xPercentagePosition: 25,
+        yPercentagePosition: 60,
+        widthPercentage: 65,
+        heightPercentage: 32,
+      },
+    ]);
   });
 });
