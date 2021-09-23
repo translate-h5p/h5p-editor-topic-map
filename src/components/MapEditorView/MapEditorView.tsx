@@ -7,16 +7,21 @@ import { Grid } from "../Grid/Grid";
 export type MapEditorViewProps = {
   numberOfColumns?: number;
   numberOfRows?: number;
+  gapSize?: number;
   gridItems?: Array<TopicMapItem>;
+  updateItems: (items: Array<TopicMapItem>) => void;
 };
 
 export const MapEditorView: React.FC<MapEditorViewProps> = ({
   numberOfColumns,
   numberOfRows,
   gridItems,
+  updateItems,
+  gapSize,
 }) => {
   const columns = numberOfColumns ?? 20;
   const rows = numberOfRows ?? 12;
+  const defaultGapSize = 8;
 
   return (
     <div className={styles.mapEditorView}>
@@ -25,7 +30,9 @@ export const MapEditorView: React.FC<MapEditorViewProps> = ({
         <Grid
           numberOfColumns={columns}
           numberOfRows={rows}
-          items={gridItems ?? []}
+          initialItems={gridItems ?? []}
+          updateItems={updateItems}
+          gapSize={gapSize ?? defaultGapSize}
         />
       </div>
     </div>
