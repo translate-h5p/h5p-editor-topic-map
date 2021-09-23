@@ -400,8 +400,6 @@ export const Draggable: React.FC<DraggableProps> = ({
       }}
       aria-label={labelText}
     >
-      ({(position.x / (gridIndicatorSize + gapSize)).toFixed(2)},{" "}
-      {(position.y / (gridIndicatorSize + gapSize)).toFixed(2)})
       <ScaleHandle
         position="top"
         onScale={newPosition => scaleVertical(newPosition, true)}
