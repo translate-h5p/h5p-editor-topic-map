@@ -1,7 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import * as React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
-import styles from "./MapEditorView.module.scss";
 
 import { MapEditorView } from "./MapEditorView";
 
@@ -16,7 +15,7 @@ export default {
 } as ComponentMeta<typeof MapEditorView>;
 
 const Template: ComponentStory<typeof MapEditorView> = args => (
-  <div className={styles.mapEditorViewWidth}>
+  <div style={{ width: "918px" }}>
     <MapEditorView {...args} />
   </div>
 );
