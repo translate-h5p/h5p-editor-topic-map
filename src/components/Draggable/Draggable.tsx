@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Position } from "../../types/Position";
 import { Size } from "../../types/Size";
-import { isMouseEvent } from "../../utils/event.utils";
+import { isMouseEvent, isReactMouseEvent } from "../../utils/event.utils";
 import {
   calculateClosestValidSizeComponent,
   calculateClosestValidPositionComponent,
@@ -141,7 +141,7 @@ export const Draggable: React.FC<DraggableProps> = ({
       let x: number;
       let y: number;
 
-      if (isMouseEvent(event)) {
+      if (isReactMouseEvent(event)) {
         x = event.clientX;
         y = event.clientY;
       } else {
@@ -186,6 +186,7 @@ export const Draggable: React.FC<DraggableProps> = ({
     [gapSize, gridIndicatorSize, gridSize.height, height],
   );
   const stopDrag = React.useCallback(() => {
+    console.log("stopping drag", isDragging);
     const { x, y } = position;
 
     const closestValidXPosition = getClosestValidXPosition(x);
@@ -212,7 +213,7 @@ export const Draggable: React.FC<DraggableProps> = ({
   ]);
 
   const drag = React.useCallback(
-    (event: React.MouseEvent | React.TouchEvent) => {
+    (event: MouseEvent | TouchEvent) => {
       if (!isDragging || !pointerStartPosition) {
         return;
       }
@@ -256,11 +257,17 @@ export const Draggable: React.FC<DraggableProps> = ({
     window.addEventListener("mouseup", stopDrag);
     window.addEventListener("touchend", stopDrag);
 
+    window.addEventListener("mousemove", drag);
+    window.addEventListener("touchmove", drag);
+
     return () => {
       window.removeEventListener("mouseup", stopDrag);
       window.removeEventListener("touchend", stopDrag);
+
+      window.removeEventListener("mousemove", drag);
+      window.removeEventListener("touchmove", drag);
     };
-  }, [stopDrag]);
+  }, [drag, stopDrag]);
 
   const scaleHorizontal = React.useCallback(
     (pointerX: number, leftWasMoved: boolean) => {
@@ -385,7 +392,6 @@ export const Draggable: React.FC<DraggableProps> = ({
       className={styles.draggable}
       onMouseDown={startDrag}
       onTouchStart={startDrag}
-      onMouseMove={drag}
       style={{
         transform: `translateX(${position.x}px) translateY(${position.y}px)`,
         width,

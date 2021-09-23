@@ -1,5 +1,5 @@
 import * as React from "react";
-import { isMouseEvent } from "../../utils/event.utils";
+import { isReactMouseEvent } from "../../utils/event.utils";
 import { capitalize } from "../../utils/string.utils";
 import styles from "./ScaleHandle.module.scss";
 
@@ -46,7 +46,7 @@ export const ScaleHandle: React.FC<ScaleHandleProps> = ({
       }
 
       event.stopPropagation();
-      const pointerX = isMouseEvent(event)
+      const pointerX = isReactMouseEvent(event)
         ? event.clientX
         : event.touches[0].clientX;
 
@@ -61,7 +61,7 @@ export const ScaleHandle: React.FC<ScaleHandleProps> = ({
         return;
       }
 
-      const pointerY = isMouseEvent(event)
+      const pointerY = isReactMouseEvent(event)
         ? event.clientY
         : event.touches[0].clientY;
 
