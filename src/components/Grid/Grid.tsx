@@ -13,7 +13,7 @@ export type GridProps = {
   initialItems: Array<TopicMapItem>;
   updateItems: (items: Array<TopicMapItem>) => void;
   gapSize: number;
-  children: never;
+  children?: never;
 };
 
 export const Grid: React.FC<GridProps> = ({
