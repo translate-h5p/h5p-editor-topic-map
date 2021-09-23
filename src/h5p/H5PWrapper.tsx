@@ -23,10 +23,7 @@ export class H5PWrapper
     // TODO: Remove this before official release
     console.info({ parent, field, params });
 
-    ReactDOM.render(
-      <App setValue={setValue} />,
-      this.wrapper,
-    );
+    ReactDOM.render(<App setValue={setValue} />, this.wrapper);
   }
 
   appendTo([containerElement]: JQuery<HTMLElement>): void {
