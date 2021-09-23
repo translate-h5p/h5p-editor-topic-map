@@ -4,20 +4,28 @@ import styles from "./Grid.module.scss";
 import { Draggable } from "../Draggable/Draggable";
 import { Size } from "../../types/Size";
 import { TopicMapItem } from "../../types/TopicMapItem";
+import { Position } from "../../types/Position";
+import { resizeItems, updateItem } from "../../utils/grid.utils";
 
 export type GridProps = {
   numberOfColumns: number;
   numberOfRows: number;
-  items: Array<TopicMapItem>;
+  initialItems: Array<TopicMapItem>;
+  updateItems: (items: Array<TopicMapItem>) => void;
+  gapSize: number;
   children?: never;
 };
 
 export const Grid: React.FC<GridProps> = ({
   numberOfColumns,
   numberOfRows,
-  items,
+  initialItems,
+  updateItems,
+  gapSize,
 }) => {
   const [size, setSize] = React.useState<Size | null>();
+  const [hasRendered, setHasRendered] = React.useState<boolean>(false);
+  const [items, setItems] = React.useState<Array<TopicMapItem>>(initialItems);
 
   const elementRef = React.useRef<HTMLDivElement>(null);
 
@@ -41,24 +49,6 @@ export const Grid: React.FC<GridProps> = ({
     [numberOfColumns, numberOfRows],
   );
 
-  const gapSize = React.useMemo(() => {
-    if (!elementRef.current) {
-      return 0;
-    }
-
-    const { columnGap } = window.getComputedStyle(elementRef.current);
-
-    if (!columnGap) {
-      throw new Error("Gap was not set on the grid element.");
-    }
-
-    return Number.parseInt(columnGap, 10);
-
-    // This value changes whenever `numberOfColumns` or `numberOfRows`
-    // changes. Therefore, they are needed in the dependency array.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [numberOfColumns, numberOfRows, elementRef.current]);
-
   const getGridIndicatorSize = React.useCallback(() => {
     if (!elementRef.current) {
       return 0;
@@ -71,7 +61,11 @@ export const Grid: React.FC<GridProps> = ({
 
     const { width } = gridIndicator.getBoundingClientRect();
     return width;
-  }, []);
+
+    // The grid's size is updated by external factors,
+    // but still affects the grid indicator size
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [size]);
 
   const gridIndicatorSize = React.useMemo(getGridIndicatorSize, [
     gapSize,
@@ -85,41 +79,51 @@ export const Grid: React.FC<GridProps> = ({
         throw new Error("Grid has no size.");
       }
 
-      return size.width * (xPercentage / 100);
+      return (size.width * xPercentage) / 100;
     },
     [size?.width],
   );
+
   const scaleY = React.useCallback(
     (yPercentage: number) => {
       if (!size?.height) {
         throw new Error("Grid has no size.");
       }
-
-      return size.height * (yPercentage / 100);
+      return (size.height * yPercentage) / 100;
     },
     [size?.height],
   );
 
-  const calculateXPercentage = React.useCallback(
-    (xPxPosition: number) => {
+  const updateItemPosition = React.useCallback(
+    (updatedItem: TopicMapItem, newPosition: Position) => {
       if (!size) {
-        return 0;
+        throw new Error("Grid has no size.");
       }
 
-      return xPxPosition / size.width;
+      const newItems = updateItem(items, updatedItem, size.width, size.height, {
+        newPosition,
+      });
+
+      updateItems(newItems);
+      setItems(newItems);
     },
-    [size],
+    [items, size, updateItems],
   );
 
-  const calculateYPercentage = React.useCallback(
-    (yPxPosition: number) => {
+  const updateItemSize = React.useCallback(
+    (updatedItem: TopicMapItem, newSize: Size) => {
       if (!size) {
-        return 0;
+        throw new Error("Grid has no size.");
       }
 
-      return yPxPosition / size.height;
+      const newItems = updateItem(items, updatedItem, size.width, size.height, {
+        newSize,
+      });
+
+      updateItems(newItems);
+      setItems(newItems);
     },
-    [size],
+    [items, size, updateItems],
   );
 
   const renderChildren = React.useCallback(() => {
@@ -132,34 +136,24 @@ export const Grid: React.FC<GridProps> = ({
         key={item.id}
         initialXPosition={scaleX(item.xPercentagePosition)}
         initialYPosition={scaleY(item.yPercentagePosition)}
-        updatePosition={newPosition => {
-          // eslint-disable-next-line no-param-reassign
-          item.xPercentagePosition = calculateXPercentage(newPosition.x);
-          // eslint-disable-next-line no-param-reassign
-          item.yPercentagePosition = calculateYPercentage(newPosition.y);
-        }}
+        updatePosition={newPosition => updateItemPosition(item, newPosition)}
         initialWidth={Math.abs(scaleX(item.widthPercentage))}
         initialHeight={Math.abs(scaleY(item.heightPercentage))}
-        updateSize={newSize => {
-          // eslint-disable-next-line no-param-reassign
-          item.widthPercentage = calculateXPercentage(newSize.width);
-          // eslint-disable-next-line no-param-reassign
-          item.heightPercentage = calculateXPercentage(newSize.height);
-        }}
+        updateSize={newSize => updateItemSize(item, newSize)}
         gapSize={gapSize}
         gridIndicatorSize={gridIndicatorSize}
         gridSize={size}
       />
     ));
   }, [
-    calculateXPercentage,
-    scaleX,
-    calculateYPercentage,
-    scaleY,
     gapSize,
     gridIndicatorSize,
-    items,
     size,
+    items,
+    scaleX,
+    scaleY,
+    updateItemPosition,
+    updateItemSize,
   ]);
 
   const resize = React.useCallback(() => {
@@ -168,20 +162,41 @@ export const Grid: React.FC<GridProps> = ({
     }
 
     const { width, height } = elementRef.current.getBoundingClientRect();
+
+    const isFirstRender = size == null;
+    if (!isFirstRender) {
+      const scaleFactor = size?.width / width;
+
+      if (scaleFactor !== 1) {
+        setItems(resizeItems(items, scaleFactor));
+      }
+    }
+
     setSize({ width, height });
-  }, []);
+  }, [items, size]);
 
   React.useEffect(() => {
-    const gridElement = elementRef.current;
-    gridElement?.addEventListener("resize", resize);
+    if (hasRendered) {
+      return;
+    }
+
+    window.addEventListener("resize", resize);
 
     // Resize once on first render
     resize();
+  }, [hasRendered, items, resize, size]);
 
-    return () => {
-      gridElement?.removeEventListener("resize", resize);
-    };
-  }, [resize]);
+  React.useEffect(() => {
+    setHasRendered(true);
+  }, []);
+
+  React.useEffect(() => {
+    resize();
+
+    // The grid's number of rows/columns might be updated by external factors,
+    // but still affects the grid indicator size
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [numberOfColumns, numberOfRows]);
 
   return (
     <div
@@ -189,9 +204,10 @@ export const Grid: React.FC<GridProps> = ({
       role="application" /* https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/Application_Role */
       className={styles.grid}
       style={{
+        aspectRatio: `${numberOfColumns} / ${numberOfRows}`,
+        gap: `${gapSize}px`,
         gridTemplateColumns: `repeat(${numberOfColumns}, 1fr)`,
         gridTemplateRows: `repeat(${numberOfRows}, 1fr)`,
-        aspectRatio: `${numberOfColumns} / ${numberOfRows}`,
       }}
     >
       {renderChildren()}

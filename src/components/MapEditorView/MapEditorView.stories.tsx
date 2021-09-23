@@ -3,6 +3,7 @@ import * as React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
 
 import { MapEditorView } from "./MapEditorView";
+import { TopicMapItem } from "../../types/TopicMapItem";
 
 export default {
   title: "Templates/MapEditorView",
@@ -11,6 +12,8 @@ export default {
     numberOfColumns: 20,
     numberOfRows: 12,
     gridItems: [],
+    updateItems: (items: Array<TopicMapItem>) =>
+      console.info("Items updated", { items }),
   },
 } as ComponentMeta<typeof MapEditorView>;
 

@@ -5,6 +5,7 @@ import { isMouseEvent } from "../../utils/event.utils";
 import {
   calculateClosestValidSizeComponent,
   calculateClosestValidPositionComponent,
+  scale,
 } from "../../utils/draggable.utils";
 import { ScaleHandle } from "../ScaleHandle/ScaleHandle";
 import styles from "./Draggable.module.scss";
@@ -73,6 +74,63 @@ export const Draggable: React.FC<DraggableProps> = ({
       height,
     ),
   });
+
+  React.useEffect(
+    () =>
+      setSize({
+        width: calculateClosestValidSizeComponent(
+          initialWidth,
+          gapSize,
+          gridIndicatorSize,
+          gridSize.width,
+        ),
+        height: calculateClosestValidSizeComponent(
+          initialHeight,
+          gapSize,
+          gridIndicatorSize,
+          gridSize.height,
+        ),
+      }),
+    [
+      gapSize,
+      gridIndicatorSize,
+      gridSize.height,
+      gridSize.width,
+      initialHeight,
+      initialWidth,
+    ],
+  );
+
+  React.useEffect(
+    () =>
+      setPosition({
+        x: calculateClosestValidPositionComponent(
+          initialXPosition,
+          gapSize,
+          gridIndicatorSize,
+          gridSize.width,
+          width,
+        ),
+        y: calculateClosestValidPositionComponent(
+          initialYPosition,
+          gapSize,
+          gridIndicatorSize,
+          gridSize.height,
+          height,
+        ),
+      }),
+    [
+      gapSize,
+      gridIndicatorSize,
+      gridSize.height,
+      gridSize.width,
+      height,
+      initialXPosition,
+      initialYPosition,
+      width,
+    ],
+  );
+
   const elementRef = React.useRef<HTMLButtonElement>(null);
 
   const startDrag = React.useCallback(
@@ -125,13 +183,9 @@ export const Draggable: React.FC<DraggableProps> = ({
         gridSize.height,
         height,
       ),
-    [gapSize, gridIndicatorSize, gridSize.height, height, position.y],
+    [gapSize, gridIndicatorSize, gridSize.height, height],
   );
   const stopDrag = React.useCallback(() => {
-    if (!isDragging || !pointerStartPosition) {
-      return;
-    }
-
     const { x, y } = position;
 
     const closestValidXPosition = getClosestValidXPosition(x);
@@ -143,17 +197,18 @@ export const Draggable: React.FC<DraggableProps> = ({
         closestValidYPosition,
       );
       setPosition(newPosition);
+
+      updatePosition(newPosition);
     }
 
     setPointerStartPosition(null);
     setIsDragging(false);
   }, [
-    isDragging,
-    pointerStartPosition,
     position,
     getClosestValidXPosition,
     getClosestValidYPosition,
     getNewPosition,
+    updatePosition,
   ]);
 
   const drag = React.useCallback(
@@ -208,66 +263,115 @@ export const Draggable: React.FC<DraggableProps> = ({
   }, [stopDrag]);
 
   const scaleHorizontal = React.useCallback(
-    (pointerX: number, isLeft: boolean) => {
-      let newWidth: number = width;
-      let newX: number = position.x;
-
-      const closestValidXPosition = getClosestValidXPosition(pointerX);
-      const xDifference = position.x - closestValidXPosition;
-
-      if (isLeft) {
-        // If the left side of the Draggable was moved,
-        // we need to set the new x position in addition
-        // to changing the width.
-        newX = xDifference;
-      }
-      newWidth = width - xDifference;
+    (pointerX: number, leftWasMoved: boolean) => {
+      const [newWidth, newXPosition] = scale(
+        pointerX,
+        leftWasMoved,
+        width,
+        position.x,
+      );
 
       const newPosition = {
         ...position,
-        x: newX,
+        y: newXPosition,
       };
-      setPosition(newPosition);
 
+      setPosition(newPosition);
       setSize(oldSize => ({ ...oldSize, width: newWidth }));
     },
-    [getClosestValidXPosition, position, width],
+    [position, width],
   );
 
   const scaleVertical = React.useCallback(
-    (pointerY: number, isTop: boolean) => {
-      let newHeight: number = height;
-      let newY: number = position.y;
-
-      const closestValidYPosition = getClosestValidYPosition(pointerY);
-      const yDifference = position.y - closestValidYPosition;
-
-      if (isTop) {
-        // If the upper side of the Draggable was moved,
-        // we need to set the new y position in addition
-        // to changing the height.
-        newY = position.y - yDifference;
-      }
-      newHeight = height + yDifference;
+    (pointerY: number, topWasMoved: boolean) => {
+      const [newHeight, newYPosition] = scale(
+        pointerY,
+        topWasMoved,
+        height,
+        position.y,
+      );
 
       const newPosition = {
         ...position,
-        y: newY,
+        y: newYPosition,
       };
-      setPosition(newPosition);
 
+      setPosition(newPosition);
       setSize(oldSize => ({ ...oldSize, height: newHeight }));
     },
-    [getClosestValidYPosition, height, position],
+    [height, position],
   );
 
-  React.useEffect(() => {
-    updateSize({ width, height });
-  }, [updateSize, width, height]);
+  const stopScaling = React.useCallback(
+    (scaledPosition: "top" | "bottom" | "left" | "right") => {
+      stopDrag();
 
-  React.useEffect(() => {
-    updatePosition(position);
-  }, [updatePosition, position]);
+      const topWasMoved = scaledPosition === "top";
+      const bottomWasMoved = scaledPosition === "bottom";
+      const leftWasMoved = scaledPosition === "left";
+      const rightWasMoved = scaledPosition === "right";
+
+      const xWasChanged = leftWasMoved || rightWasMoved;
+      const yWasChanged = topWasMoved || bottomWasMoved;
+
+      let newX = position.x;
+      let newY = position.y;
+
+      let newWidth = width;
+      let newHeight = height;
+
+      let closestValidXPosition;
+      let xDifference;
+      if (xWasChanged) {
+        closestValidXPosition = getClosestValidYPosition(position.x);
+        xDifference = position.x - closestValidXPosition;
+
+        if (leftWasMoved) {
+          // If the upper side of the Draggable was moved,
+          // we need to set the new y position in addition
+          // to changing the height.
+          newX = position.x - xDifference;
+        }
+
+        newWidth = width + xDifference;
+      }
+
+      let closestValidYPosition;
+      let yDifference;
+      if (yWasChanged) {
+        closestValidYPosition = getClosestValidYPosition(position.y);
+        yDifference = position.y - closestValidYPosition;
+
+        if (topWasMoved) {
+          // If the upper side of the Draggable was moved,
+          // we need to set the new y position in addition
+          // to changing the height.
+          newY = position.y - yDifference;
+        }
+
+        newHeight = height + yDifference;
+      }
+
+      const newPosition = {
+        x: newX,
+        y: newY,
+      };
+
+      setPosition(newPosition);
+
+      setSize({ width: newWidth, height: newHeight });
+      updateSize({ width: newWidth, height: newHeight });
+    },
+    [
+      getClosestValidYPosition,
+      height,
+      position.x,
+      position.y,
+      stopDrag,
+      updateSize,
+      width,
+    ],
+  );
 
   return (
     <button
@@ -294,22 +398,26 @@ export const Draggable: React.FC<DraggableProps> = ({
       {(position.y / (gridIndicatorSize + gapSize)).toFixed(2)})
       <ScaleHandle
         position="top"
-        onScale={scaleVertical}
+        onScale={newPosition => scaleVertical(newPosition, true)}
+        onScaleStop={() => stopScaling("top")}
         labelText={verticalScaleHandleLabelText}
       />
       <ScaleHandle
         position="right"
-        onScale={scaleHorizontal}
+        onScale={newPosition => scaleHorizontal(newPosition, false)}
+        onScaleStop={() => stopScaling("right")}
         labelText={horizontalScaleHandleLabelText}
       />
       <ScaleHandle
         position="bottom"
-        onScale={scaleVertical}
+        onScale={newPosition => scaleVertical(newPosition, false)}
+        onScaleStop={() => stopScaling("bottom")}
         labelText={verticalScaleHandleLabelText}
       />
       <ScaleHandle
         position="left"
-        onScale={scaleHorizontal}
+        onScale={newPosition => scaleHorizontal(newPosition, true)}
+        onScaleStop={() => stopScaling("left")}
         labelText={horizontalScaleHandleLabelText}
       />
     </button>
