@@ -186,7 +186,6 @@ export const Draggable: React.FC<DraggableProps> = ({
     [gapSize, gridIndicatorSize, gridSize.height, height],
   );
   const stopDrag = React.useCallback(() => {
-    console.log("stopping drag", isDragging);
     const { x, y } = position;
 
     const closestValidXPosition = getClosestValidXPosition(x);
