@@ -24,7 +24,7 @@ export class H5PWrapper
     console.info({ parent, field, params });
 
     ReactDOM.render(
-      <App adjective="luminous" setValue={setValue} />,
+      <App setValue={setValue} />,
       this.wrapper,
     );
   }
