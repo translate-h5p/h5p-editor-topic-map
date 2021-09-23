@@ -1,5 +1,6 @@
 import * as React from "react";
 import { hot } from "react-hot-loader/root";
+import { MapEditorView } from "./components/MapEditorView/MapEditorView";
 
 type AppProps = {
   adjective: string;
@@ -9,7 +10,7 @@ type AppProps = {
 const App = ({ adjective, setValue }: AppProps): JSX.Element => {
   return (
     <>
-      <h1>Hi, you&apos;re {adjective}</h1>
+      <MapEditorView />
     </>
   );
 };
