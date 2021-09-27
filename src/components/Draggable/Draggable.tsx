@@ -247,21 +247,6 @@ export const Draggable: React.FC<DraggableProps> = ({
   const horizontalScaleHandleLabelText = "";
   const verticalScaleHandleLabelText = "";
 
-  React.useEffect(() => {
-    /* 
-      These are tied to `window`, because the
-      cursor might not be on top of the element
-      when the drag action ends.
-    */
-    window.addEventListener("mouseup", stopDrag);
-    window.addEventListener("touchend", stopDrag);
-
-    return () => {
-      window.removeEventListener("mouseup", stopDrag);
-      window.removeEventListener("touchend", stopDrag);
-    };
-  }, [stopDrag]);
-
   const scaleHorizontal = React.useCallback(
     (pointerX: number, leftWasMoved: boolean) => {
       const [newWidth, newXPosition] = scale(
@@ -394,6 +379,8 @@ export const Draggable: React.FC<DraggableProps> = ({
         zIndex: isDragging ? 1 : undefined,
       }}
       aria-label={labelText}
+      onMouseUp={stopDrag}
+      onTouchEnd={stopDrag}
     >
       ({(position.x / (gridIndicatorSize + gapSize)).toFixed(2)},{" "}
       {(position.y / (gridIndicatorSize + gapSize)).toFixed(2)})
