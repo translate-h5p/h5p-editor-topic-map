@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Position } from "../../types/Position";
 import { Size } from "../../types/Size";
-import { isMouseEvent } from "../../utils/event.utils";
+import { isMouseEvent, isReactMouseEvent } from "../../utils/event.utils";
 import {
   calculateClosestValidSizeComponent,
   calculateClosestValidPositionComponent,
@@ -141,7 +141,7 @@ export const Draggable: React.FC<DraggableProps> = ({
       let x: number;
       let y: number;
 
-      if (isMouseEvent(event)) {
+      if (isReactMouseEvent(event)) {
         x = event.clientX;
         y = event.clientY;
       } else {
@@ -212,7 +212,7 @@ export const Draggable: React.FC<DraggableProps> = ({
   ]);
 
   const drag = React.useCallback(
-    (event: React.MouseEvent | React.TouchEvent) => {
+    (event: MouseEvent | TouchEvent) => {
       if (!isDragging || !pointerStartPosition) {
         return;
       }
@@ -246,6 +246,21 @@ export const Draggable: React.FC<DraggableProps> = ({
 
   const horizontalScaleHandleLabelText = "";
   const verticalScaleHandleLabelText = "";
+
+  React.useEffect(() => {
+    /* 
+      These are tied to `window`, because the
+      cursor might not be on top of the element
+      when the drag action ends.
+    */
+    window.addEventListener("mousemove", drag);
+    window.addEventListener("touchmove", drag);
+
+    return () => {
+      window.removeEventListener("mousemove", drag);
+      window.removeEventListener("touchmove", drag);
+    };
+  }, [drag]);
 
   const scaleHorizontal = React.useCallback(
     (pointerX: number, leftWasMoved: boolean) => {
@@ -370,8 +385,6 @@ export const Draggable: React.FC<DraggableProps> = ({
       className={styles.draggable}
       onMouseDown={startDrag}
       onTouchStart={startDrag}
-      onMouseMove={drag}
-      onTouchMove={drag}
       style={{
         transform: `translateX(${position.x}px) translateY(${position.y}px)`,
         width,
@@ -382,8 +395,6 @@ export const Draggable: React.FC<DraggableProps> = ({
       onMouseUp={stopDrag}
       onTouchEnd={stopDrag}
     >
-      ({(position.x / (gridIndicatorSize + gapSize)).toFixed(2)},{" "}
-      {(position.y / (gridIndicatorSize + gapSize)).toFixed(2)})
       <ScaleHandle
         position="top"
         onScale={newPosition => scaleVertical(newPosition, true)}
