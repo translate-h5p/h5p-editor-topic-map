@@ -253,16 +253,10 @@ export const Draggable: React.FC<DraggableProps> = ({
       cursor might not be on top of the element
       when the drag action ends.
     */
-    window.addEventListener("mouseup", stopDrag);
-    window.addEventListener("touchend", stopDrag);
-
     window.addEventListener("mousemove", drag);
     window.addEventListener("touchmove", drag);
 
     return () => {
-      window.removeEventListener("mouseup", stopDrag);
-      window.removeEventListener("touchend", stopDrag);
-
       window.removeEventListener("mousemove", drag);
       window.removeEventListener("touchmove", drag);
     };
@@ -398,6 +392,8 @@ export const Draggable: React.FC<DraggableProps> = ({
         zIndex: isDragging ? 1 : undefined,
       }}
       aria-label={labelText}
+      onMouseUp={stopDrag}
+      onTouchEnd={stopDrag}
     >
       <ScaleHandle
         position="top"
