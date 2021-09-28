@@ -260,7 +260,7 @@ export const Draggable: React.FC<DraggableProps> = ({
       window.removeEventListener("mousemove", drag);
       window.removeEventListener("touchmove", drag);
     };
-  }, [drag, stopDrag]);
+  }, [drag]);
 
   const scaleHorizontal = React.useCallback(
     (pointerX: number, leftWasMoved: boolean) => {
