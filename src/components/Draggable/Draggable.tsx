@@ -372,7 +372,6 @@ export const Draggable: React.FC<DraggableProps> = ({
       onTouchStart={startDrag}
       onMouseMove={drag}
       style={{
-        willChange: isDragging ? `transform` : `auto`,
         transform: `translateX(${position.x}px) translateY(${position.y}px)`,
         width,
         height,
