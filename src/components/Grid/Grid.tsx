@@ -8,6 +8,7 @@ import { Position } from "../../types/Position";
 import {
   findOccupiedCells,
   mapTopicMapItemToElement,
+  positionIsFree,
   resizeItems,
   scaleX,
   scaleY,
@@ -50,6 +51,30 @@ export const Grid: React.FC<GridProps> = ({
   /* TODO: Translate */
   const gridIndicatorLabel = "Click to create a new element";
 
+  const getGridIndicatorSize = React.useCallback(() => {
+    if (!elementRef.current) {
+      return 0;
+    }
+
+    const gridIndicator = elementRef.current.querySelector(".grid-indicator");
+    if (!gridIndicator) {
+      throw new Error("No grid indicators were rendered.");
+    }
+
+    const { width } = gridIndicator.getBoundingClientRect();
+    return width;
+
+    // The grid's size is updated by external factors,
+    // but still affects the grid indicator size
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [size]);
+
+  const gridIndicatorSize = React.useMemo(getGridIndicatorSize, [
+    gapSize,
+    getGridIndicatorSize,
+    elementRef.current,
+  ]);
+
   const createBoxStart = React.useCallback((index: number) => {
     setBoxStartPosition(index);
   }, []);
@@ -59,6 +84,10 @@ export const Grid: React.FC<GridProps> = ({
       if (activeTool === ToolbarButtons.CreateBox) {
         if (boxStartPosition == null) {
           throw new Error("Box start position is not defined.");
+        }
+
+        if (!size) {
+          throw new Error("Grid has no size.");
         }
 
         // Get x and y percentage position
@@ -96,18 +125,40 @@ export const Grid: React.FC<GridProps> = ({
           heightPercentage,
         };
 
-        const newItems = [...items, newItem];
+        const posIsFree = positionIsFree(
+          {
+            x: scaleX(xPercentagePosition, size.width),
+            y: scaleY(yPercentagePosition, size.height),
+          },
+          id,
+          {
+            width: scaleX(widthPercentage, size.width),
+            height: scaleY(heightPercentage, size.height),
+          },
+          size,
+          gapSize,
+          gridIndicatorSize,
+          occupiedCells,
+        );
 
-        updateItems(newItems);
-        setItems(newItems);
+        if (posIsFree) {
+          const newItems = [...items, newItem];
+
+          updateItems(newItems);
+          setItems(newItems);
+        }
       }
     },
     [
       activeTool,
       boxStartPosition,
+      size,
       numberOfColumns,
       numberOfRows,
       items,
+      gapSize,
+      gridIndicatorSize,
+      occupiedCells,
       updateItems,
     ],
   );
@@ -135,30 +186,6 @@ export const Grid: React.FC<GridProps> = ({
     [numberOfColumns, numberOfRows, activeTool, items, boxStartPosition],
   );
 
-  const getGridIndicatorSize = React.useCallback(() => {
-    if (!elementRef.current) {
-      return 0;
-    }
-
-    const gridIndicator = elementRef.current.querySelector(".grid-indicator");
-    if (!gridIndicator) {
-      throw new Error("No grid indicators were rendered.");
-    }
-
-    const { width } = gridIndicator.getBoundingClientRect();
-    return width;
-
-    // The grid's size is updated by external factors,
-    // but still affects the grid indicator size
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [size]);
-
-  const gridIndicatorSize = React.useMemo(getGridIndicatorSize, [
-    gapSize,
-    getGridIndicatorSize,
-    elementRef.current,
-  ]);
-
   const updateItemPosition = React.useCallback(
     (updatedItem: TopicMapItem, newPosition: Position) => {
       if (!size) {
@@ -183,8 +210,6 @@ export const Grid: React.FC<GridProps> = ({
         gapSize,
         gridIndicatorSize,
       );
-
-      // console.log({ elements, newOccupiedCells });
 
       setOccupiedCells(newOccupiedCells);
     },
