@@ -11,7 +11,6 @@ export default {
   args: {
     numberOfColumns: 20,
     numberOfRows: 12,
-    gridItems: [],
     updateItems: (items: Array<TopicMapItem>) =>
       console.info("Items updated", { items }),
   },
@@ -24,33 +23,40 @@ const Template: ComponentStory<typeof MapEditorView> = args => (
 );
 
 export const Empty = Template.bind({});
-Empty.args = {};
+Empty.args = {
+  initialGridItems: [],
+};
+
+let withItemsItems = [
+  {
+    id: "1",
+    xPercentagePosition: 0,
+    yPercentagePosition: 0,
+    widthPercentage: 15,
+    heightPercentage: 20,
+  },
+  {
+    id: "2",
+    xPercentagePosition: 5,
+    yPercentagePosition: 30,
+    widthPercentage: 30,
+    heightPercentage: 20,
+  },
+  {
+    id: "3",
+    xPercentagePosition: 40,
+    yPercentagePosition: 30,
+    widthPercentage: 15,
+    heightPercentage: 50,
+  },
+];
 
 export const WithItems = Template.bind({});
 WithItems.args = {
-  gridItems: [
-    {
-      id: "1",
-      xPercentagePosition: 0,
-      yPercentagePosition: 0,
-      widthPercentage: 15,
-      heightPercentage: 20,
-    },
-    {
-      id: "2",
-      xPercentagePosition: 5,
-      yPercentagePosition: 30,
-      widthPercentage: 30,
-      heightPercentage: 20,
-    },
-    {
-      id: "3",
-      xPercentagePosition: 40,
-      yPercentagePosition: 30,
-      widthPercentage: 15,
-      heightPercentage: 50,
-    },
-  ],
+  initialGridItems: withItemsItems,
+  updateItems: (items: Array<TopicMapItem>) => {
+    withItemsItems = items;
+  },
 };
 
 const TemplateFullscreen: ComponentStory<typeof MapEditorView> = args => (
@@ -62,7 +68,7 @@ FullscreenEmpty.args = {};
 
 export const FullscreenWithItems = TemplateFullscreen.bind({});
 FullscreenWithItems.args = {
-  gridItems: [
+  initialGridItems: [
     {
       id: "1",
       xPercentagePosition: 0,

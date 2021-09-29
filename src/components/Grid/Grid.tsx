@@ -6,6 +6,7 @@ import { Size } from "../../types/Size";
 import { TopicMapItem } from "../../types/TopicMapItem";
 import { Position } from "../../types/Position";
 import { resizeItems, updateItem } from "../../utils/grid.utils";
+import { ToolbarButtons } from "../Toolbar/Toolbar";
 
 export type GridProps = {
   numberOfColumns: number;
@@ -14,6 +15,7 @@ export type GridProps = {
   updateItems: (items: Array<TopicMapItem>) => void;
   gapSize: number;
   children?: never;
+  activeTool: ToolbarButtons | null;
 };
 
 export const Grid: React.FC<GridProps> = ({
@@ -22,15 +24,74 @@ export const Grid: React.FC<GridProps> = ({
   initialItems,
   updateItems,
   gapSize,
+  activeTool,
 }) => {
   const [size, setSize] = React.useState<Size | null>();
   const [hasRendered, setHasRendered] = React.useState<boolean>(false);
   const [items, setItems] = React.useState<Array<TopicMapItem>>(initialItems);
+  const [boxStartPosition, setBoxStartPosition] = React.useState<number | null>(
+    null,
+  );
 
   const elementRef = React.useRef<HTMLDivElement>(null);
 
   /* TODO: Translate */
   const gridIndicatorLabel = "Click to create a new element";
+
+  const createBoxStart = React.useCallback((index: number) => {
+    setBoxStartPosition(index);
+  }, []);
+
+  const createBoxEnd = React.useCallback(
+    (indicatorIndex: number) => {
+      if (activeTool === ToolbarButtons.CreateBox) {
+        if (boxStartPosition == null) {
+          throw new Error("Box start position is not defined.");
+        }
+
+        // Get x and y percentage position
+        const x = boxStartPosition % numberOfColumns;
+        const y = Math.floor(boxStartPosition / numberOfColumns);
+
+        const xPercentagePosition = (x / numberOfColumns) * 100;
+        const yPercentagePosition = (y / numberOfRows) * 100;
+
+        // Get height percentage
+        const yEnd = Math.floor(indicatorIndex / numberOfColumns);
+        const yEndPercentagePosition = ((yEnd + 1) / numberOfRows) * 100;
+
+        const heightPercentage = yEndPercentagePosition - yPercentagePosition;
+
+        // Get width percentage
+        const indicatorValue = indicatorIndex + 1;
+        const lastIndexOnColumn = indicatorValue % numberOfColumns === 0;
+
+        const xEnd = indicatorValue % numberOfColumns;
+        const xEndPercentagePosition = lastIndexOnColumn
+          ? 100
+          : (xEnd / numberOfColumns) * 100;
+
+        const widthPercentage = xEndPercentagePosition - xPercentagePosition;
+
+        // Create box
+        const id = (items.length + 1).toString(); // TODO: Generate unique id
+
+        const newItem = {
+          id,
+          xPercentagePosition,
+          yPercentagePosition,
+          widthPercentage,
+          heightPercentage,
+        };
+
+        const newItems = [...items, newItem];
+
+        updateItems(newItems);
+        setItems(newItems);
+      }
+    },
+    [boxStartPosition, updateItems, items, activeTool],
+  );
 
   const gridIndicators = React.useMemo(
     () =>
@@ -40,13 +101,16 @@ export const Grid: React.FC<GridProps> = ({
           <GridIndicator
             // eslint-disable-next-line react/no-array-index-key
             key={`grid-indicator-${index}`}
+            index={index}
             label={gridIndicatorLabel}
             onClick={() => {
               console.info("Click grid indicator");
             }}
+            onMouseDown={createBoxStart}
+            onMouseUp={createBoxEnd}
           />
         )),
-    [numberOfColumns, numberOfRows],
+    [numberOfColumns, numberOfRows, activeTool, items, boxStartPosition],
   );
 
   const getGridIndicatorSize = React.useCallback(() => {
