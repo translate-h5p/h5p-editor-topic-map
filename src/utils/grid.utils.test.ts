@@ -9,8 +9,10 @@ import {
   calculateXPercentage,
   calculateYPercentage,
   cellIsOccupiedByElement,
+  coordinatesToPx,
   findCellsElementOccupies,
   getAllCells,
+  positionIsFree,
   resizeItem,
   updateItem,
 } from "./grid.utils";
@@ -886,6 +888,127 @@ describe(cellIsOccupiedByElement.name, () => {
       elementPosition,
       elementSize,
       cellPosition,
+    );
+
+    expect(actual).toBe(expected);
+  });
+});
+
+describe(positionIsFree.name, () => {
+  /*
+    We have placed an element in (2, 1) with the dimensions w: 2, h: 3.
+
+    The grid looks like this:
+    ([ ] = grid indicator)
+    ([x] = our 2*3 element)
+
+        0  15  30  45
+     0 [ ] [ ] [ ] [ ]
+    15 [ ] [ ] [x] [x]
+    30 [ ] [ ] [x] [x]
+    45 [ ] [ ] [x] [x]
+  */
+
+  const gapSize = 5;
+  const gridIndicatorSize = 10;
+
+  const occupiedCells: Array<OccupiedCell> = [
+    {
+      index: 6,
+      occupiedById: "1",
+      occupiedByType: "item",
+      x: coordinatesToPx(2, gapSize, gridIndicatorSize),
+      y: coordinatesToPx(1, gapSize, gridIndicatorSize),
+    },
+    {
+      index: 7,
+      occupiedById: "1",
+      occupiedByType: "item",
+      x: coordinatesToPx(3, gapSize, gridIndicatorSize),
+      y: coordinatesToPx(1, gapSize, gridIndicatorSize),
+    },
+    {
+      index: 10,
+      occupiedById: "1",
+      occupiedByType: "item",
+      x: coordinatesToPx(2, gapSize, gridIndicatorSize),
+      y: coordinatesToPx(2, gapSize, gridIndicatorSize),
+    },
+    {
+      index: 11,
+      occupiedById: "1",
+      occupiedByType: "item",
+      x: coordinatesToPx(3, gapSize, gridIndicatorSize),
+      y: coordinatesToPx(2, gapSize, gridIndicatorSize),
+    },
+    {
+      index: 14,
+      occupiedById: "1",
+      occupiedByType: "item",
+      x: coordinatesToPx(2, gapSize, gridIndicatorSize),
+      y: coordinatesToPx(3, gapSize, gridIndicatorSize),
+    },
+    {
+      index: 15,
+      occupiedById: "1",
+      occupiedByType: "item",
+      x: coordinatesToPx(3, gapSize, gridIndicatorSize),
+      y: coordinatesToPx(3, gapSize, gridIndicatorSize),
+    },
+  ];
+
+  const gridSize: Size = { width: 55, height: 55 };
+  const elementId = "2";
+
+  it("should return true if the element fits in the proposed location", () => {
+    /*
+      New element: 2
+
+          0  15  30  45
+       0 [2] [2] [ ] [ ]
+      15 [2] [2] [x] [x]
+      30 [2] [2] [x] [x]
+      45 [2] [2] [x] [x]
+    */
+    const elementSize: Size = { width: 25, height: 55 };
+    const newPosition: Position = { x: 0, y: 0 };
+
+    const expected = true;
+    const actual = positionIsFree(
+      newPosition,
+      elementId,
+      elementSize,
+      gridSize,
+      gapSize,
+      gridIndicatorSize,
+      occupiedCells,
+    );
+
+    expect(actual).toBe(expected);
+  });
+
+  it("should return false if the element does not fit in the proposed location", () => {
+    /*
+      New element: 2
+
+          0  15  30  45
+       0 [ ] [ ] [ ] [ ]
+      15 [ ] [ ] [x] [x]
+      30 [ ] [ ] [x] [x]
+      45 [2] [2] [x2] [x]
+    */
+    const elementSize: Size = { width: 40, height: 10 };
+    const newPosition: Position = { x: 0, y: 45 };
+
+    const expected = false;
+    const actual = positionIsFree(
+      newPosition,
+      elementId,
+      elementSize,
+      gridSize,
+      gapSize,
+      gridIndicatorSize,
+      occupiedCells,
     );
 
     expect(actual).toBe(expected);
