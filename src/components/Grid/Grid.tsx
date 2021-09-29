@@ -45,7 +45,7 @@ export const Grid: React.FC<GridProps> = ({
   const createBoxEnd = React.useCallback(
     (indicatorIndex: number) => {
       if (activeTool === ToolbarButtons.CreateBox) {
-        if (!boxStartPosition && boxStartPosition !== 0) {
+        if (boxStartPosition == null) {
           throw new Error("Box start position is not defined.");
         }
 
