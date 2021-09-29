@@ -22,6 +22,8 @@ export default {
     },
     initialHeight: 45,
     initialWidth: 95,
+    id: "1",
+    occupiedCells: [],
   },
 } as ComponentMeta<typeof Draggable>;
 
