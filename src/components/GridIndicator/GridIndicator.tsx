@@ -23,6 +23,8 @@ export const GridIndicator: React.FC<GridIndicatorProps> = ({
       onClick={onClick}
       onMouseDown={() => onMouseDown(index)}
       onMouseUp={() => onMouseUp(index)}
+      onTouchStart={() => onMouseDown(index)}
+      onTouchEnd={() => onMouseUp(index)}
       aria-label={label}
     />
   );

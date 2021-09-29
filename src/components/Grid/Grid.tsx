@@ -45,7 +45,7 @@ export const Grid: React.FC<GridProps> = ({
   const createBoxEnd = React.useCallback(
     (indicatorIndex: number) => {
       if (activeTool === ToolbarButtons.CreateBox) {
-        if (!boxStartPosition && boxStartPosition !== 0) {
+        if (boxStartPosition == null) {
           throw new Error("Box start position is not defined.");
         }
 
@@ -74,10 +74,10 @@ export const Grid: React.FC<GridProps> = ({
         const widthPercentage = xEndPercentagePosition - xPercentagePosition;
 
         // Create box
-        const id = (items.length + 1).toString();
+        const id = (items.length + 1).toString(); // TODO: Generate unique id
 
         const newItem = {
-          id: items ? id : "1",
+          id,
           xPercentagePosition,
           yPercentagePosition,
           widthPercentage,
