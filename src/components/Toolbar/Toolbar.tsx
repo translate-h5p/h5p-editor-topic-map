@@ -19,11 +19,16 @@ export enum ToolbarButtons {
   CreateArrow = "createArrow",
 }
 
-export const Toolbar: React.FC = () => {
+export type ToolBarProps = {
+  setActiveTool: (activeTool: ToolbarButtons | null) => void;
+};
+
+export const Toolbar: React.FC<ToolBarProps> = ({ setActiveTool }) => {
   const [activeButton, setActiveButton] = React.useState<string | null>();
 
-  const setActive = (newValue: string): void => {
+  const setActive = (newValue: ToolbarButtons): void => {
     setActiveButton(activeButton !== newValue ? newValue : null);
+    setActiveTool(activeButton !== newValue ? newValue : null);
   };
 
   return (
