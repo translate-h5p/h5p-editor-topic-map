@@ -74,7 +74,7 @@ export const Grid: React.FC<GridProps> = ({
         const widthPercentage = xEndPercentagePosition - xPercentagePosition;
 
         // Create box
-        const id = (items.length + 1).toString();
+        const id = (items.length + 1).toString(); // TODO: Generate unique id
 
         const newItem = {
           id,
