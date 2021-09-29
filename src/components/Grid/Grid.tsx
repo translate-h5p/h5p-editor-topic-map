@@ -16,7 +16,7 @@ import {
 } from "../../utils/grid.utils";
 import { OccupiedCell } from "../../types/OccupiedCell";
 import { Element } from "../../types/Element";
-import { ToolbarButtons } from "../Toolbar/Toolbar";
+import { ToolbarButtonType } from "../Toolbar/Toolbar";
 
 export type GridProps = {
   numberOfColumns: number;
@@ -25,7 +25,7 @@ export type GridProps = {
   updateItems: (items: Array<TopicMapItem>) => void;
   gapSize: number;
   children?: never;
-  activeTool: ToolbarButtons | null;
+  activeTool: ToolbarButtonType | null;
 };
 
 export const Grid: React.FC<GridProps> = ({
@@ -81,7 +81,7 @@ export const Grid: React.FC<GridProps> = ({
 
   const createBoxEnd = React.useCallback(
     (indicatorIndex: number) => {
-      if (activeTool === ToolbarButtons.CreateBox) {
+      if (activeTool === ToolbarButtonType.CreateBox) {
         if (boxStartPosition == null) {
           throw new Error("Box start position is not defined.");
         }
@@ -165,9 +165,9 @@ export const Grid: React.FC<GridProps> = ({
 
   const activeHoverOnGrid = React.useCallback(() => {
     switch (activeTool) {
-      case ToolbarButtons.CreateBox:
+      case ToolbarButtonType.CreateBox:
         return true;
-      case ToolbarButtons.CreateArrow:
+      case ToolbarButtonType.CreateArrow:
         return true;
       default:
         return false;

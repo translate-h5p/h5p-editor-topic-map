@@ -13,20 +13,20 @@ const labelTexts = {
   Name of svg icon should be similar to this,
   specify the svg icon in icons.tsx
 */
-export enum ToolbarButtons {
+export enum ToolbarButtonType {
   MapColor = "mapColor",
   CreateBox = "createBox",
   CreateArrow = "createArrow",
 }
 
 export type ToolBarProps = {
-  setActiveTool: (activeTool: ToolbarButtons | null) => void;
+  setActiveTool: (activeTool: ToolbarButtonType | null) => void;
 };
 
 export const Toolbar: React.FC<ToolBarProps> = ({ setActiveTool }) => {
   const [activeButton, setActiveButton] = React.useState<string | null>();
 
-  const setActive = (newValue: ToolbarButtons): void => {
+  const setActive = (newValue: ToolbarButtonType): void => {
     setActiveButton(activeButton !== newValue ? newValue : null);
     setActiveTool(activeButton !== newValue ? newValue : null);
   };
@@ -34,24 +34,24 @@ export const Toolbar: React.FC<ToolBarProps> = ({ setActiveTool }) => {
   return (
     <div className={styles.toolbar}>
       <ToolbarButton
-        icon={ToolbarButtons.MapColor}
+        icon={ToolbarButtonType.MapColor}
         label={labelTexts.mapColor}
-        onClick={() => setActive(ToolbarButtons.MapColor)}
-        active={activeButton === ToolbarButtons.MapColor}
+        onClick={() => setActive(ToolbarButtonType.MapColor)}
+        active={activeButton === ToolbarButtonType.MapColor}
         showActive={false}
       />
       <ToolbarButton
-        icon={ToolbarButtons.CreateBox}
+        icon={ToolbarButtonType.CreateBox}
         label={labelTexts.createBox}
-        onClick={() => setActive(ToolbarButtons.CreateBox)}
-        active={activeButton === ToolbarButtons.CreateBox}
+        onClick={() => setActive(ToolbarButtonType.CreateBox)}
+        active={activeButton === ToolbarButtonType.CreateBox}
         showActive
       />
       <ToolbarButton
-        icon={ToolbarButtons.CreateArrow}
+        icon={ToolbarButtonType.CreateArrow}
         label={labelTexts.createArrow}
-        onClick={() => setActive(ToolbarButtons.CreateArrow)}
-        active={activeButton === ToolbarButtons.CreateArrow}
+        onClick={() => setActive(ToolbarButtonType.CreateArrow)}
+        active={activeButton === ToolbarButtonType.CreateArrow}
         showActive
       />
     </div>
