@@ -77,7 +77,7 @@ export const Grid: React.FC<GridProps> = ({
         const id = (items.length + 1).toString();
 
         const newItem = {
-          id: items ? id : "1",
+          id,
           xPercentagePosition,
           yPercentagePosition,
           widthPercentage,
