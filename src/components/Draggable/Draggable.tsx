@@ -2,14 +2,13 @@ import * as React from "react";
 import { OccupiedCell } from "../../types/OccupiedCell";
 import { Position } from "../../types/Position";
 import { Size } from "../../types/Size";
-import { arraysHaveSomeOverlap } from "../../utils/array.utils";
 import {
   calculateClosestValidPositionComponent,
   calculateClosestValidSizeComponent,
   getPointerPositionFromEvent,
   scale,
 } from "../../utils/draggable.utils";
-import { findCellsElementOccupies } from "../../utils/grid.utils";
+import { positionIsFree } from "../../utils/grid.utils";
 import { ScaleHandle } from "../ScaleHandle/ScaleHandle";
 import styles from "./Draggable.module.scss";
 
@@ -185,42 +184,19 @@ export const Draggable: React.FC<DraggableProps> = ({
     [gapSize, gridIndicatorSize, gridSize.height, height],
   );
 
-  const positionIsFree = React.useCallback(
-    (newPosition: Position) => {
-      const cellsThisElementWillOccupy = findCellsElementOccupies(
-        {
-          id,
-          type: "item",
-          position: newPosition,
-          size: { width, height },
-        },
-        gridSize.width,
-        gridSize.height,
+  const checkIfPositionIsFree = React.useCallback(
+    (newPosition: Position): boolean => {
+      return positionIsFree(
+        newPosition,
+        id,
+        { width, height },
+        gridSize,
         gapSize,
         gridIndicatorSize,
+        occupiedCells,
       );
-
-      const cellsOccupiedByOtherElements = occupiedCells.filter(
-        cell => cell.occupiedById !== id,
-      );
-
-      const posIsFree = !arraysHaveSomeOverlap(
-        cellsOccupiedByOtherElements,
-        cellsThisElementWillOccupy,
-      );
-
-      return posIsFree;
     },
-    [
-      gapSize,
-      gridIndicatorSize,
-      gridSize.height,
-      gridSize.width,
-      height,
-      id,
-      occupiedCells,
-      width,
-    ],
+    [gapSize, gridIndicatorSize, gridSize, height, id, occupiedCells, width],
   );
 
   const stopDrag = React.useCallback(() => {
@@ -235,7 +211,7 @@ export const Draggable: React.FC<DraggableProps> = ({
         closestValidYPosition,
       );
 
-      if (positionIsFree(newPosition)) {
+      if (checkIfPositionIsFree(newPosition)) {
         setPosition(newPosition);
         updatePosition(newPosition);
         setPreviousPosition(newPosition);
@@ -251,7 +227,7 @@ export const Draggable: React.FC<DraggableProps> = ({
     getClosestValidXPosition,
     getClosestValidYPosition,
     getNewPosition,
-    positionIsFree,
+    checkIfPositionIsFree,
     updatePosition,
     previousPosition,
   ]);
