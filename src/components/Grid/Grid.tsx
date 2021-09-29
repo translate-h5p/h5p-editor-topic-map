@@ -163,6 +163,17 @@ export const Grid: React.FC<GridProps> = ({
     ],
   );
 
+  const activeHoverOnGrid = React.useCallback(() => {
+    switch (activeTool) {
+      case ToolbarButtons.CreateBox:
+        return true;
+      case ToolbarButtons.CreateArrow:
+        return true;
+      default:
+        return false;
+    }
+  }, [activeTool]);
+
   const gridIndicators = React.useMemo(
     () =>
       Array(numberOfColumns * numberOfRows)
@@ -178,6 +189,7 @@ export const Grid: React.FC<GridProps> = ({
             }}
             onMouseDown={createBoxStart}
             onMouseUp={createBoxEnd}
+            active={activeHoverOnGrid()}
           />
         )),
     // We need to update the value of grid indicators each time `activeTool` or `items`

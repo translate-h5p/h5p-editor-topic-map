@@ -7,6 +7,7 @@ export type GridIndicatorProps = {
   onMouseUp: (index: number) => void;
   label: string;
   index: number;
+  active: boolean;
 };
 
 export const GridIndicator: React.FC<GridIndicatorProps> = ({
@@ -15,11 +16,14 @@ export const GridIndicator: React.FC<GridIndicatorProps> = ({
   onMouseUp,
   label,
   index,
+  active,
 }) => {
   return (
     <button
       type="button"
-      className={`grid-indicator ${styles.gridIndicator}`}
+      className={`grid-indicator ${styles.gridIndicator} ${
+        active && styles.active
+      }`}
       onClick={onClick}
       onMouseDown={() => onMouseDown(index)}
       onMouseUp={() => onMouseUp(index)}
