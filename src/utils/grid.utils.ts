@@ -4,6 +4,7 @@ import { OccupiedCell } from "../types/OccupiedCell";
 import { Position } from "../types/Position";
 import { Size } from "../types/Size";
 import { TopicMapItem } from "../types/TopicMapItem";
+import { arraysHaveSomeOverlap } from "./array.utils";
 
 export const resizeItem = (
   item: TopicMapItem,
@@ -176,3 +177,47 @@ export const mapTopicMapItemToElement = (
     height: scaleY(item.heightPercentage, gridSize.height),
   },
 });
+
+export const positionIsFree = (
+  newPosition: Position,
+  elementId: string,
+  elementSize: Size,
+  gridSize: Size,
+  gapSize: number,
+  gridIndicatorSize: number,
+  occupiedCells: Array<OccupiedCell>,
+): boolean => {
+  const cellsThisElementWillOccupy = findCellsElementOccupies(
+    {
+      id: elementId,
+      type: "item",
+      position: newPosition,
+      size: elementSize,
+    },
+    gridSize.width,
+    gridSize.height,
+    gapSize,
+    gridIndicatorSize,
+  );
+
+  const cellsOccupiedByOtherElements = occupiedCells.filter(
+    cell => cell.occupiedById !== elementId,
+  );
+
+  const posIsFree = !arraysHaveSomeOverlap(
+    cellsOccupiedByOtherElements,
+    cellsThisElementWillOccupy,
+  );
+
+  return posIsFree;
+};
+
+export const coordinatesToPx = (
+  pxValue: number,
+  gapSize: number,
+  gridIndicatorSize: number,
+): number => {
+  const stepSize = gapSize + gridIndicatorSize;
+
+  return pxValue * stepSize;
+};
