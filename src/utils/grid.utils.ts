@@ -1,3 +1,6 @@
+import { Cell } from "../types/Cell";
+import { Element } from "../types/Element";
+import { OccupiedCell } from "../types/OccupiedCell";
 import { Position } from "../types/Position";
 import { Size } from "../types/Size";
 import { TopicMapItem } from "../types/TopicMapItem";
@@ -63,3 +66,113 @@ export const updateItem = (
 
   return newItems;
 };
+
+export const getAllCells = (
+  gridWidth: number,
+  gridHeight: number,
+  gapSize: number,
+  gridIndicatorSize: number,
+): Array<Cell> => {
+  const cells: Array<Cell> = [];
+
+  const stepSize = gapSize + gridIndicatorSize;
+  let currentIndex = 0;
+
+  for (let y = 0; y < gridHeight; y += stepSize) {
+    for (let x = 0; x < gridWidth; x += stepSize) {
+      cells.push({
+        x,
+        y,
+        index: currentIndex,
+      });
+
+      currentIndex += 1;
+    }
+  }
+
+  return cells;
+};
+
+export const cellIsOccupiedByElement = (
+  elementPosition: Position,
+  elementSize: Size,
+  cellPosition: Position,
+): boolean =>
+  cellPosition.x >= elementPosition.x &&
+  cellPosition.x <= elementPosition.x + elementSize.width &&
+  cellPosition.y >= elementPosition.y &&
+  cellPosition.y <= elementPosition.y + elementSize.height;
+
+export const findCellsElementOccupies = (
+  { id, type, position, size }: Element,
+  gridWidth: number,
+  gridHeight: number,
+  gapSize: number,
+  gridIndicatorSize: number,
+): Array<OccupiedCell> => {
+  const allCells = getAllCells(
+    gridWidth,
+    gridHeight,
+    gapSize,
+    gridIndicatorSize,
+  );
+
+  const occupiedCells = allCells
+    .filter(cell => cellIsOccupiedByElement(position, size, cell))
+    .map(({ x, y, index }) => ({
+      occupiedById: id,
+      occupiedByType: type,
+      x,
+      y,
+      index,
+    }));
+
+  return occupiedCells;
+};
+
+export const findOccupiedCells = (
+  elements: Array<Element>,
+  gridWidth: number,
+  gridHeight: number,
+  gapSize: number,
+  gridIndicatorSize: number,
+): Array<OccupiedCell> => {
+  const occupiedCells: Array<OccupiedCell> = [];
+
+  // eslint-disable-next-line no-restricted-syntax
+  for (const element of elements) {
+    occupiedCells.push(
+      ...findCellsElementOccupies(
+        element,
+        gridWidth,
+        gridHeight,
+        gapSize,
+        gridIndicatorSize,
+      ),
+    );
+  }
+
+  return occupiedCells;
+};
+
+export const scaleX = (xPercentage: number, gridWidth: number): number =>
+  (gridWidth * xPercentage) / 100;
+
+export const scaleY = (yPercentage: number, height: number): number =>
+  (height * yPercentage) / 100;
+
+export const mapTopicMapItemToElement = (
+  item: TopicMapItem,
+  gridSize: Size,
+): Element => ({
+  id: item.id,
+  type: "item",
+  position: {
+    x: scaleX(item.xPercentagePosition, gridSize.width),
+    y: scaleY(item.yPercentagePosition, gridSize.height),
+  },
+  size: {
+    width: scaleX(item.widthPercentage, gridSize.width),
+    height: scaleY(item.heightPercentage, gridSize.height),
+  },
+});

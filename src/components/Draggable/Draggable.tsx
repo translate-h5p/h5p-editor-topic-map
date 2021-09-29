@@ -1,12 +1,15 @@
 import * as React from "react";
+import { OccupiedCell } from "../../types/OccupiedCell";
 import { Position } from "../../types/Position";
 import { Size } from "../../types/Size";
-import { isMouseEvent, isReactMouseEvent } from "../../utils/event.utils";
+import { arraysHaveSomeOverlap } from "../../utils/array.utils";
 import {
-  calculateClosestValidSizeComponent,
   calculateClosestValidPositionComponent,
+  calculateClosestValidSizeComponent,
+  getPointerPositionFromEvent,
   scale,
 } from "../../utils/draggable.utils";
+import { findCellsElementOccupies } from "../../utils/grid.utils";
 import { ScaleHandle } from "../ScaleHandle/ScaleHandle";
 import styles from "./Draggable.module.scss";
 
@@ -17,6 +20,7 @@ const labelTexts = {
 };
 
 export type DraggableProps = {
+  id: string;
   initialXPosition: number;
   initialYPosition: number;
   updatePosition: (newPosition: Position) => void;
@@ -26,9 +30,11 @@ export type DraggableProps = {
   gapSize: number;
   gridIndicatorSize: number;
   gridSize: Size;
+  occupiedCells: Array<OccupiedCell>;
 };
 
 export const Draggable: React.FC<DraggableProps> = ({
+  id,
   initialXPosition,
   initialYPosition,
   updatePosition,
@@ -38,6 +44,7 @@ export const Draggable: React.FC<DraggableProps> = ({
   gapSize,
   gridIndicatorSize,
   gridSize,
+  occupiedCells,
 }) => {
   const [isDragging, setIsDragging] = React.useState(false);
   const [isSelected, setIsSelected] = React.useState(false);
@@ -74,6 +81,9 @@ export const Draggable: React.FC<DraggableProps> = ({
       height,
     ),
   });
+  const [previousPosition, setPreviousPosition] = React.useState<Position>({
+    ...position,
+  });
 
   React.useEffect(
     () =>
@@ -101,35 +111,33 @@ export const Draggable: React.FC<DraggableProps> = ({
     ],
   );
 
-  React.useEffect(
-    () =>
-      setPosition({
-        x: calculateClosestValidPositionComponent(
-          initialXPosition,
-          gapSize,
-          gridIndicatorSize,
-          gridSize.width,
-          width,
-        ),
-        y: calculateClosestValidPositionComponent(
-          initialYPosition,
-          gapSize,
-          gridIndicatorSize,
-          gridSize.height,
-          height,
-        ),
-      }),
-    [
-      gapSize,
-      gridIndicatorSize,
-      gridSize.height,
-      gridSize.width,
-      height,
-      initialXPosition,
-      initialYPosition,
-      width,
-    ],
-  );
+  React.useEffect(() => {
+    setPosition({
+      x: calculateClosestValidPositionComponent(
+        initialXPosition,
+        gapSize,
+        gridIndicatorSize,
+        gridSize.width,
+        width,
+      ),
+      y: calculateClosestValidPositionComponent(
+        initialYPosition,
+        gapSize,
+        gridIndicatorSize,
+        gridSize.height,
+        height,
+      ),
+    });
+  }, [
+    gapSize,
+    gridIndicatorSize,
+    gridSize.height,
+    gridSize.width,
+    height,
+    initialXPosition,
+    initialYPosition,
+    width,
+  ]);
 
   const elementRef = React.useRef<HTMLButtonElement>(null);
 
@@ -138,16 +146,7 @@ export const Draggable: React.FC<DraggableProps> = ({
       setIsDragging(true);
       setIsSelected(true);
 
-      let x: number;
-      let y: number;
-
-      if (isReactMouseEvent(event)) {
-        x = event.clientX;
-        y = event.clientY;
-      } else {
-        x = event.touches[0].clientX;
-        y = event.touches[0].clientY;
-      }
+      const { x, y } = getPointerPositionFromEvent(event);
 
       setPointerStartPosition({
         x: x - position.x,
@@ -185,6 +184,45 @@ export const Draggable: React.FC<DraggableProps> = ({
       ),
     [gapSize, gridIndicatorSize, gridSize.height, height],
   );
+
+  const positionIsFree = React.useCallback(
+    (newPosition: Position) => {
+      const cellsThisElementWillOccupy = findCellsElementOccupies(
+        {
+          id,
+          type: "item",
+          position: newPosition,
+          size: { width, height },
+        },
+        gridSize.width,
+        gridSize.height,
+        gapSize,
+        gridIndicatorSize,
+      );
+
+      const cellsOccupiedByOtherElements = occupiedCells.filter(
+        cell => cell.occupiedById !== id,
+      );
+
+      const posIsFree = !arraysHaveSomeOverlap(
+        cellsOccupiedByOtherElements,
+        cellsThisElementWillOccupy,
+      );
+
+      return posIsFree;
+    },
+    [
+      gapSize,
+      gridIndicatorSize,
+      gridSize.height,
+      gridSize.width,
+      height,
+      id,
+      occupiedCells,
+      width,
+    ],
+  );
+
   const stopDrag = React.useCallback(() => {
     const { x, y } = position;
 
@@ -196,9 +234,14 @@ export const Draggable: React.FC<DraggableProps> = ({
         closestValidXPosition,
         closestValidYPosition,
       );
-      setPosition(newPosition);
 
-      updatePosition(newPosition);
+      if (positionIsFree(newPosition)) {
+        setPosition(newPosition);
+        updatePosition(newPosition);
+        setPreviousPosition(newPosition);
+      } else {
+        setPosition(previousPosition);
+      }
     }
 
     setPointerStartPosition(null);
@@ -208,7 +251,9 @@ export const Draggable: React.FC<DraggableProps> = ({
     getClosestValidXPosition,
     getClosestValidYPosition,
     getNewPosition,
+    positionIsFree,
     updatePosition,
+    previousPosition,
   ]);
 
   const drag = React.useCallback(
@@ -217,18 +262,11 @@ export const Draggable: React.FC<DraggableProps> = ({
         return;
       }
 
-      let pos: Position;
-      if (isMouseEvent(event)) {
-        const { clientX, clientY } = event;
-        pos = { x: clientX, y: clientY };
-      } else {
-        const { clientX, clientY } = event.touches[0];
-        pos = { x: clientX, y: clientY };
-      }
+      const { x, y } = getPointerPositionFromEvent(event);
 
       const newPosition = getNewPosition(
-        pos.x - pointerStartPosition.x,
-        pos.y - pointerStartPosition.y,
+        x - pointerStartPosition.x,
+        y - pointerStartPosition.y,
       );
 
       setPosition(newPosition);

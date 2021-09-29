@@ -1,5 +1,5 @@
 import * as React from "react";
-import { isReactMouseEvent } from "../../utils/event.utils";
+import { getPointerPositionFromEvent } from "../../utils/draggable.utils";
 import { capitalize } from "../../utils/string.utils";
 import styles from "./ScaleHandle.module.scss";
 
@@ -46,11 +46,9 @@ export const ScaleHandle: React.FC<ScaleHandleProps> = ({
       }
 
       event.stopPropagation();
-      const pointerX = isReactMouseEvent(event)
-        ? event.clientX
-        : event.touches[0].clientX;
 
-      onScale(pointerX);
+      const { x } = getPointerPositionFromEvent(event);
+      onScale(x);
     },
     [isDragging, onScale],
   );
@@ -61,11 +59,10 @@ export const ScaleHandle: React.FC<ScaleHandleProps> = ({
         return;
       }
 
-      const pointerY = isReactMouseEvent(event)
-        ? event.clientY
-        : event.touches[0].clientY;
+      event.stopPropagation();
 
-      onScale(pointerY);
+      const { y } = getPointerPositionFromEvent(event);
+      onScale(y);
     },
     [isDragging, onScale],
   );

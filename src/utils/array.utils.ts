@@ -1,3 +1,6 @@
+import intersectionBy from "lodash.intersectionby";
+import { OccupiedCell } from "../types/OccupiedCell";
+
 export const findClosest = (
   value: number,
   arr: Array<number> | ReadonlyArray<number>,
@@ -22,4 +25,11 @@ export const findClosest = (
   }
 
   return closestNumber;
+};
+
+export const arraysHaveSomeOverlap = (
+  arr1: Array<OccupiedCell>,
+  arr2: Array<OccupiedCell>,
+): boolean => {
+  return intersectionBy(arr1, arr2, "index").length > 0;
 };

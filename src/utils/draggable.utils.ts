@@ -1,3 +1,6 @@
+import React from "react";
+import { Position } from "../types/Position";
+import { isMouseEvent } from "./event.utils";
 import { clamp } from "./number.utils";
 
 export const calculateClosestValidSizeComponent = (
@@ -75,4 +78,19 @@ export const scale = (
   newSize = currentSize + difference;
 
   return [newSize, newPosition];
+};
+
+export const getPointerPositionFromEvent = (
+  event: MouseEvent | TouchEvent | React.MouseEvent | React.TouchEvent,
+): Position => {
+  let pos: Position;
+  if (isMouseEvent(event)) {
+    const { clientX, clientY } = event;
+    pos = { x: clientX, y: clientY };
+  } else {
+    const { clientX, clientY } = event.touches[0];
+    pos = { x: clientX, y: clientY };
+  }
+
+  return pos;
 };

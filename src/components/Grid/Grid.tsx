@@ -5,7 +5,16 @@ import { Draggable } from "../Draggable/Draggable";
 import { Size } from "../../types/Size";
 import { TopicMapItem } from "../../types/TopicMapItem";
 import { Position } from "../../types/Position";
-import { resizeItems, updateItem } from "../../utils/grid.utils";
+import {
+  findOccupiedCells,
+  mapTopicMapItemToElement,
+  resizeItems,
+  scaleX,
+  scaleY,
+  updateItem,
+} from "../../utils/grid.utils";
+import { OccupiedCell } from "../../types/OccupiedCell";
+import { Element } from "../../types/Element";
 
 export type GridProps = {
   numberOfColumns: number;
@@ -26,6 +35,9 @@ export const Grid: React.FC<GridProps> = ({
   const [size, setSize] = React.useState<Size | null>();
   const [hasRendered, setHasRendered] = React.useState<boolean>(false);
   const [items, setItems] = React.useState<Array<TopicMapItem>>(initialItems);
+  const [occupiedCells, setOccupiedCells] = React.useState<Array<OccupiedCell>>(
+    [],
+  );
 
   const elementRef = React.useRef<HTMLDivElement>(null);
 
@@ -73,27 +85,6 @@ export const Grid: React.FC<GridProps> = ({
     elementRef.current,
   ]);
 
-  const scaleX = React.useCallback(
-    (xPercentage: number) => {
-      if (!size?.width) {
-        throw new Error("Grid has no size.");
-      }
-
-      return (size.width * xPercentage) / 100;
-    },
-    [size?.width],
-  );
-
-  const scaleY = React.useCallback(
-    (yPercentage: number) => {
-      if (!size?.height) {
-        throw new Error("Grid has no size.");
-      }
-      return (size.height * yPercentage) / 100;
-    },
-    [size?.height],
-  );
-
   const updateItemPosition = React.useCallback(
     (updatedItem: TopicMapItem, newPosition: Position) => {
       if (!size) {
@@ -106,8 +97,24 @@ export const Grid: React.FC<GridProps> = ({
 
       updateItems(newItems);
       setItems(newItems);
+
+      const elements: Array<Element> = items.map(item =>
+        mapTopicMapItemToElement(item, size),
+      );
+
+      const newOccupiedCells = findOccupiedCells(
+        elements,
+        size.width,
+        size.height,
+        gapSize,
+        gridIndicatorSize,
+      );
+
+      // console.log({ elements, newOccupiedCells });
+
+      setOccupiedCells(newOccupiedCells);
     },
-    [items, size, updateItems],
+    [gapSize, gridIndicatorSize, items, size, updateItems],
   );
 
   const updateItemSize = React.useCallback(
@@ -122,8 +129,18 @@ export const Grid: React.FC<GridProps> = ({
 
       updateItems(newItems);
       setItems(newItems);
+
+      setOccupiedCells(
+        findOccupiedCells(
+          items.map(item => mapTopicMapItemToElement(item, size)),
+          size.width,
+          size.height,
+          gapSize,
+          gridIndicatorSize,
+        ),
+      );
     },
-    [items, size, updateItems],
+    [gapSize, gridIndicatorSize, items, size, updateItems],
   );
 
   const renderChildren = React.useCallback(() => {
@@ -134,15 +151,17 @@ export const Grid: React.FC<GridProps> = ({
     return items.map(item => (
       <Draggable
         key={item.id}
-        initialXPosition={scaleX(item.xPercentagePosition)}
-        initialYPosition={scaleY(item.yPercentagePosition)}
+        id={item.id}
+        initialXPosition={scaleX(item.xPercentagePosition, size.width)}
+        initialYPosition={scaleY(item.yPercentagePosition, size.height)}
         updatePosition={newPosition => updateItemPosition(item, newPosition)}
-        initialWidth={Math.abs(scaleX(item.widthPercentage))}
-        initialHeight={Math.abs(scaleY(item.heightPercentage))}
+        initialWidth={Math.abs(scaleX(item.widthPercentage, size.width))}
+        initialHeight={Math.abs(scaleY(item.heightPercentage, size.height))}
         updateSize={newSize => updateItemSize(item, newSize)}
         gapSize={gapSize}
         gridIndicatorSize={gridIndicatorSize}
         gridSize={size}
+        occupiedCells={occupiedCells}
       />
     ));
   }, [
@@ -150,8 +169,7 @@ export const Grid: React.FC<GridProps> = ({
     gridIndicatorSize,
     size,
     items,
-    scaleX,
-    scaleY,
+    occupiedCells,
     updateItemPosition,
     updateItemSize,
   ]);
@@ -197,6 +215,22 @@ export const Grid: React.FC<GridProps> = ({
     // but still affects the grid indicator size
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [numberOfColumns, numberOfRows]);
+
+  React.useEffect(() => {
+    if (!size) {
+      return;
+    }
+
+    setOccupiedCells(
+      findOccupiedCells(
+        items.map(item => mapTopicMapItemToElement(item, size)),
+        size.width,
+        size.height,
+        gapSize,
+        gridIndicatorSize,
+      ),
+    );
+  }, [gapSize, gridIndicatorSize, items, size]);
 
   return (
     <div
