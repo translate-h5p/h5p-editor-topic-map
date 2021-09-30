@@ -30,6 +30,7 @@ export type DraggableProps = {
   gridIndicatorSize: number;
   gridSize: Size;
   occupiedCells: Array<OccupiedCell>;
+  onMouseDown: (id: string) => void;
 };
 
 export const Draggable: React.FC<DraggableProps> = ({
@@ -44,6 +45,7 @@ export const Draggable: React.FC<DraggableProps> = ({
   gridIndicatorSize,
   gridSize,
   occupiedCells,
+  onMouseDown,
 }) => {
   const [isDragging, setIsDragging] = React.useState(false);
   const [isSelected, setIsSelected] = React.useState(false);
@@ -151,13 +153,11 @@ export const Draggable: React.FC<DraggableProps> = ({
         x: x - position.x,
         y: y - position.y,
       });
-    },
-    [position],
-  );
 
-  const getNewPosition = React.useCallback(
-    (x: number, y: number) => ({ x, y }),
-    [],
+      onMouseDown(id);
+      console.log("start drag end");
+    },
+    [id, onMouseDown, position.x, position.y],
   );
 
   const getClosestValidXPosition = React.useCallback(
@@ -200,16 +200,17 @@ export const Draggable: React.FC<DraggableProps> = ({
   );
 
   const stopDrag = React.useCallback(() => {
+    console.log("stop drag");
     const { x, y } = position;
 
     const closestValidXPosition = getClosestValidXPosition(x);
     const closestValidYPosition = getClosestValidYPosition(y);
 
     if (closestValidXPosition != null && closestValidYPosition != null) {
-      const newPosition = getNewPosition(
-        closestValidXPosition,
-        closestValidYPosition,
-      );
+      const newPosition: Position = {
+        x: closestValidXPosition,
+        y: closestValidYPosition,
+      };
 
       if (checkIfPositionIsFree(newPosition)) {
         setPosition(newPosition);
@@ -226,7 +227,6 @@ export const Draggable: React.FC<DraggableProps> = ({
     position,
     getClosestValidXPosition,
     getClosestValidYPosition,
-    getNewPosition,
     checkIfPositionIsFree,
     updatePosition,
     previousPosition,
@@ -240,14 +240,14 @@ export const Draggable: React.FC<DraggableProps> = ({
 
       const { x, y } = getPointerPositionFromEvent(event);
 
-      const newPosition = getNewPosition(
-        x - pointerStartPosition.x,
-        y - pointerStartPosition.y,
-      );
+      const newPosition: Position = {
+        x: x - pointerStartPosition.x,
+        y: y - pointerStartPosition.y,
+      };
 
       setPosition(newPosition);
     },
-    [getNewPosition, isDragging, pointerStartPosition],
+    [isDragging, pointerStartPosition],
   );
 
   const preventDefault = React.useCallback((event: React.DragEvent) => {
@@ -403,7 +403,6 @@ export const Draggable: React.FC<DraggableProps> = ({
         transform: `translateX(${position.x}px) translateY(${position.y}px)`,
         width,
         height,
-        zIndex: isDragging ? 1 : undefined,
       }}
       aria-label={labelText}
       onMouseUp={stopDrag}

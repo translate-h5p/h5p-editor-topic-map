@@ -242,6 +242,19 @@ export const Grid: React.FC<GridProps> = ({
     [gapSize, gridIndicatorSize, items, size, updateItems],
   );
 
+  const onDraggableClick = React.useCallback(
+    (itemId: string) => {
+      const clickedItem = items.find(item => item.id === itemId);
+
+      if (!clickedItem) {
+        throw new Error(`Item with id ${itemId} not found`);
+      }
+
+      setItems([...items.filter(item => item.id !== itemId), clickedItem]);
+    },
+    [items],
+  );
+
   const renderChildren = React.useCallback(() => {
     if (gapSize == null || gridIndicatorSize == null || size == null) {
       return null;
@@ -261,6 +274,7 @@ export const Grid: React.FC<GridProps> = ({
         gridIndicatorSize={gridIndicatorSize}
         gridSize={size}
         occupiedCells={occupiedCells}
+        onMouseDown={onDraggableClick}
       />
     ));
   }, [
@@ -269,6 +283,7 @@ export const Grid: React.FC<GridProps> = ({
     size,
     items,
     occupiedCells,
+    onDraggableClick,
     updateItemPosition,
     updateItemSize,
   ]);
