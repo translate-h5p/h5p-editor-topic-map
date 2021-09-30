@@ -163,7 +163,7 @@ export const Grid: React.FC<GridProps> = ({
     ],
   );
 
-  const activeHoverOnGrid = React.useCallback(() => {
+  const activeHoverOnGrid = React.useMemo(() => {
     switch (activeTool) {
       case ToolbarButtonType.CreateBox:
         return true;
@@ -189,13 +189,20 @@ export const Grid: React.FC<GridProps> = ({
             }}
             onMouseDown={createBoxStart}
             onMouseUp={createBoxEnd}
-            active={activeHoverOnGrid()}
+            active={activeHoverOnGrid}
           />
         )),
     // We need to update the value of grid indicators each time `activeTool` or `items`
     // are changed because they affect how the `gridIndicator` click events work.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [numberOfColumns, numberOfRows, activeTool, items, boxStartPosition],
+    [
+      numberOfColumns,
+      numberOfRows,
+      activeTool,
+      items,
+      boxStartPosition,
+      activeHoverOnGrid,
+    ],
   );
 
   const updateItemPosition = React.useCallback(

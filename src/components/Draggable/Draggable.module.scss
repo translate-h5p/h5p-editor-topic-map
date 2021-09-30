@@ -12,6 +12,7 @@
   width: 200px;
   will-change: transform;
   color: black;
+  z-index: 1;
 
   &[aria-grabbed="true"] {
     transition: none;
