@@ -16,7 +16,7 @@ import {
 } from "../../utils/grid.utils";
 import { OccupiedCell } from "../../types/OccupiedCell";
 import { Element } from "../../types/Element";
-import { ToolbarButtons } from "../Toolbar/Toolbar";
+import { ToolbarButtonType } from "../Toolbar/Toolbar";
 
 export type GridProps = {
   numberOfColumns: number;
@@ -25,7 +25,7 @@ export type GridProps = {
   updateItems: (items: Array<TopicMapItem>) => void;
   gapSize: number;
   children?: never;
-  activeTool: ToolbarButtons | null;
+  activeTool: ToolbarButtonType | null;
 };
 
 export const Grid: React.FC<GridProps> = ({
@@ -81,7 +81,7 @@ export const Grid: React.FC<GridProps> = ({
 
   const createBoxEnd = React.useCallback(
     (indicatorIndex: number) => {
-      if (activeTool === ToolbarButtons.CreateBox) {
+      if (activeTool === ToolbarButtonType.CreateBox) {
         if (boxStartPosition == null) {
           throw new Error("Box start position is not defined.");
         }
@@ -163,6 +163,17 @@ export const Grid: React.FC<GridProps> = ({
     ],
   );
 
+  const activeHoverOnGrid = React.useMemo(() => {
+    switch (activeTool) {
+      case ToolbarButtonType.CreateBox:
+        return true;
+      case ToolbarButtonType.CreateArrow:
+        return true;
+      default:
+        return false;
+    }
+  }, [activeTool]);
+
   const gridIndicators = React.useMemo(
     () =>
       Array(numberOfColumns * numberOfRows)
@@ -178,12 +189,20 @@ export const Grid: React.FC<GridProps> = ({
             }}
             onMouseDown={createBoxStart}
             onMouseUp={createBoxEnd}
+            active={activeHoverOnGrid}
           />
         )),
     // We need to update the value of grid indicators each time `activeTool` or `items`
     // are changed because they affect how the `gridIndicator` click events work.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [numberOfColumns, numberOfRows, activeTool, items, boxStartPosition],
+    [
+      numberOfColumns,
+      numberOfRows,
+      activeTool,
+      items,
+      boxStartPosition,
+      activeHoverOnGrid,
+    ],
   );
 
   const updateItemPosition = React.useCallback(

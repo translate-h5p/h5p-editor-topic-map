@@ -1,7 +1,7 @@
 import * as React from "react";
 import styles from "./MapEditorView.module.scss";
 import { TopicMapItem } from "../../types/TopicMapItem";
-import { Toolbar, ToolbarButtons } from "../Toolbar/Toolbar";
+import { Toolbar, ToolbarButtonType } from "../Toolbar/Toolbar";
 import { Grid } from "../Grid/Grid";
 
 export type MapEditorViewProps = {
@@ -23,14 +23,14 @@ export const MapEditorView: React.FC<MapEditorViewProps> = ({
   const rows = numberOfRows ?? 12;
   const defaultGapSize = 8;
 
-  const [activeTool, setActiveTool] = React.useState<ToolbarButtons | null>(
+  const [activeTool, setActiveTool] = React.useState<ToolbarButtonType | null>(
     null,
   );
   const [gridItems, setGridItems] = React.useState<Array<TopicMapItem>>(
     initialGridItems ?? [],
   );
 
-  const setActive = (newValue: ToolbarButtons | null): void => {
+  const setActive = (newValue: ToolbarButtonType | null): void => {
     setActiveTool(newValue);
   };
 
