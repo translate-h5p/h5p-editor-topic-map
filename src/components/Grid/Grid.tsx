@@ -45,6 +45,10 @@ export const Grid: React.FC<GridProps> = ({
   const [boxStartPosition, setBoxStartPosition] = React.useState<number | null>(
     null,
   );
+  const [currentItemsLength, setCurrentItemsLength] = React.useState<number>(
+    items.length,
+  );
+  const [isDragging, setIsDragging] = React.useState<boolean>(false);
 
   const elementRef = React.useRef<HTMLDivElement>(null);
 
@@ -75,13 +79,53 @@ export const Grid: React.FC<GridProps> = ({
     elementRef.current,
   ]);
 
-  const createBoxStart = React.useCallback((index: number) => {
-    setBoxStartPosition(index);
-  }, []);
+  const updateItemSize = React.useCallback(
+    (updatedItem: TopicMapItem, newSize: Size) => {
+      if (!size) {
+        throw new Error("Grid has no size.");
+      }
 
-  const createBoxEnd = React.useCallback(
-    (indicatorIndex: number) => {
+      const newItems = updateItem(items, updatedItem, size.width, size.height, {
+        newSize,
+      });
+
+      updateItems(newItems);
+      setItems(newItems);
+
+      setOccupiedCells(
+        findOccupiedCells(
+          items.map(item => mapTopicMapItemToElement(item, size)),
+          size.width,
+          size.height,
+          gapSize,
+          gridIndicatorSize,
+        ),
+      );
+    },
+    [gapSize, gridIndicatorSize, items, size, updateItems],
+  );
+
+  const createBoxStart = React.useCallback(
+    (index: number) => {
       if (activeTool === ToolbarButtonType.CreateBox) {
+        setBoxStartPosition(index);
+        setIsDragging(true);
+      }
+    },
+    [activeTool],
+  );
+
+  const createBoxEnd = React.useCallback(() => {
+    if (activeTool === ToolbarButtonType.CreateBox) {
+      setIsDragging(false);
+      setBoxStartPosition(null);
+      setCurrentItemsLength(items.length);
+    }
+  }, [activeTool, items]);
+
+  const createBoxEnter = React.useCallback(
+    (indicatorIndex: number) => {
+      if (activeTool === ToolbarButtonType.CreateBox && isDragging) {
         if (boxStartPosition == null) {
           throw new Error("Box start position is not defined.");
         }
@@ -115,7 +159,12 @@ export const Grid: React.FC<GridProps> = ({
         const widthPercentage = xEndPercentagePosition - xPercentagePosition;
 
         // Create box
-        const id = (items.length + 1).toString(); // TODO: Generate unique id
+        const id = (currentItemsLength + 1).toString(); // TODO: Generate unique id
+        
+        const alreadyAdded =
+          items.length !== currentItemsLength
+            ? items[currentItemsLength].id === id
+            : false;
 
         const newItem = {
           id,
@@ -141,11 +190,18 @@ export const Grid: React.FC<GridProps> = ({
           occupiedCells,
         );
 
-        if (posIsFree) {
+        if (posIsFree && !alreadyAdded) {
           const newItems = [...items, newItem];
 
           updateItems(newItems);
           setItems(newItems);
+        }
+
+        if (posIsFree && alreadyAdded) {
+          updateItemSize(items[currentItemsLength], {
+            width: scaleX(widthPercentage, size.width),
+            height: scaleY(heightPercentage, size.height),
+          });
         }
       }
     },
@@ -160,6 +216,9 @@ export const Grid: React.FC<GridProps> = ({
       gridIndicatorSize,
       occupiedCells,
       updateItems,
+      currentItemsLength,
+      isDragging,
+      updateItemSize,
     ],
   );
 
@@ -188,7 +247,7 @@ export const Grid: React.FC<GridProps> = ({
               console.info("Click grid indicator");
             }}
             onMouseDown={createBoxStart}
-            onMouseUp={createBoxEnd}
+            onMouseEnter={createBoxEnter}
             active={activeHoverOnGrid}
           />
         )),
@@ -202,6 +261,8 @@ export const Grid: React.FC<GridProps> = ({
       items,
       boxStartPosition,
       activeHoverOnGrid,
+      currentItemsLength,
+      isDragging,
     ],
   );
 
@@ -231,32 +292,6 @@ export const Grid: React.FC<GridProps> = ({
       );
 
       setOccupiedCells(newOccupiedCells);
-    },
-    [gapSize, gridIndicatorSize, items, size, updateItems],
-  );
-
-  const updateItemSize = React.useCallback(
-    (updatedItem: TopicMapItem, newSize: Size) => {
-      if (!size) {
-        throw new Error("Grid has no size.");
-      }
-
-      const newItems = updateItem(items, updatedItem, size.width, size.height, {
-        newSize,
-      });
-
-      updateItems(newItems);
-      setItems(newItems);
-
-      setOccupiedCells(
-        findOccupiedCells(
-          items.map(item => mapTopicMapItemToElement(item, size)),
-          size.width,
-          size.height,
-          gapSize,
-          gridIndicatorSize,
-        ),
-      );
     },
     [gapSize, gridIndicatorSize, items, size, updateItems],
   );
@@ -361,6 +396,7 @@ export const Grid: React.FC<GridProps> = ({
         gridTemplateColumns: `repeat(${numberOfColumns}, 1fr)`,
         gridTemplateRows: `repeat(${numberOfRows}, 1fr)`,
       }}
+      onClick={isDragging ? createBoxEnd : undefined}
     >
       {renderChildren()}
       {gridIndicators}
