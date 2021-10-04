@@ -51,53 +51,6 @@ export const calculateClosestValidPositionComponent = (
   return clamp(minimum, closestValue, maximum);
 };
 
-/**
- * @returns {[number, number]} [the new size (width or height), the new position (x or y)]
- */
-export const scale = (
-  attemptedPosition: number,
-  negativeSideWasMoved: boolean,
-  currentSize: number,
-  currentPosition: number,
-  gapSize: number,
-  gridIndicatorSize: number,
-): [number, number] => {
-  let newSize: number = currentSize;
-  let newPosition: number = currentPosition;
-
-  let difference;
-
-  const scaleDown =
-    attemptedPosition <
-    currentPosition + (negativeSideWasMoved ? 0 : currentSize);
-
-  if (negativeSideWasMoved) {
-    // If the negative side (left or top) was moved,
-    // we need to set a new position in addition
-    // to changing the size.
-    newPosition = attemptedPosition;
-
-    difference = currentPosition - attemptedPosition;
-  } else {
-    difference = attemptedPosition - currentPosition;
-    // -      (scaleDown ? 2 * gridIndicatorSize + gapSize : gridIndicatorSize);
-  }
-
-  newSize = currentSize + difference;
-
-  console.log("scale", {
-    difference,
-    negativeSideWasMoved,
-    attemptedPosition,
-    currentPosition,
-    newPosition,
-    currentSize,
-    newSize,
-  });
-
-  return [newSize, newPosition];
-};
-
 export const getPointerPositionFromEvent = (
   event: MouseEvent | TouchEvent | React.MouseEvent | React.TouchEvent,
 ): Position => {

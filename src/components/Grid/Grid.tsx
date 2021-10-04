@@ -49,6 +49,10 @@ export const Grid: React.FC<GridProps> = ({
     items.length,
   );
   const [isDragging, setIsDragging] = React.useState<boolean>(false);
+  const [resizedItemId, setResizedItemId] = React.useState<string | null>();
+  const [resizeDirectionLock, setResizeDirectionLock] = React.useState<
+    "horizontal" | "vertical" | null
+  >();
 
   const elementRef = React.useRef<HTMLDivElement>(null);
 
@@ -123,9 +127,18 @@ export const Grid: React.FC<GridProps> = ({
     }
   }, [activeTool, items]);
 
+  const resizeBoxEnd = React.useCallback(() => {
+    setResizedItemId(null);
+    setBoxStartPosition(null);
+    setResizeDirectionLock(null);
+  }, []);
+
   const createBoxEnter = React.useCallback(
     (indicatorIndex: number) => {
-      if (activeTool === ToolbarButtonType.CreateBox && isDragging) {
+      if (
+        (activeTool === ToolbarButtonType.CreateBox && isDragging) ||
+        resizedItemId != null
+      ) {
         if (boxStartPosition == null) {
           throw new Error("Box start position is not defined.");
         }
@@ -158,10 +171,11 @@ export const Grid: React.FC<GridProps> = ({
 
         const widthPercentage = xEndPercentagePosition - xPercentagePosition;
 
+        let alreadyAdded = false;
         // Create box
-        const id = (currentItemsLength + 1).toString(); // TODO: Generate unique id
+        const id = resizedItemId ?? (currentItemsLength + 1).toString(); // TODO: Generate unique id
 
-        const alreadyAdded =
+        alreadyAdded =
           items.length !== currentItemsLength
             ? items[currentItemsLength].id === id
             : false;
@@ -191,7 +205,34 @@ export const Grid: React.FC<GridProps> = ({
         );
 
         if (posIsFree && !alreadyAdded) {
-          const newItems = [...items, newItem];
+          const newItems =
+            resizedItemId != null
+              ? [
+                  ...items.map(item => {
+                    const itemWasFound = item.id === resizedItemId;
+                    if (itemWasFound) {
+                      switch (resizeDirectionLock) {
+                        case "horizontal":
+                          return {
+                            ...newItem,
+                            widthPercentage: item.widthPercentage,
+                            xPercentagePosition: item.xPercentagePosition,
+                          };
+                        case "vertical":
+                          return {
+                            ...newItem,
+                            heightPercentage: item.heightPercentage,
+                            yPercentagePosition: item.yPercentagePosition,
+                          };
+                        case null:
+                          return newItem;
+                      }
+                    }
+
+                    return item;
+                  }),
+                ]
+              : [...items, newItem];
 
           updateItems(newItems);
           setItems(newItems);
@@ -207,17 +248,19 @@ export const Grid: React.FC<GridProps> = ({
     },
     [
       activeTool,
+      isDragging,
+      resizedItemId,
       boxStartPosition,
       size,
       numberOfColumns,
       numberOfRows,
+      currentItemsLength,
       items,
       gapSize,
       gridIndicatorSize,
       occupiedCells,
       updateItems,
-      currentItemsLength,
-      isDragging,
+      resizeDirectionLock,
       updateItemSize,
     ],
   );
@@ -296,7 +339,7 @@ export const Grid: React.FC<GridProps> = ({
     [gapSize, gridIndicatorSize, items, size, updateItems],
   );
 
-  const renderChildren = React.useCallback(() => {
+  const children = React.useMemo(() => {
     if (gapSize == null || gridIndicatorSize == null || size == null) {
       return null;
     }
@@ -310,12 +353,22 @@ export const Grid: React.FC<GridProps> = ({
         updatePosition={newPosition => updateItemPosition(item, newPosition)}
         initialWidth={Math.abs(scaleX(item.widthPercentage, size.width))}
         initialHeight={Math.abs(scaleY(item.heightPercentage, size.height))}
-        updateSize={newSize => updateItemSize(item, newSize)}
         gapSize={gapSize}
         gridIndicatorSize={gridIndicatorSize}
         gridSize={size}
         occupiedCells={occupiedCells}
         isPreview={isDragging}
+        startResize={directionLock => {
+          const x = Math.floor(
+            (item.xPercentagePosition / 100) * numberOfColumns,
+          );
+          const y = Math.floor((item.yPercentagePosition / 100) * numberOfRows);
+          const cellIndex = x + y * numberOfColumns;
+
+          setBoxStartPosition(cellIndex);
+          setResizedItemId(item.id);
+          setResizeDirectionLock(directionLock);
+        }}
       />
     ));
   }, [
@@ -324,9 +377,10 @@ export const Grid: React.FC<GridProps> = ({
     size,
     items,
     occupiedCells,
-    updateItemPosition,
-    updateItemSize,
     isDragging,
+    updateItemPosition,
+    numberOfColumns,
+    numberOfRows,
   ]);
 
   const resize = React.useCallback(() => {
@@ -400,9 +454,12 @@ export const Grid: React.FC<GridProps> = ({
         gridTemplateRows: `repeat(${numberOfRows}, 1fr)`,
         cursor: isDragging ? "pointer" : "auto",
       }}
-      onMouseUp={createBoxEnd}
+      onMouseUp={() => {
+        createBoxEnd();
+        resizeBoxEnd();
+      }}
     >
-      {renderChildren()}
+      {children}
       {gridIndicators}
     </div>
   );

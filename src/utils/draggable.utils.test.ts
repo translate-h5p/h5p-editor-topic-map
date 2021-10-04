@@ -3,9 +3,7 @@ import { findClosest } from "./array.utils";
 import {
   calculateClosestValidSizeComponent,
   calculateClosestValidPositionComponent,
-  scale,
 } from "./draggable.utils";
-import { coordinateSizeToPx, coordinatePosToPx } from "./grid.utils";
 
 describe("draggable utils", () => {
   describe(calculateClosestValidSizeComponent.name, () => {
@@ -221,114 +219,6 @@ describe("draggable utils", () => {
       );
 
       expect(actualXPos).toBe(expectedXPos);
-    });
-  });
-
-  describe(scale.name, () => {
-    /*
-      We have placed an element in (15, 15) with the dimensions w: 25, h: 25.
-      Possible widths are 10, 25, 40, and 55.
-      
-      The grid looks like this:
-      ([ ] = grid indicator)
-      ([x] = our 2*2 element)
-
-          0  15  30  45
-       0 [ ] [ ] [ ] [ ]
-      15 [ ] [x] [x] [ ]
-      30 [ ] [x] [x] [ ]
-      45 [ ] [ ] [ ] [ ]
-    */
-
-    const gapSize = 5;
-    const gridIndicatorSize = 10;
-
-    const pos = (coordinate: number): number =>
-      coordinatePosToPx(coordinate, gapSize, gridIndicatorSize);
-    const size = (coordinate: number): number =>
-      coordinateSizeToPx(coordinate, gapSize, gridIndicatorSize);
-
-    const width = size(2);
-    const xPosition = pos(1);
-
-    it("should add the difference in size when moving the right edge to the right", () => {
-      const attemptedPosition = size(3);
-      const negativeSideWasMoved = false;
-
-      const expectedWidth = size(3);
-      const expectedXPosition = pos(1);
-
-      const [actualWidth, actualXPosition] = scale(
-        attemptedPosition,
-        negativeSideWasMoved,
-        width,
-        xPosition,
-        gapSize,
-        gridIndicatorSize,
-      );
-
-      expect(actualWidth).toBe(expectedWidth);
-      expect(actualXPosition).toBe(expectedXPosition);
-    });
-
-    it("should add the difference in size, and move the position to the left when scaling to the left", () => {
-      const attemptedPosition = pos(0);
-      const negativeSideWasMoved = true;
-
-      const expectedWidth = size(3);
-      const expectedXPosition = pos(0);
-
-      const [actualWidth, actualXPosition] = scale(
-        attemptedPosition,
-        negativeSideWasMoved,
-        width,
-        xPosition,
-        gapSize,
-        gridIndicatorSize,
-      );
-
-      expect(actualWidth).toBe(expectedWidth);
-      expect(actualXPosition).toBe(expectedXPosition);
-    });
-
-    it("should make the element smaller if we move the right edge to the left", () => {
-      const attemptedPosition = size(2);
-      const negativeSideWasMoved = false;
-
-      const expectedWidth = size(1);
-      const expectedXPosition = pos(1);
-
-      const [actualWidth, actualXPosition] = scale(
-        attemptedPosition,
-        negativeSideWasMoved,
-        width,
-        xPosition,
-        gapSize,
-        gridIndicatorSize,
-      );
-
-      expect(actualWidth).toBe(expectedWidth);
-      expect(actualXPosition).toBe(expectedXPosition);
-    });
-
-    it("should make the element smaller, and move the left edge to the right if we move the left edge to the right", () => {
-      const attemptedPosition = pos(2);
-      const negativeSideWasMoved = true;
-
-      const expectedWidth = size(1);
-      const expectedXPosition = pos(2);
-
-      const [actualWidth, actualXPosition] = scale(
-        attemptedPosition,
-        negativeSideWasMoved,
-        width,
-        xPosition,
-        gapSize,
-        gridIndicatorSize,
-      );
-
-      expect(actualWidth).toBe(expectedWidth);
-      expect(actualXPosition).toBe(expectedXPosition);
     });
   });
 });

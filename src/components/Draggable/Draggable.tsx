@@ -6,7 +6,6 @@ import {
   calculateClosestValidPositionComponent,
   calculateClosestValidSizeComponent,
   getPointerPositionFromEvent,
-  scale,
 } from "../../utils/draggable.utils";
 import { positionIsFree } from "../../utils/grid.utils";
 import { ScaleHandle } from "../ScaleHandle/ScaleHandle";
@@ -25,12 +24,12 @@ export type DraggableProps = {
   updatePosition: (newPosition: Position) => void;
   initialWidth: number;
   initialHeight: number;
-  updateSize: (newSize: Size) => void;
   gapSize: number;
   gridIndicatorSize: number;
   gridSize: Size;
   occupiedCells: Array<OccupiedCell>;
   isPreview: boolean;
+  startResize: (directionLock: "horizontal" | "vertical" | null) => void;
 };
 
 export const Draggable: React.FC<DraggableProps> = ({
@@ -40,12 +39,12 @@ export const Draggable: React.FC<DraggableProps> = ({
   updatePosition,
   initialWidth,
   initialHeight,
-  updateSize,
   gapSize,
   gridIndicatorSize,
   gridSize,
   occupiedCells,
   isPreview,
+  startResize,
 }) => {
   const [isDragging, setIsDragging] = React.useState(false);
   const [isSelected, setIsSelected] = React.useState(false);
@@ -85,6 +84,7 @@ export const Draggable: React.FC<DraggableProps> = ({
   const [previousPosition, setPreviousPosition] = React.useState<Position>({
     ...position,
   });
+  const [isResizing, setIsResizing] = React.useState<boolean>();
 
   // Update Draggable's size whenever the container's size changes
   React.useEffect(
@@ -280,115 +280,22 @@ export const Draggable: React.FC<DraggableProps> = ({
     };
   }, [drag]);
 
-  const scaleHorizontal = React.useCallback(
-    (pointerX: number, leftWasMoved: boolean) => {
-      const [newWidth, newXPosition] = scale(
-        pointerX,
-        leftWasMoved,
-        width,
-        position.x,
-        gapSize,
-        gridIndicatorSize,
-      );
-
-      setPosition({
-        ...position,
-        x: newXPosition,
-      });
-      setSize({ height, width: newWidth });
-    },
-    [gapSize, gridIndicatorSize, height, position, width],
-  );
-
-  const scaleVertical = React.useCallback(
-    (pointerY: number, topWasMoved: boolean) => {
-      const [newHeight, newYPosition] = scale(
-        pointerY,
-        topWasMoved,
-        height,
-        position.y,
-        gapSize,
-        gridIndicatorSize,
-      );
-
-      setPosition({
-        ...position,
-        y: newYPosition,
-      });
-      setSize({ width, height: newHeight });
-    },
-    [gapSize, gridIndicatorSize, height, position, width],
-  );
-
   const stopScaling = React.useCallback(
-    (scaledPosition: "top" | "bottom" | "left" | "right") => {
+    (
+      scaledPosition:
+        | "top"
+        | "bottom"
+        | "left"
+        | "right"
+        | "top-right"
+        | "bottom-right"
+        | "bottom-left"
+        | "top-left",
+    ) => {
       stopDrag();
-
-      const topWasMoved = scaledPosition === "top";
-      const bottomWasMoved = scaledPosition === "bottom";
-      const leftWasMoved = scaledPosition === "left";
-      const rightWasMoved = scaledPosition === "right";
-
-      const xWasChanged = leftWasMoved || rightWasMoved;
-      const yWasChanged = topWasMoved || bottomWasMoved;
-
-      let newX = position.x;
-      let newY = position.y;
-
-      let newWidth = width;
-      let newHeight = height;
-
-      let closestValidXPosition;
-      let xDifference;
-      if (xWasChanged) {
-        closestValidXPosition = getClosestValidYPosition(position.x);
-        xDifference = position.x - closestValidXPosition;
-
-        if (leftWasMoved) {
-          // If the upper side of the Draggable was moved,
-          // we need to set the new y position in addition
-          // to changing the height.
-          newX = position.x - xDifference;
-        }
-
-        newWidth = width + xDifference;
-      }
-
-      let closestValidYPosition;
-      let yDifference;
-      if (yWasChanged) {
-        closestValidYPosition = getClosestValidYPosition(position.y);
-        yDifference = position.y - closestValidYPosition;
-
-        if (topWasMoved) {
-          // If the upper side of the Draggable was moved,
-          // we need to set the new y position in addition
-          // to changing the height.
-          newY = position.y - yDifference;
-        }
-
-        newHeight = height + yDifference;
-      }
-
-      const newPosition = {
-        x: newX,
-        y: newY,
-      };
-
-      setPosition(newPosition);
-
-      setSize({ width: newWidth, height: newHeight });
-      updateSize({ width: newWidth, height: newHeight });
+      setIsResizing(false);
     },
-    [
-      getClosestValidYPosition,
-      height,
-      position.x,
-      position.y,
-      stopDrag,
-      updateSize,
-      width,
-    ],
+    [stopDrag],
   );
 
   return (
@@ -408,7 +315,7 @@ export const Draggable: React.FC<DraggableProps> = ({
         width,
         height,
         zIndex: isDragging ? 1 : undefined,
-        pointerEvents: isPreview ? "none" : undefined,
+        pointerEvents: isPreview || isResizing ? "none" : undefined,
       }}
       aria-label={labelText}
       onMouseUp={stopDrag}
@@ -416,26 +323,79 @@ export const Draggable: React.FC<DraggableProps> = ({
     >
       <ScaleHandle
         position="top"
-        onScale={newPosition => scaleVertical(newPosition, true)}
+        onScaleStart={() => {
+          setIsResizing(true);
+          startResize("horizontal");
+        }}
         onScaleStop={() => stopScaling("top")}
+        labelText={verticalScaleHandleLabelText}
+      />
+
+      <ScaleHandle
+        position="top-right"
+        onScaleStart={() => {
+          setIsResizing(true);
+          startResize(null);
+        }}
+        onScaleStop={() => stopScaling("top-right")}
         labelText={verticalScaleHandleLabelText}
       />
       <ScaleHandle
         position="right"
-        onScale={newPosition => scaleHorizontal(newPosition, false)}
+        onScaleStart={() => {
+          setIsResizing(true);
+          startResize("vertical");
+        }}
         onScaleStop={() => stopScaling("right")}
         labelText={horizontalScaleHandleLabelText}
       />
       <ScaleHandle
+        position="bottom-right"
+        onScaleStart={() => {
+          setIsResizing(true);
+          startResize(null);
+        }}
+        onScaleStop={() => stopScaling("bottom-right")}
+        labelText={horizontalScaleHandleLabelText}
+      />
+
+      <ScaleHandle
         position="bottom"
-        onScale={newPosition => scaleVertical(newPosition, false)}
+        onScaleStart={() => {
+          setIsResizing(true);
+          startResize("horizontal");
+        }}
         onScaleStop={() => stopScaling("bottom")}
         labelText={verticalScaleHandleLabelText}
       />
+
+      <ScaleHandle
+        position="bottom-left"
+        onScaleStart={() => {
+          setIsResizing(true);
+          startResize(null);
+        }}
+        onScaleStop={() => stopScaling("bottom-left")}
+        labelText={verticalScaleHandleLabelText}
+      />
+
       <ScaleHandle
         position="left"
-        onScale={newPosition => scaleHorizontal(newPosition, true)}
+        onScaleStart={() => {
+          setIsResizing(true);
+          startResize("vertical");
+        }}
         onScaleStop={() => stopScaling("left")}
+        labelText={horizontalScaleHandleLabelText}
+      />
+
+      <ScaleHandle
+        position="top-left"
+        onScaleStart={() => {
+          setIsResizing(true);
+          startResize(null);
+        }}
+        onScaleStop={() => stopScaling("top-left")}
         labelText={horizontalScaleHandleLabelText}
       />
     </button>

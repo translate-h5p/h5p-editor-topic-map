@@ -3,16 +3,17 @@
  */
 .gridIndicator {
   background-color: transparent;
-  border: 0.125rem dashed #dce2e7;
   border-radius: 0.5rem;
+  border: 0.125rem dashed #dce2e7;
   display: block;
+  height: 0;
+  opacity: 0.6;
   padding: calc(100% - 0.3em) 0 0 0;
+  position: relative;
   transition-duration: 0.4s; /* {1} */
   transition-property: background-color, border-color;
   transition-timing-function: ease-in-out;
   width: 100%;
-  height: 0;
-  opacity: 0.6;
 
   &.active {
     opacity: 1;
@@ -23,5 +24,14 @@
       border-color: #6999d9;
       transition-duration: 0.1s; /* {1} */
     }
+  }
+
+  &::before {
+    content: "";
+    height: 200%;
+    left: -50%;
+    position: absolute;
+    top: -50%;
+    width: 200%;
   }
 }
