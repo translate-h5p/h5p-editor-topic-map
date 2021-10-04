@@ -5,6 +5,7 @@ import {
   calculateClosestValidPositionComponent,
   scale,
 } from "./draggable.utils";
+import { coordinateSizeToPx, coordinatePosToPx } from "./grid.utils";
 
 describe("draggable utils", () => {
   describe(calculateClosestValidSizeComponent.name, () => {
@@ -223,93 +224,111 @@ describe("draggable utils", () => {
     });
   });
 
-  // describe(scale.name, () => {
-  //   /*
-  //     We have placed a box in (1, 1) with the dimensions w: 2, h: 2.
+  describe(scale.name, () => {
+    /*
+      We have placed an element in (15, 15) with the dimensions w: 25, h: 25.
+      Possible widths are 10, 25, 40, and 55.
+      
+      The grid looks like this:
+      ([ ] = grid indicator)
+      ([x] = our 2*2 element)
 
-  //     The grid looks like this:
-  //     ([ ] = grid indicator)
-  //     ([x] = our 2*2 box)
+          0  15  30  45
+       0 [ ] [ ] [ ] [ ]
+      15 [ ] [x] [x] [ ]
+      30 [ ] [x] [x] [ ]
+      45 [ ] [ ] [ ] [ ]
+    */
 
-  //     [ ] [ ] [ ] [ ]
-  //     [ ] [x] [x] [ ]
-  //     [ ] [x] [x] [ ]
-  //     [ ] [ ] [ ] [ ]
-  //   */
+    const gapSize = 5;
+    const gridIndicatorSize = 10;
 
-  //   const width = 2;
-  //   const xPosition = 1;
+    const pos = (coordinate: number): number =>
+      coordinatePosToPx(coordinate, gapSize, gridIndicatorSize);
+    const size = (coordinate: number): number =>
+      coordinateSizeToPx(coordinate, gapSize, gridIndicatorSize);
 
-  //   it("should add the difference in size when scaling to the right", () => {
-  //     const attemptedPosition = 3;
-  //     const negativeSideWasMoved = false;
+    const width = size(2);
+    const xPosition = pos(1);
 
-  //     const expectedWidth = 3;
-  //     const expectedXPosition = 1;
+    it("should add the difference in size when moving the right edge to the right", () => {
+      const attemptedPosition = size(3);
+      const negativeSideWasMoved = false;
 
-  //     const [actualWidth, actualXPosition] = scale(
-  //       attemptedPosition,
-  //       negativeSideWasMoved,
-  //       width,
-  //       xPosition,
-  //     );
+      const expectedWidth = size(3);
+      const expectedXPosition = pos(1);
 
-  //     expect(actualWidth).toBe(expectedWidth);
-  //     expect(actualXPosition).toBe(expectedXPosition);
-  //   });
+      const [actualWidth, actualXPosition] = scale(
+        attemptedPosition,
+        negativeSideWasMoved,
+        width,
+        xPosition,
+        gapSize,
+        gridIndicatorSize,
+      );
 
-  //   it("should add the difference in size, and move the position to the left when scaling to the left", () => {
-  //     const attemptedPosition = 0;
-  //     const negativeSideWasMoved = true;
+      expect(actualWidth).toBe(expectedWidth);
+      expect(actualXPosition).toBe(expectedXPosition);
+    });
 
-  //     const expectedWidth = 3;
-  //     const expectedXPosition = 0;
+    it("should add the difference in size, and move the position to the left when scaling to the left", () => {
+      const attemptedPosition = pos(0);
+      const negativeSideWasMoved = true;
 
-  //     const [actualWidth, actualXPosition] = scale(
-  //       attemptedPosition,
-  //       negativeSideWasMoved,
-  //       width,
-  //       xPosition,
-  //     );
+      const expectedWidth = size(3);
+      const expectedXPosition = pos(0);
 
-  //     expect(actualWidth).toBe(expectedWidth);
-  //     expect(actualXPosition).toBe(expectedXPosition);
-  //   });
+      const [actualWidth, actualXPosition] = scale(
+        attemptedPosition,
+        negativeSideWasMoved,
+        width,
+        xPosition,
+        gapSize,
+        gridIndicatorSize,
+      );
 
-  //   it("should make the element smaller if we move the right edge to the left", () => {
-  //     const attemptedPosition = 2;
-  //     const negativeSideWasMoved = false;
+      expect(actualWidth).toBe(expectedWidth);
+      expect(actualXPosition).toBe(expectedXPosition);
+    });
 
-  //     const expectedWidth = 1;
-  //     const expectedXPosition = 1;
+    it("should make the element smaller if we move the right edge to the left", () => {
+      const attemptedPosition = size(2);
+      const negativeSideWasMoved = false;
 
-  //     const [actualWidth, actualXPosition] = scale(
-  //       attemptedPosition,
-  //       negativeSideWasMoved,
-  //       width,
-  //       xPosition,
-  //     );
+      const expectedWidth = size(1);
+      const expectedXPosition = pos(1);
 
-  //     expect(actualWidth).toBe(expectedWidth);
-  //     expect(actualXPosition).toBe(expectedXPosition);
-  //   });
+      const [actualWidth, actualXPosition] = scale(
+        attemptedPosition,
+        negativeSideWasMoved,
+        width,
+        xPosition,
+        gapSize,
+        gridIndicatorSize,
+      );
 
-  //   it("should make the element smaller, and move the left edge to the right if we move the left edge to the right", () => {
-  //     const attemptedPosition = 2;
-  //     const negativeSideWasMoved = true;
+      expect(actualWidth).toBe(expectedWidth);
+      expect(actualXPosition).toBe(expectedXPosition);
+    });
 
-  //     const expectedWidth = 1;
-  //     const expectedXPosition = 2;
+    it("should make the element smaller, and move the left edge to the right if we move the left edge to the right", () => {
+      const attemptedPosition = pos(2);
+      const negativeSideWasMoved = true;
 
-  //     const [actualWidth, actualXPosition] = scale(
-  //       attemptedPosition,
-  //       negativeSideWasMoved,
-  //       width,
-  //       xPosition,
-  //     );
+      const expectedWidth = size(1);
+      const expectedXPosition = pos(2);
 
-  //     expect(actualWidth).toBe(expectedWidth);
-  //     expect(actualXPosition).toBe(expectedXPosition);
-  //   });
-  // });
+      const [actualWidth, actualXPosition] = scale(
+        attemptedPosition,
+        negativeSideWasMoved,
+        width,
+        xPosition,
+        gapSize,
+        gridIndicatorSize,
+      );
+
+      expect(actualWidth).toBe(expectedWidth);
+      expect(actualXPosition).toBe(expectedXPosition);
+    });
+  });
 });

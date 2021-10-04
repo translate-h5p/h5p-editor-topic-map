@@ -86,6 +86,7 @@ export const Draggable: React.FC<DraggableProps> = ({
     ...position,
   });
 
+  // Update Draggable's size whenever the container's size changes
   React.useEffect(
     () =>
       setSize({
@@ -112,6 +113,7 @@ export const Draggable: React.FC<DraggableProps> = ({
     ],
   );
 
+  // Update Draggable's position whenever the container's size changes
   React.useEffect(() => {
     setPosition({
       x: calculateClosestValidPositionComponent(
@@ -285,17 +287,17 @@ export const Draggable: React.FC<DraggableProps> = ({
         leftWasMoved,
         width,
         position.x,
+        gapSize,
+        gridIndicatorSize,
       );
 
-      const newPosition = {
+      setPosition({
         ...position,
-        y: newXPosition,
-      };
-
-      setPosition(newPosition);
-      setSize(oldSize => ({ ...oldSize, width: newWidth }));
+        x: newXPosition,
+      });
+      setSize({ height, width: newWidth });
     },
-    [position, width],
+    [gapSize, gridIndicatorSize, height, position, width],
   );
 
   const scaleVertical = React.useCallback(
@@ -305,17 +307,17 @@ export const Draggable: React.FC<DraggableProps> = ({
         topWasMoved,
         height,
         position.y,
+        gapSize,
+        gridIndicatorSize,
       );
 
-      const newPosition = {
+      setPosition({
         ...position,
         y: newYPosition,
-      };
-
-      setPosition(newPosition);
-      setSize(oldSize => ({ ...oldSize, height: newHeight }));
+      });
+      setSize({ width, height: newHeight });
     },
-    [height, position],
+    [gapSize, gridIndicatorSize, height, position, width],
   );
 
   const stopScaling = React.useCallback(
