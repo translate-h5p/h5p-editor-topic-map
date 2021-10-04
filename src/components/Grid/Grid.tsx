@@ -160,7 +160,7 @@ export const Grid: React.FC<GridProps> = ({
 
         // Create box
         const id = (currentItemsLength + 1).toString(); // TODO: Generate unique id
-        
+
         const alreadyAdded =
           items.length !== currentItemsLength
             ? items[currentItemsLength].id === id
