@@ -248,6 +248,7 @@ export const Grid: React.FC<GridProps> = ({
             }}
             onMouseDown={createBoxStart}
             onMouseEnter={createBoxEnter}
+            onMouseUp={createBoxEnd}
             active={activeHoverOnGrid}
           />
         )),
@@ -315,6 +316,7 @@ export const Grid: React.FC<GridProps> = ({
         gridIndicatorSize={gridIndicatorSize}
         gridSize={size}
         occupiedCells={occupiedCells}
+        isPreview={isDragging}
       />
     ));
   }, [
@@ -325,6 +327,7 @@ export const Grid: React.FC<GridProps> = ({
     occupiedCells,
     updateItemPosition,
     updateItemSize,
+    isDragging,
   ]);
 
   const resize = React.useCallback(() => {
@@ -396,7 +399,6 @@ export const Grid: React.FC<GridProps> = ({
         gridTemplateColumns: `repeat(${numberOfColumns}, 1fr)`,
         gridTemplateRows: `repeat(${numberOfRows}, 1fr)`,
       }}
-      onClick={isDragging ? createBoxEnd : undefined}
     >
       {renderChildren()}
       {gridIndicators}
