@@ -30,6 +30,7 @@ export type DraggableProps = {
   gridIndicatorSize: number;
   gridSize: Size;
   occupiedCells: Array<OccupiedCell>;
+  isPreview: boolean;
 };
 
 export const Draggable: React.FC<DraggableProps> = ({
@@ -44,6 +45,7 @@ export const Draggable: React.FC<DraggableProps> = ({
   gridIndicatorSize,
   gridSize,
   occupiedCells,
+  isPreview,
 }) => {
   const [isDragging, setIsDragging] = React.useState(false);
   const [isSelected, setIsSelected] = React.useState(false);
@@ -404,6 +406,7 @@ export const Draggable: React.FC<DraggableProps> = ({
         width,
         height,
         zIndex: isDragging ? 1 : undefined,
+        pointerEvents: isPreview ? "none" : undefined,
       }}
       aria-label={labelText}
       onMouseUp={stopDrag}

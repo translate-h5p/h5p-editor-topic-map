@@ -4,7 +4,7 @@ import styles from "./GridIndicator.module.scss";
 export type GridIndicatorProps = {
   onClick: React.MouseEventHandler;
   onMouseDown: (index: number) => void;
-  onMouseUp: (index: number) => void;
+  onMouseEnter: (index: number) => void;
   label: string;
   index: number;
   active: boolean;
@@ -13,7 +13,7 @@ export type GridIndicatorProps = {
 export const GridIndicator: React.FC<GridIndicatorProps> = ({
   onClick,
   onMouseDown,
-  onMouseUp,
+  onMouseEnter,
   label,
   index,
   active,
@@ -26,9 +26,9 @@ export const GridIndicator: React.FC<GridIndicatorProps> = ({
       }`}
       onClick={onClick}
       onMouseDown={() => onMouseDown(index)}
-      onMouseUp={() => onMouseUp(index)}
+      onMouseEnter={() => onMouseEnter(index)}
       onTouchStart={() => onMouseDown(index)}
-      onTouchEnd={() => onMouseUp(index)}
+      onTouchMove={() => onMouseEnter(index)}
       aria-label={label}
     />
   );
