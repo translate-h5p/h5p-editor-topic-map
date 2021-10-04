@@ -66,7 +66,17 @@ export const Grid: React.FC<GridProps> = ({
     }
 
     const { width } = gridIndicator.getBoundingClientRect();
-    return width;
+
+    /**
+     * This number might differ from browser to browser, but it's hopefully (😬) ok.
+     * We use it to counteract floating point number errors.
+     */
+    const numberOfSignificantDigits = 4;
+
+    return (
+      Math.round(width * 10 ** numberOfSignificantDigits) /
+      10 ** numberOfSignificantDigits
+    );
 
     // The grid's size is updated by external factors,
     // but still affects the grid indicator size
@@ -394,10 +404,10 @@ export const Grid: React.FC<GridProps> = ({
       role="application" /* https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/Application_Role */
       className={styles.grid}
       style={{
-        aspectRatio: `${numberOfColumns} / ${numberOfRows}`,
         gap: `${gapSize}px`,
         gridTemplateColumns: `repeat(${numberOfColumns}, 1fr)`,
         gridTemplateRows: `repeat(${numberOfRows}, 1fr)`,
+
         cursor: isDragging ? "pointer" : "auto",
       }}
       onMouseUp={createBoxEnd}
