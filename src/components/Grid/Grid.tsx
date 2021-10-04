@@ -248,7 +248,6 @@ export const Grid: React.FC<GridProps> = ({
             }}
             onMouseDown={createBoxStart}
             onMouseEnter={createBoxEnter}
-            onMouseUp={createBoxEnd}
             active={activeHoverOnGrid}
           />
         )),
@@ -389,6 +388,7 @@ export const Grid: React.FC<GridProps> = ({
   }, [gapSize, gridIndicatorSize, items, size]);
 
   return (
+    // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
     <div
       ref={elementRef}
       role="application" /* https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/Application_Role */
@@ -398,7 +398,9 @@ export const Grid: React.FC<GridProps> = ({
         gap: `${gapSize}px`,
         gridTemplateColumns: `repeat(${numberOfColumns}, 1fr)`,
         gridTemplateRows: `repeat(${numberOfRows}, 1fr)`,
+        cursor: isDragging ? "pointer" : "auto",
       }}
+      onMouseUp={createBoxEnd}
     >
       {renderChildren()}
       {gridIndicators}
