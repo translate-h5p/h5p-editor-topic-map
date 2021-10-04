@@ -1,4 +1,4 @@
 {
-  "installCommand": "npm run build-storybook",
+  "buildCommand": "build-storybook",
   "sandboxes": ["/storybook-static"]
 }
