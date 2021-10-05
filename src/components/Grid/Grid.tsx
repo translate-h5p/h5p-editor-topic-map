@@ -1,10 +1,10 @@
 import * as React from "react";
-import { GridIndicator } from "../GridIndicator/GridIndicator";
-import styles from "./Grid.module.scss";
-import { Draggable } from "../Draggable/Draggable";
+import { v4 as uuidV4 } from "uuid";
+import { Element } from "../../types/Element";
+import { OccupiedCell } from "../../types/OccupiedCell";
+import { Position } from "../../types/Position";
 import { Size } from "../../types/Size";
 import { TopicMapItem } from "../../types/TopicMapItem";
-import { Position } from "../../types/Position";
 import {
   findOccupiedCells,
   mapTopicMapItemToElement,
@@ -14,9 +14,10 @@ import {
   scaleY,
   updateItem,
 } from "../../utils/grid.utils";
-import { OccupiedCell } from "../../types/OccupiedCell";
-import { Element } from "../../types/Element";
+import { Draggable } from "../Draggable/Draggable";
+import { GridIndicator } from "../GridIndicator/GridIndicator";
 import { ToolbarButtonType } from "../Toolbar/Toolbar";
+import styles from "./Grid.module.scss";
 
 export type GridProps = {
   numberOfColumns: number;
@@ -70,7 +71,17 @@ export const Grid: React.FC<GridProps> = ({
     }
 
     const { width } = gridIndicator.getBoundingClientRect();
-    return width;
+
+    /**
+     * This number might differ from browser to browser, but it's hopefully (😬) ok.
+     * We use it to counteract floating point number errors.
+     */
+    const numberOfSignificantDigits = 4;
+
+    return (
+      Math.round(width * 10 ** numberOfSignificantDigits) /
+      10 ** numberOfSignificantDigits
+    );
 
     // The grid's size is updated by external factors,
     // but still affects the grid indicator size
@@ -174,7 +185,7 @@ export const Grid: React.FC<GridProps> = ({
 
         let alreadyAdded = false;
         // Create box
-        const id = resizedItemId ?? (currentItemsLength + 1).toString(); // TODO: Generate unique id
+        const id = resizedItemId ?? uuidV4();
 
         alreadyAdded =
           items.length !== currentItemsLength
@@ -449,10 +460,10 @@ export const Grid: React.FC<GridProps> = ({
       role="application" /* https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/Application_Role */
       className={styles.grid}
       style={{
-        aspectRatio: `${numberOfColumns} / ${numberOfRows}`,
         gap: `${gapSize}px`,
         gridTemplateColumns: `repeat(${numberOfColumns}, 1fr)`,
         gridTemplateRows: `repeat(${numberOfRows}, 1fr)`,
+
         cursor: isDragging ? "pointer" : "auto",
       }}
       onMouseUp={() => {
