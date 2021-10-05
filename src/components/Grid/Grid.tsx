@@ -179,9 +179,9 @@ export const Grid: React.FC<GridProps> = ({
         const yPercentagePosition = (y / numberOfRows) * 100;
 
         // Get height percentage
-        const yEnd = !dragUp
-          ? Math.floor(indicatorIndex / numberOfColumns)
-          : Math.floor(boxStartPosition / numberOfColumns);
+        const yEnd = dragUp
+          ? Math.floor(boxStartPosition / numberOfColumns)
+          : Math.floor(indicatorIndex / numberOfColumns);
         const yEndPercentagePosition = ((yEnd + 1) / numberOfRows) * 100;
 
         const heightPercentage = yEndPercentagePosition - yPercentagePosition;
