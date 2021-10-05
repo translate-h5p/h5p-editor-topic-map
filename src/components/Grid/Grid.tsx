@@ -168,28 +168,28 @@ export const Grid: React.FC<GridProps> = ({
           (Math.floor(indicatorIndex / numberOfColumns) / numberOfRows) * 100;
 
         // Get x and y percentage position
-        const x = !dragLeft
-          ? boxStartPosition % numberOfColumns
-          : indicatorIndex % numberOfColumns;
-        const y = !dragUp
-          ? Math.floor(boxStartPosition / numberOfColumns)
-          : Math.floor(indicatorIndex / numberOfColumns);
+        const x = dragLeft
+          ? indicatorIndex % numberOfColumns
+          : boxStartPosition % numberOfColumns;
+        const y = dragUp
+          ? Math.floor(indicatorIndex / numberOfColumns)
+          : Math.floor(boxStartPosition / numberOfColumns);
 
         const xPercentagePosition = (x / numberOfColumns) * 100;
         const yPercentagePosition = (y / numberOfRows) * 100;
 
         // Get height percentage
-        const yEnd = !dragUp
-          ? Math.floor(indicatorIndex / numberOfColumns)
-          : Math.floor(boxStartPosition / numberOfColumns);
+        const yEnd = dragUp
+          ? Math.floor(boxStartPosition / numberOfColumns)
+          : Math.floor(indicatorIndex / numberOfColumns);
         const yEndPercentagePosition = ((yEnd + 1) / numberOfRows) * 100;
 
         const heightPercentage = yEndPercentagePosition - yPercentagePosition;
 
         // Get width percentage
-        const indicatorValue = !dragLeft
-          ? indicatorIndex + 1
-          : boxStartPosition + 1;
+        const indicatorValue = dragLeft
+          ? boxStartPosition + 1
+          : indicatorIndex + 1;
         const lastIndexOnColumn = indicatorValue % numberOfColumns === 0;
 
         const xEnd = indicatorValue % numberOfColumns;
