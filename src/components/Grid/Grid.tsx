@@ -135,10 +135,10 @@ export const Grid: React.FC<GridProps> = ({
 
   const createBoxEnter = React.useCallback(
     (indicatorIndex: number) => {
-      if (
-        (activeTool === ToolbarButtonType.CreateBox && isDragging) ||
-        resizedItemId != null
-      ) {
+      const isCreatingNewBox = activeTool === ToolbarButtonType.CreateBox && isDragging;
+      const isResizing = resizedItemId != null;
+
+      if (isCreatingNewBox || isResizing) {
         if (boxStartPosition == null) {
           throw new Error("Box start position is not defined.");
         }
