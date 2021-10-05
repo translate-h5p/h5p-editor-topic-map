@@ -135,7 +135,8 @@ export const Grid: React.FC<GridProps> = ({
 
   const createBoxEnter = React.useCallback(
     (indicatorIndex: number) => {
-      const isCreatingNewBox = activeTool === ToolbarButtonType.CreateBox && isDragging;
+      const isCreatingNewBox =
+        activeTool === ToolbarButtonType.CreateBox && isDragging;
       const isResizing = resizedItemId != null;
 
       if (isCreatingNewBox || isResizing) {
