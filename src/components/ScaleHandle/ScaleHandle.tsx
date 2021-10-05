@@ -1,33 +1,41 @@
 import * as React from "react";
-import { getPointerPositionFromEvent } from "../../utils/draggable.utils";
 import { capitalize } from "../../utils/string.utils";
 import styles from "./ScaleHandle.module.scss";
 
 export type ScaleHandleProps = {
   labelText: string;
-  position: "top" | "bottom" | "left" | "right";
-  onScale: (newValue: number) => void;
+  position:
+    | "top"
+    | "bottom"
+    | "left"
+    | "right"
+    | "top-right"
+    | "bottom-right"
+    | "bottom-left"
+    | "top-left";
   onScaleStop: () => void;
+  onScaleStart: () => void;
 };
 
 export const ScaleHandle: React.FC<ScaleHandleProps> = ({
   labelText,
   position,
-  onScale,
   onScaleStop,
+  onScaleStart,
 }) => {
   const [isDragging, setIsDragging] = React.useState(false);
   const elementRef = React.useRef<HTMLDivElement>(null);
-  const isVerticalScaleHandle = ["top", "bottom"].includes(position);
-  const className = styles[`scaleHandle${capitalize(position)}`];
+  const className =
+    styles[`scaleHandle${position.split("-").map(capitalize).join("")}`];
 
   const startDrag = React.useCallback(
     (event: React.MouseEvent | React.TouchEvent) => {
       setIsDragging(true);
+      onScaleStart();
 
       event.stopPropagation();
     },
-    [],
+    [onScaleStart],
   );
 
   const stopDrag = React.useCallback(() => {
@@ -38,34 +46,6 @@ export const ScaleHandle: React.FC<ScaleHandleProps> = ({
     setIsDragging(false);
     onScaleStop();
   }, [isDragging, onScaleStop]);
-
-  const dragHorizontal = React.useCallback(
-    (event: React.MouseEvent | React.TouchEvent) => {
-      if (!isDragging) {
-        return;
-      }
-
-      event.stopPropagation();
-
-      const { x } = getPointerPositionFromEvent(event);
-      onScale(x);
-    },
-    [isDragging, onScale],
-  );
-
-  const dragVertical = React.useCallback(
-    (event: React.MouseEvent | React.TouchEvent) => {
-      if (!isDragging) {
-        return;
-      }
-
-      event.stopPropagation();
-
-      const { y } = getPointerPositionFromEvent(event);
-      onScale(y);
-    },
-    [isDragging, onScale],
-  );
 
   React.useEffect(() => {
     /* 
@@ -91,8 +71,6 @@ export const ScaleHandle: React.FC<ScaleHandleProps> = ({
       aria-label={labelText}
       onMouseDown={startDrag}
       onTouchStart={startDrag}
-      onMouseMove={isVerticalScaleHandle ? dragVertical : dragHorizontal}
-      onTouchMove={isVerticalScaleHandle ? dragVertical : dragHorizontal}
     />
   );
 };

@@ -1,6 +1,30 @@
-$scale-offset: 0.25rem;
+$scale-offset: 0.5rem;
 .scaleHandle {
   position: absolute;
+}
+
+.scaleHandleLeft,
+.scaleHandleTopLeft,
+.scaleHandleBottomLeft {
+  left: -$scale-offset;
+}
+
+.scaleHandleRight,
+.scaleHandleTopRight,
+.scaleHandleBottomRight {
+  right: -$scale-offset;
+}
+
+.scaleHandleTop,
+.scaleHandleTopRight,
+.scaleHandleTopLeft {
+  top: -$scale-offset;
+}
+
+.scaleHandleBottom,
+.scaleHandleBottomRight,
+.scaleHandleBottomLeft {
+  bottom: -$scale-offset;
 }
 
 .scaleHandleLeft,
@@ -11,14 +35,6 @@ $scale-offset: 0.25rem;
   width: $scale-offset;
 }
 
-.scaleHandleLeft {
-  left: -$scale-offset;
-}
-
-.scaleHandleRight {
-  right: -$scale-offset;
-}
-
 .scaleHandleTop,
 .scaleHandleBottom {
   cursor: row-resize;
@@ -27,10 +43,20 @@ $scale-offset: 0.25rem;
   width: 100%;
 }
 
-.scaleHandleTop {
-  top: -$scale-offset;
+.scaleHandleTopRight,
+.scaleHandleBottomRight,
+.scaleHandleBottomLeft,
+.scaleHandleTopLeft {
+  height: $scale-offset;
+  width: $scale-offset;
 }
 
-.scaleHandleBottom {
-  bottom: -$scale-offset;
+.scaleHandleTopRight,
+.scaleHandleBottomLeft {
+  cursor: nesw-resize;
+}
+
+.scaleHandleBottomRight,
+.scaleHandleTopLeft {
+  cursor: nwse-resize;
 }
