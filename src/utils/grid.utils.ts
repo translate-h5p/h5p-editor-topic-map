@@ -212,12 +212,20 @@ export const positionIsFree = (
   return posIsFree;
 };
 
-export const coordinatesToPx = (
-  pxValue: number,
+export const coordinatePosToPx = (
+  coordinate: number,
   gapSize: number,
   gridIndicatorSize: number,
 ): number => {
   const stepSize = gapSize + gridIndicatorSize;
 
-  return pxValue * stepSize;
+  return coordinate * stepSize;
+};
+
+export const coordinateSizeToPx = (
+  coordinate: number,
+  gapSize: number,
+  gridIndicatorSize: number,
+): number => {
+  return coordinate * gridIndicatorSize + (coordinate - 1) * gapSize;
 };

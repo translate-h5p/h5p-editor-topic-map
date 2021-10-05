@@ -13,7 +13,6 @@ export default {
     initialYPosition: 200,
     height: 100,
     width: 100,
-    updateSize: newSize => console.info("New size:", newSize),
     gapSize: 10,
     gridIndicatorSize: 10,
     gridSize: {
