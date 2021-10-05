@@ -19,7 +19,7 @@
   z-index: 1;
 
   &.preview {
-    transition: none !important;
+    transition: none;
   }
 
   &[aria-grabbed="true"] {
