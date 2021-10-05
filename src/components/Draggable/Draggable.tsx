@@ -389,6 +389,12 @@ export const Draggable: React.FC<DraggableProps> = ({
     ],
   );
 
+  /**
+   * This offset is used to fix some of the floating point errors
+   * that are placing items a few pixels off the grid.
+   */
+  const offset = 2;
+
   return (
     <button
       ref={elementRef}
@@ -403,8 +409,8 @@ export const Draggable: React.FC<DraggableProps> = ({
       onTouchStart={startDrag}
       style={{
         transform: `translateX(${position.x}px) translateY(${position.y}px)`,
-        width,
-        height,
+        width: width + offset,
+        height: height + offset,
         zIndex: isDragging ? 1 : undefined,
         pointerEvents: isPreview ? "none" : undefined,
       }}
