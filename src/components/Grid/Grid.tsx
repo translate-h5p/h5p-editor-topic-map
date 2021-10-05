@@ -165,8 +165,7 @@ export const Grid: React.FC<GridProps> = ({
         const dragUp =
           (Math.floor(boxStartPosition / numberOfColumns) / numberOfRows) *
             100 >=
-          (Math.floor(indicatorIndex / numberOfColumns) / numberOfRows) *
-            100;
+          (Math.floor(indicatorIndex / numberOfColumns) / numberOfRows) * 100;
 
         // Get x and y percentage position
         const x = !dragLeft
