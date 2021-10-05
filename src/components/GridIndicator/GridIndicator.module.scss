@@ -25,13 +25,4 @@
       transition-duration: 0.1s; /* {1} */
     }
   }
-
-  &::before {
-    content: "";
-    height: 200%;
-    left: -50%;
-    position: absolute;
-    top: -50%;
-    width: 200%;
-  }
 }
