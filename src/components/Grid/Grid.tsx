@@ -187,9 +187,9 @@ export const Grid: React.FC<GridProps> = ({
         const heightPercentage = yEndPercentagePosition - yPercentagePosition;
 
         // Get width percentage
-        const indicatorValue = !dragLeft
-          ? indicatorIndex + 1
-          : boxStartPosition + 1;
+        const indicatorValue = dragLeft
+          ? boxStartPosition + 1
+          : indicatorIndex + 1;
         const lastIndexOnColumn = indicatorValue % numberOfColumns === 0;
 
         const xEnd = indicatorValue % numberOfColumns;
