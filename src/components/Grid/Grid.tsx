@@ -183,14 +183,11 @@ export const Grid: React.FC<GridProps> = ({
 
         const widthPercentage = xEndPercentagePosition - xPercentagePosition;
 
-        let alreadyAdded = false;
         // Create box
         const id = resizedItemId ?? uuidV4();
-
-        alreadyAdded =
-          items.length !== currentItemsLength
-            ? items[currentItemsLength].id === id
-            : false;
+        const alreadyAdded =
+          items.length !== currentItemsLength &&
+          items[currentItemsLength] != null;
 
         const newItem = {
           id,
@@ -205,7 +202,7 @@ export const Grid: React.FC<GridProps> = ({
             x: scaleX(xPercentagePosition, size.width),
             y: scaleY(yPercentagePosition, size.height),
           },
-          id,
+          alreadyAdded ? items[currentItemsLength].id : id,
           {
             width: scaleX(widthPercentage, size.width),
             height: scaleY(heightPercentage, size.height),
