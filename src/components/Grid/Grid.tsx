@@ -1,10 +1,10 @@
 import * as React from "react";
-import { GridIndicator } from "../GridIndicator/GridIndicator";
-import styles from "./Grid.module.scss";
-import { Draggable } from "../Draggable/Draggable";
+import { v4 as uuidV4 } from "uuid";
+import { Element } from "../../types/Element";
+import { OccupiedCell } from "../../types/OccupiedCell";
+import { Position } from "../../types/Position";
 import { Size } from "../../types/Size";
 import { TopicMapItem } from "../../types/TopicMapItem";
-import { Position } from "../../types/Position";
 import {
   findOccupiedCells,
   mapTopicMapItemToElement,
@@ -14,9 +14,10 @@ import {
   scaleY,
   updateItem,
 } from "../../utils/grid.utils";
-import { OccupiedCell } from "../../types/OccupiedCell";
-import { Element } from "../../types/Element";
+import { Draggable } from "../Draggable/Draggable";
+import { GridIndicator } from "../GridIndicator/GridIndicator";
 import { ToolbarButtonType } from "../Toolbar/Toolbar";
+import styles from "./Grid.module.scss";
 
 export type GridProps = {
   numberOfColumns: number;
@@ -169,7 +170,7 @@ export const Grid: React.FC<GridProps> = ({
         const widthPercentage = xEndPercentagePosition - xPercentagePosition;
 
         // Create box
-        const id = (currentItemsLength + 1).toString(); // TODO: Generate unique id
+        const id = uuidV4();
 
         const alreadyAdded =
           items.length !== currentItemsLength
