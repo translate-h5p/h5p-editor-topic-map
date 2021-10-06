@@ -44,7 +44,7 @@ export const MapEditorView: React.FC<MapEditorViewProps> = ({
 
   return (
     <div className={styles.mapEditorView}>
-      <Toolbar setActiveTool={setActive} />
+      <Toolbar setActiveTool={setActive} activeTool={activeTool} />
       <div className={styles.gridBorder}>
         <Grid
           numberOfColumns={columns}
@@ -52,6 +52,7 @@ export const MapEditorView: React.FC<MapEditorViewProps> = ({
           initialItems={gridItems}
           updateItems={update}
           gapSize={gapSize ?? defaultGapSize}
+          setActiveTool={setActive}
           activeTool={activeTool}
         />
       </div>

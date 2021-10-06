@@ -26,6 +26,7 @@ export type GridProps = {
   updateItems: (items: Array<TopicMapItem>) => void;
   gapSize: number;
   children?: never;
+  setActiveTool: (newValue: ToolbarButtonType | null) => void;
   activeTool: ToolbarButtonType | null;
 };
 
@@ -35,6 +36,7 @@ export const Grid: React.FC<GridProps> = ({
   initialItems,
   updateItems,
   gapSize,
+  setActiveTool,
   activeTool,
 }) => {
   const [size, setSize] = React.useState<Size | null>();
@@ -140,12 +142,13 @@ export const Grid: React.FC<GridProps> = ({
       setIsDragging(false);
       setBoxStartPosition(null);
       setCurrentItemsLength(items.length);
+      setActiveTool(null);
 
       if (items[currentItemsLength]) {
         setSelectedItem(items[currentItemsLength].id);
       }
     }
-  }, [activeTool, items, currentItemsLength]);
+  }, [activeTool, items, currentItemsLength, setActiveTool]);
 
   const resizeBoxEnd = React.useCallback(() => {
     setResizedItemId(null);
