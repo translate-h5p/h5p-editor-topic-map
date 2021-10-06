@@ -34,7 +34,7 @@ export type DraggableProps = {
   setSelectedItem: (newItem: string | null) => void;
   selectedItem: string | null;
   startResize: (directionLock: "horizontal" | "vertical" | null) => void;
-  backgroundImage: string;
+  backgroundImage: string | undefined;
 };
 
 export const Draggable: React.FC<DraggableProps> = ({

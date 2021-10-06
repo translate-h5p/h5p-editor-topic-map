@@ -16,6 +16,6 @@ export type TopicMapItem = {
   heightPercentage: number;
 
   label: string;
-  backgroundImage: Image;
+  backgroundImage?: Image | undefined;
   links: Array<string>;
 };
