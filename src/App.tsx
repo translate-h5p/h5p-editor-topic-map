@@ -16,9 +16,9 @@ const App = ({ setValue }: AppProps): JSX.Element => {
   );
 
   return (
-    <>
+    <div className="h5p-editor-topic-map">
       <MapEditorView updateItems={updateItems} />
-    </>
+    </div>
   );
 };
 
