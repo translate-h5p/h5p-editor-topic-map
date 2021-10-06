@@ -164,21 +164,37 @@ export const Grid: React.FC<GridProps> = ({
           throw new Error("Grid has no size.");
         }
 
+        const dragLeft =
+          boxStartPosition % numberOfColumns >=
+          indicatorIndex % numberOfColumns;
+        const dragUp =
+          (Math.floor(boxStartPosition / numberOfColumns) / numberOfRows) *
+            100 >=
+          (Math.floor(indicatorIndex / numberOfColumns) / numberOfRows) * 100;
+
         // Get x and y percentage position
-        const x = boxStartPosition % numberOfColumns;
-        const y = Math.floor(boxStartPosition / numberOfColumns);
+        const x = dragLeft
+          ? indicatorIndex % numberOfColumns
+          : boxStartPosition % numberOfColumns;
+        const y = dragUp
+          ? Math.floor(indicatorIndex / numberOfColumns)
+          : Math.floor(boxStartPosition / numberOfColumns);
 
         const xPercentagePosition = (x / numberOfColumns) * 100;
         const yPercentagePosition = (y / numberOfRows) * 100;
 
         // Get height percentage
-        const yEnd = Math.floor(indicatorIndex / numberOfColumns);
+        const yEnd = dragUp
+          ? Math.floor(boxStartPosition / numberOfColumns)
+          : Math.floor(indicatorIndex / numberOfColumns);
         const yEndPercentagePosition = ((yEnd + 1) / numberOfRows) * 100;
 
         const heightPercentage = yEndPercentagePosition - yPercentagePosition;
 
         // Get width percentage
-        const indicatorValue = indicatorIndex + 1;
+        const indicatorValue = dragLeft
+          ? boxStartPosition + 1
+          : indicatorIndex + 1;
         const lastIndexOnColumn = indicatorValue % numberOfColumns === 0;
 
         const xEnd = indicatorValue % numberOfColumns;
@@ -202,16 +218,19 @@ export const Grid: React.FC<GridProps> = ({
           heightPercentage,
         };
 
+        const newPosition = {
+          x: scaleX(xPercentagePosition, size.width),
+          y: scaleY(yPercentagePosition, size.height),
+        };
+        const newSize = {
+          width: scaleX(widthPercentage, size.width),
+          height: scaleY(heightPercentage, size.height),
+        };
+
         const posIsFree = positionIsFree(
-          {
-            x: scaleX(xPercentagePosition, size.width),
-            y: scaleY(yPercentagePosition, size.height),
-          },
+          newPosition,
           alreadyAdded ? items[currentItemsLength].id : id,
-          {
-            width: scaleX(widthPercentage, size.width),
-            height: scaleY(heightPercentage, size.height),
-          },
+          newSize,
           size,
           gapSize,
           gridIndicatorSize,
@@ -252,11 +271,21 @@ export const Grid: React.FC<GridProps> = ({
           setItems(newItems);
         }
 
-        if (posIsFree && alreadyAdded) {
-          updateItemSize(items[currentItemsLength], {
-            width: scaleX(widthPercentage, size.width),
-            height: scaleY(heightPercentage, size.height),
-          });
+        if (posIsFree && alreadyAdded && !dragLeft && !dragUp) {
+          updateItemSize(items[currentItemsLength], newSize);
+        }
+
+        if (posIsFree && alreadyAdded && (dragLeft || dragUp)) {
+          const newItems = updateItem(
+            items,
+            items[currentItemsLength],
+            size.width,
+            size.height,
+            { newPosition, newSize },
+          );
+
+          updateItems(newItems);
+          setItems(newItems);
         }
       }
     },

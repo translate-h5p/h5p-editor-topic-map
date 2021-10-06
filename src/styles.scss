@@ -1,5 +1,7 @@
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
+.h5p-editor-topic-map {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
 }

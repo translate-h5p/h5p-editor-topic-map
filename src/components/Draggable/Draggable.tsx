@@ -322,7 +322,7 @@ export const Draggable: React.FC<DraggableProps> = ({
       /* Prevent default because we implement drag ourselves */
       onDragStart={preventDefault}
       aria-grabbed={isDragging}
-      className={styles.draggable}
+      className={`${styles.draggable} ${isPreview && styles.preview}`}
       onMouseDown={startDrag}
       onTouchStart={startDrag}
       style={{
