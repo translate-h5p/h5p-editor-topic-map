@@ -34,7 +34,11 @@ declare class EventDispatcher {
    * @param {Object} [thisArg]
    *   Optionally specify the this value when calling listener.
    */
-  on: (type: string, listener: any, thisArg?: any) => void;
+  on: (
+    type: string,
+    listener: (event: unknown) => void,
+    thisArg?: ThisType<unknown>,
+  ) => void;
 
   /**
    * Add new event listener that will be fired only once.

@@ -2,6 +2,8 @@ import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { IH5PEditorWrapper } from "../../H5P";
 import App from "../App";
+import { H5PField } from "../types/h5p/H5PField";
+import { Params } from "../types/h5p/Params";
 import { H5P } from "./H5P.util";
 
 export class H5PWrapper
@@ -12,9 +14,9 @@ export class H5PWrapper
 
   constructor(
     parent: JQuery<HTMLElement>,
-    field: unknown,
-    params: unknown,
-    setValue: (value: unknown) => void,
+    field: H5PField,
+    params: Params,
+    setValue: (field: H5PField, params: Params) => void,
   ) {
     super();
     this.wrapper = H5PWrapper.createWrapperElement();
@@ -23,7 +25,14 @@ export class H5PWrapper
     // TODO: Remove this before official release
     console.info({ parent, field, params });
 
-    ReactDOM.render(<App setValue={setValue} />, this.wrapper);
+    ReactDOM.render(
+      <App
+        setValue={setValue}
+        field={field}
+        topicMapItems={params?.topicMapItems ?? []}
+      />,
+      this.wrapper,
+    );
   }
 
   appendTo([containerElement]: JQuery<HTMLElement>): void {

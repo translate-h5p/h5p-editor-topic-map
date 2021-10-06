@@ -6,9 +6,9 @@ import {
   calculateClosestValidPositionComponent,
   calculateClosestValidSizeComponent,
   getPointerPositionFromEvent,
-  scale,
 } from "../../utils/draggable.utils";
 import { positionIsFree } from "../../utils/grid.utils";
+import { ContextMenu } from "../ContextMenu/ContextMenu";
 import { ScaleHandle } from "../ScaleHandle/ScaleHandle";
 import styles from "./Draggable.module.scss";
 
@@ -25,12 +25,17 @@ export type DraggableProps = {
   updatePosition: (newPosition: Position) => void;
   initialWidth: number;
   initialHeight: number;
-  updateSize: (newSize: Size) => void;
   gapSize: number;
   gridIndicatorSize: number;
   gridSize: Size;
   occupiedCells: Array<OccupiedCell>;
   onMouseDown: (id: string) => void;
+  isPreview: boolean;
+  deleteItem: (item: string) => void;
+  setSelectedItem: (newItem: string | null) => void;
+  selectedItem: string | null;
+  startResize: (directionLock: "horizontal" | "vertical" | null) => void;
+  backgroundImage: string;
 };
 
 export const Draggable: React.FC<DraggableProps> = ({
@@ -40,15 +45,20 @@ export const Draggable: React.FC<DraggableProps> = ({
   updatePosition,
   initialWidth,
   initialHeight,
-  updateSize,
   gapSize,
   gridIndicatorSize,
   gridSize,
   occupiedCells,
   onMouseDown,
+  isPreview,
+  deleteItem,
+  setSelectedItem,
+  selectedItem,
+  startResize,
+  backgroundImage,
 }) => {
   const [isDragging, setIsDragging] = React.useState(false);
-  const [isSelected, setIsSelected] = React.useState(false);
+  const [isSelected, setIsSelected] = React.useState(selectedItem === id);
   const [labelText, setLabelText] = React.useState(labelTexts.notSelected);
   const [pointerStartPosition, setPointerStartPosition] =
     React.useState<Position | null>(null);
@@ -85,7 +95,9 @@ export const Draggable: React.FC<DraggableProps> = ({
   const [previousPosition, setPreviousPosition] = React.useState<Position>({
     ...position,
   });
+  const [isResizing, setIsResizing] = React.useState<boolean>();
 
+  // Update Draggable's size whenever the container's size changes
   React.useEffect(
     () =>
       setSize({
@@ -112,6 +124,7 @@ export const Draggable: React.FC<DraggableProps> = ({
     ],
   );
 
+  // Update Draggable's position whenever the container's size changes
   React.useEffect(() => {
     setPosition({
       x: calculateClosestValidPositionComponent(
@@ -140,12 +153,13 @@ export const Draggable: React.FC<DraggableProps> = ({
     width,
   ]);
 
-  const elementRef = React.useRef<HTMLButtonElement>(null);
+  const elementRef = React.useRef<HTMLDivElement>(null);
 
   const startDrag = React.useCallback(
     (event: React.MouseEvent | React.TouchEvent) => {
       setIsDragging(true);
       setIsSelected(true);
+      setSelectedItem(id);
 
       const { x, y } = getPointerPositionFromEvent(event);
 
@@ -155,9 +169,8 @@ export const Draggable: React.FC<DraggableProps> = ({
       });
 
       onMouseDown(id);
-      console.log("start drag end");
     },
-    [id, onMouseDown, position.x, position.y],
+    [id, onMouseDown, position.x, position.y, setSelectedItem],
   );
 
   const getClosestValidXPosition = React.useCallback(
@@ -276,133 +289,52 @@ export const Draggable: React.FC<DraggableProps> = ({
     };
   }, [drag]);
 
-  const scaleHorizontal = React.useCallback(
-    (pointerX: number, leftWasMoved: boolean) => {
-      const [newWidth, newXPosition] = scale(
-        pointerX,
-        leftWasMoved,
-        width,
-        position.x,
-      );
-
-      const newPosition = {
-        ...position,
-        y: newXPosition,
-      };
-
-      setPosition(newPosition);
-      setSize(oldSize => ({ ...oldSize, width: newWidth }));
-    },
-    [position, width],
-  );
-
-  const scaleVertical = React.useCallback(
-    (pointerY: number, topWasMoved: boolean) => {
-      const [newHeight, newYPosition] = scale(
-        pointerY,
-        topWasMoved,
-        height,
-        position.y,
-      );
-
-      const newPosition = {
-        ...position,
-        y: newYPosition,
-      };
-
-      setPosition(newPosition);
-      setSize(oldSize => ({ ...oldSize, height: newHeight }));
-    },
-    [height, position],
-  );
-
   const stopScaling = React.useCallback(
-    (scaledPosition: "top" | "bottom" | "left" | "right") => {
+    (
+      scaledPosition:
+        | "top"
+        | "bottom"
+        | "left"
+        | "right"
+        | "top-right"
+        | "bottom-right"
+        | "bottom-left"
+        | "top-left",
+    ) => {
       stopDrag();
-
-      const topWasMoved = scaledPosition === "top";
-      const bottomWasMoved = scaledPosition === "bottom";
-      const leftWasMoved = scaledPosition === "left";
-      const rightWasMoved = scaledPosition === "right";
-
-      const xWasChanged = leftWasMoved || rightWasMoved;
-      const yWasChanged = topWasMoved || bottomWasMoved;
-
-      let newX = position.x;
-      let newY = position.y;
-
-      let newWidth = width;
-      let newHeight = height;
-
-      let closestValidXPosition;
-      let xDifference;
-      if (xWasChanged) {
-        closestValidXPosition = getClosestValidYPosition(position.x);
-        xDifference = position.x - closestValidXPosition;
-
-        if (leftWasMoved) {
-          // If the upper side of the Draggable was moved,
-          // we need to set the new y position in addition
-          // to changing the height.
-          newX = position.x - xDifference;
-        }
-
-        newWidth = width + xDifference;
-      }
-
-      let closestValidYPosition;
-      let yDifference;
-      if (yWasChanged) {
-        closestValidYPosition = getClosestValidYPosition(position.y);
-        yDifference = position.y - closestValidYPosition;
-
-        if (topWasMoved) {
-          // If the upper side of the Draggable was moved,
-          // we need to set the new y position in addition
-          // to changing the height.
-          newY = position.y - yDifference;
-        }
-
-        newHeight = height + yDifference;
-      }
-
-      const newPosition = {
-        x: newX,
-        y: newY,
-      };
-
-      setPosition(newPosition);
-
-      setSize({ width: newWidth, height: newHeight });
-      updateSize({ width: newWidth, height: newHeight });
+      setIsResizing(false);
     },
-    [
-      getClosestValidYPosition,
-      height,
-      position.x,
-      position.y,
-      stopDrag,
-      updateSize,
-      width,
-    ],
+    [stopDrag],
   );
+
+  /**
+   * This offset is used to fix some of the floating point errors
+   * that are placing items a few pixels off the grid.
+   */
+  const offset = 2;
 
   return (
-    <button
+    <div
       ref={elementRef}
-      type="button"
+      role="button"
+      tabIndex={0}
       /* Use draggable="true" to benefit from screen readers' understanding of the property */
       draggable="true"
       /* Prevent default because we implement drag ourselves */
       onDragStart={preventDefault}
       aria-grabbed={isDragging}
-      className={styles.draggable}
+      className={`${styles.draggable} ${isPreview && styles.preview}`}
       onMouseDown={startDrag}
       onTouchStart={startDrag}
       style={{
+        backgroundImage: backgroundImage
+          ? `url('${backgroundImage}')`
+          : undefined,
         transform: `translateX(${position.x}px) translateY(${position.y}px)`,
-        width,
-        height,
+        width: width + offset,
+        height: height + offset,
+        zIndex: isDragging ? 2 : undefined,
+        pointerEvents: isPreview || isResizing ? "none" : undefined,
       }}
       aria-label={labelText}
       onMouseUp={stopDrag}
@@ -410,28 +342,87 @@ export const Draggable: React.FC<DraggableProps> = ({
     >
       <ScaleHandle
         position="top"
-        onScale={newPosition => scaleVertical(newPosition, true)}
+        onScaleStart={() => {
+          setIsResizing(true);
+          startResize("horizontal");
+        }}
         onScaleStop={() => stopScaling("top")}
+        labelText={verticalScaleHandleLabelText}
+      />
+
+      <ScaleHandle
+        position="top-right"
+        onScaleStart={() => {
+          setIsResizing(true);
+          startResize(null);
+        }}
+        onScaleStop={() => stopScaling("top-right")}
         labelText={verticalScaleHandleLabelText}
       />
       <ScaleHandle
         position="right"
-        onScale={newPosition => scaleHorizontal(newPosition, false)}
+        onScaleStart={() => {
+          setIsResizing(true);
+          startResize("vertical");
+        }}
         onScaleStop={() => stopScaling("right")}
         labelText={horizontalScaleHandleLabelText}
       />
       <ScaleHandle
+        position="bottom-right"
+        onScaleStart={() => {
+          setIsResizing(true);
+          startResize(null);
+        }}
+        onScaleStop={() => stopScaling("bottom-right")}
+        labelText={horizontalScaleHandleLabelText}
+      />
+
+      <ScaleHandle
         position="bottom"
-        onScale={newPosition => scaleVertical(newPosition, false)}
+        onScaleStart={() => {
+          setIsResizing(true);
+          startResize("horizontal");
+        }}
         onScaleStop={() => stopScaling("bottom")}
         labelText={verticalScaleHandleLabelText}
       />
+
+      <ScaleHandle
+        position="bottom-left"
+        onScaleStart={() => {
+          setIsResizing(true);
+          startResize(null);
+        }}
+        onScaleStop={() => stopScaling("bottom-left")}
+        labelText={verticalScaleHandleLabelText}
+      />
+
       <ScaleHandle
         position="left"
-        onScale={newPosition => scaleHorizontal(newPosition, true)}
+        onScaleStart={() => {
+          setIsResizing(true);
+          startResize("vertical");
+        }}
         onScaleStop={() => stopScaling("left")}
         labelText={horizontalScaleHandleLabelText}
       />
-    </button>
+
+      <ScaleHandle
+        position="top-left"
+        onScaleStart={() => {
+          setIsResizing(true);
+          startResize(null);
+        }}
+        onScaleStop={() => stopScaling("top-left")}
+        labelText={horizontalScaleHandleLabelText}
+      />
+
+      <ContextMenu
+        onEdit={() => console.info("edit clicked")}
+        onDelete={() => deleteItem(id)}
+        show={selectedItem === id}
+      />
+    </div>
   );
 };

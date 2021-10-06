@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import * as React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
-import { ToolbarButtons } from "../Toolbar/Toolbar";
+import { ToolbarButtonType } from "../Toolbar/Toolbar";
 
 import { ToolbarButton } from "./ToolbarButton";
 
@@ -9,7 +9,7 @@ export default {
   title: "Atoms/ToolbarButton",
   component: ToolbarButton,
   args: {
-    icon: ToolbarButtons.MapColor,
+    icon: ToolbarButtonType.MapColor,
     onClick: () => console.info("Toolbar button clicked"),
     label: "Map Color",
     showActive: false,

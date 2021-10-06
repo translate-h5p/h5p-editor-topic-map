@@ -13,7 +13,6 @@ export default {
     initialYPosition: 200,
     height: 100,
     width: 100,
-    updateSize: newSize => console.info("New size:", newSize),
     gapSize: 10,
     gridIndicatorSize: 10,
     gridSize: {
@@ -24,6 +23,8 @@ export default {
     initialWidth: 95,
     id: "1",
     occupiedCells: [],
+    backgroundImage:
+      "https://images.unsplash.com/photo-1518701005037-d53b1f67bb1c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1326&q=80",
   },
 } as ComponentMeta<typeof Draggable>;
 

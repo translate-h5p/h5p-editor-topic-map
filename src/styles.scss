@@ -1,6 +1,7 @@
-$primary-color: white;
-$bg: black;
-h1 {
-  color: $primary-color;
-  background-color: $bg;
+.h5p-editor-topic-map {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
 }
