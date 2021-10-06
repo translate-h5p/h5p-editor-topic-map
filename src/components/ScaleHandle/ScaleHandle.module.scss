@@ -1,3 +1,5 @@
+@use "sass:math";
+
 $scale-offset: 0.5rem;
 .scaleHandle {
   position: absolute;
@@ -6,25 +8,25 @@ $scale-offset: 0.5rem;
 .scaleHandleLeft,
 .scaleHandleTopLeft,
 .scaleHandleBottomLeft {
-  left: -$scale-offset;
+  left: $scale-offset / -2;
 }
 
 .scaleHandleRight,
 .scaleHandleTopRight,
 .scaleHandleBottomRight {
-  right: -$scale-offset;
+  right: $scale-offset / -2;
 }
 
 .scaleHandleTop,
 .scaleHandleTopRight,
 .scaleHandleTopLeft {
-  top: -$scale-offset;
+  top: $scale-offset / -2;
 }
 
 .scaleHandleBottom,
 .scaleHandleBottomRight,
 .scaleHandleBottomLeft {
-  bottom: -$scale-offset;
+  bottom: $scale-offset / -2;
 }
 
 .scaleHandleLeft,

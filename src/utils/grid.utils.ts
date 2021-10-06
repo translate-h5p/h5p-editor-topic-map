@@ -1,3 +1,4 @@
+import { v4 as uuidV4 } from "uuid";
 import { Cell } from "../types/Cell";
 import { Element } from "../types/Element";
 import { OccupiedCell } from "../types/OccupiedCell";
@@ -228,4 +229,48 @@ export const coordinateSizeToPx = (
   gridIndicatorSize: number,
 ): number => {
   return coordinate * gridIndicatorSize + (coordinate - 1) * gapSize;
+};
+
+export const isDraggingLeft = (
+  indicatorIndex: number,
+  boxStartPosition: number,
+  numberOfColumns: number,
+): boolean =>
+  boxStartPosition % numberOfColumns >= indicatorIndex % numberOfColumns;
+
+export const isDraggingUp = (
+  indicatorIndex: number,
+  boxStartPosition: number,
+  numberOfColumns: number,
+  numberOfRows: number,
+): boolean =>
+  (Math.floor(boxStartPosition / numberOfColumns) / numberOfRows) * 100 >=
+  (Math.floor(indicatorIndex / numberOfColumns) / numberOfRows) * 100;
+
+export const createTopicMapItem = (): TopicMapItem => {
+  const id = uuidV4();
+
+  const item: TopicMapItem = {
+    id,
+    xPercentagePosition: 0,
+    yPercentagePosition: 0,
+    widthPercentage: 0,
+    heightPercentage: 0,
+    backgroundImage: { path: "", alt: "" },
+    label: "",
+    links: [],
+  };
+
+  return item;
+};
+
+export const findItem = (
+  id: string,
+  items: Array<TopicMapItem>,
+): TopicMapItem | null => {
+  if (!id) {
+    return null;
+  }
+
+  return items.find(item => item.id === id) ?? null;
 };
