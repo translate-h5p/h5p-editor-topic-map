@@ -13,7 +13,6 @@ module.exports = (env, argv) => {
   const config = {
     entry: {
       bundle: ["react-hot-loader/patch", "./src/index.tsx"],
-      semantics: "./src/semantics.ts",
     },
     output: {
       path: path.resolve(__dirname, "dist"),
