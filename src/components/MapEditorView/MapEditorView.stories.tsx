@@ -48,7 +48,7 @@ let withItemsItems: Array<TopicMapItem> = [
     widthPercentage: 30,
     heightPercentage: 20,
     backgroundImage: {
-      path: "https://images.unsplash.com/photo-1502977249166-824b3a8a4d6d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1160&q=80",
+      path: "https://images.unsplash.com/photo-1470509037663-253afd7f0f51?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=987&q=80",
       alt: "",
     },
     label: "Label 2",
