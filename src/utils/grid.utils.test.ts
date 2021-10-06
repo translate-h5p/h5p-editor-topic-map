@@ -345,12 +345,15 @@ describe(updateItem.name, () => {
     const width = 1000;
     const height = 1000;
 
-    const expectedItem = {
+    const expectedItem: TopicMapItem = {
       id: "1",
       xPercentagePosition: 25,
       yPercentagePosition: 20,
       widthPercentage: 20,
       heightPercentage: 20,
+      backgroundImage: { path: "", alt: "" },
+      label: "Label",
+      links: [],
     };
 
     const actualItems = updateItem(items, item, width, height, {
@@ -365,6 +368,9 @@ describe(updateItem.name, () => {
         yPercentagePosition: 60,
         widthPercentage: 65,
         heightPercentage: 32,
+        backgroundImage: { path: "", alt: "" },
+        label: "Label",
+        links: [],
       },
     ]);
   });
@@ -403,12 +409,15 @@ describe(updateItem.name, () => {
     const width = 1000;
     const height = 1000;
 
-    const expectedItem = {
+    const expectedItem: TopicMapItem = {
       id: "1",
       xPercentagePosition: 5,
       yPercentagePosition: 10,
       widthPercentage: 10,
       heightPercentage: 10,
+      backgroundImage: { path: "", alt: "" },
+      label: "Label",
+      links: [],
     };
 
     const actualItems = updateItem(items, item, width, height, {
@@ -423,6 +432,9 @@ describe(updateItem.name, () => {
         yPercentagePosition: 60,
         widthPercentage: 65,
         heightPercentage: 32,
+        backgroundImage: { path: "", alt: "" },
+        label: "Label",
+        links: [],
       },
     ]);
   });
