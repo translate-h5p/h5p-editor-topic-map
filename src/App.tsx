@@ -1,23 +1,32 @@
 import * as React from "react";
 import { hot } from "react-hot-loader/root";
 import { MapEditorView } from "./components/MapEditorView/MapEditorView";
+import { H5PField } from "./types/h5p/H5PField";
+import { Params } from "./types/h5p/Params";
 import { TopicMapItem } from "./types/TopicMapItem";
 
 type AppProps = {
-  setValue: (value: unknown) => void;
+  setValue: (field: H5PField, params: Params) => void;
+  field: H5PField;
+  topicMapItems: Array<TopicMapItem>;
 };
 
-const App = ({ setValue }: AppProps): JSX.Element => {
+const App: React.FC<AppProps> = ({ setValue, field, topicMapItems }) => {
   const updateItems = React.useCallback(
     (items: Array<TopicMapItem>) => {
-      setValue({ items });
+      setValue(field, {
+        topicMapItems: items,
+      });
     },
-    [setValue],
+    [field, setValue],
   );
 
   return (
     <div className="h5p-editor-topic-map">
-      <MapEditorView updateItems={updateItems} />
+      <MapEditorView
+        updateItems={updateItems}
+        initialGridItems={topicMapItems}
+      />
     </div>
   );
 };

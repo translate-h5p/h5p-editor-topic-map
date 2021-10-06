@@ -25,6 +25,9 @@ describe(resizeItem.name, () => {
       yPercentagePosition: 10,
       widthPercentage: 20,
       heightPercentage: 20,
+      backgroundImage: { path: "", alt: "" },
+      label: "Label",
+      links: [],
     };
 
     const scaleFactor = 0.5;
@@ -35,6 +38,9 @@ describe(resizeItem.name, () => {
       yPercentagePosition: 5,
       widthPercentage: 10,
       heightPercentage: 10,
+      backgroundImage: { path: "", alt: "" },
+      label: "Label",
+      links: [],
     };
 
     const actualItem = resizeItem(item, scaleFactor);
@@ -49,6 +55,9 @@ describe(resizeItem.name, () => {
       yPercentagePosition: 10,
       widthPercentage: 20,
       heightPercentage: 20,
+      backgroundImage: { path: "", alt: "" },
+      label: "Label",
+      links: [],
     };
 
     const scaleFactor = 2;
@@ -59,6 +68,9 @@ describe(resizeItem.name, () => {
       yPercentagePosition: 20,
       widthPercentage: 40,
       heightPercentage: 40,
+      backgroundImage: { path: "", alt: "" },
+      label: "Label",
+      links: [],
     };
 
     const actualItem = resizeItem(item, scaleFactor);
@@ -73,6 +85,9 @@ describe(resizeItem.name, () => {
       yPercentagePosition: 10,
       widthPercentage: 20,
       heightPercentage: 20,
+      backgroundImage: { path: "", alt: "" },
+      label: "Label",
+      links: [],
     };
 
     const scaleFactor = 1;
@@ -83,6 +98,9 @@ describe(resizeItem.name, () => {
       yPercentagePosition: 10,
       widthPercentage: 20,
       heightPercentage: 20,
+      backgroundImage: { path: "", alt: "" },
+      label: "Label",
+      links: [],
     };
 
     const actualItem = resizeItem(item, scaleFactor);
@@ -99,6 +117,9 @@ describe(resizeItem.name, () => {
           yPercentagePosition: 10,
           widthPercentage: 20,
           heightPercentage: 20,
+          backgroundImage: { path: "", alt: "" },
+          label: "Label",
+          links: [],
         };
 
         const expectedItem: TopicMapItem = {
@@ -107,6 +128,9 @@ describe(resizeItem.name, () => {
           yPercentagePosition: 10 * scaleFactor,
           widthPercentage: 20 * scaleFactor,
           heightPercentage: 20 * scaleFactor,
+          backgroundImage: { path: "", alt: "" },
+          label: "Label",
+          links: [],
         };
 
         const actualItem = resizeItem(item, scaleFactor);
@@ -143,12 +167,15 @@ describe(calculateYPercentage.name, () => {
 
 describe(updateItem.name, () => {
   it("should find the item in the items list and update the position and size based on the grid's width and height", () => {
-    const item = {
+    const item: TopicMapItem = {
       id: "1",
       xPercentagePosition: 25,
       yPercentagePosition: 20,
       widthPercentage: 10,
       heightPercentage: 10,
+      backgroundImage: { path: "", alt: "" },
+      label: "Label",
+      links: [],
     };
 
     const items: Array<TopicMapItem> = [
@@ -159,6 +186,9 @@ describe(updateItem.name, () => {
         yPercentagePosition: 60,
         widthPercentage: 65,
         heightPercentage: 32,
+        backgroundImage: { path: "", alt: "" },
+        label: "Label",
+        links: [],
       },
     ];
 
@@ -181,6 +211,9 @@ describe(updateItem.name, () => {
       yPercentagePosition: 10,
       widthPercentage: 20,
       heightPercentage: 20,
+      backgroundImage: { path: "", alt: "" },
+      label: "Label",
+      links: [],
     };
 
     const actualItems = updateItem(items, item, width, height, {
@@ -196,17 +229,23 @@ describe(updateItem.name, () => {
         yPercentagePosition: 60,
         widthPercentage: 65,
         heightPercentage: 32,
+        backgroundImage: { path: "", alt: "" },
+        label: "Label",
+        links: [],
       },
     ]);
   });
 
   it("should update without changing the list, and without changing the item object itself", () => {
-    const item = {
+    const item: TopicMapItem = {
       id: "1",
       xPercentagePosition: 25,
       yPercentagePosition: 20,
       widthPercentage: 10,
       heightPercentage: 10,
+      backgroundImage: { path: "", alt: "" },
+      label: "Label",
+      links: [],
     };
 
     const items: Array<TopicMapItem> = [
@@ -217,6 +256,9 @@ describe(updateItem.name, () => {
         yPercentagePosition: 60,
         widthPercentage: 65,
         heightPercentage: 32,
+        backgroundImage: { path: "", alt: "" },
+        label: "Label",
+        links: [],
       },
     ];
 
@@ -241,6 +283,9 @@ describe(updateItem.name, () => {
       yPercentagePosition: 20,
       widthPercentage: 10,
       heightPercentage: 10,
+      backgroundImage: { path: "", alt: "" },
+      label: "Label",
+      links: [],
     });
 
     expect(items[0]).toEqual({
@@ -249,6 +294,9 @@ describe(updateItem.name, () => {
       yPercentagePosition: 20,
       widthPercentage: 10,
       heightPercentage: 10,
+      backgroundImage: { path: "", alt: "" },
+      label: "Label",
+      links: [],
     });
 
     expect(items[1]).toEqual({
@@ -257,16 +305,22 @@ describe(updateItem.name, () => {
       yPercentagePosition: 60,
       widthPercentage: 65,
       heightPercentage: 32,
+      backgroundImage: { path: "", alt: "" },
+      label: "Label",
+      links: [],
     });
   });
 
   it("should be able to update only the size", () => {
-    const item = {
+    const item: TopicMapItem = {
       id: "1",
       xPercentagePosition: 25,
       yPercentagePosition: 20,
       widthPercentage: 10,
       heightPercentage: 10,
+      backgroundImage: { path: "", alt: "" },
+      label: "Label",
+      links: [],
     };
 
     const items: Array<TopicMapItem> = [
@@ -277,6 +331,9 @@ describe(updateItem.name, () => {
         yPercentagePosition: 60,
         widthPercentage: 65,
         heightPercentage: 32,
+        backgroundImage: { path: "", alt: "" },
+        label: "Label",
+        links: [],
       },
     ];
 
@@ -313,12 +370,15 @@ describe(updateItem.name, () => {
   });
 
   it("should be able to update only the position", () => {
-    const item = {
+    const item: TopicMapItem = {
       id: "1",
       xPercentagePosition: 25,
       yPercentagePosition: 20,
       widthPercentage: 10,
       heightPercentage: 10,
+      backgroundImage: { path: "", alt: "" },
+      label: "Label",
+      links: [],
     };
 
     const items: Array<TopicMapItem> = [
@@ -329,6 +389,9 @@ describe(updateItem.name, () => {
         yPercentagePosition: 60,
         widthPercentage: 65,
         heightPercentage: 32,
+        backgroundImage: { path: "", alt: "" },
+        label: "Label",
+        links: [],
       },
     ];
 

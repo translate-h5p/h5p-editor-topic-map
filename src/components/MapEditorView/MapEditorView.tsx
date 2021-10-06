@@ -8,7 +8,7 @@ export type MapEditorViewProps = {
   numberOfColumns?: number;
   numberOfRows?: number;
   gapSize?: number;
-  initialGridItems?: Array<TopicMapItem>;
+  initialGridItems: Array<TopicMapItem>;
   updateItems: (items: Array<TopicMapItem>) => void;
 };
 

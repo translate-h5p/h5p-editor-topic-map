@@ -205,12 +205,15 @@ export const Grid: React.FC<GridProps> = ({
           items.length !== currentItemsLength &&
           items[currentItemsLength] != null;
 
-        const newItem = {
+        const newItem: TopicMapItem = {
           id,
           xPercentagePosition,
           yPercentagePosition,
           widthPercentage,
           heightPercentage,
+          backgroundImage: { path: "", alt: "" },
+          label: "",
+          links: [],
         };
 
         const newPosition = {

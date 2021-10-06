@@ -1,3 +1,5 @@
+import { Image } from "./h5p/Image";
+
 export type TopicMapItem = {
   id: string;
 
@@ -12,4 +14,8 @@ export type TopicMapItem = {
 
   /** The height as a percentage of the container's height */
   heightPercentage: number;
+
+  label: string;
+  backgroundImage: Image;
+  links: Array<string>;
 };

@@ -27,13 +27,19 @@ Empty.args = {
   initialGridItems: [],
 };
 
-let withItemsItems = [
+let withItemsItems: Array<TopicMapItem> = [
   {
     id: "1",
     xPercentagePosition: 0,
     yPercentagePosition: 0,
     widthPercentage: 15,
     heightPercentage: 20,
+    backgroundImage: {
+      path: "https://images.unsplash.com/photo-1546842931-886c185b4c8c?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=770&q=80",
+      alt: "",
+    },
+    label: "Label 1",
+    links: [],
   },
   {
     id: "2",
@@ -41,6 +47,12 @@ let withItemsItems = [
     yPercentagePosition: 30,
     widthPercentage: 30,
     heightPercentage: 20,
+    backgroundImage: {
+      path: "https://images.unsplash.com/photo-1502977249166-824b3a8a4d6d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1160&q=80",
+      alt: "",
+    },
+    label: "Label 2",
+    links: [],
   },
   {
     id: "3",
@@ -48,6 +60,12 @@ let withItemsItems = [
     yPercentagePosition: 30,
     widthPercentage: 15,
     heightPercentage: 50,
+    backgroundImage: {
+      path: "https://images.unsplash.com/photo-1527061011665-3652c757a4d4?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=772&q=80",
+      alt: "",
+    },
+    label: "Label 3",
+    links: [],
   },
 ];
 
@@ -75,6 +93,12 @@ FullscreenWithItems.args = {
       yPercentagePosition: 0,
       widthPercentage: 15,
       heightPercentage: 20,
+      backgroundImage: {
+        path: "https://images.unsplash.com/photo-1601242453944-421cde7cfc84?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
+        alt: "",
+      },
+      label: "Label 1",
+      links: [],
     },
     {
       id: "2",
@@ -82,6 +106,12 @@ FullscreenWithItems.args = {
       yPercentagePosition: 30,
       widthPercentage: 30,
       heightPercentage: 20,
+      backgroundImage: {
+        path: "https://images.unsplash.com/photo-1596985122625-faf96c53e0c6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1374&q=80",
+        alt: "",
+      },
+      label: "Label 2",
+      links: [],
     },
     {
       id: "3",
@@ -89,6 +119,12 @@ FullscreenWithItems.args = {
       yPercentagePosition: 30,
       widthPercentage: 15,
       heightPercentage: 50,
+      backgroundImage: {
+        path: "https://images.unsplash.com/photo-1598328514034-58f20ba7d2d3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1064&q=80",
+        alt: "",
+      },
+      label: "Label 3",
+      links: [],
     },
   ],
 };
