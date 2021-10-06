@@ -1,12 +1,15 @@
 import * as React from "react";
-import { v4 as uuidV4 } from "uuid";
 import { Element } from "../../types/Element";
 import { OccupiedCell } from "../../types/OccupiedCell";
 import { Position } from "../../types/Position";
 import { Size } from "../../types/Size";
 import { TopicMapItem } from "../../types/TopicMapItem";
 import {
+  createTopicMapItem,
+  findItem,
   findOccupiedCells,
+  isDraggingLeft,
+  isDraggingUp,
   mapTopicMapItemToElement,
   positionIsFree,
   resizeItems,
@@ -46,9 +49,7 @@ export const Grid: React.FC<GridProps> = ({
   const [occupiedCells, setOccupiedCells] = React.useState<Array<OccupiedCell>>(
     [],
   );
-  const [boxStartPosition, setBoxStartPosition] = React.useState<number | null>(
-    null,
-  );
+  const [boxStartIndex, setBoxStartIndex] = React.useState<number | null>(null);
   const [currentItemsLength, setCurrentItemsLength] = React.useState<number>(
     items.length,
   );
@@ -130,7 +131,7 @@ export const Grid: React.FC<GridProps> = ({
   const createBoxStart = React.useCallback(
     (index: number) => {
       if (activeTool === ToolbarButtonType.CreateBox) {
-        setBoxStartPosition(index);
+        setBoxStartIndex(index);
         setIsDragging(true);
       }
     },
@@ -140,7 +141,7 @@ export const Grid: React.FC<GridProps> = ({
   const createBoxEnd = React.useCallback(() => {
     if (activeTool === ToolbarButtonType.CreateBox) {
       setIsDragging(false);
-      setBoxStartPosition(null);
+      setBoxStartIndex(null);
       setCurrentItemsLength(items.length);
       setActiveTool(null);
 
@@ -152,7 +153,7 @@ export const Grid: React.FC<GridProps> = ({
 
   const resizeBoxEnd = React.useCallback(() => {
     setResizedItemId(null);
-    setBoxStartPosition(null);
+    setBoxStartIndex(null);
     setResizeDirectionLock(null);
   }, []);
 
@@ -160,135 +161,103 @@ export const Grid: React.FC<GridProps> = ({
     (indicatorIndex: number) => {
       const isCreatingNewBox =
         activeTool === ToolbarButtonType.CreateBox && isDragging;
-      const isResizing = resizedItemId != null;
+      if (!isCreatingNewBox) {
+        return;
+      }
 
-      if (isCreatingNewBox || isResizing) {
-        if (boxStartPosition == null) {
-          throw new Error("Box start position is not defined.");
-        }
+      if (boxStartIndex == null) {
+        throw new Error("Box start position is not defined.");
+      }
 
-        if (!size) {
-          throw new Error("Grid has no size.");
-        }
+      if (!size) {
+        throw new Error("Grid has no size.");
+      }
 
-        const dragLeft =
-          boxStartPosition % numberOfColumns >=
-          indicatorIndex % numberOfColumns;
-        const dragUp =
-          (Math.floor(boxStartPosition / numberOfColumns) / numberOfRows) *
-            100 >=
-          (Math.floor(indicatorIndex / numberOfColumns) / numberOfRows) * 100;
+      const dragLeft = isDraggingLeft(
+        indicatorIndex,
+        boxStartIndex,
+        numberOfColumns,
+      );
+      const dragUp = isDraggingUp(
+        indicatorIndex,
+        boxStartIndex,
+        numberOfColumns,
+        numberOfRows,
+      );
 
-        // Get x and y percentage position
-        const x = dragLeft
-          ? indicatorIndex % numberOfColumns
-          : boxStartPosition % numberOfColumns;
-        const y = dragUp
-          ? Math.floor(indicatorIndex / numberOfColumns)
-          : Math.floor(boxStartPosition / numberOfColumns);
+      // Get x and y percentage position
+      const x = dragLeft
+        ? indicatorIndex % numberOfColumns
+        : boxStartIndex % numberOfColumns;
+      const y = dragUp
+        ? Math.floor(indicatorIndex / numberOfColumns)
+        : Math.floor(boxStartIndex / numberOfColumns);
 
-        const xPercentagePosition = (x / numberOfColumns) * 100;
-        const yPercentagePosition = (y / numberOfRows) * 100;
+      const xPercentagePosition = (x / numberOfColumns) * 100;
+      const yPercentagePosition = (y / numberOfRows) * 100;
 
-        // Get height percentage
-        const yEnd = dragUp
-          ? Math.floor(boxStartPosition / numberOfColumns)
-          : Math.floor(indicatorIndex / numberOfColumns);
-        const yEndPercentagePosition = ((yEnd + 1) / numberOfRows) * 100;
+      // Get height percentage
+      const yEnd = dragUp
+        ? Math.floor(boxStartIndex / numberOfColumns)
+        : Math.floor(indicatorIndex / numberOfColumns);
+      const yEndPercentagePosition = ((yEnd + 1) / numberOfRows) * 100;
 
-        const heightPercentage = yEndPercentagePosition - yPercentagePosition;
+      const heightPercentage = yEndPercentagePosition - yPercentagePosition;
 
-        // Get width percentage
-        const indicatorValue = dragLeft
-          ? boxStartPosition + 1
-          : indicatorIndex + 1;
-        const lastIndexOnColumn = indicatorValue % numberOfColumns === 0;
+      // Get width percentage
+      const indicatorValue = dragLeft ? boxStartIndex + 1 : indicatorIndex + 1;
+      const lastIndexOnColumn = indicatorValue % numberOfColumns === 0;
 
-        const xEnd = indicatorValue % numberOfColumns;
-        const xEndPercentagePosition = lastIndexOnColumn
-          ? 100
-          : (xEnd / numberOfColumns) * 100;
+      const xEnd = indicatorValue % numberOfColumns;
+      const xEndPercentagePosition = lastIndexOnColumn
+        ? 100
+        : (xEnd / numberOfColumns) * 100;
 
-        const widthPercentage = xEndPercentagePosition - xPercentagePosition;
+      const widthPercentage = xEndPercentagePosition - xPercentagePosition;
 
-        // Create box
-        const id = resizedItemId ?? uuidV4();
-        const alreadyAdded =
-          items.length !== currentItemsLength &&
-          items[currentItemsLength] != null;
+      // Create box
+      const alreadyAdded =
+        items.length !== currentItemsLength &&
+        items[currentItemsLength] != null;
 
-        const newItem: TopicMapItem = {
-          id,
-          xPercentagePosition,
-          yPercentagePosition,
-          widthPercentage,
-          heightPercentage,
-          backgroundImage: { path: "", alt: "" },
-          label: "",
-          links: [],
-        };
+      const newItem = createTopicMapItem();
+      newItem.xPercentagePosition = xPercentagePosition;
+      newItem.widthPercentage = widthPercentage;
+      newItem.yPercentagePosition = yPercentagePosition;
+      newItem.heightPercentage = heightPercentage;
 
-        const newPosition = {
-          x: scaleX(xPercentagePosition, size.width),
-          y: scaleY(yPercentagePosition, size.height),
-        };
-        const newSize = {
-          width: scaleX(widthPercentage, size.width),
-          height: scaleY(heightPercentage, size.height),
-        };
+      const newPosition = {
+        x: scaleX(xPercentagePosition, size.width),
+        y: scaleY(yPercentagePosition, size.height),
+      };
+      const newSize = {
+        width: scaleX(widthPercentage, size.width),
+        height: scaleY(heightPercentage, size.height),
+      };
 
-        const posIsFree = positionIsFree(
-          newPosition,
-          alreadyAdded ? items[currentItemsLength].id : id,
-          newSize,
-          size,
-          gapSize,
-          gridIndicatorSize,
-          occupiedCells,
-        );
+      const lastItem = items[currentItemsLength];
+      const posIsFree = positionIsFree(
+        newPosition,
+        alreadyAdded ? lastItem.id : newItem.id,
+        newSize,
+        size,
+        gapSize,
+        gridIndicatorSize,
+        occupiedCells,
+      );
 
-        if (posIsFree && !alreadyAdded) {
-          const newItems =
-            resizedItemId != null
-              ? [
-                  ...items.map(item => {
-                    const itemWasFound = item.id === resizedItemId;
-                    if (itemWasFound) {
-                      switch (resizeDirectionLock) {
-                        case "horizontal":
-                          return {
-                            ...newItem,
-                            widthPercentage: item.widthPercentage,
-                            xPercentagePosition: item.xPercentagePosition,
-                          };
-                        case "vertical":
-                          return {
-                            ...newItem,
-                            heightPercentage: item.heightPercentage,
-                            yPercentagePosition: item.yPercentagePosition,
-                          };
-                        case null:
-                          return newItem;
-                      }
-                    }
+      if (posIsFree && !alreadyAdded) {
+        const newItems = [...items, newItem];
 
-                    return item;
-                  }),
-                ]
-              : [...items, newItem];
+        updateItems(newItems);
+        setItems(newItems);
+      }
 
-          updateItems(newItems);
-          setItems(newItems);
-        }
-
-        if (posIsFree && alreadyAdded && !dragLeft && !dragUp) {
-          updateItemSize(items[currentItemsLength], newSize);
-        }
-
-        if (posIsFree && alreadyAdded && (dragLeft || dragUp)) {
+      if (posIsFree && alreadyAdded) {
+        if (dragLeft || dragUp) {
           const newItems = updateItem(
             items,
-            items[currentItemsLength],
+            lastItem,
             size.width,
             size.height,
             { newPosition, newSize },
@@ -296,18 +265,152 @@ export const Grid: React.FC<GridProps> = ({
 
           updateItems(newItems);
           setItems(newItems);
+        } else {
+          updateItemSize(lastItem, newSize);
         }
       }
     },
     [
       activeTool,
       isDragging,
-      resizedItemId,
-      boxStartPosition,
+      boxStartIndex,
       size,
       numberOfColumns,
       numberOfRows,
       currentItemsLength,
+      items,
+      gapSize,
+      gridIndicatorSize,
+      occupiedCells,
+      updateItems,
+      updateItemSize,
+    ],
+  );
+
+  const resizeBoxEnter = React.useCallback(
+    (indicatorIndex: number) => {
+      const isResizing = resizedItemId != null;
+      if (!isResizing) {
+        return;
+      }
+
+      if (boxStartIndex == null) {
+        throw new Error("Box start position is not defined.");
+      }
+
+      if (!size) {
+        throw new Error("Grid has no size.");
+      }
+
+      const existingItem = findItem(resizedItemId, items);
+      if (!existingItem) {
+        throw new Error(
+          `Resized item with id "${resizedItemId}" does not exist`,
+        );
+      }
+
+      const dragLeft = isDraggingLeft(
+        indicatorIndex,
+        boxStartIndex,
+        numberOfColumns,
+      );
+      const dragUp = isDraggingUp(
+        indicatorIndex,
+        boxStartIndex,
+        numberOfColumns,
+        numberOfRows,
+      );
+
+      const onlyScaleVertically = resizeDirectionLock === "horizontal";
+      const onlyScaleHorizontally = resizeDirectionLock === "vertical";
+
+      // Get x and y percentage position
+      const x = dragLeft
+        ? indicatorIndex % numberOfColumns
+        : boxStartIndex % numberOfColumns;
+
+      const y = dragUp
+        ? Math.floor(indicatorIndex / numberOfColumns)
+        : Math.floor(boxStartIndex / numberOfColumns);
+
+      const xPercentagePosition = onlyScaleVertically
+        ? existingItem.xPercentagePosition
+        : (x / numberOfColumns) * 100;
+      const yPercentagePosition = onlyScaleHorizontally
+        ? existingItem.yPercentagePosition
+        : (y / numberOfRows) * 100;
+
+      // Get height percentage
+      const yEnd = dragUp
+        ? Math.floor(
+            (boxStartIndex + existingItem.widthPercentage) / numberOfColumns,
+          )
+        : Math.floor(indicatorIndex / numberOfColumns);
+      const yEndPercentagePosition = ((yEnd + 1) / numberOfRows) * 100;
+
+      const heightPercentage = onlyScaleHorizontally
+        ? existingItem.heightPercentage
+        : yEndPercentagePosition - yPercentagePosition;
+
+      // Get width percentage
+      const indicatorValue = dragLeft
+        ? boxStartIndex +
+          1 +
+          existingItem.widthPercentage / (gapSize + gridIndicatorSize)
+        : indicatorIndex + 1;
+      const lastIndexOnColumn = indicatorValue % numberOfColumns === 0;
+
+      const xEnd = indicatorValue % numberOfColumns;
+      const xEndPercentagePosition = lastIndexOnColumn
+        ? 100
+        : (xEnd / numberOfColumns) * 100;
+
+      const widthPercentage = onlyScaleVertically
+        ? existingItem.widthPercentage
+        : xEndPercentagePosition - xPercentagePosition;
+
+      const newPosition = {
+        x: scaleX(xPercentagePosition, size.width),
+        y: scaleY(yPercentagePosition, size.height),
+      };
+      const newSize = {
+        width: scaleX(widthPercentage, size.width),
+        height: scaleY(heightPercentage, size.height),
+      };
+
+      const posIsFree = positionIsFree(
+        newPosition,
+        existingItem.id,
+        newSize,
+        size,
+        gapSize,
+        gridIndicatorSize,
+        occupiedCells,
+      );
+
+      if (posIsFree && isResizing) {
+        if (dragLeft || dragUp) {
+          const newItems = updateItem(
+            items,
+            existingItem,
+            size.width,
+            size.height,
+            { newPosition, newSize },
+          );
+
+          updateItems(newItems);
+          setItems(newItems);
+        } else {
+          updateItemSize(existingItem, newSize);
+        }
+      }
+    },
+    [
+      resizedItemId,
+      boxStartIndex,
+      size,
+      numberOfColumns,
+      numberOfRows,
       items,
       gapSize,
       gridIndicatorSize,
@@ -344,7 +447,14 @@ export const Grid: React.FC<GridProps> = ({
               setSelectedItem(null);
             }}
             onMouseDown={createBoxStart}
-            onMouseEnter={createBoxEnter}
+            onMouseEnter={indicatorIndex => {
+              const isResizing = resizedItemId != null;
+              if (isResizing) {
+                resizeBoxEnter(indicatorIndex);
+              } else {
+                createBoxEnter(indicatorIndex);
+              }
+            }}
             active={activeHoverOnGrid}
           />
         )),
@@ -356,7 +466,7 @@ export const Grid: React.FC<GridProps> = ({
       numberOfRows,
       activeTool,
       items,
-      boxStartPosition,
+      boxStartIndex,
       activeHoverOnGrid,
       currentItemsLength,
       isDragging,
@@ -434,7 +544,7 @@ export const Grid: React.FC<GridProps> = ({
           const y = Math.floor((item.yPercentagePosition / 100) * numberOfRows);
           const cellIndex = x + y * numberOfColumns;
 
-          setBoxStartPosition(cellIndex);
+          setBoxStartIndex(cellIndex);
           setResizedItemId(item.id);
           setResizeDirectionLock(directionLock);
         }}

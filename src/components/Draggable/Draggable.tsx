@@ -336,6 +336,7 @@ export const Draggable: React.FC<DraggableProps> = ({
         height: height + offset,
         zIndex: isDragging || selectedItem === id ? 2 : undefined,
         pointerEvents: isPreview || isResizing ? "none" : undefined,
+        transition: isPreview || isResizing ? "none" : undefined,
       }}
       aria-label={labelText}
       onMouseUp={stopDrag}
