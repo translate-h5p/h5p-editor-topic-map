@@ -24,30 +24,35 @@ export type ToolBarProps = {
   activeTool: ToolbarButtonType | null;
 };
 
-export const Toolbar: React.FC<ToolBarProps> = ({ 
-  setActiveTool, 
+export const Toolbar: React.FC<ToolBarProps> = ({
+  setActiveTool,
   activeTool,
 }) => {
-  const [activeButton, setActiveButton] = React.useState<string | null>(activeTool);
+  const [activeButton, setActiveButton] = React.useState<string | null>(
+    activeTool,
+  );
 
   const setActive = (newValue: ToolbarButtonType): void => {
     setActiveButton(activeButton !== newValue ? newValue : null);
     setActiveTool(activeButton !== newValue ? newValue : null);
   };
 
-  const checkIfActive = React.useCallback((type: ToolbarButtonType) => {
-    const activeB = activeButton === type;
-    const activeT = activeTool === type;
+  const checkIfActive = React.useCallback(
+    (type: ToolbarButtonType) => {
+      const activeB = activeButton === type;
+      const activeT = activeTool === type;
 
-    if (activeB && activeT) {
-      return true;
-    }
-    if (activeB && !activeT) {
-      setActiveButton(activeTool);
-      return true;
-    }
-    return false;
-  }, [activeButton, activeTool]);
+      if (activeB && activeT) {
+        return true;
+      }
+      if (activeB && !activeT) {
+        setActiveButton(activeTool);
+        return true;
+      }
+      return false;
+    },
+    [activeButton, activeTool],
+  );
 
   return (
     <div className={styles.toolbar}>
