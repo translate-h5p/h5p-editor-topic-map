@@ -1,8 +1,8 @@
 .mapEditorView {
   font-size: 16px;
+  overflow: hidden;
 
   .gridBorder {
-    overflow: hidden;
     padding: 1em;
     background: #fefefe;
     border-right: 1px solid #d1d1d1;

@@ -8,6 +8,7 @@ import {
   getPointerPositionFromEvent,
 } from "../../utils/draggable.utils";
 import { positionIsFree } from "../../utils/grid.utils";
+import { ContextMenu } from "../ContextMenu/ContextMenu";
 import { ScaleHandle } from "../ScaleHandle/ScaleHandle";
 import styles from "./Draggable.module.scss";
 
@@ -29,6 +30,9 @@ export type DraggableProps = {
   gridSize: Size;
   occupiedCells: Array<OccupiedCell>;
   isPreview: boolean;
+  deleteItem: (item: string) => void;
+  setSelectedItem: (newItem: string | null) => void;
+  selectedItem: string | null;
   startResize: (directionLock: "horizontal" | "vertical" | null) => void;
 };
 
@@ -44,10 +48,13 @@ export const Draggable: React.FC<DraggableProps> = ({
   gridSize,
   occupiedCells,
   isPreview,
+  deleteItem,
+  setSelectedItem,
+  selectedItem,
   startResize,
 }) => {
   const [isDragging, setIsDragging] = React.useState(false);
-  const [isSelected, setIsSelected] = React.useState(false);
+  const [isSelected, setIsSelected] = React.useState(selectedItem === id);
   const [labelText, setLabelText] = React.useState(labelTexts.notSelected);
   const [pointerStartPosition, setPointerStartPosition] =
     React.useState<Position | null>(null);
@@ -142,12 +149,13 @@ export const Draggable: React.FC<DraggableProps> = ({
     width,
   ]);
 
-  const elementRef = React.useRef<HTMLButtonElement>(null);
+  const elementRef = React.useRef<HTMLDivElement>(null);
 
   const startDrag = React.useCallback(
     (event: React.MouseEvent | React.TouchEvent) => {
       setIsDragging(true);
       setIsSelected(true);
+      setSelectedItem(id);
 
       const { x, y } = getPointerPositionFromEvent(event);
 
@@ -156,7 +164,7 @@ export const Draggable: React.FC<DraggableProps> = ({
         y: y - position.y,
       });
     },
-    [position],
+    [setSelectedItem, id, position],
   );
 
   const getNewPosition = React.useCallback(
@@ -305,9 +313,10 @@ export const Draggable: React.FC<DraggableProps> = ({
   const offset = 2;
 
   return (
-    <button
+    <div
       ref={elementRef}
-      type="button"
+      role="button"
+      tabIndex={0}
       /* Use draggable="true" to benefit from screen readers' understanding of the property */
       draggable="true"
       /* Prevent default because we implement drag ourselves */
@@ -404,6 +413,12 @@ export const Draggable: React.FC<DraggableProps> = ({
         onScaleStop={() => stopScaling("top-left")}
         labelText={horizontalScaleHandleLabelText}
       />
-    </button>
+
+      <ContextMenu
+        onEdit={() => console.info("edit clicked")}
+        onDelete={() => deleteItem(id)}
+        show={selectedItem === id}
+      />
+    </div>
   );
 };
