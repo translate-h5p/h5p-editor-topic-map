@@ -410,6 +410,7 @@ export const Grid: React.FC<GridProps> = ({
           setResizedItemId(item.id);
           setResizeDirectionLock(directionLock);
         }}
+        backgroundImage={item.backgroundImage.path}
       />
     ));
   }, [
