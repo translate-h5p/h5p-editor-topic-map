@@ -334,7 +334,7 @@ export const Draggable: React.FC<DraggableProps> = ({
         transform: `translateX(${position.x}px) translateY(${position.y}px)`,
         width: width + offset,
         height: height + offset,
-        zIndex: isDragging || (selectedItem === id) ? 2 : undefined,
+        zIndex: isDragging || selectedItem === id ? 2 : undefined,
         pointerEvents: isPreview || isResizing ? "none" : undefined,
       }}
       aria-label={labelText}
