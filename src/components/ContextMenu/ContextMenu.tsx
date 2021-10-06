@@ -19,8 +19,8 @@ export enum ContextMenuButtonType {
 
 export type ContextMenuProps = {
   show: boolean;
-  onEdit: () => void;
-  onDelete: () => void;
+  onEdit: React.MouseEventHandler;
+  onDelete: React.MouseEventHandler;
 };
 
 export const ContextMenu: React.FC<ContextMenuProps> = ({

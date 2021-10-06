@@ -40,6 +40,7 @@ export const Grid: React.FC<GridProps> = ({
   const [size, setSize] = React.useState<Size | null>();
   const [hasRendered, setHasRendered] = React.useState<boolean>(false);
   const [items, setItems] = React.useState<Array<TopicMapItem>>(initialItems);
+  const [selectedItem, setSelectedItem] = React.useState<string | null>(null);
   const [occupiedCells, setOccupiedCells] = React.useState<Array<OccupiedCell>>(
     [],
   );
@@ -59,6 +60,10 @@ export const Grid: React.FC<GridProps> = ({
 
   /* TODO: Translate */
   const gridIndicatorLabel = "Click to create a new element";
+
+  const setSelected = React.useCallback((newItem: string | null) => {
+    setSelectedItem(newItem);
+  }, []);
 
   const getGridIndicatorSize = React.useCallback(() => {
     if (!elementRef.current) {
@@ -297,6 +302,7 @@ export const Grid: React.FC<GridProps> = ({
             label={gridIndicatorLabel}
             onClick={() => {
               console.info("Click grid indicator");
+              setSelectedItem(null);
             }}
             onMouseDown={createBoxStart}
             onMouseEnter={createBoxEnter}
@@ -348,6 +354,18 @@ export const Grid: React.FC<GridProps> = ({
     [gapSize, gridIndicatorSize, items, size, updateItems],
   );
 
+  const deleteItem = React.useCallback(
+    (id: string) => {
+      /* TODO: Add dialog to confirm delete */
+      const newItems = items.filter(item => item.id !== id);
+
+      updateItems(newItems);
+      setItems(newItems);
+      setCurrentItemsLength(newItems.length);
+    },
+    [items, updateItems],
+  );
+
   const children = React.useMemo(() => {
     if (gapSize == null || gridIndicatorSize == null || size == null) {
       return null;
@@ -367,6 +385,9 @@ export const Grid: React.FC<GridProps> = ({
         gridSize={size}
         occupiedCells={occupiedCells}
         isPreview={isDragging}
+        deleteItem={deleteItem}
+        setSelectedItem={setSelected}
+        selectedItem={selectedItem}
         startResize={directionLock => {
           const x = Math.floor(
             (item.xPercentagePosition / 100) * numberOfColumns,
@@ -387,6 +408,9 @@ export const Grid: React.FC<GridProps> = ({
     items,
     occupiedCells,
     isDragging,
+    deleteItem,
+    setSelected,
+    selectedItem,
     updateItemPosition,
     numberOfColumns,
     numberOfRows,
