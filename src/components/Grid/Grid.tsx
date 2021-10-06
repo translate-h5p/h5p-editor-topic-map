@@ -140,7 +140,7 @@ export const Grid: React.FC<GridProps> = ({
       setIsDragging(false);
       setBoxStartPosition(null);
       setCurrentItemsLength(items.length);
-      
+
       if (items[currentItemsLength]) {
         setSelectedItem(items[currentItemsLength].id);
       }
