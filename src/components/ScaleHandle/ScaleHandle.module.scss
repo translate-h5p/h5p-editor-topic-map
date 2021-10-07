@@ -8,25 +8,25 @@ $scale-offset: 0.5rem;
 .scaleHandleLeft,
 .scaleHandleTopLeft,
 .scaleHandleBottomLeft {
-  left: $scale-offset / -2;
+  left: math.div($scale-offset, -2);
 }
 
 .scaleHandleRight,
 .scaleHandleTopRight,
 .scaleHandleBottomRight {
-  right: $scale-offset / -2;
+  right: math.div($scale-offset, -2);
 }
 
 .scaleHandleTop,
 .scaleHandleTopRight,
 .scaleHandleTopLeft {
-  top: $scale-offset / -2;
+  top: math.div($scale-offset, -2);
 }
 
 .scaleHandleBottom,
 .scaleHandleBottomRight,
 .scaleHandleBottomLeft {
-  bottom: $scale-offset / -2;
+  bottom: math.div($scale-offset, -2);
 }
 
 .scaleHandleLeft,
