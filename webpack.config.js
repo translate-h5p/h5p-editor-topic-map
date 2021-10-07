@@ -11,12 +11,10 @@ module.exports = (env, argv) => {
   const isProduction = argv.mode === "production";
 
   const config = {
-    entry: {
-      bundle: ["react-hot-loader/patch", "./src/index.tsx"],
-    },
+    entry: ["react-hot-loader/patch", "./src/index.tsx"],
     output: {
       path: path.resolve(__dirname, "dist"),
-      filename: "[name].js",
+      filename: "bundle.js",
     },
     module: {
       rules: [
@@ -26,47 +24,34 @@ module.exports = (env, argv) => {
           exclude: /node_modules/,
         },
         {
+          test: /\.css$/,
+          use: [MiniCssExtractPlugin.loader, "css-loader"],
+          exclude: /\.module\.css$/,
+        },
+        {
           test: /\.ts(x)?$/,
           loader: "ts-loader",
           exclude: /node_modules/,
         },
         {
-          test: /\.module.scss$/,
-          use: [
-            MiniCssExtractPlugin.loader,
-            {
-              loader: "css-loader",
-              options: {
-                modules: isProduction || {
-                  localIdentName: "[name]__[local]--[hash:base64:5]",
-                },
-              },
-            },
-            "sass-loader",
-          ],
-        },
-        {
           test: /\.scss$/,
           use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
-          exclude: /\.module\.scss$/,
         },
         {
-          test: /\.module\.css$/,
+          test: /\.css$/,
           use: [
             MiniCssExtractPlugin.loader,
             {
               loader: "css-loader",
               options: {
                 importLoaders: 1,
-                modules: true,
+                modules: isProduction || {
+                  localIdentName: "[name]__[local]--[hash:base64:5]",
+                },
               },
             },
           ],
-        },
-        {
-          test: /\.css$/,
-          use: [MiniCssExtractPlugin.loader, "css-loader"],
-          exclude: /\.module\.css$/,
+          include: /\.module.css$/,
         },
         {
           test: /\.svg$/,
@@ -86,7 +71,7 @@ module.exports = (env, argv) => {
       ],
     },
     resolve: {
-      extensions: [".js", ".jsx", ".tsx", ".ts", ".scss"],
+      extensions: [".js", ".jsx", ".tsx", ".ts"],
       alias: {
         "react-dom": "@hot-loader/react-dom",
       },
