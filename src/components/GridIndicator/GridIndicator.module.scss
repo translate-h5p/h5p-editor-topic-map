@@ -29,10 +29,10 @@
 
   &::before {
     content: "";
-    left: var(--gap-size);
+    left: calc(-1 * var(--gap-size));
     height: calc(100% + 2 * var(--gap-size));
     position: absolute;
-    top: var(--gap-size);
+    top: calc(-1 * var(--gap-size));
     width: calc(100% + 2 * var(--gap-size));
   }
 }
