@@ -8,7 +8,9 @@ import {
   createTopicMapItem,
   findItem,
   findOccupiedCells,
+  findWidthPercentage,
   isDraggingLeft,
+  isDraggingRight,
   isDraggingUp,
   mapTopicMapItemToElement,
   positionIsFree,
@@ -56,7 +58,7 @@ export const Grid: React.FC<GridProps> = ({
   const [isDragging, setIsDragging] = React.useState<boolean>(false);
   const [resizedItemId, setResizedItemId] = React.useState<string | null>();
   const [resizeDirectionLock, setResizeDirectionLock] = React.useState<
-    "horizontal" | "vertical" | null
+    "horizontal" | "vertical-left" | "vertical" | null
   >();
 
   const elementRef = React.useRef<HTMLDivElement>(null);
@@ -314,6 +316,11 @@ export const Grid: React.FC<GridProps> = ({
         boxStartIndex,
         numberOfColumns,
       );
+      const dragRight = isDraggingRight(
+        indicatorIndex,
+        boxStartIndex,
+        numberOfColumns,
+      );
       const dragUp = isDraggingUp(
         indicatorIndex,
         boxStartIndex,
@@ -322,10 +329,11 @@ export const Grid: React.FC<GridProps> = ({
       );
 
       const onlyScaleVertically = resizeDirectionLock === "horizontal";
-      const onlyScaleHorizontally = resizeDirectionLock === "vertical";
+      const onlyScaleHorizontally = resizeDirectionLock === "vertical" || resizeDirectionLock === "vertical-left";
+      const leftHandle = resizeDirectionLock === "vertical-left";
 
       // Get x and y percentage position
-      const x = dragLeft
+      const x = dragLeft || (dragRight && leftHandle)
         ? indicatorIndex % numberOfColumns
         : boxStartIndex % numberOfColumns;
 
@@ -354,9 +362,7 @@ export const Grid: React.FC<GridProps> = ({
 
       // Get width percentage
       const indicatorValue = dragLeft
-        ? boxStartIndex +
-          1 +
-          existingItem.widthPercentage / (gapSize + gridIndicatorSize)
+        ? boxStartIndex + 1
         : indicatorIndex + 1;
       const lastIndexOnColumn = indicatorValue % numberOfColumns === 0;
 
@@ -365,9 +371,16 @@ export const Grid: React.FC<GridProps> = ({
         ? 100
         : (xEnd / numberOfColumns) * 100;
 
-      const widthPercentage = onlyScaleVertically
-        ? existingItem.widthPercentage
-        : xEndPercentagePosition - xPercentagePosition;
+      const widthPercentage = findWidthPercentage(
+        onlyScaleHorizontally,
+        onlyScaleVertically,
+        leftHandle,
+        dragLeft,
+        dragRight,
+        existingItem,
+        xPercentagePosition,
+        xEndPercentagePosition,
+      );
 
       const newPosition = {
         x: scaleX(xPercentagePosition, size.width),

@@ -238,6 +238,13 @@ export const isDraggingLeft = (
 ): boolean =>
   boxStartPosition % numberOfColumns >= indicatorIndex % numberOfColumns;
 
+export const isDraggingRight = (
+  indicatorIndex: number,
+  boxStartPosition: number,
+  numberOfColumns: number,
+): boolean => 
+  boxStartPosition % numberOfColumns <= indicatorIndex % numberOfColumns;
+
 export const isDraggingUp = (
   indicatorIndex: number,
   boxStartPosition: number,
@@ -246,6 +253,28 @@ export const isDraggingUp = (
 ): boolean =>
   (Math.floor(boxStartPosition / numberOfColumns) / numberOfRows) * 100 >=
   (Math.floor(indicatorIndex / numberOfColumns) / numberOfRows) * 100;
+
+  export const findWidthPercentage = (
+    onlyScaleHorizontally: boolean,
+    onlyScaleVertically: boolean,
+    leftHandle: boolean,
+    dragLeft: boolean,
+    dragRight: boolean,
+    existingItem: TopicMapItem,
+    xPercentagePosition: number,
+    xEndPercentagePosition: number,
+  ): number => {
+    if (onlyScaleVertically) {
+      return existingItem.widthPercentage;
+    }
+    if (onlyScaleHorizontally && leftHandle && dragRight) {
+      return existingItem.widthPercentage - (xPercentagePosition - existingItem.xPercentagePosition);
+    }
+    if (onlyScaleHorizontally && leftHandle && dragLeft) {
+      return existingItem.widthPercentage + (existingItem.xPercentagePosition - xPercentagePosition);
+    }
+    return xEndPercentagePosition - xPercentagePosition;
+};
 
 export const createTopicMapItem = (): TopicMapItem => {
   const id = uuidV4();

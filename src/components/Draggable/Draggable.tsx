@@ -33,7 +33,7 @@ export type DraggableProps = {
   deleteItem: (item: string) => void;
   setSelectedItem: (newItem: string | null) => void;
   selectedItem: string | null;
-  startResize: (directionLock: "horizontal" | "vertical" | null) => void;
+  startResize: (directionLock: "horizontal" | "vertical-left" | "vertical" | null) => void;
   backgroundImage: string | undefined;
 };
 
@@ -404,7 +404,7 @@ export const Draggable: React.FC<DraggableProps> = ({
         position="left"
         onScaleStart={() => {
           setIsResizing(true);
-          startResize("vertical");
+          startResize("vertical-left");
         }}
         onScaleStop={() => stopScaling("left")}
         labelText={horizontalScaleHandleLabelText}
