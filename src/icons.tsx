@@ -7,28 +7,22 @@ import { Delete } from "./icons/Delete";
 import { ToolbarButtonType } from "./components/Toolbar/Toolbar";
 import { ContextMenuButtonType } from "./components/ContextMenu/ContextMenu";
 
-export type IconsProps = {
-  icon: string;
+export type IconProps = {
+  icon: ToolbarButtonType | ContextMenuButtonType;
   className: string;
 };
 
-export const Icons: React.FC<IconsProps> = ({ icon, className }) => {
-  if (icon === ToolbarButtonType.MapColor) {
-    return <MapColor className={className} />;
-  }
-  if (icon === ToolbarButtonType.CreateBox) {
-    return <CreateBox className={className} />;
-  }
-  if (icon === ToolbarButtonType.CreateArrow) {
-    return <CreateArrow className={className} />;
-  }
-  if (icon === ContextMenuButtonType.Edit) {
-    return <Edit className={className} />;
-  }
-  if (icon === ContextMenuButtonType.Delete) {
-    return <Delete className={className} />;
-  }
+export const Icon: React.FC<IconProps> = ({ icon, className }) => {
+  const icons = {
+    [ToolbarButtonType.MapColor]: MapColor,
+    [ToolbarButtonType.CreateBox]: CreateBox,
+    [ToolbarButtonType.CreateArrow]: CreateArrow,
+    [ContextMenuButtonType.Edit]: Edit,
+    [ContextMenuButtonType.Delete]: Delete,
+  };
 
-  /* Else return default icon */
-  return <MapColor className={className} />;
+  const defaultIcon = MapColor;
+  const CurrentIcon = icons[icon] ?? defaultIcon;
+
+  return <CurrentIcon className={className} />;
 };

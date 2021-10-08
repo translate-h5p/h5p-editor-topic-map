@@ -1,9 +1,10 @@
 import * as React from "react";
 import styles from "./ToolbarButton.module.scss";
-import { Icons } from "../../icons";
+import { Icon } from "../../icons";
+import { ToolbarButtonType } from "../Toolbar/Toolbar";
 
 export type ToolbarButtonProps = {
-  icon: string;
+  icon: ToolbarButtonType;
   label: string;
   onClick: React.MouseEventHandler;
   showActive: boolean;
@@ -28,7 +29,7 @@ export const ToolbarButton: React.FC<ToolbarButtonProps> = ({
       onClick={onClick}
       aria-label={label}
     >
-      <Icons icon={icon} className={styles.icon} />
+      <Icon icon={icon} className={styles.icon} />
       <div className={styles.tooltip}>{label}</div>
     </button>
   );
