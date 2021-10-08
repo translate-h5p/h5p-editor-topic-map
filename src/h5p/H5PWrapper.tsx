@@ -3,6 +3,8 @@ import * as ReactDOM from "react-dom";
 import { IH5PEditorWrapper } from "../../H5P";
 import App from "../App";
 import { H5PField } from "../types/h5p/H5PField";
+import { H5PForm } from "../types/h5p/H5PForm";
+import { H5PSetValue } from "../types/h5p/H5PSetValue";
 import { Params } from "../types/h5p/Params";
 import { H5P } from "./H5P.util";
 
@@ -13,17 +15,20 @@ export class H5PWrapper
   private wrapper: HTMLElement;
 
   constructor(
-    parent: JQuery<HTMLElement>,
+    parent: H5PForm,
     field: H5PField,
     params: Params,
-    setValue: (field: H5PField, params: Params) => void,
+    setValue: H5PSetValue,
   ) {
     super();
     this.wrapper = H5PWrapper.createWrapperElement();
 
     // Intentional log.
     // TODO: Remove this before official release
-    console.info({ parent, field, params });
+    console.info({
+      field: JSON.stringify(field),
+      params,
+    });
 
     ReactDOM.render(
       <App
