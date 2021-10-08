@@ -16,13 +16,23 @@
   width: 100%;
 
   &.active {
+    cursor: pointer;
     opacity: 1;
 
+    &:focus,
     &:hover {
-      cursor: pointer;
       background-color: #e1f5fe;
       border-color: #6999d9;
       transition-duration: 0.1s; /* {1} */
     }
+  }
+
+  &::before {
+    content: "";
+    left: var(--gap-size);
+    height: calc(100% + 2 * var(--gap-size));
+    position: absolute;
+    top: var(--gap-size);
+    width: calc(100% + 2 * var(--gap-size));
   }
 }

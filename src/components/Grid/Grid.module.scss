@@ -1,6 +1,7 @@
 .grid {
   background-color: #fefefe;
   display: grid;
+  gap: var(--gap-size);
   position: relative;
   touch-action: none;
 }
