@@ -1,6 +1,6 @@
 import * as React from "react";
 import styles from "./MapEditorView.module.scss";
-import { TopicMapItem } from "../../types/TopicMapItem";
+import { TopicMapItemType } from "../../types/TopicMapItemType";
 import { Toolbar, ToolbarButtonType } from "../Toolbar/Toolbar";
 import { Grid } from "../Grid/Grid";
 
@@ -8,8 +8,8 @@ export type MapEditorViewProps = {
   numberOfColumns?: number;
   numberOfRows?: number;
   gapSize?: number;
-  initialGridItems: Array<TopicMapItem>;
-  updateItems: (items: Array<TopicMapItem>) => void;
+  initialGridItems: Array<TopicMapItemType>;
+  updateItems: (items: Array<TopicMapItemType>) => void;
 };
 
 export const MapEditorView: React.FC<MapEditorViewProps> = ({
@@ -26,7 +26,7 @@ export const MapEditorView: React.FC<MapEditorViewProps> = ({
   const [activeTool, setActiveTool] = React.useState<ToolbarButtonType | null>(
     null,
   );
-  const [gridItems, setGridItems] = React.useState<Array<TopicMapItem>>(
+  const [gridItems, setGridItems] = React.useState<Array<TopicMapItemType>>(
     initialGridItems ?? [],
   );
 
@@ -35,7 +35,7 @@ export const MapEditorView: React.FC<MapEditorViewProps> = ({
   };
 
   const update = React.useCallback(
-    (items: Array<TopicMapItem>) => {
+    (items: Array<TopicMapItemType>) => {
       updateItems(items);
       setGridItems(items);
     },

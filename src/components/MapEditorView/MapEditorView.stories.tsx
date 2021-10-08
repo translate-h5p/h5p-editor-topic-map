@@ -3,7 +3,7 @@ import * as React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
 
 import { MapEditorView } from "./MapEditorView";
-import { TopicMapItem } from "../../types/TopicMapItem";
+import { TopicMapItemType } from "../../types/TopicMapItemType";
 
 export default {
   title: "Templates/MapEditorView",
@@ -11,7 +11,7 @@ export default {
   args: {
     numberOfColumns: 20,
     numberOfRows: 12,
-    updateItems: (items: Array<TopicMapItem>) =>
+    updateItems: (items: Array<TopicMapItemType>) =>
       console.info("Items updated", { items }),
   },
 } as ComponentMeta<typeof MapEditorView>;
@@ -27,7 +27,7 @@ Empty.args = {
   initialGridItems: [],
 };
 
-let withItemsItems: Array<TopicMapItem> = [
+let withItemsItems: Array<TopicMapItemType> = [
   {
     id: "1",
     xPercentagePosition: 0,
@@ -72,7 +72,7 @@ let withItemsItems: Array<TopicMapItem> = [
 export const WithItems = Template.bind({});
 WithItems.args = {
   initialGridItems: withItemsItems,
-  updateItems: (items: Array<TopicMapItem>) => {
+  updateItems: (items: Array<TopicMapItemType>) => {
     withItemsItems = items;
   },
 };
