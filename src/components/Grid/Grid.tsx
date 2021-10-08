@@ -421,6 +421,18 @@ export const Grid: React.FC<GridProps> = ({
     ],
   );
 
+  const cancelActions = React.useCallback(() => {
+    const isCreatingNewBox = activeTool === ToolbarButtonType.CreateBox && isDragging;
+    const isResizing = resizedItemId != null;
+
+    if (isCreatingNewBox) {
+      createBoxEnd();
+    }
+    if (isResizing) {
+      resizeBoxEnd();
+    }
+  }, [activeTool, isDragging, resizedItemId, createBoxEnd, resizeBoxEnd]);
+
   const activeHoverOnGrid = React.useMemo(() => {
     switch (activeTool) {
       case ToolbarButtonType.CreateBox:
@@ -637,10 +649,8 @@ export const Grid: React.FC<GridProps> = ({
         gridTemplateRows: `repeat(${numberOfRows}, 1fr)`,
         cursor: isDragging ? "pointer" : "auto",
       }}
-      onMouseUp={() => {
-        createBoxEnd();
-        resizeBoxEnd();
-      }}
+      onMouseUp={() => cancelActions()}
+      onMouseLeave={() => cancelActions()}
     >
       {children}
       {gridIndicators}
