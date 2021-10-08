@@ -20,6 +20,7 @@ import {
 import { Draggable } from "../Draggable/Draggable";
 import { GridIndicator } from "../GridIndicator/GridIndicator";
 import { ToolbarButtonType } from "../Toolbar/Toolbar";
+import { TopicMapItem } from "../TopicMapItem/TopicMapItem";
 import styles from "./Grid.module.scss";
 
 export type GridProps = {
@@ -549,8 +550,9 @@ export const Grid: React.FC<GridProps> = ({
           setResizedItemId(item.id);
           setResizeDirectionLock(directionLock);
         }}
-        backgroundImage={item.backgroundImage?.path}
-      />
+      >
+        <TopicMapItem item={item} />
+      </Draggable>
     ));
   }, [
     gapSize,
