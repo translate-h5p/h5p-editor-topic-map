@@ -631,10 +631,10 @@ export const Grid: React.FC<GridProps> = ({
       role="application" /* https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/Application_Role */
       className={styles.grid}
       style={{
-        gap: `${gapSize}px`,
+        // @ts-expect-error Custom properties should be allowed
+        "--gap-size": `${gapSize}px`,
         gridTemplateColumns: `repeat(${numberOfColumns}, 1fr)`,
         gridTemplateRows: `repeat(${numberOfRows}, 1fr)`,
-
         cursor: isDragging ? "pointer" : "auto",
       }}
       onMouseUp={() => {
