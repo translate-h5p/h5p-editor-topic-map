@@ -247,6 +247,58 @@ export const isDraggingUp = (
   (Math.floor(boxStartPosition / numberOfColumns) / numberOfRows) * 100 >=
   (Math.floor(indicatorIndex / numberOfColumns) / numberOfRows) * 100;
 
+export const findWidthPercentage = (
+  onlyScaleVertically: boolean,
+  leftHandle: boolean,
+  dragLeft: boolean,
+  existingItem: TopicMapItemType,
+  xPercentagePosition: number,
+  xEndPercentagePosition: number,
+): number => {
+  if (onlyScaleVertically) {
+    return existingItem.widthPercentage;
+  }
+  if (leftHandle && !dragLeft) {
+    return (
+      existingItem.widthPercentage -
+      (xPercentagePosition - existingItem.xPercentagePosition)
+    );
+  }
+  if (leftHandle && dragLeft) {
+    return (
+      existingItem.widthPercentage +
+      (existingItem.xPercentagePosition - xPercentagePosition)
+    );
+  }
+  return xEndPercentagePosition - xPercentagePosition;
+};
+
+export const findHeightPercentage = (
+  onlyScaleHorizontally: boolean,
+  topHandle: boolean,
+  dragUp: boolean,
+  existingItem: TopicMapItemType,
+  yPercentagePosition: number,
+  yEndPercentagePosition: number,
+): number => {
+  if (onlyScaleHorizontally) {
+    return existingItem.heightPercentage;
+  }
+  if (topHandle && dragUp) {
+    return (
+      existingItem.heightPercentage +
+      (existingItem.yPercentagePosition - yPercentagePosition)
+    );
+  }
+  if (topHandle && !dragUp) {
+    return (
+      existingItem.heightPercentage -
+      (yPercentagePosition - existingItem.yPercentagePosition)
+    );
+  }
+  return yEndPercentagePosition - yPercentagePosition;
+};
+
 export const createTopicMapItem = (): TopicMapItemType => {
   const id = uuidV4();
 
