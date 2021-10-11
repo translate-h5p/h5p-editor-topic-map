@@ -67,8 +67,8 @@ export const Grid: React.FC<GridProps> = ({
     | "left"
     | "top"
     | "top-left"
-    | null
-  >();
+    | "none"
+  >("none");
   const [mouseOutsideGrid, setMouseOutsideGrid] =
     React.useState<boolean>(false);
   const [prevIndex, setPrevIndex] = React.useState<number | null>(null);
@@ -169,7 +169,7 @@ export const Grid: React.FC<GridProps> = ({
     setPrevIndex(null);
     setResizedItemId(null);
     setBoxStartIndex(null);
-    setResizeDirectionLock(null);
+    setResizeDirectionLock("none");
   }, []);
 
   const createBoxEnter = React.useCallback(
@@ -329,21 +329,11 @@ export const Grid: React.FC<GridProps> = ({
         (prevIndex ?? indicatorIndex) % numberOfColumns;
       const dragUp = (prevIndex ?? indicatorIndex) >= indicatorIndex;
 
-      const onlyScaleVertically =
-        resizeDirectionLock === "horizontal" ||
-        resizeDirectionLock === "horizontal-top";
-      const onlyScaleHorizontally =
-        resizeDirectionLock === "vertical" ||
-        resizeDirectionLock === "vertical-left";
+      const onlyScaleVertically = resizeDirectionLock.includes("horizontal");
+      const onlyScaleHorizontally = resizeDirectionLock.includes("vertical");
 
-      const leftHandle =
-        resizeDirectionLock === "vertical-left" ||
-        resizeDirectionLock === "left" ||
-        resizeDirectionLock === "top-left";
-      const topHandle =
-        resizeDirectionLock === "horizontal-top" ||
-        resizeDirectionLock === "top" ||
-        resizeDirectionLock === "top-left";
+      const leftHandle = resizeDirectionLock.includes("left");
+      const topHandle = resizeDirectionLock.includes("top");
 
       // Get x and y percentage position
       const x =
@@ -422,12 +412,7 @@ export const Grid: React.FC<GridProps> = ({
       );
 
       if (posIsFree && isResizing) {
-        if (
-          dragLeft ||
-          dragUp ||
-          (!dragLeft && leftHandle) ||
-          (!dragUp && topHandle)
-        ) {
+        if (leftHandle || topHandle) {
           const newItems = updateItem(
             items,
             existingItem,

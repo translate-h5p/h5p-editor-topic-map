@@ -42,7 +42,7 @@ export type DraggableProps = {
       | "left"
       | "top"
       | "top-left"
-      | null,
+      | "none",
   ) => void;
   mouseOutsideGrid: boolean;
 };
@@ -381,7 +381,7 @@ export const Draggable: React.FC<DraggableProps> = ({
         position="bottom-right"
         onScaleStart={() => {
           setIsResizing(true);
-          startResize(null);
+          startResize("none");
         }}
         onScaleStop={() => stopScaling()}
         labelText={horizontalScaleHandleLabelText}
