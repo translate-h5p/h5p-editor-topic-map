@@ -6,13 +6,13 @@ import { Params } from "../../types/h5p/Params";
 import styles from "./SemanticsForm.module.scss";
 
 export type SemanticsFormProps = {
-  field: Array<H5PField>;
+  fields: Array<H5PField>;
   params: Params;
   parent: H5PForm;
 };
 
 export const SemanticsForm: React.FC<SemanticsFormProps> = ({
-  field,
+  fields,
   params,
   parent,
 }) => {
@@ -24,8 +24,8 @@ export const SemanticsForm: React.FC<SemanticsFormProps> = ({
     }
 
     const $wrapper = H5PEditor.$(wrapperRef.current);
-    H5PEditor.processSemanticsChunk(field, params, $wrapper, parent);
-  }, [field, params, parent, wrapperRef]);
+    H5PEditor.processSemanticsChunk(fields, params, $wrapper, parent);
+  }, [fields, params, parent, wrapperRef]);
 
   return <div className={styles.wrapper} ref={wrapperRef} />;
 };

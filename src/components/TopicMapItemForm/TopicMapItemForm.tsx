@@ -23,6 +23,6 @@ export const TopicMapItemForm: React.FC<TopicMapItemFormProps> = ({
   }, [semantics]);
 
   return topicMapField ? (
-    <SemanticsForm field={[topicMapField]} params={params} parent={parent} />
+    <SemanticsForm fields={[topicMapField]} params={params} parent={parent} />
   ) : null;
 };
