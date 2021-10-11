@@ -347,15 +347,13 @@ export const Grid: React.FC<GridProps> = ({
       const topHandle = resizeDirectionLock.includes("top");
 
       // Get x and y percentage position
-      const x =
-        (dragLeft && leftHandle) || (!dragLeft && leftHandle)
-          ? indicatorIndex % numberOfColumns
-          : boxStartIndex % numberOfColumns;
+      const x = leftHandle
+        ? indicatorIndex % numberOfColumns
+        : boxStartIndex % numberOfColumns;
 
-      const y =
-        (dragUp && topHandle) || (!dragUp && topHandle)
-          ? Math.floor(indicatorIndex / numberOfColumns)
-          : Math.floor(boxStartIndex / numberOfColumns);
+      const y = topHandle
+        ? Math.floor(indicatorIndex / numberOfColumns)
+        : Math.floor(boxStartIndex / numberOfColumns);
 
       const xPercentagePosition = onlyScaleVertically
         ? existingItem.xPercentagePosition
@@ -365,12 +363,11 @@ export const Grid: React.FC<GridProps> = ({
         : (y / numberOfRows) * 100;
 
       // Get height percentage
-      const yEnd =
-        (dragUp && topHandle) || (!dragUp && topHandle)
-          ? Math.floor(
-              (boxStartIndex + existingItem.widthPercentage) / numberOfColumns,
-            )
-          : Math.floor(indicatorIndex / numberOfColumns);
+      const yEnd = topHandle
+        ? Math.floor(
+            (boxStartIndex + existingItem.widthPercentage) / numberOfColumns,
+          )
+        : Math.floor(indicatorIndex / numberOfColumns);
       const yEndPercentagePosition = ((yEnd + 1) / numberOfRows) * 100;
 
       const heightPercentage = findHeightPercentage(
@@ -383,8 +380,7 @@ export const Grid: React.FC<GridProps> = ({
       );
 
       // Get width percentage
-      const indicatorValue =
-        dragLeft && leftHandle ? boxStartIndex + 1 : indicatorIndex + 1;
+      const indicatorValue = indicatorIndex + 1;
       const lastIndexOnColumn = indicatorValue % numberOfColumns === 0;
 
       const xEnd = indicatorValue % numberOfColumns;
