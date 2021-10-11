@@ -60,6 +60,8 @@ export const Grid: React.FC<GridProps> = ({
   const [resizeDirectionLock, setResizeDirectionLock] = React.useState<
     "horizontal" | "vertical" | null
   >();
+  const [mouseOutsideGrid, setMouseOutsideGrid] =
+    React.useState<boolean>(false);
 
   const elementRef = React.useRef<HTMLDivElement>(null);
 
@@ -423,6 +425,29 @@ export const Grid: React.FC<GridProps> = ({
     ],
   );
 
+  const cancelActions = React.useCallback(() => {
+    const isCreatingNewBox =
+      activeTool === ToolbarButtonType.CreateBox && isDragging;
+    const isResizing = resizedItemId != null;
+
+    if (isCreatingNewBox) {
+      createBoxEnd();
+    }
+    if (isResizing) {
+      resizeBoxEnd();
+    }
+    if (!mouseOutsideGrid) {
+      setMouseOutsideGrid(true);
+    }
+  }, [
+    activeTool,
+    isDragging,
+    resizedItemId,
+    createBoxEnd,
+    resizeBoxEnd,
+    mouseOutsideGrid,
+  ]);
+
   const activeHoverOnGrid = React.useMemo(() => {
     switch (activeTool) {
       case ToolbarButtonType.CreateBox:
@@ -550,6 +575,7 @@ export const Grid: React.FC<GridProps> = ({
           setResizedItemId(item.id);
           setResizeDirectionLock(directionLock);
         }}
+        mouseOutsideGrid={mouseOutsideGrid}
       >
         <TopicMapItem item={item} />
       </Draggable>
@@ -567,6 +593,7 @@ export const Grid: React.FC<GridProps> = ({
     updateItemPosition,
     numberOfColumns,
     numberOfRows,
+    mouseOutsideGrid,
   ]);
 
   const resize = React.useCallback(() => {
@@ -643,6 +670,12 @@ export const Grid: React.FC<GridProps> = ({
       onMouseUp={() => {
         createBoxEnd();
         resizeBoxEnd();
+      }}
+      onMouseLeave={() => cancelActions()}
+      onMouseEnter={() => {
+        if (mouseOutsideGrid) {
+          setMouseOutsideGrid(false);
+        }
       }}
     >
       {children}
