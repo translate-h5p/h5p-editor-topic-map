@@ -34,7 +34,6 @@ export type DraggableProps = {
   setSelectedItem: (newItem: string | null) => void;
   selectedItem: string | null;
   startResize: (directionLock: "horizontal" | "vertical" | null) => void;
-  backgroundImage: string | undefined;
   mouseOutsideGrid: boolean;
 };
 
@@ -54,7 +53,7 @@ export const Draggable: React.FC<DraggableProps> = ({
   setSelectedItem,
   selectedItem,
   startResize,
-  backgroundImage,
+  children,
   mouseOutsideGrid,
 }) => {
   const [isDragging, setIsDragging] = React.useState(false);
@@ -341,9 +340,6 @@ export const Draggable: React.FC<DraggableProps> = ({
       onMouseDown={startDrag}
       onTouchStart={startDrag}
       style={{
-        backgroundImage: backgroundImage
-          ? `url('${backgroundImage}')`
-          : undefined,
         transform: `translateX(${position.x}px) translateY(${position.y}px)`,
         width: width + offset,
         height: height + offset,
@@ -355,6 +351,7 @@ export const Draggable: React.FC<DraggableProps> = ({
       onMouseUp={stopDrag}
       onTouchEnd={stopDrag}
     >
+      <div className={styles.inner}>{children}</div>
       <ScaleHandle
         position="top"
         onScaleStart={() => {

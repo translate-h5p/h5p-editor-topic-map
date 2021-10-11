@@ -3,7 +3,7 @@ import { Element } from "../../types/Element";
 import { OccupiedCell } from "../../types/OccupiedCell";
 import { Position } from "../../types/Position";
 import { Size } from "../../types/Size";
-import { TopicMapItem } from "../../types/TopicMapItem";
+import { TopicMapItemType } from "../../types/TopicMapItemType";
 import {
   createTopicMapItem,
   findItem,
@@ -20,13 +20,14 @@ import {
 import { Draggable } from "../Draggable/Draggable";
 import { GridIndicator } from "../GridIndicator/GridIndicator";
 import { ToolbarButtonType } from "../Toolbar/Toolbar";
+import { TopicMapItem } from "../TopicMapItem/TopicMapItem";
 import styles from "./Grid.module.scss";
 
 export type GridProps = {
   numberOfColumns: number;
   numberOfRows: number;
-  initialItems: Array<TopicMapItem>;
-  updateItems: (items: Array<TopicMapItem>) => void;
+  initialItems: Array<TopicMapItemType>;
+  updateItems: (items: Array<TopicMapItemType>) => void;
   gapSize: number;
   children?: never;
   setActiveTool: (newValue: ToolbarButtonType | null) => void;
@@ -44,7 +45,8 @@ export const Grid: React.FC<GridProps> = ({
 }) => {
   const [size, setSize] = React.useState<Size | null>();
   const [hasRendered, setHasRendered] = React.useState<boolean>(false);
-  const [items, setItems] = React.useState<Array<TopicMapItem>>(initialItems);
+  const [items, setItems] =
+    React.useState<Array<TopicMapItemType>>(initialItems);
   const [selectedItem, setSelectedItem] = React.useState<string | null>(null);
   const [occupiedCells, setOccupiedCells] = React.useState<Array<OccupiedCell>>(
     [],
@@ -105,7 +107,7 @@ export const Grid: React.FC<GridProps> = ({
   ]);
 
   const updateItemSize = React.useCallback(
-    (updatedItem: TopicMapItem, newSize: Size) => {
+    (updatedItem: TopicMapItemType, newSize: Size) => {
       if (!size) {
         throw new Error("Grid has no size.");
       }
@@ -499,7 +501,7 @@ export const Grid: React.FC<GridProps> = ({
   );
 
   const updateItemPosition = React.useCallback(
-    (updatedItem: TopicMapItem, newPosition: Position) => {
+    (updatedItem: TopicMapItemType, newPosition: Position) => {
       if (!size) {
         throw new Error("Grid has no size.");
       }
@@ -573,9 +575,10 @@ export const Grid: React.FC<GridProps> = ({
           setResizedItemId(item.id);
           setResizeDirectionLock(directionLock);
         }}
-        backgroundImage={item.backgroundImage?.path}
         mouseOutsideGrid={mouseOutsideGrid}
-      />
+      >
+        <TopicMapItem item={item} />
+      </Draggable>
     ));
   }, [
     gapSize,
