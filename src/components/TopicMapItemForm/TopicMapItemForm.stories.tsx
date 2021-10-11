@@ -5,7 +5,7 @@ import { ComponentStory, ComponentMeta } from "@storybook/react";
 import { TopicMapItemForm, TopicMapItemFormProps } from "./TopicMapItemForm";
 
 export default {
-  title: "Organisms/TopicMapItemForm",
+  title: "Organisms/Topic Map Item Form",
   component: TopicMapItemForm,
 } as ComponentMeta<typeof TopicMapItemForm>;
 
@@ -126,6 +126,7 @@ const parent = {
   metadataForm: {},
   children: [],
   readies: [],
+  ready: (callback: () => void) => callback(),
 };
 
 export const Primary = Template.bind({});

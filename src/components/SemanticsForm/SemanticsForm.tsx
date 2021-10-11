@@ -4,7 +4,7 @@ import { H5PField } from "../../types/h5p/H5PField";
 import { Params } from "../../types/h5p/Params";
 
 export type SemanticsFormProps = {
-  field: H5PField;
+  field: Array<H5PField>;
   params: Params;
   parent: H5PField;
 };
