@@ -3,17 +3,17 @@ import { hot } from "react-hot-loader/root";
 import { MapEditorView } from "./components/MapEditorView/MapEditorView";
 import { H5PField } from "./types/h5p/H5PField";
 import { Params } from "./types/h5p/Params";
-import { TopicMapItem } from "./types/TopicMapItem";
+import { TopicMapItemType } from "./types/TopicMapItemType";
 
 type AppProps = {
   setValue: (field: H5PField, params: Params) => void;
   field: H5PField;
-  topicMapItems: Array<TopicMapItem>;
+  topicMapItems: Array<TopicMapItemType>;
 };
 
 const App: React.FC<AppProps> = ({ setValue, field, topicMapItems }) => {
   const updateItems = React.useCallback(
-    (items: Array<TopicMapItem>) => {
+    (items: Array<TopicMapItemType>) => {
       setValue(field, {
         topicMapItems: items,
       });

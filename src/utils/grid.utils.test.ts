@@ -4,7 +4,7 @@ import { Element } from "../types/Element";
 import { OccupiedCell } from "../types/OccupiedCell";
 import { Position } from "../types/Position";
 import { Size } from "../types/Size";
-import { TopicMapItem } from "../types/TopicMapItem";
+import { TopicMapItemType } from "../types/TopicMapItemType";
 import {
   calculateXPercentage,
   calculateYPercentage,
@@ -19,7 +19,7 @@ import {
 
 describe(resizeItem.name, () => {
   it("should scale the item down if the scale factor is lower than 1", () => {
-    const item: TopicMapItem = {
+    const item: TopicMapItemType = {
       id: "test",
       xPercentagePosition: 10,
       yPercentagePosition: 10,
@@ -32,7 +32,7 @@ describe(resizeItem.name, () => {
 
     const scaleFactor = 0.5;
 
-    const expectedItem: TopicMapItem = {
+    const expectedItem: TopicMapItemType = {
       id: "test",
       xPercentagePosition: 5,
       yPercentagePosition: 5,
@@ -49,7 +49,7 @@ describe(resizeItem.name, () => {
   });
 
   it("should scale the item down if the scale factor is greater than 1", () => {
-    const item: TopicMapItem = {
+    const item: TopicMapItemType = {
       id: "test",
       xPercentagePosition: 10,
       yPercentagePosition: 10,
@@ -62,7 +62,7 @@ describe(resizeItem.name, () => {
 
     const scaleFactor = 2;
 
-    const expectedItem: TopicMapItem = {
+    const expectedItem: TopicMapItemType = {
       id: "test",
       xPercentagePosition: 20,
       yPercentagePosition: 20,
@@ -79,7 +79,7 @@ describe(resizeItem.name, () => {
   });
 
   it("should do nothing if the scale factor is 1", () => {
-    const item: TopicMapItem = {
+    const item: TopicMapItemType = {
       id: "test",
       xPercentagePosition: 10,
       yPercentagePosition: 10,
@@ -92,7 +92,7 @@ describe(resizeItem.name, () => {
 
     const scaleFactor = 1;
 
-    const expectedItem: TopicMapItem = {
+    const expectedItem: TopicMapItemType = {
       id: "test",
       xPercentagePosition: 10,
       yPercentagePosition: 10,
@@ -111,7 +111,7 @@ describe(resizeItem.name, () => {
   it("should handle any number", () =>
     fc.assert(
       fc.property(fc.double(), scaleFactor => {
-        const item: TopicMapItem = {
+        const item: TopicMapItemType = {
           id: "test",
           xPercentagePosition: 10,
           yPercentagePosition: 10,
@@ -122,7 +122,7 @@ describe(resizeItem.name, () => {
           links: [],
         };
 
-        const expectedItem: TopicMapItem = {
+        const expectedItem: TopicMapItemType = {
           id: "test",
           xPercentagePosition: 10 * scaleFactor,
           yPercentagePosition: 10 * scaleFactor,
@@ -167,7 +167,7 @@ describe(calculateYPercentage.name, () => {
 
 describe(updateItem.name, () => {
   it("should find the item in the items list and update the position and size based on the grid's width and height", () => {
-    const item: TopicMapItem = {
+    const item: TopicMapItemType = {
       id: "1",
       xPercentagePosition: 25,
       yPercentagePosition: 20,
@@ -178,7 +178,7 @@ describe(updateItem.name, () => {
       links: [],
     };
 
-    const items: Array<TopicMapItem> = [
+    const items: Array<TopicMapItemType> = [
       item,
       {
         id: "2",
@@ -237,7 +237,7 @@ describe(updateItem.name, () => {
   });
 
   it("should update without changing the list, and without changing the item object itself", () => {
-    const item: TopicMapItem = {
+    const item: TopicMapItemType = {
       id: "1",
       xPercentagePosition: 25,
       yPercentagePosition: 20,
@@ -248,7 +248,7 @@ describe(updateItem.name, () => {
       links: [],
     };
 
-    const items: Array<TopicMapItem> = [
+    const items: Array<TopicMapItemType> = [
       item,
       {
         id: "2",
@@ -312,7 +312,7 @@ describe(updateItem.name, () => {
   });
 
   it("should be able to update only the size", () => {
-    const item: TopicMapItem = {
+    const item: TopicMapItemType = {
       id: "1",
       xPercentagePosition: 25,
       yPercentagePosition: 20,
@@ -323,7 +323,7 @@ describe(updateItem.name, () => {
       links: [],
     };
 
-    const items: Array<TopicMapItem> = [
+    const items: Array<TopicMapItemType> = [
       item,
       {
         id: "2",
@@ -345,7 +345,7 @@ describe(updateItem.name, () => {
     const width = 1000;
     const height = 1000;
 
-    const expectedItem: TopicMapItem = {
+    const expectedItem: TopicMapItemType = {
       id: "1",
       xPercentagePosition: 25,
       yPercentagePosition: 20,
@@ -376,7 +376,7 @@ describe(updateItem.name, () => {
   });
 
   it("should be able to update only the position", () => {
-    const item: TopicMapItem = {
+    const item: TopicMapItemType = {
       id: "1",
       xPercentagePosition: 25,
       yPercentagePosition: 20,
@@ -387,7 +387,7 @@ describe(updateItem.name, () => {
       links: [],
     };
 
-    const items: Array<TopicMapItem> = [
+    const items: Array<TopicMapItemType> = [
       item,
       {
         id: "2",
@@ -409,7 +409,7 @@ describe(updateItem.name, () => {
     const width = 1000;
     const height = 1000;
 
-    const expectedItem: TopicMapItem = {
+    const expectedItem: TopicMapItemType = {
       id: "1",
       xPercentagePosition: 5,
       yPercentagePosition: 10,

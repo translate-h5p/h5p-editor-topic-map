@@ -1,6 +1,6 @@
 import { Image } from "./h5p/Image";
 
-export type TopicMapItem = {
+export type TopicMapItemType = {
   id: string;
 
   /** The x position as a percentage of the container's width */
@@ -16,6 +16,7 @@ export type TopicMapItem = {
   heightPercentage: number;
 
   label: string;
+  description?: string | undefined;
   backgroundImage?: Image | undefined;
   links: Array<string>;
 };

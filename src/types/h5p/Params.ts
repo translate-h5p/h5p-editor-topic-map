@@ -1,5 +1,5 @@
-import { TopicMapItem } from "../TopicMapItem";
+import { TopicMapItemType } from "../TopicMapItemType";
 
 export type Params = {
-  topicMapItems: Array<TopicMapItem>;
+  topicMapItems: Array<TopicMapItemType>;
 };
