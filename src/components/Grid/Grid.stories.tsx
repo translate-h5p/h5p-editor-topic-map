@@ -1,11 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 import * as React from "react";
-import {
-  params,
-  parent,
-  semantics,
-} from "../../../.storybook/helpers/h5p.utils";
 import { Grid } from "./Grid";
 
 export default {
@@ -17,9 +12,6 @@ export default {
     initialItems: [],
     gapSize: 8,
     updateItems: () => console.info("Items updated"),
-    params,
-    semantics,
-    parent,
   },
 } as ComponentMeta<typeof Grid>;
 
