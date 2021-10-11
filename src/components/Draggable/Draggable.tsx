@@ -312,23 +312,10 @@ export const Draggable: React.FC<DraggableProps> = ({
     };
   }, [drag]);
 
-  const stopScaling = React.useCallback(
-    (
-      scaledPosition:
-        | "top"
-        | "bottom"
-        | "left"
-        | "right"
-        | "top-right"
-        | "bottom-right"
-        | "bottom-left"
-        | "top-left",
-    ) => {
-      stopDrag();
-      setIsResizing(false);
-    },
-    [stopDrag],
-  );
+  const stopScaling = React.useCallback(() => {
+    stopDrag();
+    setIsResizing(false);
+  }, [stopDrag]);
 
   /**
    * This offset is used to fix some of the floating point errors
@@ -368,7 +355,7 @@ export const Draggable: React.FC<DraggableProps> = ({
           setIsResizing(true);
           startResize("horizontal-top");
         }}
-        onScaleStop={() => stopScaling("top")}
+        onScaleStop={() => stopScaling()}
         labelText={verticalScaleHandleLabelText}
       />
 
@@ -378,7 +365,7 @@ export const Draggable: React.FC<DraggableProps> = ({
           setIsResizing(true);
           startResize("top");
         }}
-        onScaleStop={() => stopScaling("top-right")}
+        onScaleStop={() => stopScaling()}
         labelText={verticalScaleHandleLabelText}
       />
       <ScaleHandle
@@ -387,7 +374,7 @@ export const Draggable: React.FC<DraggableProps> = ({
           setIsResizing(true);
           startResize("vertical");
         }}
-        onScaleStop={() => stopScaling("right")}
+        onScaleStop={() => stopScaling()}
         labelText={horizontalScaleHandleLabelText}
       />
       <ScaleHandle
@@ -396,7 +383,7 @@ export const Draggable: React.FC<DraggableProps> = ({
           setIsResizing(true);
           startResize(null);
         }}
-        onScaleStop={() => stopScaling("bottom-right")}
+        onScaleStop={() => stopScaling()}
         labelText={horizontalScaleHandleLabelText}
       />
 
@@ -406,7 +393,7 @@ export const Draggable: React.FC<DraggableProps> = ({
           setIsResizing(true);
           startResize("horizontal");
         }}
-        onScaleStop={() => stopScaling("bottom")}
+        onScaleStop={() => stopScaling()}
         labelText={verticalScaleHandleLabelText}
       />
 
@@ -416,7 +403,7 @@ export const Draggable: React.FC<DraggableProps> = ({
           setIsResizing(true);
           startResize("left");
         }}
-        onScaleStop={() => stopScaling("bottom-left")}
+        onScaleStop={() => stopScaling()}
         labelText={verticalScaleHandleLabelText}
       />
 
@@ -426,7 +413,7 @@ export const Draggable: React.FC<DraggableProps> = ({
           setIsResizing(true);
           startResize("vertical-left");
         }}
-        onScaleStop={() => stopScaling("left")}
+        onScaleStop={() => stopScaling()}
         labelText={horizontalScaleHandleLabelText}
       />
 
@@ -436,7 +423,7 @@ export const Draggable: React.FC<DraggableProps> = ({
           setIsResizing(true);
           startResize("top-left");
         }}
-        onScaleStop={() => stopScaling("top-left")}
+        onScaleStop={() => stopScaling()}
         labelText={horizontalScaleHandleLabelText}
       />
 
