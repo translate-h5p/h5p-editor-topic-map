@@ -1,9 +1,10 @@
 import * as React from "react";
 import styles from "./ContextMenuButton.module.scss";
-import { Icons } from "../../icons";
+import { Icon } from "../../icons";
+import { ContextMenuButtonType } from "../ContextMenu/ContextMenu";
 
 export type ContextMenuButtonProps = {
-  icon: string;
+  icon: ContextMenuButtonType;
   label: string;
   onClick: React.MouseEventHandler;
 };
@@ -20,7 +21,7 @@ export const ContextMenuButton: React.FC<ContextMenuButtonProps> = ({
       onClick={onClick}
       aria-label={label}
     >
-      <Icons icon={icon} className={styles.icon} />
+      <Icon icon={icon} className={styles.icon} />
       <div className={styles.tooltip}>{label}</div>
     </button>
   );

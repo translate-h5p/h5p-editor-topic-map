@@ -4,13 +4,13 @@ import { Element } from "../types/Element";
 import { OccupiedCell } from "../types/OccupiedCell";
 import { Position } from "../types/Position";
 import { Size } from "../types/Size";
-import { TopicMapItem } from "../types/TopicMapItem";
+import { TopicMapItemType } from "../types/TopicMapItemType";
 import { arraysHaveSomeOverlap } from "./array.utils";
 
 export const resizeItem = (
-  item: TopicMapItem,
+  item: TopicMapItemType,
   scaleFactor: number,
-): TopicMapItem => {
+): TopicMapItemType => {
   const resizedItem = {
     ...item,
     heightPercentage: item.heightPercentage * scaleFactor,
@@ -23,9 +23,9 @@ export const resizeItem = (
 };
 
 export const resizeItems = (
-  items: Array<TopicMapItem>,
+  items: Array<TopicMapItemType>,
   scaleFactor: number,
-): Array<TopicMapItem> => items.map(item => resizeItem(item, scaleFactor));
+): Array<TopicMapItemType> => items.map(item => resizeItem(item, scaleFactor));
 
 export const calculateXPercentage = (xPx: number, width: number): number => {
   return (xPx / width) * 100;
@@ -36,20 +36,20 @@ export const calculateYPercentage = (yPx: number, height: number): number => {
 };
 
 export const updateItem = (
-  items: Array<TopicMapItem>,
-  updatedItem: TopicMapItem,
+  items: Array<TopicMapItemType>,
+  updatedItem: TopicMapItemType,
   width: number,
   height: number,
   { newPosition, newSize }: { newPosition?: Position; newSize?: Size },
-): Array<TopicMapItem> => {
-  const newItems = items.map((item: TopicMapItem) => {
+): Array<TopicMapItemType> => {
+  const newItems = items.map((item: TopicMapItemType) => {
     const isCorrectItem = item.id === updatedItem.id;
 
     if (!isCorrectItem) {
       return item;
     }
 
-    const newItem: TopicMapItem = {
+    const newItem: TopicMapItemType = {
       ...item,
     };
 
@@ -164,7 +164,7 @@ export const scaleY = (yPercentage: number, height: number): number =>
   (height * yPercentage) / 100;
 
 export const mapTopicMapItemToElement = (
-  item: TopicMapItem,
+  item: TopicMapItemType,
   gridSize: Size,
 ): Element => ({
   id: item.id,
@@ -260,7 +260,7 @@ export const isDraggingUp = (
     leftHandle: boolean,
     dragLeft: boolean,
     dragRight: boolean,
-    existingItem: TopicMapItem,
+    existingItem: TopicMapItemType,
     xPercentagePosition: number,
     xEndPercentagePosition: number,
   ): number => {
@@ -276,10 +276,10 @@ export const isDraggingUp = (
     return xEndPercentagePosition - xPercentagePosition;
 };
 
-export const createTopicMapItem = (): TopicMapItem => {
+export const createTopicMapItem = (): TopicMapItemType => {
   const id = uuidV4();
 
-  const item: TopicMapItem = {
+  const item: TopicMapItemType = {
     id,
     xPercentagePosition: 0,
     yPercentagePosition: 0,
@@ -295,8 +295,8 @@ export const createTopicMapItem = (): TopicMapItem => {
 
 export const findItem = (
   id: string,
-  items: Array<TopicMapItem>,
-): TopicMapItem | null => {
+  items: Array<TopicMapItemType>,
+): TopicMapItemType | null => {
   if (!id) {
     return null;
   }
