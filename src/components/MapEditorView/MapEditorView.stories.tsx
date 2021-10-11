@@ -1,12 +1,11 @@
 /* eslint-disable react/jsx-props-no-spreading */
+import { ComponentMeta, ComponentStory } from "@storybook/react";
 import * as React from "react";
-import { ComponentStory, ComponentMeta } from "@storybook/react";
-
-import { MapEditorView } from "./MapEditorView";
 import { TopicMapItemType } from "../../types/TopicMapItemType";
+import { MapEditorView } from "./MapEditorView";
 
 export default {
-  title: "Templates/MapEditorView",
+  title: "Templates/Map Editor View",
   component: MapEditorView,
   args: {
     numberOfColumns: 20,

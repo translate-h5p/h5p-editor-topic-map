@@ -1,7 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
+import { ComponentMeta, ComponentStory } from "@storybook/react";
 import * as React from "react";
-import { ComponentStory, ComponentMeta } from "@storybook/react";
-
 import { Draggable } from "./Draggable";
 
 export default {
@@ -25,6 +24,8 @@ export default {
     occupiedCells: [],
     backgroundImage:
       "https://images.unsplash.com/photo-1518701005037-d53b1f67bb1c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1326&q=80",
+    editItem: (id: string) => console.info("Edit item", id),
+    deleteItem: (id: string) => console.info("Delete item", id),
   },
 } as ComponentMeta<typeof Draggable>;
 

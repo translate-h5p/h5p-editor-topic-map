@@ -1,4 +1,4 @@
 export type Image = {
   path: string;
-  alt: string;
+  alt?: string | undefined;
 };

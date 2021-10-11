@@ -1,5 +1,8 @@
 import * as React from "react";
 import { Element } from "../../types/Element";
+import { H5PField } from "../../types/h5p/H5PField";
+import { H5PForm } from "../../types/h5p/H5PForm";
+import { Params } from "../../types/h5p/Params";
 import { OccupiedCell } from "../../types/OccupiedCell";
 import { Position } from "../../types/Position";
 import { Size } from "../../types/Size";
@@ -23,6 +26,7 @@ import { Draggable } from "../Draggable/Draggable";
 import { GridIndicator } from "../GridIndicator/GridIndicator";
 import { ToolbarButtonType } from "../Toolbar/Toolbar";
 import { TopicMapItem } from "../TopicMapItem/TopicMapItem";
+import { TopicMapItemForm } from "../TopicMapItemForm/TopicMapItemForm";
 import styles from "./Grid.module.scss";
 
 export type GridProps = {
@@ -34,6 +38,9 @@ export type GridProps = {
   children?: never;
   setActiveTool: (newValue: ToolbarButtonType | null) => void;
   activeTool: ToolbarButtonType | null;
+  semantics: H5PField;
+  params: Params;
+  parent: H5PForm;
 };
 
 export const Grid: React.FC<GridProps> = ({
@@ -44,6 +51,9 @@ export const Grid: React.FC<GridProps> = ({
   gapSize,
   setActiveTool,
   activeTool,
+  semantics,
+  params,
+  parent,
 }) => {
   const [size, setSize] = React.useState<Size | null>();
   const [hasRendered, setHasRendered] = React.useState<boolean>(false);
@@ -72,6 +82,7 @@ export const Grid: React.FC<GridProps> = ({
   const [mouseOutsideGrid, setMouseOutsideGrid] =
     React.useState<boolean>(false);
   const [prevIndex, setPrevIndex] = React.useState<number | null>(null);
+  const [editedItem, setEditedItem] = React.useState<string | null>();
 
   const elementRef = React.useRef<HTMLDivElement>(null);
 
@@ -581,6 +592,7 @@ export const Grid: React.FC<GridProps> = ({
         gridSize={size}
         occupiedCells={occupiedCells}
         isPreview={isDragging}
+        editItem={setEditedItem}
         deleteItem={deleteItem}
         setSelectedItem={setSelected}
         selectedItem={selectedItem}
@@ -617,22 +629,24 @@ export const Grid: React.FC<GridProps> = ({
   ]);
 
   const resize = React.useCallback(() => {
-    if (!elementRef.current) {
-      return;
-    }
-
-    const { width, height } = elementRef.current.getBoundingClientRect();
-
-    const isFirstRender = size == null;
-    if (!isFirstRender) {
-      const scaleFactor = size?.width / width;
-
-      if (scaleFactor !== 1) {
-        setItems(resizeItems(items, scaleFactor));
+    window.requestAnimationFrame(() => {
+      if (!elementRef.current) {
+        return;
       }
-    }
 
-    setSize({ width, height });
+      const { width, height } = elementRef.current.getBoundingClientRect();
+
+      const isFirstRender = size == null;
+      if (!isFirstRender) {
+        const scaleFactor = size?.width / width;
+
+        if (scaleFactor !== 1) {
+          setItems(resizeItems(items, scaleFactor));
+        }
+      }
+
+      setSize({ width, height });
+    });
   }, [items, size]);
 
   React.useEffect(() => {
@@ -700,6 +714,14 @@ export const Grid: React.FC<GridProps> = ({
     >
       {children}
       {gridIndicators}
+      {semantics && editedItem && (
+        // TODO: Move into a modal window
+        <TopicMapItemForm
+          semantics={semantics}
+          params={params}
+          parent={parent}
+        />
+      )}
     </div>
   );
 };

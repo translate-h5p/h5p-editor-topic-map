@@ -1,0 +1,7 @@
+.wrapper {
+  position: relative;
+
+  > * {
+    position: absolute;
+  }
+}
