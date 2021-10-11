@@ -8,10 +8,10 @@ import { Params } from "./Params";
 type UberName = `H5P.${string} ${number}.${number}`;
 
 export type H5PForm = {
-  parent: H5PForm;
-  $common: JQuery<HTMLElement>;
-  $commonButton: JQuery<HTMLElement>;
-  $form: JQuery<HTMLElement>;
+  parent: H5PForm | null;
+  $common: JQuery<HTMLElement> | null;
+  $commonButton: JQuery<HTMLElement> | null;
+  $form: JQuery<HTMLElement> | null;
   /**
    * Add new languages for content type.
    *
@@ -37,13 +37,15 @@ export type H5PForm = {
   >;
   currentLibrary: UberName;
   metadata: H5PMetadata;
-  metadataForm: H5PMetadataForm;
+  metadataForm: H5PMetadataForm | null;
   offset: { top: number; left: number };
   params: { topicMap: Params };
   passReadies: boolean;
+  readies: Array<unknown>;
   removeLanguages: (
     libraryName: string,
     languageCodes: Array<string | undefined>,
   ) => void;
   zebra: "odd" | "even";
+  ready: (callback: () => void) => void;
 };

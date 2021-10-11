@@ -16,7 +16,7 @@ export class H5PWrapper
 
   constructor(
     parent: H5PForm,
-    field: H5PField,
+    semantics: H5PField,
     params: Params,
     setValue: H5PSetValue,
   ) {
@@ -26,14 +26,16 @@ export class H5PWrapper
     // Intentional log.
     // TODO: Remove this before official release
     console.info({
-      field: JSON.stringify(field),
+      field: JSON.stringify(semantics),
       params,
     });
 
     ReactDOM.render(
       <App
         setValue={setValue}
-        field={field}
+        semantics={semantics}
+        params={params}
+        parent={parent}
         topicMapItems={params?.topicMapItems ?? []}
       />,
       this.wrapper,

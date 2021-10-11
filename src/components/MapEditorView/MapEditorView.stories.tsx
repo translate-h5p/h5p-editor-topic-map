@@ -1,18 +1,25 @@
 /* eslint-disable react/jsx-props-no-spreading */
+import { ComponentMeta, ComponentStory } from "@storybook/react";
 import * as React from "react";
-import { ComponentStory, ComponentMeta } from "@storybook/react";
-
-import { MapEditorView } from "./MapEditorView";
+import {
+  params,
+  parent,
+  semantics,
+} from "../../../.storybook/helpers/h5p.utils";
 import { TopicMapItemType } from "../../types/TopicMapItemType";
+import { MapEditorView } from "./MapEditorView";
 
 export default {
-  title: "Templates/MapEditorView",
+  title: "Templates/Map Editor View",
   component: MapEditorView,
   args: {
     numberOfColumns: 20,
     numberOfRows: 12,
     updateItems: (items: Array<TopicMapItemType>) =>
       console.info("Items updated", { items }),
+    params,
+    semantics,
+    parent,
   },
 } as ComponentMeta<typeof MapEditorView>;
 

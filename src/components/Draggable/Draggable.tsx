@@ -35,6 +35,7 @@ export type DraggableProps = {
   selectedItem: string | null;
   startResize: (directionLock: "horizontal" | "vertical" | null) => void;
   mouseOutsideGrid: boolean;
+  editItem: (id: string) => void;
 };
 
 export const Draggable: React.FC<DraggableProps> = ({
@@ -55,6 +56,7 @@ export const Draggable: React.FC<DraggableProps> = ({
   startResize,
   children,
   mouseOutsideGrid,
+  editItem,
 }) => {
   const [isDragging, setIsDragging] = React.useState(false);
   const [isSelected, setIsSelected] = React.useState(selectedItem === id);
@@ -431,7 +433,7 @@ export const Draggable: React.FC<DraggableProps> = ({
       />
 
       <ContextMenu
-        onEdit={() => console.info("edit clicked")}
+        onEdit={() => editItem(id)}
         onDelete={() => deleteItem(id)}
         show={selectedItem === id}
       />

@@ -1,5 +1,6 @@
 import { H5PWrapper } from "./src/h5p/H5PWrapper";
 import { H5PField } from "./src/types/h5p/H5PField";
+import { H5PForm } from "./src/types/h5p/H5PForm";
 import { Params } from "./src/types/h5p/Params";
 
 export interface H5PObject {
@@ -40,7 +41,7 @@ export interface H5PEditorObject {
     semanticsChunk: H5PField | Array<H5PField>,
     params: Params,
     $wrapper: JQuery<HTMLElement>,
-    parent: unknown,
+    parent: H5PForm,
   ) => void;
 
   /**

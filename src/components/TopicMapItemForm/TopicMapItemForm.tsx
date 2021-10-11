@@ -1,5 +1,6 @@
 import * as React from "react";
 import { H5PField } from "../../types/h5p/H5PField";
+import { H5PForm } from "../../types/h5p/H5PForm";
 import { Params } from "../../types/h5p/Params";
 import { getTopicMapField } from "../../utils/H5P/form.utils";
 import { SemanticsForm } from "../SemanticsForm/SemanticsForm";
@@ -7,7 +8,7 @@ import { SemanticsForm } from "../SemanticsForm/SemanticsForm";
 export type TopicMapItemFormProps = {
   semantics: H5PField;
   params: Params;
-  parent: H5PField;
+  parent: H5PForm;
 };
 
 export const TopicMapItemForm: React.FC<TopicMapItemFormProps> = ({

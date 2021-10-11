@@ -3,6 +3,9 @@ import styles from "./MapEditorView.module.scss";
 import { TopicMapItemType } from "../../types/TopicMapItemType";
 import { Toolbar, ToolbarButtonType } from "../Toolbar/Toolbar";
 import { Grid } from "../Grid/Grid";
+import { H5PField } from "../../types/h5p/H5PField";
+import { Params } from "../../types/h5p/Params";
+import { H5PForm } from "../../types/h5p/H5PForm";
 
 export type MapEditorViewProps = {
   numberOfColumns?: number;
@@ -10,6 +13,9 @@ export type MapEditorViewProps = {
   gapSize?: number;
   initialGridItems: Array<TopicMapItemType>;
   updateItems: (items: Array<TopicMapItemType>) => void;
+  semantics: H5PField;
+  params: Params;
+  parent: H5PForm;
 };
 
 export const MapEditorView: React.FC<MapEditorViewProps> = ({
@@ -18,6 +24,9 @@ export const MapEditorView: React.FC<MapEditorViewProps> = ({
   initialGridItems,
   updateItems,
   gapSize,
+  semantics,
+  params,
+  parent,
 }) => {
   const columns = numberOfColumns ?? 20;
   const rows = numberOfRows ?? 12;
@@ -54,6 +63,9 @@ export const MapEditorView: React.FC<MapEditorViewProps> = ({
           gapSize={gapSize ?? defaultGapSize}
           setActiveTool={setActive}
           activeTool={activeTool}
+          semantics={semantics}
+          params={params}
+          parent={parent}
         />
       </div>
     </div>

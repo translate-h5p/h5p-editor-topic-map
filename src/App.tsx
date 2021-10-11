@@ -2,23 +2,32 @@ import * as React from "react";
 import { hot } from "react-hot-loader/root";
 import { MapEditorView } from "./components/MapEditorView/MapEditorView";
 import { H5PField } from "./types/h5p/H5PField";
+import { H5PForm } from "./types/h5p/H5PForm";
 import { Params } from "./types/h5p/Params";
 import { TopicMapItemType } from "./types/TopicMapItemType";
 
-type AppProps = {
+export type AppProps = {
   setValue: (field: H5PField, params: Params) => void;
-  field: H5PField;
+  semantics: H5PField;
+  params: Params;
+  parent: H5PForm;
   topicMapItems: Array<TopicMapItemType>;
 };
 
-const App: React.FC<AppProps> = ({ setValue, field, topicMapItems }) => {
+const App: React.FC<AppProps> = ({
+  setValue,
+  semantics,
+  params,
+  parent,
+  topicMapItems,
+}) => {
   const updateItems = React.useCallback(
     (items: Array<TopicMapItemType>) => {
-      setValue(field, {
+      setValue(semantics, {
         topicMapItems: items,
       });
     },
-    [field, setValue],
+    [semantics, setValue],
   );
 
   return (
@@ -26,6 +35,9 @@ const App: React.FC<AppProps> = ({ setValue, field, topicMapItems }) => {
       <MapEditorView
         updateItems={updateItems}
         initialGridItems={topicMapItems}
+        semantics={semantics}
+        params={params}
+        parent={parent}
       />
     </div>
   );
