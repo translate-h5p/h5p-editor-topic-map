@@ -34,6 +34,7 @@ export type DraggableProps = {
   setSelectedItem: (newItem: string | null) => void;
   selectedItem: string | null;
   startResize: (directionLock: "horizontal" | "vertical" | null) => void;
+  mouseOutsideGrid: boolean;
 };
 
 export const Draggable: React.FC<DraggableProps> = ({
@@ -53,6 +54,7 @@ export const Draggable: React.FC<DraggableProps> = ({
   selectedItem,
   startResize,
   children,
+  mouseOutsideGrid,
 }) => {
   const [isDragging, setIsDragging] = React.useState(false);
   const [isSelected, setIsSelected] = React.useState(selectedItem === id);
@@ -251,6 +253,11 @@ export const Draggable: React.FC<DraggableProps> = ({
         return;
       }
 
+      if (mouseOutsideGrid) {
+        stopDrag();
+        return;
+      }
+
       const { x, y } = getPointerPositionFromEvent(event);
 
       const newPosition = getNewPosition(
@@ -260,7 +267,13 @@ export const Draggable: React.FC<DraggableProps> = ({
 
       setPosition(newPosition);
     },
-    [getNewPosition, isDragging, pointerStartPosition],
+    [
+      getNewPosition,
+      isDragging,
+      pointerStartPosition,
+      mouseOutsideGrid,
+      stopDrag,
+    ],
   );
 
   const preventDefault = React.useCallback((event: React.DragEvent) => {
