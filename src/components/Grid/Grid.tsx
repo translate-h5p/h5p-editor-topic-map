@@ -609,22 +609,24 @@ export const Grid: React.FC<GridProps> = ({
   ]);
 
   const resize = React.useCallback(() => {
-    if (!elementRef.current) {
-      return;
-    }
-
-    const { width, height } = elementRef.current.getBoundingClientRect();
-
-    const isFirstRender = size == null;
-    if (!isFirstRender) {
-      const scaleFactor = size?.width / width;
-
-      if (scaleFactor !== 1) {
-        setItems(resizeItems(items, scaleFactor));
+    window.requestAnimationFrame(() => {
+      if (!elementRef.current) {
+        return;
       }
-    }
 
-    setSize({ width, height });
+      const { width, height } = elementRef.current.getBoundingClientRect();
+
+      const isFirstRender = size == null;
+      if (!isFirstRender) {
+        const scaleFactor = size?.width / width;
+
+        if (scaleFactor !== 1) {
+          setItems(resizeItems(items, scaleFactor));
+        }
+      }
+
+      setSize({ width, height });
+    });
   }, [items, size]);
 
   React.useEffect(() => {
@@ -692,7 +694,7 @@ export const Grid: React.FC<GridProps> = ({
     >
       {children}
       {gridIndicators}
-      {editedItem && (
+      {semantics && editedItem && (
         // TODO: Move into a modal window
         <TopicMapItemForm
           semantics={semantics}
