@@ -58,6 +58,8 @@ export const Grid: React.FC<GridProps> = ({
   const [resizeDirectionLock, setResizeDirectionLock] = React.useState<
     "horizontal" | "vertical" | null
   >();
+  const [mouseOutsideGrid, setMouseOutsideGrid] =
+    React.useState<boolean>(false);
 
   const elementRef = React.useRef<HTMLDivElement>(null);
 
@@ -422,7 +424,8 @@ export const Grid: React.FC<GridProps> = ({
   );
 
   const cancelActions = React.useCallback(() => {
-    const isCreatingNewBox = activeTool === ToolbarButtonType.CreateBox && isDragging;
+    const isCreatingNewBox =
+      activeTool === ToolbarButtonType.CreateBox && isDragging;
     const isResizing = resizedItemId != null;
 
     if (isCreatingNewBox) {
@@ -431,7 +434,17 @@ export const Grid: React.FC<GridProps> = ({
     if (isResizing) {
       resizeBoxEnd();
     }
-  }, [activeTool, isDragging, resizedItemId, createBoxEnd, resizeBoxEnd]);
+    if (!mouseOutsideGrid) {
+      setMouseOutsideGrid(true);
+    }
+  }, [
+    activeTool,
+    isDragging,
+    resizedItemId,
+    createBoxEnd,
+    resizeBoxEnd,
+    mouseOutsideGrid,
+  ]);
 
   const activeHoverOnGrid = React.useMemo(() => {
     switch (activeTool) {
@@ -561,6 +574,7 @@ export const Grid: React.FC<GridProps> = ({
           setResizeDirectionLock(directionLock);
         }}
         backgroundImage={item.backgroundImage?.path}
+        mouseOutsideGrid={mouseOutsideGrid}
       />
     ));
   }, [
@@ -576,6 +590,7 @@ export const Grid: React.FC<GridProps> = ({
     updateItemPosition,
     numberOfColumns,
     numberOfRows,
+    mouseOutsideGrid,
   ]);
 
   const resize = React.useCallback(() => {
@@ -649,8 +664,16 @@ export const Grid: React.FC<GridProps> = ({
         gridTemplateRows: `repeat(${numberOfRows}, 1fr)`,
         cursor: isDragging ? "pointer" : "auto",
       }}
-      onMouseUp={() => cancelActions()}
+      onMouseUp={() => {
+        createBoxEnd();
+        resizeBoxEnd();
+      }}
       onMouseLeave={() => cancelActions()}
+      onMouseEnter={() => {
+        if (mouseOutsideGrid) {
+          setMouseOutsideGrid(false);
+        }
+      }}
     >
       {children}
       {gridIndicators}
