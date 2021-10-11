@@ -33,7 +33,17 @@ export type DraggableProps = {
   deleteItem: (item: string) => void;
   setSelectedItem: (newItem: string | null) => void;
   selectedItem: string | null;
-  startResize: (directionLock: "horizontal" | "vertical-left" | "vertical" | null) => void;
+  startResize: (
+    directionLock:
+      | "horizontal"
+      | "horizontal-top"
+      | "vertical-left"
+      | "vertical"
+      | "left"
+      | "top"
+      | "top-left"
+      | null,
+  ) => void;
   mouseOutsideGrid: boolean;
 };
 
@@ -356,7 +366,7 @@ export const Draggable: React.FC<DraggableProps> = ({
         position="top"
         onScaleStart={() => {
           setIsResizing(true);
-          startResize("horizontal");
+          startResize("horizontal-top");
         }}
         onScaleStop={() => stopScaling("top")}
         labelText={verticalScaleHandleLabelText}
@@ -366,7 +376,7 @@ export const Draggable: React.FC<DraggableProps> = ({
         position="top-right"
         onScaleStart={() => {
           setIsResizing(true);
-          startResize(null);
+          startResize("top");
         }}
         onScaleStop={() => stopScaling("top-right")}
         labelText={verticalScaleHandleLabelText}
@@ -404,7 +414,7 @@ export const Draggable: React.FC<DraggableProps> = ({
         position="bottom-left"
         onScaleStart={() => {
           setIsResizing(true);
-          startResize(null);
+          startResize("left");
         }}
         onScaleStop={() => stopScaling("bottom-left")}
         labelText={verticalScaleHandleLabelText}
@@ -424,7 +434,7 @@ export const Draggable: React.FC<DraggableProps> = ({
         position="top-left"
         onScaleStart={() => {
           setIsResizing(true);
-          startResize(null);
+          startResize("top-left");
         }}
         onScaleStop={() => stopScaling("top-left")}
         labelText={horizontalScaleHandleLabelText}

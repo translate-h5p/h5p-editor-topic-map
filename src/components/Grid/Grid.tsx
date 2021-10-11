@@ -6,11 +6,11 @@ import { Size } from "../../types/Size";
 import { TopicMapItemType } from "../../types/TopicMapItemType";
 import {
   createTopicMapItem,
+  findHeightPercentage,
   findItem,
   findOccupiedCells,
   findWidthPercentage,
   isDraggingLeft,
-  isDraggingRight,
   isDraggingUp,
   mapTopicMapItemToElement,
   positionIsFree,
@@ -60,10 +60,18 @@ export const Grid: React.FC<GridProps> = ({
   const [isDragging, setIsDragging] = React.useState<boolean>(false);
   const [resizedItemId, setResizedItemId] = React.useState<string | null>();
   const [resizeDirectionLock, setResizeDirectionLock] = React.useState<
-    "horizontal" | "vertical-left" | "vertical" | null
+    | "horizontal"
+    | "horizontal-top"
+    | "vertical-left"
+    | "vertical"
+    | "left"
+    | "top"
+    | "top-left"
+    | null
   >();
   const [mouseOutsideGrid, setMouseOutsideGrid] =
     React.useState<boolean>(false);
+  const [prevIndex, setPrevIndex] = React.useState<number | null>(null);
 
   const elementRef = React.useRef<HTMLDivElement>(null);
 
@@ -158,6 +166,7 @@ export const Grid: React.FC<GridProps> = ({
   }, [activeTool, items, currentItemsLength, setActiveTool]);
 
   const resizeBoxEnd = React.useCallback(() => {
+    setPrevIndex(null);
     setResizedItemId(null);
     setBoxStartIndex(null);
     setResizeDirectionLock(null);
@@ -315,35 +324,37 @@ export const Grid: React.FC<GridProps> = ({
         );
       }
 
-      const dragLeft = isDraggingLeft(
-        indicatorIndex,
-        boxStartIndex,
-        numberOfColumns,
-      );
-      const dragRight = isDraggingRight(
-        indicatorIndex,
-        boxStartIndex,
-        numberOfColumns,
-      );
-      const dragUp = isDraggingUp(
-        indicatorIndex,
-        boxStartIndex,
-        numberOfColumns,
-        numberOfRows,
-      );
+      const dragLeft =
+        indicatorIndex % numberOfColumns <
+        (prevIndex ?? indicatorIndex) % numberOfColumns;
+      const dragUp = (prevIndex ?? indicatorIndex) >= indicatorIndex;
 
-      const onlyScaleVertically = resizeDirectionLock === "horizontal";
-      const onlyScaleHorizontally = resizeDirectionLock === "vertical" || resizeDirectionLock === "vertical-left";
-      const leftHandle = resizeDirectionLock === "vertical-left";
+      const onlyScaleVertically =
+        resizeDirectionLock === "horizontal" ||
+        resizeDirectionLock === "horizontal-top";
+      const onlyScaleHorizontally =
+        resizeDirectionLock === "vertical" ||
+        resizeDirectionLock === "vertical-left";
+
+      const leftHandle =
+        resizeDirectionLock === "vertical-left" ||
+        resizeDirectionLock === "left" ||
+        resizeDirectionLock === "top-left";
+      const topHandle =
+        resizeDirectionLock === "horizontal-top" ||
+        resizeDirectionLock === "top" ||
+        resizeDirectionLock === "top-left";
 
       // Get x and y percentage position
-      const x = dragLeft || (dragRight && leftHandle)
-        ? indicatorIndex % numberOfColumns
-        : boxStartIndex % numberOfColumns;
+      const x =
+        (dragLeft && leftHandle) || (!dragLeft && leftHandle)
+          ? indicatorIndex % numberOfColumns
+          : boxStartIndex % numberOfColumns;
 
-      const y = dragUp
-        ? Math.floor(indicatorIndex / numberOfColumns)
-        : Math.floor(boxStartIndex / numberOfColumns);
+      const y =
+        (dragUp && topHandle) || (!dragUp && topHandle)
+          ? Math.floor(indicatorIndex / numberOfColumns)
+          : Math.floor(boxStartIndex / numberOfColumns);
 
       const xPercentagePosition = onlyScaleVertically
         ? existingItem.xPercentagePosition
@@ -353,21 +364,26 @@ export const Grid: React.FC<GridProps> = ({
         : (y / numberOfRows) * 100;
 
       // Get height percentage
-      const yEnd = dragUp
-        ? Math.floor(
-            (boxStartIndex + existingItem.widthPercentage) / numberOfColumns,
-          )
-        : Math.floor(indicatorIndex / numberOfColumns);
+      const yEnd =
+        (dragUp && topHandle) || (!dragUp && topHandle)
+          ? Math.floor(
+              (boxStartIndex + existingItem.widthPercentage) / numberOfColumns,
+            )
+          : Math.floor(indicatorIndex / numberOfColumns);
       const yEndPercentagePosition = ((yEnd + 1) / numberOfRows) * 100;
 
-      const heightPercentage = onlyScaleHorizontally
-        ? existingItem.heightPercentage
-        : yEndPercentagePosition - yPercentagePosition;
+      const heightPercentage = findHeightPercentage(
+        onlyScaleHorizontally,
+        topHandle,
+        dragUp,
+        existingItem,
+        yPercentagePosition,
+        yEndPercentagePosition,
+      );
 
       // Get width percentage
-      const indicatorValue = dragLeft
-        ? boxStartIndex + 1
-        : indicatorIndex + 1;
+      const indicatorValue =
+        dragLeft && leftHandle ? boxStartIndex + 1 : indicatorIndex + 1;
       const lastIndexOnColumn = indicatorValue % numberOfColumns === 0;
 
       const xEnd = indicatorValue % numberOfColumns;
@@ -376,11 +392,9 @@ export const Grid: React.FC<GridProps> = ({
         : (xEnd / numberOfColumns) * 100;
 
       const widthPercentage = findWidthPercentage(
-        onlyScaleHorizontally,
         onlyScaleVertically,
         leftHandle,
         dragLeft,
-        dragRight,
         existingItem,
         xPercentagePosition,
         xEndPercentagePosition,
@@ -395,6 +409,8 @@ export const Grid: React.FC<GridProps> = ({
         height: scaleY(heightPercentage, size.height),
       };
 
+      setPrevIndex(indicatorIndex);
+
       const posIsFree = positionIsFree(
         newPosition,
         existingItem.id,
@@ -406,7 +422,12 @@ export const Grid: React.FC<GridProps> = ({
       );
 
       if (posIsFree && isResizing) {
-        if (dragLeft || dragUp) {
+        if (
+          dragLeft ||
+          dragUp ||
+          (!dragLeft && leftHandle) ||
+          (!dragUp && topHandle)
+        ) {
           const newItems = updateItem(
             items,
             existingItem,
@@ -435,6 +456,7 @@ export const Grid: React.FC<GridProps> = ({
       updateItems,
       resizeDirectionLock,
       updateItemSize,
+      prevIndex,
     ],
   );
 

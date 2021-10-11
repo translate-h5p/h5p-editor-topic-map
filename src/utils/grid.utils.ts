@@ -238,13 +238,6 @@ export const isDraggingLeft = (
 ): boolean =>
   boxStartPosition % numberOfColumns >= indicatorIndex % numberOfColumns;
 
-export const isDraggingRight = (
-  indicatorIndex: number,
-  boxStartPosition: number,
-  numberOfColumns: number,
-): boolean => 
-  boxStartPosition % numberOfColumns <= indicatorIndex % numberOfColumns;
-
 export const isDraggingUp = (
   indicatorIndex: number,
   boxStartPosition: number,
@@ -254,26 +247,56 @@ export const isDraggingUp = (
   (Math.floor(boxStartPosition / numberOfColumns) / numberOfRows) * 100 >=
   (Math.floor(indicatorIndex / numberOfColumns) / numberOfRows) * 100;
 
-  export const findWidthPercentage = (
-    onlyScaleHorizontally: boolean,
-    onlyScaleVertically: boolean,
-    leftHandle: boolean,
-    dragLeft: boolean,
-    dragRight: boolean,
-    existingItem: TopicMapItemType,
-    xPercentagePosition: number,
-    xEndPercentagePosition: number,
-  ): number => {
-    if (onlyScaleVertically) {
-      return existingItem.widthPercentage;
-    }
-    if (onlyScaleHorizontally && leftHandle && dragRight) {
-      return existingItem.widthPercentage - (xPercentagePosition - existingItem.xPercentagePosition);
-    }
-    if (onlyScaleHorizontally && leftHandle && dragLeft) {
-      return existingItem.widthPercentage + (existingItem.xPercentagePosition - xPercentagePosition);
-    }
-    return xEndPercentagePosition - xPercentagePosition;
+export const findWidthPercentage = (
+  onlyScaleVertically: boolean,
+  leftHandle: boolean,
+  dragLeft: boolean,
+  existingItem: TopicMapItemType,
+  xPercentagePosition: number,
+  xEndPercentagePosition: number,
+): number => {
+  if (onlyScaleVertically) {
+    return existingItem.widthPercentage;
+  }
+  if (leftHandle && !dragLeft) {
+    return (
+      existingItem.widthPercentage -
+      (xPercentagePosition - existingItem.xPercentagePosition)
+    );
+  }
+  if (leftHandle && dragLeft) {
+    return (
+      existingItem.widthPercentage +
+      (existingItem.xPercentagePosition - xPercentagePosition)
+    );
+  }
+  return xEndPercentagePosition - xPercentagePosition;
+};
+
+export const findHeightPercentage = (
+  onlyScaleHorizontally: boolean,
+  topHandle: boolean,
+  dragUp: boolean,
+  existingItem: TopicMapItemType,
+  yPercentagePosition: number,
+  yEndPercentagePosition: number,
+): number => {
+  if (onlyScaleHorizontally) {
+    return existingItem.heightPercentage;
+  }
+  if (topHandle && dragUp) {
+    return (
+      existingItem.heightPercentage +
+      (existingItem.yPercentagePosition - yPercentagePosition)
+    );
+  }
+  if (topHandle && !dragUp) {
+    return (
+      existingItem.heightPercentage -
+      (yPercentagePosition - existingItem.yPercentagePosition)
+    );
+  }
+  return yEndPercentagePosition - yPercentagePosition;
 };
 
 export const createTopicMapItem = (): TopicMapItemType => {
