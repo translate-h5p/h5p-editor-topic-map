@@ -18,5 +18,5 @@ export type TopicMapItemType = {
   label: string;
   description?: string | undefined;
   backgroundImage?: Image | undefined;
-  links: Array<string>;
+  links?: Array<string> | undefined;
 };
