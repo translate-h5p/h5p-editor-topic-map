@@ -496,10 +496,6 @@ export const Grid: React.FC<GridProps> = ({
             key={`grid-indicator-${index}`}
             index={index}
             label={gridIndicatorLabel}
-            onClick={() => {
-              console.info("Click grid indicator");
-              setSelectedItem(null);
-            }}
             onMouseDown={createBoxStart}
             onMouseEnter={indicatorIndex => {
               const isResizing = resizedItemId != null;
@@ -651,11 +647,23 @@ export const Grid: React.FC<GridProps> = ({
       return;
     }
 
+    const windowClickListener = (event: MouseEvent | TouchEvent): void => {
+      const draggableWasClicked = !!(event.target as HTMLElement).closest(
+        ".draggable",
+      );
+
+      if (!draggableWasClicked) {
+        setSelectedItem(null);
+      }
+    };
+
     window.addEventListener("resize", resize);
+    window.addEventListener("mousedown", windowClickListener);
+    window.addEventListener("touchstart", windowClickListener);
 
     // Resize once on first render
     resize();
-  }, [hasRendered, items, resize, size]);
+  }, [hasRendered, items, resize, selectedItem, size]);
 
   React.useEffect(() => {
     setHasRendered(true);

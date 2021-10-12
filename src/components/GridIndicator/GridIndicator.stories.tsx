@@ -15,6 +15,5 @@ const Template: ComponentStory<typeof GridIndicator> = args => (
 
 export const Primary = Template.bind({});
 Primary.args = {
-  onClick: () => console.info("On click"),
   label: "Heihei",
 };

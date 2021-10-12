@@ -2,7 +2,6 @@ import * as React from "react";
 import styles from "./GridIndicator.module.scss";
 
 export type GridIndicatorProps = {
-  onClick: React.MouseEventHandler;
   onMouseDown: (index: number) => void;
   onMouseEnter: (index: number) => void;
   label: string;
@@ -11,7 +10,6 @@ export type GridIndicatorProps = {
 };
 
 export const GridIndicator: React.FC<GridIndicatorProps> = ({
-  onClick,
   onMouseDown,
   onMouseEnter,
   label,
@@ -24,7 +22,6 @@ export const GridIndicator: React.FC<GridIndicatorProps> = ({
       className={`grid-indicator ${styles.gridIndicator} ${
         active && styles.active
       }`}
-      onClick={onClick}
       onMouseDown={() => onMouseDown(index)}
       onMouseEnter={() => onMouseEnter(index)}
       onTouchStart={() => onMouseDown(index)}
