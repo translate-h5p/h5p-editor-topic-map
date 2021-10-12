@@ -1,0 +1,48 @@
+.arrow {
+  width: 100px;
+  height: 100px;
+  display: flex;
+}
+
+.filledArrow,
+.emptyArrow:hover,
+.emptyArrow:focus-within {
+  button {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+.arrow button {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease-in-out;
+  border-radius: 0;
+  border: none;
+  background-color: transparent;
+  padding: 0;
+
+  &:focus {
+    outline: 0;
+  }
+}
+
+.shadow {
+  filter: drop-shadow(0 4px 4px rgba(0, 0, 0, 0.25));
+}
+
+.pointLeft {
+  transform: rotate(180deg);
+}
+
+.pointUp {
+  transform: rotate(-90deg);
+}
+
+.pointDown {
+  transform: rotate(90deg);
+}
+
+.pointRight {
+  transform: rotate(0deg);
+}

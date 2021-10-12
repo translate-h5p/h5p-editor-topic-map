@@ -1,0 +1,13 @@
+.head {
+  min-width: 28px;
+  max-width: 28px;
+}
+
+.body {
+  flex-grow: 1;
+  width: 100%;
+}
+
+.mirrorX {
+  transform: scaleX(-1);
+}
