@@ -1,6 +1,6 @@
 @use "sass:math";
 
-$scale-offset: 0.5rem;
+$handle-size: 1rem;
 .scaleHandle {
   position: absolute;
 }
@@ -8,25 +8,25 @@ $scale-offset: 0.5rem;
 .scaleHandleLeft,
 .scaleHandleTopLeft,
 .scaleHandleBottomLeft {
-  left: math.div($scale-offset, -2);
+  left: math.div($handle-size, -2);
 }
 
 .scaleHandleRight,
 .scaleHandleTopRight,
 .scaleHandleBottomRight {
-  right: math.div($scale-offset, -2);
+  right: math.div($handle-size, -2);
 }
 
 .scaleHandleTop,
 .scaleHandleTopRight,
 .scaleHandleTopLeft {
-  top: math.div($scale-offset, -2);
+  top: math.div($handle-size, -2);
 }
 
 .scaleHandleBottom,
 .scaleHandleBottomRight,
 .scaleHandleBottomLeft {
-  bottom: math.div($scale-offset, -2);
+  bottom: math.div($handle-size, -2);
 }
 
 .scaleHandleLeft,
@@ -34,14 +34,14 @@ $scale-offset: 0.5rem;
   cursor: col-resize;
   height: 100%;
   top: 0;
-  width: $scale-offset;
+  width: $handle-size;
 }
 
 .scaleHandleTop,
 .scaleHandleBottom {
   cursor: row-resize;
   left: 0;
-  height: $scale-offset;
+  height: $handle-size;
   width: 100%;
 }
 
@@ -49,8 +49,9 @@ $scale-offset: 0.5rem;
 .scaleHandleBottomRight,
 .scaleHandleBottomLeft,
 .scaleHandleTopLeft {
-  height: $scale-offset;
-  width: $scale-offset;
+  height: $handle-size;
+  width: $handle-size;
+  z-index: 1;
 }
 
 .scaleHandleTopRight,

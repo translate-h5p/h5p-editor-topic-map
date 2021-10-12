@@ -6,12 +6,8 @@
 .draggable {
   background-position: 50% 50%;
   background-size: cover;
-  border-radius: 0.5rem;
-  border: none;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
   cursor: move;
   margin: -1px; /* {1} */
-  padding: 0;
   position: absolute;
   transition: transform 0.2s ease-out;
   will-change: transform;
@@ -27,7 +23,5 @@
 }
 
 .inner {
-  border-radius: inherit;
   height: 100%;
-  overflow: hidden;
 }

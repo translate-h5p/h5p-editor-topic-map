@@ -600,6 +600,7 @@ export const Grid: React.FC<GridProps> = ({
           setResizeDirectionLock(directionLock);
         }}
         mouseOutsideGrid={mouseOutsideGrid}
+        showScaleHandles
       >
         <TopicMapItem item={item} />
       </Draggable>
