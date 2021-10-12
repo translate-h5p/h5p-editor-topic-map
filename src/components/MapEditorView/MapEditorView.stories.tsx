@@ -1,6 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 import * as React from "react";
+import { ArrowItemType } from "../../types/ArrowItemType";
 import { TopicMapItemType } from "../../types/TopicMapItemType";
 import { MapEditorView } from "./MapEditorView";
 
@@ -12,6 +13,8 @@ export default {
     numberOfRows: 12,
     updateItems: (items: Array<TopicMapItemType>) =>
       console.info("Items updated", { items }),
+    updateArrowItems: (items: Array<ArrowItemType>) =>
+      console.info("Arrow items updated", { items }),
   },
 } as ComponentMeta<typeof MapEditorView>;
 
@@ -24,6 +27,7 @@ const Template: ComponentStory<typeof MapEditorView> = args => (
 export const Empty = Template.bind({});
 Empty.args = {
   initialGridItems: [],
+  initialArrowItems: [],
 };
 
 let withItemsItems: Array<TopicMapItemType> = [
@@ -79,6 +83,7 @@ WithItems.args = {
   updateItems: (items: Array<TopicMapItemType>) => {
     withItemsItems = items;
   },
+  initialArrowItems: [],
 };
 
 const TemplateFullscreen: ComponentStory<typeof MapEditorView> = args => (
@@ -136,4 +141,5 @@ FullscreenWithItems.args = {
         "You can do anything here - the only pre-requisite is that it makes you happy.",
     },
   ],
+  initialArrowItems: [],
 };

@@ -32,7 +32,7 @@
 }
 
 .pointLeft {
-  transform: rotate(180deg);
+  transform: rotate(180deg) translateY(32px) translateX(4px);
 }
 
 .pointUp {
@@ -40,9 +40,9 @@
 }
 
 .pointDown {
-  transform: rotate(90deg);
+  transform: rotate(90deg) translateY(50%) translateX(13%);
 }
 
 .pointRight {
-  transform: rotate(0deg);
+  transform: rotate(0deg) translateY(-32px) translateX(-8px);
 }

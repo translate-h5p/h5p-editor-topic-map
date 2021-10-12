@@ -1,4 +1,6 @@
 import { v4 as uuidV4 } from "uuid";
+import { ArrowDirection, ArrowType } from "../components/Arrow/Utils";
+import { ArrowItemType } from "../types/ArrowItemType";
 import { Cell } from "../types/Cell";
 import { Element } from "../types/Element";
 import { OccupiedCell } from "../types/OccupiedCell";
@@ -314,6 +316,39 @@ export const createTopicMapItem = (): TopicMapItemType => {
   };
 
   return item;
+};
+
+export const createArrowItem = (
+  arrowHeadDirection: ArrowDirection,
+): ArrowItemType => {
+  const id = uuidV4();
+
+  const item: ArrowItemType = {
+    id,
+    xPercentagePosition: 0,
+    yPercentagePosition: 0,
+    widthPercentage: 0,
+    heightPercentage: 0,
+    arrowDirection: arrowHeadDirection,
+    arrowType: ArrowType.Directional,
+    label: "",
+    links: [],
+  };
+
+  return item;
+};
+
+export const getArrowDirection = (
+  dragLeft: boolean,
+  dragUp: boolean,
+): ArrowDirection => {
+  if (dragLeft) {
+    return ArrowDirection.Left;
+  }
+  if (dragUp) {
+    return ArrowDirection.Up;
+  }
+  return ArrowDirection.Right;
 };
 
 export const findItem = (
