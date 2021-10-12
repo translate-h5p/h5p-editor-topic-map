@@ -9,7 +9,7 @@ import {
 } from "../../utils/draggable.utils";
 import { positionIsFree } from "../../utils/grid.utils";
 import { ContextMenu } from "../ContextMenu/ContextMenu";
-import { ScaleHandle } from "../ScaleHandle/ScaleHandle";
+import { ScaleHandles } from "../ScaleHandles/ScaleHandles";
 import styles from "./Draggable.module.scss";
 
 /* TODO: Translate */
@@ -46,6 +46,7 @@ export type DraggableProps = {
   ) => void;
   mouseOutsideGrid: boolean;
   editItem: (id: string) => void;
+  showScaleHandles: boolean;
 };
 
 export const Draggable: React.FC<DraggableProps> = ({
@@ -67,63 +68,37 @@ export const Draggable: React.FC<DraggableProps> = ({
   children,
   mouseOutsideGrid,
   editItem,
+  showScaleHandles,
 }) => {
   const [isDragging, setIsDragging] = React.useState(false);
   const [isSelected, setIsSelected] = React.useState(selectedItem === id);
   const [labelText, setLabelText] = React.useState(labelTexts.notSelected);
   const [pointerStartPosition, setPointerStartPosition] =
-    React.useState<Position | null>(null);
+    React.useState<Position | null>();
   const [{ width, height }, setSize] = React.useState<Size>({
-    width: calculateClosestValidSizeComponent(
-      initialWidth,
-      gapSize,
-      gridIndicatorSize,
-      gridSize.width,
-    ),
-    height: calculateClosestValidSizeComponent(
-      initialHeight,
-      gapSize,
-      gridIndicatorSize,
-      gridSize.height,
-    ),
+    // prettier-ignore
+    width: calculateClosestValidSizeComponent(initialWidth, gapSize, gridIndicatorSize, gridSize.width),
+    // prettier-ignore
+    height: calculateClosestValidSizeComponent(initialHeight, gapSize, gridIndicatorSize, gridSize.height),
   });
   const [position, setPosition] = React.useState<Position>({
-    x: calculateClosestValidPositionComponent(
-      initialXPosition,
-      gapSize,
-      gridIndicatorSize,
-      gridSize.width,
-      width,
-    ),
-    y: calculateClosestValidPositionComponent(
-      initialYPosition,
-      gapSize,
-      gridIndicatorSize,
-      gridSize.height,
-      height,
-    ),
+    // prettier-ignore
+    x: calculateClosestValidPositionComponent(initialXPosition, gapSize, gridIndicatorSize, gridSize.width, width),
+    // prettier-ignore
+    y: calculateClosestValidPositionComponent(initialYPosition, gapSize, gridIndicatorSize, gridSize.height, height),
   });
-  const [previousPosition, setPreviousPosition] = React.useState<Position>({
-    ...position,
-  });
+  const [previousPosition, setPreviousPosition] =
+    React.useState<Position>(position);
   const [isResizing, setIsResizing] = React.useState<boolean>();
 
   // Update Draggable's size whenever the container's size changes
   React.useEffect(
     () =>
       setSize({
-        width: calculateClosestValidSizeComponent(
-          initialWidth,
-          gapSize,
-          gridIndicatorSize,
-          gridSize.width,
-        ),
-        height: calculateClosestValidSizeComponent(
-          initialHeight,
-          gapSize,
-          gridIndicatorSize,
-          gridSize.height,
-        ),
+        // prettier-ignore
+        width: calculateClosestValidSizeComponent(initialWidth, gapSize, gridIndicatorSize, gridSize.width),
+        // prettier-ignore
+        height: calculateClosestValidSizeComponent(initialHeight, gapSize, gridIndicatorSize, gridSize.height),
       }),
     [
       gapSize,
@@ -138,20 +113,10 @@ export const Draggable: React.FC<DraggableProps> = ({
   // Update Draggable's position whenever the container's size changes
   React.useEffect(() => {
     setPosition({
-      x: calculateClosestValidPositionComponent(
-        initialXPosition,
-        gapSize,
-        gridIndicatorSize,
-        gridSize.width,
-        width,
-      ),
-      y: calculateClosestValidPositionComponent(
-        initialYPosition,
-        gapSize,
-        gridIndicatorSize,
-        gridSize.height,
-        height,
-      ),
+      // prettier-ignore
+      x: calculateClosestValidPositionComponent(initialXPosition, gapSize, gridIndicatorSize, gridSize.width, width),
+      // prettier-ignore
+      y: calculateClosestValidPositionComponent(initialYPosition, gapSize, gridIndicatorSize, gridSize.height, height),
     });
   }, [
     gapSize,
@@ -314,7 +279,7 @@ export const Draggable: React.FC<DraggableProps> = ({
     };
   }, [drag]);
 
-  const stopScaling = React.useCallback(() => {
+  const stopResize = React.useCallback(() => {
     stopDrag();
     setIsResizing(false);
   }, [stopDrag]);
@@ -335,7 +300,7 @@ export const Draggable: React.FC<DraggableProps> = ({
       /* Prevent default because we implement drag ourselves */
       onDragStart={preventDefault}
       aria-grabbed={isDragging}
-      className={`${styles.draggable} ${isPreview && styles.preview}`}
+      className={`${styles.draggable} ${isPreview && styles.preview} draggable`}
       onMouseDown={startDrag}
       onTouchStart={startDrag}
       style={{
@@ -351,84 +316,16 @@ export const Draggable: React.FC<DraggableProps> = ({
       onTouchEnd={stopDrag}
     >
       <div className={styles.inner}>{children}</div>
-      <ScaleHandle
-        position="top"
-        onScaleStart={() => {
-          setIsResizing(true);
-          startResize("horizontal-top");
-        }}
-        onScaleStop={() => stopScaling()}
-        labelText={verticalScaleHandleLabelText}
-      />
 
-      <ScaleHandle
-        position="top-right"
-        onScaleStart={() => {
-          setIsResizing(true);
-          startResize("top");
-        }}
-        onScaleStop={() => stopScaling()}
-        labelText={verticalScaleHandleLabelText}
-      />
-      <ScaleHandle
-        position="right"
-        onScaleStart={() => {
-          setIsResizing(true);
-          startResize("vertical");
-        }}
-        onScaleStop={() => stopScaling()}
-        labelText={horizontalScaleHandleLabelText}
-      />
-      <ScaleHandle
-        position="bottom-right"
-        onScaleStart={() => {
-          setIsResizing(true);
-          startResize("none");
-        }}
-        onScaleStop={() => stopScaling()}
-        labelText={horizontalScaleHandleLabelText}
-      />
-
-      <ScaleHandle
-        position="bottom"
-        onScaleStart={() => {
-          setIsResizing(true);
-          startResize("horizontal");
-        }}
-        onScaleStop={() => stopScaling()}
-        labelText={verticalScaleHandleLabelText}
-      />
-
-      <ScaleHandle
-        position="bottom-left"
-        onScaleStart={() => {
-          setIsResizing(true);
-          startResize("left");
-        }}
-        onScaleStop={() => stopScaling()}
-        labelText={verticalScaleHandleLabelText}
-      />
-
-      <ScaleHandle
-        position="left"
-        onScaleStart={() => {
-          setIsResizing(true);
-          startResize("vertical-left");
-        }}
-        onScaleStop={() => stopScaling()}
-        labelText={horizontalScaleHandleLabelText}
-      />
-
-      <ScaleHandle
-        position="top-left"
-        onScaleStart={() => {
-          setIsResizing(true);
-          startResize("top-left");
-        }}
-        onScaleStop={() => stopScaling()}
-        labelText={horizontalScaleHandleLabelText}
-      />
-
+      {showScaleHandles && (
+        <ScaleHandles
+          setIsResizing={setIsResizing}
+          startResize={startResize}
+          stopResize={stopResize}
+          verticalScaleHandleLabelText={verticalScaleHandleLabelText}
+          horizontalScaleHandleLabelText={horizontalScaleHandleLabelText}
+        />
+      )}
       <ContextMenu
         onEdit={() => editItem(id)}
         onDelete={() => deleteItem(id)}
