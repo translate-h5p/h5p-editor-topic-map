@@ -31,7 +31,6 @@ $handle-size: 1rem;
 
 .scaleHandleLeft,
 .scaleHandleRight {
-  background-color: blue;
   cursor: col-resize;
   height: 100%;
   top: 0;
@@ -40,7 +39,6 @@ $handle-size: 1rem;
 
 .scaleHandleTop,
 .scaleHandleBottom {
-  background-color: red;
   cursor: row-resize;
   left: 0;
   height: $handle-size;
@@ -51,7 +49,6 @@ $handle-size: 1rem;
 .scaleHandleBottomRight,
 .scaleHandleBottomLeft,
 .scaleHandleTopLeft {
-  background-color: green;
   height: $handle-size;
   width: $handle-size;
   z-index: 1;
