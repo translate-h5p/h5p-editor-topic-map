@@ -22,6 +22,8 @@
     "build-storybook": "build-storybook"
   },
   "dependencies": {
+    "@radix-ui/react-dialog": "^0.1.0",
+    "@radix-ui/react-icons": "^1.0.3",
     "lodash.intersectionby": "^4.7.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
