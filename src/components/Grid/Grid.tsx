@@ -68,17 +68,22 @@ export const Grid: React.FC<GridProps> = ({
   const [hasRendered, setHasRendered] = React.useState<boolean>(false);
   const [items, setItems] =
     React.useState<Array<TopicMapItemType>>(initialItems);
-  const [arrowItems, setArrowItems] = React.useState<Array<ArrowItemType>>(initialArrowItems ?? []);
+  const [arrowItems, setArrowItems] = React.useState<Array<ArrowItemType>>(
+    initialArrowItems ?? [],
+  );
   const [selectedItem, setSelectedItem] = React.useState<string | null>(null);
   const [occupiedCells, setOccupiedCells] = React.useState<Array<OccupiedCell>>(
     [],
   );
   const [boxStartIndex, setBoxStartIndex] = React.useState<number | null>(null);
-  const [arrowStartIndex, setArrowStartIndex] = React.useState<number | null>(null);
+  const [arrowStartIndex, setArrowStartIndex] = React.useState<number | null>(
+    null,
+  );
   const [currentItemsLength, setCurrentItemsLength] = React.useState<number>(
     items.length,
   );
-  const [currentArrowItemsLength, setCurrentArrowItemsLength] = React.useState<number>(arrowItems.length);
+  const [currentArrowItemsLength, setCurrentArrowItemsLength] =
+    React.useState<number>(arrowItems.length);
   const [isDragging, setIsDragging] = React.useState<boolean>(false);
   const [resizedItemId, setResizedItemId] = React.useState<string | null>();
   const [resizeDirectionLock, setResizeDirectionLock] = React.useState<
@@ -165,8 +170,9 @@ export const Grid: React.FC<GridProps> = ({
     [gapSize, gridIndicatorSize, items, size, updateItems],
   );
 
-  const createArrowEnter = React.useCallback((indicatorIndex: number) => {
-    const isCreatingNewArrow =
+  const createArrowEnter = React.useCallback(
+    (indicatorIndex: number) => {
+      const isCreatingNewArrow =
         activeTool === ToolbarButtonType.CreateArrow && isDragging;
       if (!isCreatingNewArrow) {
         return;
@@ -212,7 +218,9 @@ export const Grid: React.FC<GridProps> = ({
       const heightPercentage = yEndPercentagePosition - yPercentagePosition;
 
       // Get width percentage
-      const indicatorValue = dragLeft ? arrowStartIndex + 1 : indicatorIndex + 1;
+      const indicatorValue = dragLeft
+        ? arrowStartIndex + 1
+        : indicatorIndex + 1;
       const lastIndexOnColumn = indicatorValue % numberOfColumns === 0;
 
       const xEnd = indicatorValue % numberOfColumns;
@@ -227,10 +235,7 @@ export const Grid: React.FC<GridProps> = ({
         arrowItems.length !== currentArrowItemsLength &&
         arrowItems[currentArrowItemsLength] != null;
 
-      const arrowHeadDirection = getArrowDirection(
-        dragLeft,
-        dragUp,
-      );
+      const arrowHeadDirection = getArrowDirection(dragLeft, dragUp);
 
       const newItem = createArrowItem(arrowHeadDirection);
       newItem.xPercentagePosition = xPercentagePosition;
@@ -264,7 +269,22 @@ export const Grid: React.FC<GridProps> = ({
         updateArrowItems(newItems);
         setArrowItems(newItems);
       }
-  }, [activeTool, arrowItems, arrowStartIndex, currentArrowItemsLength, gapSize, gridIndicatorSize, isDragging, numberOfColumns, numberOfRows, occupiedCells, size, updateArrowItems]); 
+    },
+    [
+      activeTool,
+      arrowItems,
+      arrowStartIndex,
+      currentArrowItemsLength,
+      gapSize,
+      gridIndicatorSize,
+      isDragging,
+      numberOfColumns,
+      numberOfRows,
+      occupiedCells,
+      size,
+      updateArrowItems,
+    ],
+  );
 
   const createGridItemStart = React.useCallback(
     (index: number) => {
@@ -301,7 +321,14 @@ export const Grid: React.FC<GridProps> = ({
         setSelectedItem(arrowItems[currentArrowItemsLength].id);
       }
     }
-  }, [activeTool, items, setActiveTool, currentItemsLength, arrowItems, currentArrowItemsLength]);
+  }, [
+    activeTool,
+    items,
+    setActiveTool,
+    currentItemsLength,
+    arrowItems,
+    currentArrowItemsLength,
+  ]);
 
   const resizeBoxEnd = React.useCallback(() => {
     setPrevIndex(null);
@@ -706,7 +733,7 @@ export const Grid: React.FC<GridProps> = ({
       setArrowItems(newItems);
       setCurrentArrowItemsLength(newItems.length);
     },
-    [arrowItems, updateArrowItems]
+    [arrowItems, updateArrowItems],
   );
 
   const children = React.useMemo(() => {
@@ -788,30 +815,65 @@ export const Grid: React.FC<GridProps> = ({
         deleteItem={deleteArrow}
         setSelectedItem={setSelected}
         selectedItem={selectedItem}
-        startResize={directionLock => {console.info("resize", directionLock);
+        startResize={directionLock => {
+          console.info("resize", directionLock);
         }}
         mouseOutsideGrid={mouseOutsideGrid}
         showScaleHandles={false}
       >
-        <Arrow 
+        <Arrow
           start={{
-            x: item.arrowDirection === ArrowDirection.Left ? Math.abs(scaleX(item.widthPercentage + ((gapSize * 2) / numberOfColumns), size.width)) : 0,
-            y: item.arrowDirection === ArrowDirection.Left ? Math.abs(scaleY(item.heightPercentage, size.height)) : 0,
+            x:
+              item.arrowDirection === ArrowDirection.Left
+                ? Math.abs(
+                    scaleX(
+                      item.widthPercentage + (gapSize * 2) / numberOfColumns,
+                      size.width,
+                    ),
+                  )
+                : 0,
+            y:
+              item.arrowDirection === ArrowDirection.Left
+                ? Math.abs(scaleY(item.heightPercentage, size.height))
+                : 0,
           }}
           end={{
-            x: item.arrowDirection === ArrowDirection.Left ? 0 : Math.abs(scaleX(item.widthPercentage + ((gapSize * 2) / numberOfColumns), size.width)),
-            y: item.arrowDirection === ArrowDirection.Left ? 0 : Math.abs(scaleY(item.heightPercentage, size.height))
-          }} 
+            x:
+              item.arrowDirection === ArrowDirection.Left
+                ? 0
+                : Math.abs(
+                    scaleX(
+                      item.widthPercentage + (gapSize * 2) / numberOfColumns,
+                      size.width,
+                    ),
+                  ),
+            y:
+              item.arrowDirection === ArrowDirection.Left
+                ? 0
+                : Math.abs(scaleY(item.heightPercentage, size.height)),
+          }}
           arrowColor="#3d6060"
           circleColor="white"
           iconColor="black"
-          type={item.arrowType} 
-          notes="" 
+          type={item.arrowType}
+          notes=""
           completed={false}
         />
       </Draggable>
     ));
-  }, [gapSize, gridIndicatorSize, size, arrowItems, occupiedCells, isDragging, deleteArrow, setSelected, selectedItem, mouseOutsideGrid, numberOfColumns]);
+  }, [
+    gapSize,
+    gridIndicatorSize,
+    size,
+    arrowItems,
+    occupiedCells,
+    isDragging,
+    deleteArrow,
+    setSelected,
+    selectedItem,
+    mouseOutsideGrid,
+    numberOfColumns,
+  ]);
 
   const resize = React.useCallback(() => {
     window.requestAnimationFrame(() => {
