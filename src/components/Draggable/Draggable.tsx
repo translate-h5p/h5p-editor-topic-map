@@ -1,4 +1,5 @@
 import * as React from "react";
+import { t } from "../../h5p/H5P.util";
 import { OccupiedCell } from "../../types/OccupiedCell";
 import { Position } from "../../types/Position";
 import { Size } from "../../types/Size";
@@ -12,10 +13,9 @@ import { ContextMenu } from "../ContextMenu/ContextMenu";
 import { ScaleHandles } from "../ScaleHandles/ScaleHandles";
 import styles from "./Draggable.module.scss";
 
-/* TODO: Translate */
 const labelTexts = {
-  selected: "Press arrow keys to move. Press escape to unselect.",
-  notSelected: "Press enter to select",
+  selected: t("draggable_selected"),
+  notSelected: t("draggable_not-selected"),
 };
 
 export type DraggableProps = {

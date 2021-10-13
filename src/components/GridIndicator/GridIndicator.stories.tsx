@@ -14,6 +14,4 @@ const Template: ComponentStory<typeof GridIndicator> = args => (
 );
 
 export const Primary = Template.bind({});
-Primary.args = {
-  label: "Heihei",
-};
+Primary.args = {};
