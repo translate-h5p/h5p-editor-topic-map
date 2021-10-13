@@ -18,7 +18,7 @@
     "lint:fix": "npm run format:fix && npm run eslint:fix",
     "start": "webpack serve --hot --mode=development",
     "test": "jest",
-    "storybook": "start-storybook -p 6006",
+    "storybook": "start-storybook -p 6006 -s language",
     "build-storybook": "build-storybook"
   },
   "dependencies": {
