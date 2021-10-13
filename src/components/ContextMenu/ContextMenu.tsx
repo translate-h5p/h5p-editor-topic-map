@@ -13,8 +13,8 @@ const labelTexts = {
   specify the svg icon in icons.tsx
 */
 export enum ContextMenuButtonType {
-  Edit = "edit",
-  Delete = "delete",
+  Edit = "context-menu_edit",
+  Delete = "context-menu_delete",
 }
 
 export type ContextMenuProps = {

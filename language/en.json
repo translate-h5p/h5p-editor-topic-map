@@ -1,7 +1,7 @@
 {
   "libraryStrings": {
-    "edit": "Edit",
-    "delete": "Delete",
+    "context-menu_edit": "Edit",
+    "context-menu_delete": "Delete",
     "dialog_close": "Close dialog",
     "draggable_selected": "Press arrow keys to move. Press escape to unselect.",
     "draggable_not-selected": "Press enter to select",
