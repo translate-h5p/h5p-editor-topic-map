@@ -1,10 +1,10 @@
 import * as React from "react";
+import { t } from "../../h5p/H5P.util";
 import styles from "./GridIndicator.module.scss";
 
 export type GridIndicatorProps = {
   onMouseDown: (index: number) => void;
   onMouseEnter: (index: number) => void;
-  label: string;
   index: number;
   active: boolean;
 };
@@ -12,10 +12,10 @@ export type GridIndicatorProps = {
 export const GridIndicator: React.FC<GridIndicatorProps> = ({
   onMouseDown,
   onMouseEnter,
-  label,
   index,
   active,
 }) => {
+  const label = t("grid-indicator_label");
   return (
     <button
       type="button"

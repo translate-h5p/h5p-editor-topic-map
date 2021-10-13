@@ -4,6 +4,7 @@
     "delete": "Delete",
     "dialog_close": "Close dialog",
     "draggable_selected": "Press arrow keys to move. Press escape to unselect.",
-    "draggable_not-selected": "Press enter to select"
+    "draggable_not-selected": "Press enter to select",
+    "grid-indicator_label": "Click and drag to create a new element"
   }
 }

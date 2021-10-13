@@ -86,9 +86,6 @@ export const Grid: React.FC<GridProps> = ({
 
   const elementRef = React.useRef<HTMLDivElement>(null);
 
-  /* TODO: Translate */
-  const gridIndicatorLabel = "Click to create a new element";
-
   const setSelected = React.useCallback((newItem: string | null) => {
     setSelectedItem(newItem);
   }, []);
@@ -495,7 +492,6 @@ export const Grid: React.FC<GridProps> = ({
             // eslint-disable-next-line react/no-array-index-key
             key={`grid-indicator-${index}`}
             index={index}
-            label={gridIndicatorLabel}
             onMouseDown={createBoxStart}
             onMouseEnter={indicatorIndex => {
               const isResizing = resizedItemId != null;
