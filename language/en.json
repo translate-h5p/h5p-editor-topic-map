@@ -1,6 +1,7 @@
 {
   "libraryStrings": {
     "edit": "Edit",
-    "delete": "Delete"
+    "delete": "Delete",
+    "dialog_close": "Close dialog"
   }
 }

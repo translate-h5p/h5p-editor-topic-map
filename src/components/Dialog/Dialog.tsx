@@ -9,6 +9,7 @@ import {
 } from "@radix-ui/react-dialog";
 import { Cross2Icon } from "@radix-ui/react-icons";
 import styles from "./Dialog.module.scss";
+import { t } from "../../h5p/H5P.util";
 
 export type DialogProps = {
   open: boolean;
@@ -23,8 +24,7 @@ export const Dialog: React.FC<DialogProps> = ({
   description,
   onOpenChange,
 }) => {
-  // TODO: Translate
-  const closeButtonLabel = "Close";
+  const closeButtonLabel = t("dialog_close");
 
   return (
     <Root open={open} onOpenChange={onOpenChange}>
