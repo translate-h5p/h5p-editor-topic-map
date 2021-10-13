@@ -125,6 +125,7 @@ export const parent: H5PForm = {
           label: "",
         },
       ],
+      arrowItems: [],
     },
   },
   passReadies: false,

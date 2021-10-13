@@ -37,6 +37,7 @@ export class H5PWrapper
         params={params}
         parent={parent}
         topicMapItems={params?.topicMapItems ?? []}
+        arrowItems={params?.arrowItems ?? []}
       />,
       this.wrapper,
     );

@@ -22,4 +22,4 @@ Primary.args = {
   params,
   semantics,
   parent,
-} as TopicMapItemFormProps;
+} as unknown as TopicMapItemFormProps;
