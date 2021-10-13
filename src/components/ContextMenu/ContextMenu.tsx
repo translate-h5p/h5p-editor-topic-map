@@ -1,11 +1,11 @@
 import * as React from "react";
 import styles from "./ContextMenu.module.scss";
 import { ContextMenuButton } from "../ContextMenuButton/ContextMenuButton";
+import { t } from "../../h5p/H5P.util";
 
-/* TODO: Translate */
 const labelTexts = {
-  edit: "Edit",
-  delete: "Delete",
+  edit: t("context-menu_edit"),
+  delete: t("context-menu_delete"),
 };
 
 /*

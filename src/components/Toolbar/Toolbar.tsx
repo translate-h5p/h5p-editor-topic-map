@@ -1,12 +1,12 @@
 import * as React from "react";
-import styles from "./Toolbar.module.scss";
+import { t } from "../../h5p/H5P.util";
 import { ToolbarButton } from "../ToolbarButton/ToolbarButton";
+import styles from "./Toolbar.module.scss";
 
-/* TODO: Translate */
 const labelTexts = {
-  mapColor: "Map color",
-  createBox: "Create box",
-  createArrow: "Create arrow",
+  mapColor: t("toolbar-button-type_map-color"),
+  createBox: t("toolbar-button-type_create-box"),
+  createArrow: t("toolbar-button-type_create-arrow"),
 };
 
 /*

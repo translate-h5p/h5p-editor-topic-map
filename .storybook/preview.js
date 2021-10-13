@@ -1,4 +1,5 @@
 import "!style-loader!css-loader!sass-loader!../src/styles.scss";
+import language from "../language/en.json";
 
 export const parameters = {
   actions: { argTypesRegex: "^on[A-Z].*" },
@@ -14,3 +15,5 @@ export const parameters = {
     },
   },
 };
+
+H5PEditor.language["H5PEditor.TopicMap"] = language;

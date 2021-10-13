@@ -1,5 +1,5 @@
 <script>
-  window.parent.H5PIntegration = {
+  window.parent.H5PIntegration = window.H5PIntegration = {
     baseUrl: "http:\/\/localhost:6006",
     url: "/",
     postUserStatistics: true,
@@ -574,7 +574,10 @@
 <script src="https://cdn.jsdelivr.net/gh/h5p/h5p-php-library/js/request-queue.js?ver=1.24.3"></script>
 
 <script src="https://cdn.jsdelivr.net/gh/h5p/h5p-editor-php-library/scripts/h5p-hub-client.js?ver=1.24.3"></script>
-<script src="https://cdn.jsdelivr.net/gh/h5p/h5p-editor-php-library/scripts/h5peditor.js?ver=1.24.3"></script>
+<script
+  id="h5peditor-script"
+  src="https://cdn.jsdelivr.net/gh/h5p/h5p-editor-php-library/scripts/h5peditor.js?ver=1.24.3"
+></script>
 <script src="https://cdn.jsdelivr.net/gh/h5p/h5p-editor-php-library/scripts/h5peditor-editor.js?ver=1.24.3"></script>
 <script src="https://cdn.jsdelivr.net/gh/h5p/h5p-editor-php-library/scripts/h5peditor-semantic-structure.js?ver=1.24.3"></script>
 <script src="https://cdn.jsdelivr.net/gh/h5p/h5p-editor-php-library/scripts/h5peditor-library-selector.js?ver=1.24.3"></script>
@@ -865,3 +868,5 @@
     ],
   };
 </script>
+
+<script src="https://cdn.jsdelivr.net/gh/h5p/h5p-editor-php-library/language/en.js?ver=1.24.3"></script>
