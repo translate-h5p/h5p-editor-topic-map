@@ -13,7 +13,6 @@ import { ContextMenu } from "../ContextMenu/ContextMenu";
 import { ScaleHandles } from "../ScaleHandles/ScaleHandles";
 import styles from "./Draggable.module.scss";
 
-/* TODO: Translate */
 const labelTexts = {
   selected: t("draggable_selected"),
   notSelected: t("draggable_not-selected"),
