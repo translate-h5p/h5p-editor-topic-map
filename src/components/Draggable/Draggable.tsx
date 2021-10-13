@@ -9,6 +9,7 @@ import {
   getPointerPositionFromEvent,
 } from "../../utils/draggable.utils";
 import { positionIsFree } from "../../utils/grid.utils";
+import { ArrowType } from "../Arrow/Utils";
 import { ContextMenu } from "../ContextMenu/ContextMenu";
 import { ScaleHandles } from "../ScaleHandles/ScaleHandles";
 import styles from "./Draggable.module.scss";
@@ -47,6 +48,8 @@ export type DraggableProps = {
   mouseOutsideGrid: boolean;
   editItem: (id: string) => void;
   showScaleHandles: boolean;
+  isArrow: boolean;
+  updateArrowType?: (type: ArrowType, item: string) => void;
 };
 
 export const Draggable: React.FC<DraggableProps> = ({
@@ -69,6 +72,8 @@ export const Draggable: React.FC<DraggableProps> = ({
   mouseOutsideGrid,
   editItem,
   showScaleHandles,
+  isArrow,
+  updateArrowType,
 }) => {
   const [isDragging, setIsDragging] = React.useState(false);
   const [isSelected, setIsSelected] = React.useState(selectedItem === id);
@@ -329,6 +334,21 @@ export const Draggable: React.FC<DraggableProps> = ({
       <ContextMenu
         onEdit={() => editItem(id)}
         onDelete={() => deleteItem(id)}
+        onChangeToDirectional={
+          isArrow && updateArrowType
+            ? () => updateArrowType(ArrowType.Directional, id)
+            : undefined
+        }
+        onChangeToBiDirectional={
+          isArrow && updateArrowType
+            ? () => updateArrowType(ArrowType.BiDirectional, id)
+            : undefined
+        }
+        onChangeToNonDirectional={
+          isArrow && updateArrowType
+            ? () => updateArrowType(ArrowType.NonDirectional, id)
+            : undefined
+        }
         show={selectedItem === id}
       />
     </div>

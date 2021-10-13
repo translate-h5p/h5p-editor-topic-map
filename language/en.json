@@ -2,6 +2,9 @@
   "libraryStrings": {
     "context-menu_edit": "Edit",
     "context-menu_delete": "Delete",
+    "context-menu_arrow-directional": "One sided arrow",
+    "context-menu_arrow-bi-directional": "Double sided arrow",
+    "context-menu_arrow-non-directional": "Single line",
     "dialog_close": "Close dialog",
     "draggable_selected": "Press arrow keys to move. Press escape to unselect.",
     "draggable_not-selected": "Press enter to select",

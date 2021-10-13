@@ -71,6 +71,45 @@ export const updateItem = (
   return newItems;
 };
 
+export const updateArrowItem = (
+  items: Array<ArrowItemType>,
+  updatedItem: ArrowItemType,
+  width: number,
+  height: number,
+  { newPosition, newSize }: { newPosition?: Position; newSize?: Size },
+  type?: ArrowType,
+): Array<ArrowItemType> => {
+  const newItems = items.map((item: ArrowItemType) => {
+    const isCorrectItem = item.id === updatedItem.id;
+
+    if (!isCorrectItem) {
+      return item;
+    }
+
+    const newItem: ArrowItemType = {
+      ...item,
+    };
+
+    if (type != null) {
+      newItem.arrowType = type;
+    }
+
+    if (newPosition) {
+      newItem.xPercentagePosition = calculateXPercentage(newPosition.x, width);
+      newItem.yPercentagePosition = calculateYPercentage(newPosition.y, height);
+    }
+
+    if (newSize) {
+      newItem.widthPercentage = calculateXPercentage(newSize.width, width);
+      newItem.heightPercentage = calculateYPercentage(newSize.height, height);
+    }
+
+    return newItem;
+  });
+
+  return newItems;
+};
+
 export const getAllCells = (
   gridWidth: number,
   gridHeight: number,

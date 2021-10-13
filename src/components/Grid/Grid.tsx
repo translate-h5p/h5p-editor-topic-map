@@ -22,6 +22,7 @@ import {
   resizeItems,
   scaleX,
   scaleY,
+  updateArrowItem,
   updateItem,
 } from "../../utils/grid.utils";
 import { Arrow } from "../Arrow/Arrow";
@@ -32,7 +33,7 @@ import { ToolbarButtonType } from "../Toolbar/Toolbar";
 import { TopicMapItem } from "../TopicMapItem/TopicMapItem";
 import { TopicMapItemForm } from "../TopicMapItemForm/TopicMapItemForm";
 import styles from "./Grid.module.scss";
-import { ArrowDirection } from "../Arrow/Utils";
+import { ArrowDirection, ArrowType } from "../Arrow/Utils";
 
 export type GridProps = {
   numberOfColumns: number;
@@ -725,6 +726,32 @@ export const Grid: React.FC<GridProps> = ({
     [arrowItems, updateArrowItems],
   );
 
+  const updateArrowType = React.useCallback(
+    (type: ArrowType, id: string) => {
+      const updatedItem = arrowItems.find(item => item.id === id);
+
+      if (!updatedItem) {
+        throw new Error(`Updated arrow with id "${id}" does not exist`);
+      }
+      if (!size) {
+        throw new Error("Grid has no size.");
+      }
+
+      const newItems = updateArrowItem(
+        arrowItems,
+        updatedItem,
+        size.width,
+        size.height,
+        {},
+        type,
+      );
+
+      updateArrowItems(newItems);
+      setArrowItems(newItems);
+    },
+    [arrowItems, size, updateArrowItems],
+  );
+
   const children = React.useMemo(() => {
     if (gapSize == null || gridIndicatorSize == null || size == null) {
       return null;
@@ -761,6 +788,7 @@ export const Grid: React.FC<GridProps> = ({
         }}
         mouseOutsideGrid={mouseOutsideGrid}
         showScaleHandles
+        isArrow={false}
       >
         <TopicMapItem item={item} />
       </Draggable>
@@ -775,10 +803,10 @@ export const Grid: React.FC<GridProps> = ({
     deleteItem,
     setSelected,
     selectedItem,
+    mouseOutsideGrid,
     updateItemPosition,
     numberOfColumns,
     numberOfRows,
-    mouseOutsideGrid,
   ]);
 
   const childrenArrows = React.useMemo(() => {
@@ -821,6 +849,8 @@ export const Grid: React.FC<GridProps> = ({
           }}
           mouseOutsideGrid={mouseOutsideGrid}
           showScaleHandles={false}
+          updateArrowType={updateArrowType}
+          isArrow
         >
           <Arrow
             start={{
@@ -846,14 +876,15 @@ export const Grid: React.FC<GridProps> = ({
     gridIndicatorSize,
     size,
     arrowItems,
+    numberOfColumns,
+    numberOfRows,
     occupiedCells,
     isDragging,
     deleteArrow,
     setSelected,
     selectedItem,
     mouseOutsideGrid,
-    numberOfColumns,
-    numberOfRows,
+    updateArrowType,
   ]);
 
   const resize = React.useCallback(() => {

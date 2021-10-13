@@ -4,6 +4,8 @@ import { CreateBox } from "./icons/CreateBox";
 import { CreateArrow } from "./icons/CreateArrow";
 import { Edit } from "./icons/Edit";
 import { Delete } from "./icons/Delete";
+import { BiDirectionalArrow } from "./icons/BiDirectionalArrow";
+import { SingleLine } from "./icons/SingleLine";
 import { ToolbarButtonType } from "./components/Toolbar/Toolbar";
 import { ContextMenuButtonType } from "./components/ContextMenu/ContextMenu";
 
@@ -19,6 +21,9 @@ export const Icon: React.FC<IconProps> = ({ icon, className }) => {
     [ToolbarButtonType.CreateArrow]: CreateArrow,
     [ContextMenuButtonType.Edit]: Edit,
     [ContextMenuButtonType.Delete]: Delete,
+    [ContextMenuButtonType.ArrowDirectional]: CreateArrow,
+    [ContextMenuButtonType.ArrowBiDirectional]: BiDirectionalArrow,
+    [ContextMenuButtonType.ArrowNonDirectional]: SingleLine,
   };
 
   const defaultIcon = MapColor;
