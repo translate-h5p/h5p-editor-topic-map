@@ -186,17 +186,10 @@ export const Grid: React.FC<GridProps> = ({
         throw new Error("Grid has no size.");
       }
 
-      const dragLeft = isDraggingLeft(
-        indicatorIndex,
-        arrowStartIndex,
-        numberOfColumns,
-      );
-      const dragUp = isDraggingUp(
-        indicatorIndex,
-        arrowStartIndex,
-        numberOfColumns,
-        numberOfRows,
-      );
+      const dragLeft =
+        indicatorIndex % numberOfColumns <
+        (arrowStartIndex ?? indicatorIndex) % numberOfColumns;
+      const dragUp = (arrowStartIndex ?? indicatorIndex) >= indicatorIndex;
 
       // Get x and y percentage position
       const x = dragLeft
@@ -797,70 +790,61 @@ export const Grid: React.FC<GridProps> = ({
       return null;
     }
 
-    return arrowItems.map(item => (
-      <Draggable
-        key={item.id}
-        id={item.id}
-        initialXPosition={scaleX(item.xPercentagePosition, size.width)}
-        initialYPosition={scaleY(item.yPercentagePosition, size.height)}
-        updatePosition={newPosition => console.info("newPosition", newPosition)}
-        initialWidth={Math.abs(scaleX(item.widthPercentage, size.width))}
-        initialHeight={Math.abs(scaleY(item.heightPercentage, size.height))}
-        gapSize={gapSize}
-        gridIndicatorSize={gridIndicatorSize}
-        gridSize={size}
-        occupiedCells={occupiedCells}
-        isPreview={isDragging}
-        editItem={setEditedItem}
-        deleteItem={deleteArrow}
-        setSelectedItem={setSelected}
-        selectedItem={selectedItem}
-        startResize={directionLock => {
-          console.info("resize", directionLock);
-        }}
-        mouseOutsideGrid={mouseOutsideGrid}
-        showScaleHandles={false}
-      >
-        <Arrow
-          start={{
-            x:
-              item.arrowDirection === ArrowDirection.Left
-                ? Math.abs(
-                    scaleX(
-                      item.widthPercentage + (gapSize * 2) / numberOfColumns,
-                      size.width,
-                    ),
-                  )
-                : 0,
-            y:
-              item.arrowDirection === ArrowDirection.Left
-                ? Math.abs(scaleY(item.heightPercentage, size.height))
-                : 0,
+    return arrowItems.map(item => {
+      const leftOrRightDirection =
+        item.arrowDirection === ArrowDirection.Left ||
+        item.arrowDirection === ArrowDirection.Up;
+
+      // prettier-ignore
+      const itemWidthPercentage = Math.abs(scaleX(item.widthPercentage + (gapSize * 2) / numberOfColumns, size.width));
+      // prettier-ignore
+      const itemHeightPercentage = Math.abs(scaleY(item.heightPercentage + (gapSize * 2) / numberOfRows, size.height));
+
+      return (
+        <Draggable
+          key={item.id}
+          id={item.id}
+          initialXPosition={scaleX(item.xPercentagePosition, size.width)}
+          initialYPosition={scaleY(item.yPercentagePosition, size.height)}
+          updatePosition={newPosition =>
+            console.info("newPosition", newPosition)
+          }
+          initialWidth={Math.abs(scaleX(item.widthPercentage, size.width))}
+          initialHeight={Math.abs(scaleY(item.heightPercentage, size.height))}
+          gapSize={gapSize}
+          gridIndicatorSize={gridIndicatorSize}
+          gridSize={size}
+          occupiedCells={occupiedCells}
+          isPreview={isDragging}
+          editItem={setEditedItem}
+          deleteItem={deleteArrow}
+          setSelectedItem={setSelected}
+          selectedItem={selectedItem}
+          startResize={directionLock => {
+            console.info("resize", directionLock);
           }}
-          end={{
-            x:
-              item.arrowDirection === ArrowDirection.Left
-                ? 0
-                : Math.abs(
-                    scaleX(
-                      item.widthPercentage + (gapSize * 2) / numberOfColumns,
-                      size.width,
-                    ),
-                  ),
-            y:
-              item.arrowDirection === ArrowDirection.Left
-                ? 0
-                : Math.abs(scaleY(item.heightPercentage, size.height)),
-          }}
-          arrowColor="#3d6060"
-          circleColor="white"
-          iconColor="black"
-          type={item.arrowType}
-          notes=""
-          completed={false}
-        />
-      </Draggable>
-    ));
+          mouseOutsideGrid={mouseOutsideGrid}
+          showScaleHandles={false}
+        >
+          <Arrow
+            start={{
+              x: leftOrRightDirection ? itemWidthPercentage : 0,
+              y: leftOrRightDirection ? itemHeightPercentage : 0,
+            }}
+            end={{
+              x: leftOrRightDirection ? 0 : itemWidthPercentage,
+              y: leftOrRightDirection ? 0 : itemHeightPercentage,
+            }}
+            arrowColor="#3d6060"
+            circleColor="white"
+            iconColor="black"
+            type={item.arrowType}
+            notes=""
+            completed={false}
+          />
+        </Draggable>
+      );
+    });
   }, [
     gapSize,
     gridIndicatorSize,
@@ -873,6 +857,7 @@ export const Grid: React.FC<GridProps> = ({
     selectedItem,
     mouseOutsideGrid,
     numberOfColumns,
+    numberOfRows,
   ]);
 
   const resize = React.useCallback(() => {

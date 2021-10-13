@@ -50,7 +50,7 @@ let withItemsItems: Array<TopicMapItemType> = [
     xPercentagePosition: 5,
     yPercentagePosition: 30,
     widthPercentage: 30,
-    heightPercentage: 20,
+    heightPercentage: 60,
     backgroundImage: {
       path: "https://images.unsplash.com/photo-1470509037663-253afd7f0f51?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=987&q=80",
       alt: "",
@@ -62,10 +62,10 @@ let withItemsItems: Array<TopicMapItemType> = [
   },
   {
     id: "3",
-    xPercentagePosition: 40,
+    xPercentagePosition: 50,
     yPercentagePosition: 30,
-    widthPercentage: 15,
-    heightPercentage: 50,
+    widthPercentage: 20,
+    heightPercentage: 40,
     backgroundImage: {
       path: "https://images.unsplash.com/photo-1527061011665-3652c757a4d4?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=772&q=80",
       alt: "",

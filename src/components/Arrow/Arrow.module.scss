@@ -36,11 +36,13 @@
 }
 
 .pointUp {
-  transform: rotate(-90deg);
+  /* TODO: Fix translateX and translateY */
+  transform: rotate(-90deg) translateY(-28px) translateX(6px);
 }
 
 .pointDown {
-  transform: rotate(90deg) translateY(50%) translateX(13%);
+  /* TODO: Fix translateX and translateY */
+  transform: rotate(90deg) translateY(28%) translateX(-12px);
 }
 
 .pointRight {
