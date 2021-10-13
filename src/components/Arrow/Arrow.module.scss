@@ -1,6 +1,4 @@
 .arrow {
-  width: 100px;
-  height: 100px;
   display: flex;
 }
 
@@ -29,10 +27,12 @@
 
 .shadow {
   filter: drop-shadow(0 4px 4px rgba(0, 0, 0, 0.25));
+  height: 100%;
+  width: 100%;
 }
 
 .pointLeft {
-  transform: rotate(180deg) translateY(32px) translateX(4px);
+  transform: rotate(180deg) translate(5px, 9px);
 }
 
 .pointUp {
@@ -46,5 +46,5 @@
 }
 
 .pointRight {
-  transform: rotate(0deg) translateY(-32px) translateX(-8px);
+  transform: rotate(0deg) translate(-6px, -9px);
 }

@@ -3,6 +3,7 @@ import { ComponentMeta, ComponentStory } from "@storybook/react";
 import * as React from "react";
 import { ArrowItemType } from "../../types/ArrowItemType";
 import { TopicMapItemType } from "../../types/TopicMapItemType";
+import { ArrowDirection, ArrowType } from "../Arrow/Utils";
 import { MapEditorView } from "./MapEditorView";
 
 export default {
@@ -77,13 +78,41 @@ let withItemsItems: Array<TopicMapItemType> = [
   },
 ];
 
+let withItemsArrows: Array<ArrowItemType> = [
+  {
+    id: "4",
+    xPercentagePosition: 35,
+    yPercentagePosition: 30,
+    widthPercentage: 15,
+    heightPercentage: 0,
+    arrowDirection: ArrowDirection.Right,
+    arrowType: ArrowType.Directional,
+    label: "",
+    links: [],
+  },
+  {
+    id: "5",
+    xPercentagePosition: 35,
+    yPercentagePosition: 5,
+    widthPercentage: 15,
+    heightPercentage: 0,
+    arrowDirection: ArrowDirection.Right,
+    arrowType: ArrowType.BiDirectional,
+    label: "",
+    links: [],
+  },
+];
+
 export const WithItems = Template.bind({});
 WithItems.args = {
   initialGridItems: withItemsItems,
   updateItems: (items: Array<TopicMapItemType>) => {
     withItemsItems = items;
   },
-  initialArrowItems: [],
+  initialArrowItems: withItemsArrows,
+  updateArrowItems: (items: Array<ArrowItemType>) => {
+    withItemsArrows = items;
+  },
 };
 
 const TemplateFullscreen: ComponentStory<typeof MapEditorView> = args => (

@@ -1,11 +1,13 @@
 .head {
   min-width: 28px;
   max-width: 28px;
+  height: 56px;
 }
 
 .body {
   flex-grow: 1;
   width: 100%;
+  height: 56px;
 }
 
 .mirrorX {

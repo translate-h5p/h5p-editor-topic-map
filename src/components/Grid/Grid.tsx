@@ -796,9 +796,9 @@ export const Grid: React.FC<GridProps> = ({
         item.arrowDirection === ArrowDirection.Up;
 
       // prettier-ignore
-      const itemWidthPercentage = Math.abs(scaleX(item.widthPercentage + (gapSize * 2) / numberOfColumns, size.width));
+      const itemWidthPercentage = Math.abs(scaleX(item.widthPercentage + (gapSize * 1.8) / numberOfColumns, size.width));
       // prettier-ignore
-      const itemHeightPercentage = Math.abs(scaleY(item.heightPercentage + (gapSize * 2) / numberOfRows, size.height));
+      const itemHeightPercentage = Math.abs(scaleY(item.heightPercentage + (gapSize * 1.8) / numberOfRows, size.height));
 
       return (
         <Draggable

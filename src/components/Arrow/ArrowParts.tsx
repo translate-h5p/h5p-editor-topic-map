@@ -10,7 +10,7 @@ export const ArrowBody: React.FC<ArrowPartProps> = ({
 }): JSX.Element => {
   return (
     <svg className={styles.body} viewBox="0 0 1 40" preserveAspectRatio="none">
-      <rect x="0" y="15" width="1" height="10" fill={arrowColor} />
+      <rect x="0" y="28%" width="100%" height="45%" fill={arrowColor} />
     </svg>
   );
 };
