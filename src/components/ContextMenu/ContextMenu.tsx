@@ -4,8 +4,8 @@ import { ContextMenuButton } from "../ContextMenuButton/ContextMenuButton";
 import { t } from "../../h5p/H5P.util";
 
 const labelTexts = {
-  edit: t("edit"),
-  delete: t("delete"),
+  edit: t("context-menu_edit"),
+  delete: t("context-menu_delete"),
 };
 
 /*
@@ -13,8 +13,8 @@ const labelTexts = {
   specify the svg icon in icons.tsx
 */
 export enum ContextMenuButtonType {
-  Edit = "context-menu_edit",
-  Delete = "context-menu_delete",
+  Edit = "edit",
+  Delete = "delete",
 }
 
 export type ContextMenuProps = {
