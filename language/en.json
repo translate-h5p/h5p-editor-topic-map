@@ -1,3 +1,6 @@
 {
-  "libraryStrings": {}
+  "libraryStrings": {
+    "edit": "Edit",
+    "delete": "Delete"
+  }
 }
