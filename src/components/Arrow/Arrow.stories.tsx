@@ -3,7 +3,7 @@ import * as React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
 
 import { Arrow } from "./Arrow";
-import { ArrowType } from "./Utils";
+import { ArrowDirection, ArrowType } from "./Utils";
 
 const blue = "#59A0FF";
 const white = "#FFFFFF";
@@ -40,6 +40,7 @@ RightDirectionalEmptyArrow.args = {
   type: ArrowType.Directional,
   notes: "",
   completed: false,
+  direction: ArrowDirection.Right,
 };
 
 export const LeftDirectionalCompletedArrow = Template.bind({});
@@ -58,6 +59,7 @@ LeftDirectionalCompletedArrow.args = {
   type: ArrowType.Directional,
   notes: "This note is completed",
   completed: true,
+  direction: ArrowDirection.Left,
 };
 
 export const BidirectionalHorizontalEmptyArrow = Template.bind({});
@@ -76,6 +78,7 @@ BidirectionalHorizontalEmptyArrow.args = {
   type: ArrowType.BiDirectional,
   notes: "",
   completed: false,
+  direction: ArrowDirection.Right,
 };
 
 export const UpDirectionalEditedArrow = Template.bind({});
@@ -94,6 +97,7 @@ UpDirectionalEditedArrow.args = {
   type: ArrowType.Directional,
   notes: "This note is started, but not marked complete",
   completed: false,
+  direction: ArrowDirection.Up,
 };
 
 export const NonDirectionalVerticalEmptyArrow = Template.bind({});
@@ -112,4 +116,5 @@ NonDirectionalVerticalEmptyArrow.args = {
   type: ArrowType.NonDirectional,
   notes: "",
   completed: false,
+  direction: ArrowDirection.Up,
 };
