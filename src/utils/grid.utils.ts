@@ -380,12 +380,16 @@ export const createArrowItem = (
 export const getArrowDirection = (
   dragLeft: boolean,
   dragUp: boolean,
+  horizontal: boolean,
 ): ArrowDirection => {
-  if (dragLeft) {
+  if (dragLeft && horizontal) {
     return ArrowDirection.Left;
   }
-  if (dragUp) {
+  if (dragUp && !horizontal) {
     return ArrowDirection.Up;
+  }
+  if (!dragUp && !horizontal) {
+    return ArrowDirection.Down;
   }
   return ArrowDirection.Right;
 };

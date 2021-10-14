@@ -4,12 +4,29 @@
   height: 56px;
 }
 
+.headVertical {
+  min-height: 28px;
+  max-height: 28px;
+  width: 56px;
+  height: 28px;
+}
+
 .body {
   flex-grow: 1;
   width: 100%;
   height: 56px;
 }
 
+.bodyVertical {
+  flex-grow: 1;
+  width: 56px;
+  height: 100%;
+}
+
 .mirrorX {
   transform: scaleX(-1);
+}
+
+.mirrorY {
+  transform: scaleY(-1);
 }

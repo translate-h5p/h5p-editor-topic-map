@@ -189,13 +189,19 @@ export const Grid: React.FC<GridProps> = ({
         (arrowStartIndex ?? indicatorIndex) % numberOfColumns;
       const dragUp = (arrowStartIndex ?? indicatorIndex) >= indicatorIndex;
 
+      const horizontal =
+        Math.floor(arrowStartIndex / numberOfColumns) ===
+        Math.floor(indicatorIndex / numberOfColumns);
+
       // Get x and y percentage position
-      const x = dragLeft
-        ? indicatorIndex % numberOfColumns
-        : arrowStartIndex % numberOfColumns;
-      const y = dragUp
-        ? Math.floor(indicatorIndex / numberOfColumns)
-        : Math.floor(arrowStartIndex / numberOfColumns);
+      const x =
+        dragLeft && horizontal
+          ? indicatorIndex % numberOfColumns
+          : arrowStartIndex % numberOfColumns;
+      const y =
+        dragUp && !horizontal
+          ? Math.floor(indicatorIndex / numberOfColumns)
+          : Math.floor(arrowStartIndex / numberOfColumns);
 
       const xPercentagePosition = (x / numberOfColumns) * 100;
       const yPercentagePosition = (y / numberOfRows) * 100;
@@ -206,7 +212,8 @@ export const Grid: React.FC<GridProps> = ({
         : Math.floor(indicatorIndex / numberOfColumns);
       const yEndPercentagePosition = ((yEnd + 1) / numberOfRows) * 100;
 
-      const heightPercentage = yEndPercentagePosition - yPercentagePosition;
+      // prettier-ignore
+      const heightPercentage = horizontal ? 0 : yEndPercentagePosition - yPercentagePosition;
 
       // Get width percentage
       const indicatorValue = dragLeft
@@ -219,14 +226,19 @@ export const Grid: React.FC<GridProps> = ({
         ? 100
         : (xEnd / numberOfColumns) * 100;
 
-      const widthPercentage = xEndPercentagePosition - xPercentagePosition;
+      // prettier-ignore
+      const widthPercentage = !horizontal ? 0 : xEndPercentagePosition - xPercentagePosition;
 
       // Create box
       const alreadyAdded =
         arrowItems.length !== currentArrowItemsLength &&
         arrowItems[currentArrowItemsLength] != null;
 
-      const arrowHeadDirection = getArrowDirection(dragLeft, dragUp);
+      const arrowHeadDirection = getArrowDirection(
+        dragLeft,
+        dragUp,
+        horizontal,
+      );
 
       const newItem = createArrowItem(arrowHeadDirection);
       newItem.xPercentagePosition = xPercentagePosition;
@@ -822,7 +834,7 @@ export const Grid: React.FC<GridProps> = ({
       // prettier-ignore
       const itemWidthPercentage = Math.abs(scaleX(item.widthPercentage + (gapSize * 1.8) / numberOfColumns, size.width));
       // prettier-ignore
-      const itemHeightPercentage = Math.abs(scaleY(item.heightPercentage + (gapSize * 1.8) / numberOfRows, size.height));
+      const itemHeightPercentage = Math.abs(scaleY(item.heightPercentage + (gapSize * 2.1) / numberOfRows, size.height));
 
       return (
         <Draggable
@@ -867,6 +879,7 @@ export const Grid: React.FC<GridProps> = ({
             type={item.arrowType}
             notes=""
             completed={false}
+            direction={item.arrowDirection}
           />
         </Draggable>
       );

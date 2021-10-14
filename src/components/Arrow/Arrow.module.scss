@@ -37,12 +37,16 @@
 
 .pointUp {
   /* TODO: Fix translateX and translateY */
-  transform: rotate(-90deg) translateY(-28px) translateX(6px);
+  transform: rotate(180deg) translateY(6px) translateX(8px);
+  flex-direction: column;
+  width: 56px;
 }
 
 .pointDown {
   /* TODO: Fix translateX and translateY */
-  transform: rotate(90deg) translateY(28%) translateX(-12px);
+  transform: rotate(0deg) translateY(-6px) translateX(-9px);
+  flex-direction: column;
+  width: 56px;
 }
 
 .pointRight {
