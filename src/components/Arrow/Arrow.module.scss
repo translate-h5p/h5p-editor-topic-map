@@ -1,0 +1,72 @@
+.arrow {
+  display: flex;
+}
+
+.filledArrow,
+.emptyArrow:hover,
+.emptyArrow:focus-within {
+  button {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+.arrow button {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease-in-out;
+  border-radius: 0;
+  border: none;
+  background-color: transparent;
+  padding: 0;
+
+  &:focus {
+    outline: 0;
+  }
+}
+
+.shadow {
+  filter: drop-shadow(0 4px 4px rgba(0, 0, 0, 0.25));
+  height: 100%;
+  width: 100%;
+}
+
+.pointLeft {
+  /*
+    TODO: Fix translate if the size of the grid or arrows changes. 
+    The arrows should be placed in the center of the gridindicators 
+    and should not overlap boxes.
+  */
+  transform: rotate(180deg) translate(5px, 9px);
+}
+
+.pointUp {
+  /*
+    TODO: Fix translate if the size of the grid or arrows changes. 
+    The arrows should be placed in the center of the gridindicators 
+    and should not overlap boxes.
+  */
+  transform: rotate(180deg) translate(8px, 6px);
+  flex-direction: column;
+  width: 56px;
+}
+
+.pointDown {
+  /*
+    TODO: Fix translate if the size of the grid or arrows changes. 
+    The arrows should be placed in the center of the gridindicators 
+    and should not overlap boxes.
+  */
+  transform: rotate(0deg) translate(-9px, -6px);
+  flex-direction: column;
+  width: 56px;
+}
+
+.pointRight {
+  /*
+    TODO: Fix translate if the size of the grid or arrows changes. 
+    The arrows should be placed in the center of the gridindicators 
+    and should not overlap boxes.
+  */
+  transform: rotate(0deg) translate(-6px, -9px);
+}

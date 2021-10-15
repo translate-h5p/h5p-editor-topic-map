@@ -1,4 +1,6 @@
 import { v4 as uuidV4 } from "uuid";
+import { ArrowDirection, ArrowType } from "../components/Arrow/Utils";
+import { ArrowItemType } from "../types/ArrowItemType";
 import { Cell } from "../types/Cell";
 import { Element } from "../types/Element";
 import { OccupiedCell } from "../types/OccupiedCell";
@@ -52,6 +54,45 @@ export const updateItem = (
     const newItem: TopicMapItemType = {
       ...item,
     };
+
+    if (newPosition) {
+      newItem.xPercentagePosition = calculateXPercentage(newPosition.x, width);
+      newItem.yPercentagePosition = calculateYPercentage(newPosition.y, height);
+    }
+
+    if (newSize) {
+      newItem.widthPercentage = calculateXPercentage(newSize.width, width);
+      newItem.heightPercentage = calculateYPercentage(newSize.height, height);
+    }
+
+    return newItem;
+  });
+
+  return newItems;
+};
+
+export const updateArrowItem = (
+  items: Array<ArrowItemType>,
+  updatedItem: ArrowItemType,
+  width: number,
+  height: number,
+  { newPosition, newSize }: { newPosition?: Position; newSize?: Size },
+  type?: ArrowType,
+): Array<ArrowItemType> => {
+  const newItems = items.map((item: ArrowItemType) => {
+    const isCorrectItem = item.id === updatedItem.id;
+
+    if (!isCorrectItem) {
+      return item;
+    }
+
+    const newItem: ArrowItemType = {
+      ...item,
+    };
+
+    if (type != null) {
+      newItem.arrowType = type;
+    }
 
     if (newPosition) {
       newItem.xPercentagePosition = calculateXPercentage(newPosition.x, width);
@@ -314,6 +355,43 @@ export const createTopicMapItem = (): TopicMapItemType => {
   };
 
   return item;
+};
+
+export const createArrowItem = (
+  arrowHeadDirection: ArrowDirection,
+): ArrowItemType => {
+  const id = uuidV4();
+
+  const item: ArrowItemType = {
+    id,
+    xPercentagePosition: 0,
+    yPercentagePosition: 0,
+    widthPercentage: 0,
+    heightPercentage: 0,
+    arrowDirection: arrowHeadDirection,
+    arrowType: ArrowType.Directional,
+    label: "",
+    links: [],
+  };
+
+  return item;
+};
+
+export const getArrowDirection = (
+  dragLeft: boolean,
+  dragUp: boolean,
+  horizontal: boolean,
+): ArrowDirection => {
+  if (dragLeft && horizontal) {
+    return ArrowDirection.Left;
+  }
+  if (dragUp && !horizontal) {
+    return ArrowDirection.Up;
+  }
+  if (!dragUp && !horizontal) {
+    return ArrowDirection.Down;
+  }
+  return ArrowDirection.Right;
 };
 
 export const findItem = (

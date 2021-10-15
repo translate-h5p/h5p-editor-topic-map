@@ -1,0 +1,40 @@
+@use "sass:math";
+
+$size: 56px;
+
+.head {
+  min-width: math.div($size, 2);
+  max-width: math.div($size, 2);
+  height: $size;
+  fill: var(--theme-color-1);
+}
+
+.headVertical {
+  min-height: math.div($size, 2);
+  max-height: math.div($size, 2);
+  width: $size;
+  height: math.div($size, 2);
+  fill: var(--theme-color-1);
+}
+
+.body {
+  flex-grow: 1;
+  width: 100%;
+  height: $size;
+  fill: var(--theme-color-1);
+}
+
+.bodyVertical {
+  flex-grow: 1;
+  width: $size;
+  height: 100%;
+  fill: var(--theme-color-1);
+}
+
+.mirrorX {
+  transform: scaleX(-1);
+}
+
+.mirrorY {
+  transform: scaleY(-1);
+}

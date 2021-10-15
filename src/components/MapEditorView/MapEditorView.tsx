@@ -6,6 +6,7 @@ import { Grid } from "../Grid/Grid";
 import { H5PField } from "../../types/h5p/H5PField";
 import { Params } from "../../types/h5p/Params";
 import { H5PForm } from "../../types/h5p/H5PForm";
+import { ArrowItemType } from "../../types/ArrowItemType";
 
 export type MapEditorViewProps = {
   numberOfColumns?: number;
@@ -13,6 +14,8 @@ export type MapEditorViewProps = {
   gapSize?: number;
   initialGridItems: Array<TopicMapItemType>;
   updateItems: (items: Array<TopicMapItemType>) => void;
+  initialArrowItems: Array<ArrowItemType>;
+  updateArrowItems: (items: Array<ArrowItemType>) => void;
   semantics: H5PField;
   params: Params;
   parent: H5PForm;
@@ -23,6 +26,8 @@ export const MapEditorView: React.FC<MapEditorViewProps> = ({
   numberOfRows,
   initialGridItems,
   updateItems,
+  initialArrowItems,
+  updateArrowItems,
   gapSize,
   semantics,
   params,
@@ -38,6 +43,9 @@ export const MapEditorView: React.FC<MapEditorViewProps> = ({
   const [gridItems, setGridItems] = React.useState<Array<TopicMapItemType>>(
     initialGridItems ?? [],
   );
+  const [arrowItems, setArrowItems] = React.useState<Array<ArrowItemType>>(
+    initialArrowItems ?? [],
+  );
 
   const setActive = (newValue: ToolbarButtonType | null): void => {
     setActiveTool(newValue);
@@ -51,6 +59,14 @@ export const MapEditorView: React.FC<MapEditorViewProps> = ({
     [updateItems],
   );
 
+  const updateArrows = React.useCallback(
+    (items: Array<ArrowItemType>) => {
+      updateArrowItems(items);
+      setArrowItems(items);
+    },
+    [updateArrowItems],
+  );
+
   return (
     <div className={styles.mapEditorView}>
       <Toolbar setActiveTool={setActive} activeTool={activeTool} />
@@ -60,6 +76,8 @@ export const MapEditorView: React.FC<MapEditorViewProps> = ({
           numberOfRows={rows}
           initialItems={gridItems}
           updateItems={update}
+          initialArrowItems={arrowItems}
+          updateArrowItems={updateArrows}
           gapSize={gapSize ?? defaultGapSize}
           setActiveTool={setActive}
           activeTool={activeTool}
