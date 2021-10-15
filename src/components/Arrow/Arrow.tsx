@@ -1,5 +1,4 @@
 import * as React from "react";
-import { useState } from "react";
 import { Position } from "../../types/Position";
 import styles from "./Arrow.module.scss";
 import {
@@ -10,32 +9,19 @@ import {
   ArrowHeadVertical,
   MirroredArrowHeadVertical,
 } from "./ArrowParts";
-import {
-  ArrowDirection,
-  ArrowType,
-  ButtonIconState,
-  getButtonIconState,
-} from "./Utils";
+import { ArrowDirection, ArrowType } from "./Utils";
 
 export type ArrowProps = {
   start: Position;
   end: Position;
-  arrowColor: string;
-  circleColor: string;
-  iconColor: string;
   type: ArrowType;
-  notes: string;
-  completed: boolean;
   direction: ArrowDirection;
 };
 
 export const Arrow: React.FC<ArrowProps> = ({
   start,
   end,
-  arrowColor,
   type,
-  notes,
-  completed,
   direction,
 }) => {
   let classNames = `${styles.arrow} `;
@@ -60,18 +46,6 @@ export const Arrow: React.FC<ArrowProps> = ({
       break;
   }
 
-  const [buttonState, setButtonState] = useState(
-    getButtonIconState(completed, notes),
-  );
-
-  React.useEffect(() => {
-    setButtonState(getButtonIconState(completed, notes));
-  }, [completed, notes]);
-
-  if (buttonState === ButtonIconState.Empty)
-    classNames += ` ${styles.emptyArrow}`;
-  else classNames += ` ${styles.filledArrow}`;
-
   const UpOrDown =
     direction === ArrowDirection.Up || direction === ArrowDirection.Down;
   const leftOrRight =
@@ -82,8 +56,8 @@ export const Arrow: React.FC<ArrowProps> = ({
     case ArrowType.NonDirectional:
       arrow = (
         <div data-testid="ndArrow" className={classNames} style={length}>
-          {UpOrDown && <ArrowBodyVertical arrowColor={arrowColor} />}
-          {leftOrRight && <ArrowBody arrowColor={arrowColor} />}
+          {UpOrDown && <ArrowBodyVertical />}
+          {leftOrRight && <ArrowBody />}
         </div>
       );
       break;
@@ -92,16 +66,16 @@ export const Arrow: React.FC<ArrowProps> = ({
         <div data-testid="bdArrow" className={classNames} style={length}>
           {UpOrDown && (
             <>
-              <MirroredArrowHeadVertical arrowColor={arrowColor} />
-              <ArrowBodyVertical arrowColor={arrowColor} />
-              <ArrowHeadVertical arrowColor={arrowColor} />
+              <MirroredArrowHeadVertical />
+              <ArrowBodyVertical />
+              <ArrowHeadVertical />
             </>
           )}
           {leftOrRight && (
             <>
-              <MirroredArrowHead arrowColor={arrowColor} />
-              <ArrowBody arrowColor={arrowColor} />
-              <ArrowHead arrowColor={arrowColor} />
+              <MirroredArrowHead />
+              <ArrowBody />
+              <ArrowHead />
             </>
           )}
         </div>
@@ -112,14 +86,14 @@ export const Arrow: React.FC<ArrowProps> = ({
         <div data-testid="dArrow" className={classNames} style={length}>
           {UpOrDown && (
             <>
-              <ArrowBodyVertical arrowColor={arrowColor} />
-              <ArrowHeadVertical arrowColor={arrowColor} />
+              <ArrowBodyVertical />
+              <ArrowHeadVertical />
             </>
           )}
           {leftOrRight && (
             <>
-              <ArrowBody arrowColor={arrowColor} />
-              <ArrowHead arrowColor={arrowColor} />
+              <ArrowBody />
+              <ArrowHead />
             </>
           )}
         </div>

@@ -32,23 +32,25 @@
 }
 
 .pointLeft {
+  /* TODO: Fix translate */
   transform: rotate(180deg) translate(5px, 9px);
 }
 
 .pointUp {
-  /* TODO: Fix translateX and translateY */
-  transform: rotate(180deg) translateY(6px) translateX(8px);
+  /* TODO: Fix translate */
+  transform: rotate(180deg) translate(8px, 6px);
   flex-direction: column;
   width: 56px;
 }
 
 .pointDown {
-  /* TODO: Fix translateX and translateY */
-  transform: rotate(0deg) translateY(-6px) translateX(-9px);
+  /* TODO: Fix translate */
+  transform: rotate(0deg) translate(-9px, -6px);
   flex-direction: column;
   width: 56px;
 }
 
 .pointRight {
+  /* TODO: Fix translate */
   transform: rotate(0deg) translate(-6px, -9px);
 }

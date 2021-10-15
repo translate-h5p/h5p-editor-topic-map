@@ -5,10 +5,6 @@ import { ComponentStory, ComponentMeta } from "@storybook/react";
 import { Arrow } from "./Arrow";
 import { ArrowDirection, ArrowType } from "./Utils";
 
-const blue = "#59A0FF";
-const white = "#FFFFFF";
-const black = "#3E3E3E";
-
 export default {
   title: "Organisms/Arrow",
   component: Arrow,
@@ -34,12 +30,7 @@ RightDirectionalEmptyArrow.args = {
     x: 100,
     y: 0,
   },
-  arrowColor: blue,
-  circleColor: white,
-  iconColor: black,
   type: ArrowType.Directional,
-  notes: "",
-  completed: false,
   direction: ArrowDirection.Right,
 };
 
@@ -53,12 +44,7 @@ LeftDirectionalCompletedArrow.args = {
     x: 0,
     y: 0,
   },
-  arrowColor: blue,
-  circleColor: white,
-  iconColor: black,
   type: ArrowType.Directional,
-  notes: "This note is completed",
-  completed: true,
   direction: ArrowDirection.Left,
 };
 
@@ -72,12 +58,7 @@ BidirectionalHorizontalEmptyArrow.args = {
     x: 100,
     y: 0,
   },
-  arrowColor: blue,
-  circleColor: white,
-  iconColor: black,
   type: ArrowType.BiDirectional,
-  notes: "",
-  completed: false,
   direction: ArrowDirection.Right,
 };
 
@@ -91,12 +72,7 @@ UpDirectionalEditedArrow.args = {
     x: 0,
     y: 0,
   },
-  arrowColor: blue,
-  circleColor: white,
-  iconColor: black,
   type: ArrowType.Directional,
-  notes: "This note is started, but not marked complete",
-  completed: false,
   direction: ArrowDirection.Up,
 };
 
@@ -110,11 +86,6 @@ NonDirectionalVerticalEmptyArrow.args = {
     x: 0,
     y: 100,
   },
-  arrowColor: blue,
-  circleColor: white,
-  iconColor: black,
   type: ArrowType.NonDirectional,
-  notes: "",
-  completed: false,
   direction: ArrowDirection.Up,
 };

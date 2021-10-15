@@ -831,6 +831,7 @@ export const Grid: React.FC<GridProps> = ({
         item.arrowDirection === ArrowDirection.Left ||
         item.arrowDirection === ArrowDirection.Up;
 
+      /* TODO: Fix the height and width according to grid size and gap size */
       // prettier-ignore
       const itemWidthPercentage = Math.abs(scaleX(item.widthPercentage + (gapSize * 1.8) / numberOfColumns, size.width));
       // prettier-ignore
@@ -843,6 +844,7 @@ export const Grid: React.FC<GridProps> = ({
           initialXPosition={scaleX(item.xPercentagePosition, size.width)}
           initialYPosition={scaleY(item.yPercentagePosition, size.height)}
           updatePosition={newPosition =>
+            /* TODO: Add method for updating arrow position */
             console.info("newPosition", newPosition)
           }
           initialWidth={Math.abs(scaleX(item.widthPercentage, size.width))}
@@ -873,12 +875,7 @@ export const Grid: React.FC<GridProps> = ({
               x: leftOrRightDirection ? 0 : itemWidthPercentage,
               y: leftOrRightDirection ? 0 : itemHeightPercentage,
             }}
-            arrowColor="#3d6060"
-            circleColor="white"
-            iconColor="black"
             type={item.arrowType}
-            notes=""
-            completed={false}
             direction={item.arrowDirection}
           />
         </Draggable>

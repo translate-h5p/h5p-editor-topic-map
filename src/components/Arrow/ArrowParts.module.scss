@@ -2,6 +2,7 @@
   min-width: 28px;
   max-width: 28px;
   height: 56px;
+  fill: var(--theme-color-1);
 }
 
 .headVertical {
@@ -9,18 +10,21 @@
   max-height: 28px;
   width: 56px;
   height: 28px;
+  fill: var(--theme-color-1);
 }
 
 .body {
   flex-grow: 1;
   width: 100%;
   height: 56px;
+  fill: var(--theme-color-1);
 }
 
 .bodyVertical {
   flex-grow: 1;
   width: 56px;
   height: 100%;
+  fill: var(--theme-color-1);
 }
 
 .mirrorX {
