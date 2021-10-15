@@ -1,20 +1,23 @@
 import * as React from "react";
-import styles from "./MapEditorView.module.scss";
-import { TopicMapItemType } from "../../types/TopicMapItemType";
-import { Toolbar, ToolbarButtonType } from "../Toolbar/Toolbar";
-import { Grid } from "../Grid/Grid";
-import { H5PField } from "../../types/h5p/H5PField";
-import { Params } from "../../types/h5p/Params";
-import { H5PForm } from "../../types/h5p/H5PForm";
+import { t } from "../../h5p/H5P.util";
 import { ArrowItemType } from "../../types/ArrowItemType";
+import { H5PField } from "../../types/h5p/H5PField";
+import { H5PForm } from "../../types/h5p/H5PForm";
+import { Params } from "../../types/h5p/Params";
+import { TopicMapItemType } from "../../types/TopicMapItemType";
+import { Dialog } from "../Dialog/Dialog";
+import { Grid } from "../Grid/Grid";
+import { Toolbar, ToolbarButtonType } from "../Toolbar/Toolbar";
+import { TopicMapItemForm } from "../TopicMapItemForm/TopicMapItemForm";
+import styles from "./MapEditorView.module.scss";
 
 export type MapEditorViewProps = {
   numberOfColumns?: number;
   numberOfRows?: number;
   gapSize?: number;
   initialGridItems: Array<TopicMapItemType>;
-  updateItems: (items: Array<TopicMapItemType>) => void;
   initialArrowItems: Array<ArrowItemType>;
+  updateItems: (items: Array<TopicMapItemType>) => void;
   updateArrowItems: (items: Array<ArrowItemType>) => void;
   semantics: H5PField;
   params: Params;
@@ -46,6 +49,7 @@ export const MapEditorView: React.FC<MapEditorViewProps> = ({
   const [arrowItems, setArrowItems] = React.useState<Array<ArrowItemType>>(
     initialArrowItems ?? [],
   );
+  const [editedItem, setEditedItem] = React.useState<string | null>();
 
   const setActive = (newValue: ToolbarButtonType | null): void => {
     setActiveTool(newValue);
@@ -67,6 +71,8 @@ export const MapEditorView: React.FC<MapEditorViewProps> = ({
     [updateArrowItems],
   );
 
+  const topicMapItemFormDialogTitle = t("map-editor-view_item-dialog-title");
+
   return (
     <div className={styles.mapEditorView}>
       <Toolbar setActiveTool={setActive} activeTool={activeTool} />
@@ -81,10 +87,30 @@ export const MapEditorView: React.FC<MapEditorViewProps> = ({
           gapSize={gapSize ?? defaultGapSize}
           setActiveTool={setActive}
           activeTool={activeTool}
-          semantics={semantics}
-          params={params}
-          parent={parent}
+          setEditedItem={setEditedItem}
         />
+        <Dialog
+          open={Boolean(semantics && editedItem)}
+          title={topicMapItemFormDialogTitle}
+          onOpenChange={isOpen => {
+            if (!isOpen) {
+              setEditedItem(null);
+            }
+          }}
+        >
+          {editedItem && (
+            <TopicMapItemForm
+              itemId={editedItem}
+              semantics={semantics}
+              params={params}
+              parent={parent}
+              onSave={newParams => {
+                updateItems(newParams.topicMapItems);
+                setEditedItem(null);
+              }}
+            />
+          )}
+        </Dialog>
       </div>
     </div>
   );

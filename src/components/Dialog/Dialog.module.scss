@@ -24,9 +24,9 @@
   box-shadow: hsl(206 22% 7% / 35%) 0 10px 38px -10px,
     hsl(206 22% 7% / 20%) 0 10px 20px -15px;
   left: 50%;
-
   max-height: 85vh;
   max-width: 450px;
+  overflow: auto;
   padding: 25px;
   position: fixed;
   top: 50%;
