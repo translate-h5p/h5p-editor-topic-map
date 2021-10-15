@@ -1,28 +1,32 @@
+@use "sass:math";
+
+$size: 56px;
+
 .head {
-  min-width: 28px;
-  max-width: 28px;
-  height: 56px;
+  min-width: math.div($size, 2);
+  max-width: math.div($size, 2);
+  height: $size;
   fill: var(--theme-color-1);
 }
 
 .headVertical {
-  min-height: 28px;
-  max-height: 28px;
-  width: 56px;
-  height: 28px;
+  min-height: math.div($size, 2);
+  max-height: math.div($size, 2);
+  width: $size;
+  height: math.div($size, 2);
   fill: var(--theme-color-1);
 }
 
 .body {
   flex-grow: 1;
   width: 100%;
-  height: 56px;
+  height: $size;
   fill: var(--theme-color-1);
 }
 
 .bodyVertical {
   flex-grow: 1;
-  width: 56px;
+  width: $size;
   height: 100%;
   fill: var(--theme-color-1);
 }

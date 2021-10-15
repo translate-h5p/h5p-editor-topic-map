@@ -18,6 +18,7 @@ export type ArrowProps = {
   direction: ArrowDirection;
 };
 
+// TODO: Share code with h5p-topic-map instead of duplicating
 export const Arrow: React.FC<ArrowProps> = ({
   start,
   end,
