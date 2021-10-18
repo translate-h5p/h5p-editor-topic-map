@@ -32,7 +32,7 @@ export const SemanticsForm: React.FC<SemanticsFormProps> = ({
   }, [fields, params, parent, generatedFormRef]);
 
   return (
-    <form className={formClassName}>
+    <form className={`${formClassName} h5peditor`}>
       <div ref={generatedFormRef} />
       <button type="button" onClick={() => onSave(params)}>
         {saveLabel}
