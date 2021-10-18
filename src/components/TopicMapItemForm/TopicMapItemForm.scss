@@ -1,12 +1,12 @@
 .topic-map-item-form {
-  > div > .field > {
-    .h5peditor-label {
+  > div > .field {
+    > .h5peditor-label {
       // Topic map items heading
       display: none;
     }
 
-    .h5peditor-widget-wrapper {
-      .h5p-ul {
+    > .h5peditor-widget-wrapper {
+      > .h5p-ul {
         list-style-type: none;
         padding: 0;
 
