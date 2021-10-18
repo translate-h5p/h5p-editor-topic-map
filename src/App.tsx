@@ -6,11 +6,15 @@ import { H5PField } from "./types/h5p/H5PField";
 import { H5PForm } from "./types/h5p/H5PForm";
 import { Params } from "./types/h5p/Params";
 import { TopicMapItemType } from "./types/TopicMapItemType";
+import {
+  fillInMissingParamsProperties,
+  getEmptyParams,
+} from "./utils/H5P/form.utils";
 
 export type AppProps = {
   setValue: (params: Params) => void;
   semantics: H5PField;
-  initialParams: Params;
+  initialParams: Partial<Params> | undefined;
   parent: H5PForm;
 };
 
@@ -20,7 +24,11 @@ const App: React.FC<AppProps> = ({
   initialParams,
   parent,
 }) => {
-  const [params, setParams] = React.useState<Params>(initialParams);
+  const [params, setParams] = React.useState<Params>(
+    initialParams
+      ? fillInMissingParamsProperties(initialParams)
+      : getEmptyParams(),
+  );
 
   const updateItems = React.useCallback(
     (items: Array<TopicMapItemType>) => {
@@ -52,9 +60,9 @@ const App: React.FC<AppProps> = ({
     <div className="h5p-editor-topic-map">
       <MapEditorView
         updateItems={updateItems}
-        initialGridItems={params.topicMapItems}
+        initialGridItems={params.topicMapItems ?? []}
         updateArrowItems={updateArrowItems}
-        initialArrowItems={params.arrowItems}
+        initialArrowItems={params.arrowItems ?? []}
         semantics={semantics}
         params={params}
         parent={parent}

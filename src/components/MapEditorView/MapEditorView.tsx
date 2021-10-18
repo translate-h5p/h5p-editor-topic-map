@@ -105,7 +105,7 @@ export const MapEditorView: React.FC<MapEditorViewProps> = ({
               params={params}
               parent={parent}
               onSave={newParams => {
-                updateItems(newParams.topicMapItems);
+                updateItems(newParams.topicMapItems ?? []);
                 setEditedItem(null);
               }}
             />

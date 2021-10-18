@@ -1,5 +1,6 @@
 import { H5PEditor } from "../../h5p/H5P.util";
 import { H5PField } from "../../types/h5p/H5PField";
+import { Params } from "../../types/h5p/Params";
 
 export const getTopicMapField = (semantics: H5PField): H5PField | null => {
   if (!H5PEditor.findSemanticsField) {
@@ -21,4 +22,24 @@ export const getTopicMapField = (semantics: H5PField): H5PField | null => {
   }
 
   return topicMapField;
+};
+
+export const getEmptyParams = (): Params => {
+  const params: Params = {
+    topicMapItems: [],
+    arrowItems: [],
+  };
+
+  return params;
+};
+
+export const fillInMissingParamsProperties = (
+  partialParams: Partial<Params>,
+): Params => {
+  const params: Params = {
+    ...getEmptyParams(),
+    ...partialParams,
+  };
+
+  return params;
 };
