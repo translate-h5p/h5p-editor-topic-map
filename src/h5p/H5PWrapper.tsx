@@ -25,7 +25,7 @@ export class H5PWrapper
 
     ReactDOM.render(
       <App
-        setValue={setValue}
+        setValue={newParams => setValue(semantics, newParams)}
         semantics={semantics}
         params={params}
         parent={parent}

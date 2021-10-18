@@ -8,7 +8,7 @@ import { Params } from "./types/h5p/Params";
 import { TopicMapItemType } from "./types/TopicMapItemType";
 
 export type AppProps = {
-  setValue: (field: H5PField, params: Params) => void;
+  setValue: (params: Params) => void;
   semantics: H5PField;
   params: Params;
   parent: H5PForm;
@@ -26,22 +26,22 @@ const App: React.FC<AppProps> = ({
 }) => {
   const updateItems = React.useCallback(
     (items: Array<TopicMapItemType>) => {
-      setValue(semantics, {
+      setValue({
         topicMapItems: items,
         arrowItems,
       });
     },
-    [arrowItems, semantics, setValue],
+    [arrowItems, setValue],
   );
 
   const updateArrowItems = React.useCallback(
     (items: Array<ArrowItemType>) => {
-      setValue(semantics, {
+      setValue({
         topicMapItems,
         arrowItems: items,
       });
     },
-    [semantics, setValue, topicMapItems],
+    [setValue, topicMapItems],
   );
 
   return (
