@@ -19,6 +19,7 @@ const Template: ComponentStory<typeof TopicMapItemForm> = args => (
 
 export const Primary = Template.bind({});
 Primary.args = {
+  itemId: "1",
   params,
   semantics,
   parent,

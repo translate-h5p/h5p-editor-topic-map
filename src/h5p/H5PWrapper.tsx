@@ -23,21 +23,12 @@ export class H5PWrapper
     super();
     this.wrapper = H5PWrapper.createWrapperElement();
 
-    // Intentional log.
-    // TODO: Remove this before official release
-    console.info({
-      field: JSON.stringify(semantics),
-      params,
-    });
-
     ReactDOM.render(
       <App
-        setValue={setValue}
+        setValue={newParams => setValue(semantics, newParams)}
         semantics={semantics}
-        params={params}
+        initialParams={params}
         parent={parent}
-        topicMapItems={params?.topicMapItems ?? []}
-        arrowItems={params?.arrowItems ?? []}
       />,
       this.wrapper,
     );

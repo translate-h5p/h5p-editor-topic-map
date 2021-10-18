@@ -1,8 +1,6 @@
 import * as React from "react";
+import { ArrowItemType } from "../../types/ArrowItemType";
 import { Element } from "../../types/Element";
-import { H5PField } from "../../types/h5p/H5PField";
-import { H5PForm } from "../../types/h5p/H5PForm";
-import { Params } from "../../types/h5p/Params";
 import { OccupiedCell } from "../../types/OccupiedCell";
 import { Position } from "../../types/Position";
 import { Size } from "../../types/Size";
@@ -26,14 +24,12 @@ import {
   updateItem,
 } from "../../utils/grid.utils";
 import { Arrow } from "../Arrow/Arrow";
-import { ArrowItemType } from "../../types/ArrowItemType";
+import { ArrowDirection, ArrowType } from "../Arrow/Utils";
 import { Draggable } from "../Draggable/Draggable";
 import { GridIndicator } from "../GridIndicator/GridIndicator";
 import { ToolbarButtonType } from "../Toolbar/Toolbar";
 import { TopicMapItem } from "../TopicMapItem/TopicMapItem";
-import { TopicMapItemForm } from "../TopicMapItemForm/TopicMapItemForm";
 import styles from "./Grid.module.scss";
-import { ArrowDirection, ArrowType } from "../Arrow/Utils";
 
 export type GridProps = {
   numberOfColumns: number;
@@ -46,9 +42,7 @@ export type GridProps = {
   children?: never;
   setActiveTool: (newValue: ToolbarButtonType | null) => void;
   activeTool: ToolbarButtonType | null;
-  semantics: H5PField;
-  params: Params;
-  parent: H5PForm;
+  setEditedItem: (itemId: string) => void;
 };
 
 export const Grid: React.FC<GridProps> = ({
@@ -61,9 +55,7 @@ export const Grid: React.FC<GridProps> = ({
   gapSize,
   setActiveTool,
   activeTool,
-  semantics,
-  params,
-  parent,
+  setEditedItem,
 }) => {
   const [size, setSize] = React.useState<Size | null>();
   const [hasRendered, setHasRendered] = React.useState<boolean>(false);
@@ -100,7 +92,6 @@ export const Grid: React.FC<GridProps> = ({
   const [mouseOutsideGrid, setMouseOutsideGrid] =
     React.useState<boolean>(false);
   const [prevIndex, setPrevIndex] = React.useState<number | null>(null);
-  const [editedItem, setEditedItem] = React.useState<string | null>();
 
   const elementRef = React.useRef<HTMLDivElement>(null);
 
@@ -812,6 +803,7 @@ export const Grid: React.FC<GridProps> = ({
     items,
     occupiedCells,
     isDragging,
+    setEditedItem,
     deleteItem,
     setSelected,
     selectedItem,
@@ -890,6 +882,7 @@ export const Grid: React.FC<GridProps> = ({
     numberOfRows,
     occupiedCells,
     isDragging,
+    setEditedItem,
     deleteArrow,
     setSelected,
     selectedItem,
@@ -996,14 +989,6 @@ export const Grid: React.FC<GridProps> = ({
       {childrenArrows}
       {children}
       {gridIndicators}
-      {semantics && editedItem && (
-        // TODO: Move into a modal window
-        <TopicMapItemForm
-          semantics={semantics}
-          params={params}
-          parent={parent}
-        />
-      )}
     </div>
   );
 };
