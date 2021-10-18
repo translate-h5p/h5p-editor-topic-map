@@ -27,10 +27,8 @@ export class H5PWrapper
       <App
         setValue={newParams => setValue(semantics, newParams)}
         semantics={semantics}
-        params={params}
+        initialParams={params}
         parent={parent}
-        topicMapItems={params?.topicMapItems ?? []}
-        arrowItems={params?.arrowItems ?? []}
       />,
       this.wrapper,
     );

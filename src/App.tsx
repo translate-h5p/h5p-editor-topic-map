@@ -10,47 +10,51 @@ import { TopicMapItemType } from "./types/TopicMapItemType";
 export type AppProps = {
   setValue: (params: Params) => void;
   semantics: H5PField;
-  params: Params;
+  initialParams: Params;
   parent: H5PForm;
-  topicMapItems: Array<TopicMapItemType>;
-  arrowItems: Array<ArrowItemType>;
 };
 
 const App: React.FC<AppProps> = ({
   setValue,
   semantics,
-  params,
+  initialParams,
   parent,
-  topicMapItems,
-  arrowItems,
 }) => {
+  const [params, setParams] = React.useState<Params>(initialParams);
+
   const updateItems = React.useCallback(
     (items: Array<TopicMapItemType>) => {
-      setValue({
+      const newParams: Params = {
+        ...params,
         topicMapItems: items,
-        arrowItems,
-      });
+      };
+
+      setParams(newParams);
+      setValue(newParams);
     },
-    [arrowItems, setValue],
+    [params, setValue],
   );
 
   const updateArrowItems = React.useCallback(
     (items: Array<ArrowItemType>) => {
-      setValue({
-        topicMapItems,
+      const newParams: Params = {
+        ...params,
         arrowItems: items,
-      });
+      };
+
+      setParams(newParams);
+      setValue(newParams);
     },
-    [setValue, topicMapItems],
+    [params, setValue],
   );
 
   return (
     <div className="h5p-editor-topic-map">
       <MapEditorView
         updateItems={updateItems}
-        initialGridItems={topicMapItems}
+        initialGridItems={params.topicMapItems}
         updateArrowItems={updateArrowItems}
-        initialArrowItems={arrowItems}
+        initialArrowItems={params.arrowItems}
         semantics={semantics}
         params={params}
         parent={parent}
