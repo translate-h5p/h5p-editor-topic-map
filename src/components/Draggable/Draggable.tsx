@@ -289,6 +289,10 @@ export const Draggable: React.FC<DraggableProps> = ({
     setIsResizing(false);
   }, [stopDrag]);
 
+  const checkIfRightSideOfGrid = React.useCallback(() => {
+    return position.x > gridSize.width / 2;
+  }, [gridSize.width, position.x]);
+
   /**
    * This offset is used to fix some of the floating point errors
    * that are placing items a few pixels off the grid.
@@ -350,6 +354,7 @@ export const Draggable: React.FC<DraggableProps> = ({
             : undefined
         }
         show={selectedItem === id}
+        turnLeft={checkIfRightSideOfGrid()}
       />
     </div>
   );

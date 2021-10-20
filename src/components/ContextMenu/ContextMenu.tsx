@@ -25,6 +25,7 @@ export enum ContextMenuButtonType {
 
 export type ContextMenuProps = {
   show: boolean;
+  turnLeft: boolean;
   onEdit: React.MouseEventHandler;
   onDelete: React.MouseEventHandler;
   onChangeToDirectional?: React.MouseEventHandler;
@@ -34,14 +35,19 @@ export type ContextMenuProps = {
 
 export const ContextMenu: React.FC<ContextMenuProps> = ({
   show,
+  turnLeft,
   onEdit,
   onDelete,
   onChangeToDirectional,
   onChangeToBiDirectional,
   onChangeToNonDirectional,
 }) => {
+  const className = turnLeft ? styles.left : styles.right;
+
   return (
-    <div className={`${styles.contextMenu} ${show && styles.show}`}>
+    <div
+      className={`${styles.contextMenu} ${className} ${show && styles.show}`}
+    >
       <ContextMenuButton
         icon={ContextMenuButtonType.Edit}
         label={labelTexts.edit}
