@@ -290,7 +290,7 @@ export const Draggable: React.FC<DraggableProps> = ({
   }, [stopDrag]);
 
   const checkIfRightSideOfGrid = React.useCallback(() => {
-    return position.x > (gridSize.width / 2);
+    return position.x > gridSize.width / 2;
   }, [gridSize.width, position.x]);
 
   /**
