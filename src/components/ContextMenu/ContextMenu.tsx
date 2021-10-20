@@ -42,10 +42,12 @@ export const ContextMenu: React.FC<ContextMenuProps> = ({
   onChangeToBiDirectional,
   onChangeToNonDirectional,
 }) => {
-  const className = turnLeft ? styles.contextMenuLeft : styles.contextMenu;
+  const className = turnLeft ? styles.left : styles.right;
 
   return (
-    <div className={`${className} ${show && styles.show}`}>
+    <div
+      className={`${styles.contextMenu} ${className} ${show && styles.show}`}
+    >
       <ContextMenuButton
         icon={ContextMenuButtonType.Edit}
         label={labelTexts.edit}
