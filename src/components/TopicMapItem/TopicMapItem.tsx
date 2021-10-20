@@ -1,4 +1,5 @@
 import * as React from "react";
+import { getImageUrl } from "../../h5p/H5P.util";
 import { TopicMapItemType } from "../../types/TopicMapItemType";
 import styles from "./TopicMapItem.module.scss";
 
@@ -15,12 +16,14 @@ export type TopicMapItemProps = {
 };
 
 export const TopicMapItem: React.FC<TopicMapItemProps> = ({ item }) => {
+  const imageUrl = getImageUrl(item.backgroundImage?.path);
+
   return (
     <div className={styles.topicMapItem}>
-      {item.backgroundImage?.path && (
+      {item.backgroundImage && imageUrl && (
         <img
           className={styles.image}
-          src={item.backgroundImage.path}
+          src={imageUrl}
           alt={item.backgroundImage.alt ?? ""}
         />
       )}

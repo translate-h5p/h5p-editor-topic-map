@@ -5,6 +5,7 @@ import { Params } from "./src/types/h5p/Params";
 
 export interface H5PObject {
   EventDispatcher: typeof EventDispatcher;
+  getPath: (path: string, contentId: string) => string;
 }
 
 export interface H5PEditorObject {
@@ -13,6 +14,7 @@ export interface H5PEditorObject {
     topicMap: typeof H5PWrapper;
   };
   $: typeof jQuery;
+  contentId: string;
 
   /**
    * Translate text strings.
