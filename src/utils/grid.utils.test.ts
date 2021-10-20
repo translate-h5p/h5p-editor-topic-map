@@ -185,9 +185,6 @@ describe(updateItem.name, () => {
         heightPercentage: 32,
         backgroundImage: { path: "", alt: "" },
         label: "Label",
-        dialog: {
-          links: [],
-        },
       },
     ];
 
@@ -204,7 +201,7 @@ describe(updateItem.name, () => {
     const width = 1000;
     const height = 1000;
 
-    const expectedItem = {
+    const expectedItem: TopicMapItemType = {
       id: "1",
       xPercentagePosition: 5,
       yPercentagePosition: 10,
@@ -212,7 +209,6 @@ describe(updateItem.name, () => {
       heightPercentage: 20,
       backgroundImage: { path: "", alt: "" },
       label: "Label",
-      links: [],
     };
 
     const actualItems = updateItem(items, item, width, height, {
@@ -230,9 +226,6 @@ describe(updateItem.name, () => {
         heightPercentage: 32,
         backgroundImage: { path: "", alt: "" },
         label: "Label",
-        dialog: {
-          links: [],
-        },
       },
     ]);
   });
@@ -258,9 +251,6 @@ describe(updateItem.name, () => {
         heightPercentage: 32,
         backgroundImage: { path: "", alt: "" },
         label: "Label",
-        dialog: {
-          links: [],
-        },
       },
     ];
 
@@ -299,7 +289,7 @@ describe(updateItem.name, () => {
       label: "Label",
     });
 
-    expect(items[1]).toEqual({
+    expect(items[1]).toEqual<TopicMapItemType>({
       id: "2",
       xPercentagePosition: 25,
       yPercentagePosition: 60,
