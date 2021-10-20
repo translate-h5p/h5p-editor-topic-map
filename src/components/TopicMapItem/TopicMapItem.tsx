@@ -21,7 +21,7 @@ export const TopicMapItem: React.FC<TopicMapItemProps> = ({ item }) => {
         <img
           className={styles.image}
           src={item.backgroundImage.path}
-          alt={item.backgroundImage.path}
+          alt={item.backgroundImage.alt ?? ""}
         />
       )}
 
