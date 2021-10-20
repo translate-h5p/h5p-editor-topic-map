@@ -705,6 +705,30 @@ export const Grid: React.FC<GridProps> = ({
     [gapSize, gridIndicatorSize, items, size, updateItems],
   );
 
+  const updateArrowPosition = React.useCallback(
+    (updatedItem: ArrowItemType, newPosition: Position) => {
+      if (!size) {
+        throw new Error("Grid has no size.");
+      }
+
+      const newItems = updateArrowItem(
+        arrowItems,
+        updatedItem,
+        size.width,
+        size.height,
+        {
+          newPosition,
+        },
+      );
+
+      updateArrowItems(newItems);
+      setArrowItems(newItems);
+
+      /* TODO: update occupiedCells to also include arrows? */
+    },
+    [arrowItems, size, updateArrowItems],
+  );
+
   const deleteItem = React.useCallback(
     (id: string) => {
       /* TODO: Add dialog to confirm delete */
@@ -835,10 +859,7 @@ export const Grid: React.FC<GridProps> = ({
           id={item.id}
           initialXPosition={scaleX(item.xPercentagePosition, size.width)}
           initialYPosition={scaleY(item.yPercentagePosition, size.height)}
-          updatePosition={newPosition =>
-            /* TODO: Add method for updating arrow position */
-            console.info("newPosition", newPosition)
-          }
+          updatePosition={newPosition => updateArrowPosition(item, newPosition)}
           initialWidth={Math.abs(scaleX(item.widthPercentage, size.width))}
           initialHeight={Math.abs(scaleY(item.heightPercentage, size.height))}
           gapSize={gapSize}
@@ -888,6 +909,7 @@ export const Grid: React.FC<GridProps> = ({
     selectedItem,
     mouseOutsideGrid,
     updateArrowType,
+    updateArrowPosition,
   ]);
 
   const resize = React.useCallback(() => {
