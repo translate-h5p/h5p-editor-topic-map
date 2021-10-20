@@ -18,3 +18,9 @@
   --theme-color-2: #3d6060;
   --theme-color-3: #a6d4d4;
 }
+
+.h5peditor-form.h5peditor-form-manager > .tree,
+.h5peditor-form.h5peditor-form-manager > .common,
+.h5peditor-form.h5peditor-form-manager > .field {
+  max-width: none;
+}
