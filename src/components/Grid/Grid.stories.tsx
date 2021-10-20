@@ -39,7 +39,6 @@ GridWithDraggable.args = {
       },
       label: "Label 1",
       description: "",
-      links: [],
     },
 
     {
@@ -55,7 +54,6 @@ GridWithDraggable.args = {
       label: "Label 2",
       description:
         "Let's put a touch more of the magic here. If it's not what you want - stop and change it.",
-      links: [],
     },
   ],
 };

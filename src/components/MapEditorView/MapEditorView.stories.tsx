@@ -43,7 +43,6 @@ let withItemsItems: Array<TopicMapItemType> = [
       alt: "",
     },
     label: "Label 1",
-    links: [],
     description: "",
   },
   {
@@ -57,7 +56,6 @@ let withItemsItems: Array<TopicMapItemType> = [
       alt: "",
     },
     label: "Label 2",
-    links: [],
     description:
       "Let's put some highlights on these little trees. The sun wouldn't forget them. I will take some magic white, and a little bit of Vandyke brown and a little touch of yellow. Didn't you know you had that much power? You can move mountains. You can do anything.",
   },
@@ -72,7 +70,6 @@ let withItemsItems: Array<TopicMapItemType> = [
       alt: "",
     },
     label: "Label 3",
-    links: [],
     description:
       "You can do anything here - the only pre-requisite is that it makes you happy.",
   },
@@ -88,7 +85,6 @@ let withItemsArrows: Array<ArrowItemType> = [
     arrowDirection: ArrowDirection.Right,
     arrowType: ArrowType.Directional,
     label: "",
-    links: [],
   },
 ];
 
@@ -125,7 +121,6 @@ FullscreenWithItems.args = {
         alt: "",
       },
       label: "Label 1",
-      links: [],
       description: "",
     },
     {
@@ -139,7 +134,6 @@ FullscreenWithItems.args = {
         alt: "",
       },
       label: "Label 2",
-      links: [],
       description:
         "Let's put some highlights on these little trees. The sun wouldn't forget them. I will take some magic white, and a little bit of Vandyke brown and a little touch of yellow. Didn't you know you had that much power? You can move mountains. You can do anything.",
     },
@@ -154,7 +148,6 @@ FullscreenWithItems.args = {
         alt: "",
       },
       label: "Label 3",
-      links: [],
       description:
         "You can do anything here - the only pre-requisite is that it makes you happy.",
     },
