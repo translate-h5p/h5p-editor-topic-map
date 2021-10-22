@@ -44,26 +44,30 @@ export const semantics: H5PField = {
         name: "topicMapItem",
         type: H5PFieldType.Group,
         fields: [
-          { name: "id", type: H5PFieldType.Text, widget: "hidden" },
+          {
+            name: "id",
+            type: H5PFieldType.Text,
+            widget: "none",
+          },
           {
             name: "xPercentagePosition",
             type: H5PFieldType.Number,
-            widget: "hidden",
+            widget: "none",
           },
           {
             name: "yPercentagePosition",
             type: H5PFieldType.Number,
-            widget: "hidden",
+            widget: "none",
           },
           {
             name: "widthPercentage",
             type: H5PFieldType.Number,
-            widget: "hidden",
+            widget: "none",
           },
           {
             name: "heightPercentage",
             type: H5PFieldType.Number,
-            widget: "hidden",
+            widget: "none",
           },
           {
             label: "Label",
