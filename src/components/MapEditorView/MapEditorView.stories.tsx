@@ -1,6 +1,11 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 import * as React from "react";
+import {
+  params,
+  semantics,
+  parent,
+} from "../../../.storybook/helpers/h5p.utils";
 import { ArrowItemType } from "../../types/ArrowItemType";
 import { TopicMapItemType } from "../../types/TopicMapItemType";
 import { ArrowDirection, ArrowType } from "../Arrow/Utils";
@@ -16,6 +21,9 @@ export default {
       console.info("Items updated", { items }),
     updateArrowItems: (items: Array<ArrowItemType>) =>
       console.info("Arrow items updated", { items }),
+    semantics,
+    params,
+    parent,
   },
 } as ComponentMeta<typeof MapEditorView>;
 
