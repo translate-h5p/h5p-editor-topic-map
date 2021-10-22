@@ -11,6 +11,7 @@ import {
 import { positionIsFree } from "../../utils/grid.utils";
 import { ArrowType } from "../Arrow/Utils";
 import { ContextMenu } from "../ContextMenu/ContextMenu";
+import { Dialog } from "../Dialog/Dialog";
 import { ScaleHandles } from "../ScaleHandles/ScaleHandles";
 import styles from "./Draggable.module.scss";
 
@@ -95,6 +96,8 @@ export const Draggable: React.FC<DraggableProps> = ({
   const [previousPosition, setPreviousPosition] =
     React.useState<Position>(position);
   const [isResizing, setIsResizing] = React.useState<boolean>();
+  const [showDeleteConfirmationDialog, setShowDeleteConfirmationDialog] =
+    React.useState<boolean>(false);
 
   // Update Draggable's size whenever the container's size changes
   React.useEffect(
@@ -231,6 +234,10 @@ export const Draggable: React.FC<DraggableProps> = ({
 
   const drag = React.useCallback(
     (event: MouseEvent | TouchEvent) => {
+      if (showDeleteConfirmationDialog) {
+        return;
+      }
+
       if (!isDragging || !pointerStartPosition) {
         return;
       }
@@ -250,10 +257,11 @@ export const Draggable: React.FC<DraggableProps> = ({
       setPosition(newPosition);
     },
     [
-      getNewPosition,
+      showDeleteConfirmationDialog,
       isDragging,
       pointerStartPosition,
       mouseOutsideGrid,
+      getNewPosition,
       stopDrag,
     ],
   );
@@ -292,6 +300,15 @@ export const Draggable: React.FC<DraggableProps> = ({
   const checkIfRightSideOfGrid = React.useCallback(() => {
     return position.x > gridSize.width / 2;
   }, [gridSize.width, position.x]);
+
+  const confirmDeletion = React.useCallback(() => {
+    deleteItem(id);
+    setShowDeleteConfirmationDialog(false);
+  }, [deleteItem, id]);
+
+  const denyDeletion = React.useCallback(() => {
+    setShowDeleteConfirmationDialog(false);
+  }, []);
 
   /**
    * This offset is used to fix some of the floating point errors
@@ -337,7 +354,7 @@ export const Draggable: React.FC<DraggableProps> = ({
       )}
       <ContextMenu
         onEdit={() => editItem(id)}
-        onDelete={() => deleteItem(id)}
+        onDelete={() => setShowDeleteConfirmationDialog(true)}
         onChangeToDirectional={
           isArrow && updateArrowType
             ? () => updateArrowType(ArrowType.Directional, id)
@@ -356,6 +373,28 @@ export const Draggable: React.FC<DraggableProps> = ({
         show={selectedItem === id}
         turnLeft={checkIfRightSideOfGrid()}
       />
+      <Dialog
+        isOpen={showDeleteConfirmationDialog}
+        title={t("draggable_delete-confirmation")}
+        onOpenChange={setShowDeleteConfirmationDialog}
+      >
+        <div className={styles.deleteConfirmationButtons}>
+          <button
+            type="button"
+            className={styles.deleteConfirmationPositive}
+            onClick={confirmDeletion}
+          >
+            {t("draggable_delete-positive")}
+          </button>
+          <button
+            type="button"
+            className={styles.deleteConfirmationNegative}
+            onClick={denyDeletion}
+          >
+            {t("draggable_delete-negative")}
+          </button>
+        </div>
+      </Dialog>
     </div>
   );
 };

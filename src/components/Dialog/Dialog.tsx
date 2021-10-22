@@ -12,14 +12,14 @@ import styles from "./Dialog.module.scss";
 import { t } from "../../h5p/H5P.util";
 
 export type DialogProps = {
-  open: boolean;
+  isOpen: boolean;
   title: string;
   description?: string | undefined;
   onOpenChange: (open: boolean) => void;
 };
 
 export const Dialog: React.FC<DialogProps> = ({
-  open,
+  isOpen,
   title,
   description,
   onOpenChange,
@@ -28,7 +28,7 @@ export const Dialog: React.FC<DialogProps> = ({
   const closeButtonLabel = t("dialog_close");
 
   return (
-    <Root open={open} onOpenChange={onOpenChange}>
+    <Root open={isOpen} onOpenChange={onOpenChange}>
       <Overlay className={styles.overlay} />
       <Content className={styles.content}>
         <Title className={styles.title}>{title}</Title>

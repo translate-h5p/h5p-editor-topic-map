@@ -9,7 +9,7 @@ const componentMeta: ComponentMeta<typeof Dialog> = {
   args: {
     onOpenChange: console.info,
     title: "Title",
-    open: true,
+    isOpen: true,
     description:
       "When things happen - enjoy them. They're little gifts. Just let this happen. We just let this flow right out of our minds. This is a fantastic little painting. A tree needs to be your friend if you're going to paint him.",
   },
