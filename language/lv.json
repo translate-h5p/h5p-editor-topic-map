@@ -1,0 +1,21 @@
+{
+  "libraryStrings": {
+    "context-menu_edit": "Rediģēt",
+    "context-menu_delete": "Dzēst",
+    "context-menu_arrow-directional": "Vienvirziena bulta",
+    "context-menu_arrow-bi-directional": "Divvirzienu bulta",
+    "context-menu_arrow-non-directional": "Viena līnija",
+    "dialog_close": "Aizvēršanas dialogs",
+    "draggable_delete-confirmation": "Vai esat pārliecināts, ka vēlaties dzēst šo vienumu?",
+    "draggable_delete-positive": "Dzēst vienumu",
+    "draggable_delete-negative": "Atcelt",
+    "draggable_selected": "Spiediet bultiņu pogas, lai kustētos. Nospiediet taustiņu Esc, lai noņemtu atlasi.",
+    "draggable_not-selected": "Spiediet Enter taustiņu, lai atlasītu",
+    "grid-indicator_label": "Klikšķiniet un velciet, lai izveidotu jaunu elementu",
+    "map-editor-view_item-dialog-title": "Vienums",
+    "semantics-form_save": "Saglabāt",
+    "toolbar-button-type_map-color": "Krāsu karte",
+    "toolbar-button-type_create-box": "Izveidot rāmi",
+    "toolbar-button-type_create-arrow": "Izveidot bultu"
+  }
+}
