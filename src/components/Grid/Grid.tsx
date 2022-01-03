@@ -922,7 +922,7 @@ export const Grid: React.FC<GridProps> = ({
 
       const isFirstRender = size == null;
       if (!isFirstRender) {
-        const scaleFactor = size?.width / width;
+        const scaleFactor = size.width / width;
 
         if (scaleFactor !== 1) {
           setItems(resizeItems(items, scaleFactor));
