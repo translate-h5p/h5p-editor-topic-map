@@ -135,8 +135,7 @@ jobs:
         if: ${{ github.ref == 'refs/heads/main' }}
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: |
-            ${steps.version.outputs.version}
+          automatic_release_tag: ${{steps.version.outputs.version}}
           prerelease: false
           files: |
             ${{
