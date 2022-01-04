@@ -10,21 +10,21 @@ describe("Arrow utils", () => {
     });
 
     it("should return the closest direction of the given angle: right", () => {
-      expect(findDirection(315)).toBe(ArrowDirection.Up);
-      expect(findDirection(0)).toBe(ArrowDirection.Up);
-      expect(findDirection(45)).toBe(ArrowDirection.Up);
+      expect(findDirection(315)).toBe(ArrowDirection.Right);
+      expect(findDirection(0)).toBe(ArrowDirection.Right);
+      expect(findDirection(45)).toBe(ArrowDirection.Right);
     });
 
     it("should return the closest direction of the given angle: down", () => {
-      expect(findDirection(314.9)).toBe(ArrowDirection.Up);
-      expect(findDirection(180)).toBe(ArrowDirection.Up);
-      expect(findDirection(225.1)).toBe(ArrowDirection.Up);
+      expect(findDirection(314.9)).toBe(ArrowDirection.Down);
+      expect(findDirection(270)).toBe(ArrowDirection.Down);
+      expect(findDirection(225.1)).toBe(ArrowDirection.Down);
     });
 
     it("should return the closest direction of the given angle: left", () => {
-      expect(findDirection(135)).toBe(ArrowDirection.Up);
-      expect(findDirection(180)).toBe(ArrowDirection.Up);
-      expect(findDirection(225)).toBe(ArrowDirection.Up);
+      expect(findDirection(135)).toBe(ArrowDirection.Left);
+      expect(findDirection(180)).toBe(ArrowDirection.Left);
+      expect(findDirection(225)).toBe(ArrowDirection.Left);
     });
 
     it("should handle negative values", () => {
