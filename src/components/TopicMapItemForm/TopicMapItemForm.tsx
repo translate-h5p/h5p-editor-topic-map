@@ -39,8 +39,8 @@ export const TopicMapItemForm: React.FC<TopicMapItemFormProps> = ({
       const updatedItem = newParams.topicMapItems[0];
       onSave({
         ...newParams,
-        topicMapItems: newParams.topicMapItems.map(item => {
-          const isUpdatedItem = item.id === itemId;
+        topicMapItems: params.topicMapItems.map(item => {
+          const isUpdatedItem = item.id === updatedItem.id;
           if (isUpdatedItem) {
             return updatedItem;
           }
