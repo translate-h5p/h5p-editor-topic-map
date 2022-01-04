@@ -36,8 +36,6 @@ export const Toolbar: React.FC<ToolBarProps> = ({
   );
 
   const setActive = (newValue: ToolbarButtonType): void => {
-    if (newValue === ToolbarButtonType.CreateArrow && isArrowButtonDisabled)
-      return;
     setActiveButton(activeButton !== newValue ? newValue : null);
     setActiveTool(activeButton !== newValue ? newValue : null);
   };
