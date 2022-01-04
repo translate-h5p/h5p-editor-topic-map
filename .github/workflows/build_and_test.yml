@@ -60,3 +60,82 @@ jobs:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           exitZeroOnChanges: true
           ignoreLastBuildOnBranch: main
+
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          path: h5p-editor-topic-map
+
+      - name: Use Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "16.x"
+
+      - name: Get H5P dependencies
+        run: |
+          mkdir -p dist
+          cd dist
+          while read -r repo; do git clone ${repo}; done < ../h5p-editor-topic-map/build_info/repos
+
+          cp -r ../h5p-editor-topic-map .
+
+      - name: Load library.json
+        id: set_library
+        run: |
+          cd dist
+          ls
+          JSON=$(cat ./h5p-editor-topic-map/library.json)
+          JSON="${JSON//'%'/%25}"
+          JSON="${JSON//$'\n'/%0A}"
+          JSON="${JSON//$'\r'/%0D}"
+          echo "::set-output name=library::${JSON}"
+
+      - name: Pack H5P Editor Topic Map
+        run: |
+          cd dist
+          ls
+          npm install -g h5p
+          h5p pack -r h5p-editor-topic-map h5p-editor-topic-map.h5p
+          h5p validate h5p-editor-topic-map.h5p
+
+      - name: Create version string
+        id: version
+        run: |
+          echo "::set-output name=version::${{ 
+              format(
+                'v{0}.{1}.{2}',
+                fromJson(steps.set_library.outputs.library).majorVersion,
+                fromJson(steps.set_library.outputs.library).minorVersion,
+                fromJson(steps.set_library.outputs.library).patchVersion
+              )
+            }}"
+
+      - name: Archive code coverage results
+        uses: actions/upload-artifact@v2
+        with:
+          name: h5p-editor-topic-map.h5p
+          path: |
+            "${{
+              format(
+                'dist/h5p-editor-topic-map_{0}.h5p',
+                steps.version.outputs.version
+              )
+            }}"
+
+      - uses: "marvinpinto/action-automatic-releases@latest" # https://github.com/marvinpinto/actions/tree/master/packages/automatic-releases
+        if: ${{ github.ref == 'refs/heads/master' }}
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: |
+            ${steps.version.outputs.version}
+          prerelease: false
+          files: |
+            "${{
+              format(
+                'dist/h5p-editor-topic-map_{0}.h5p',
+                steps.version.outputs.version
+              )
+            }}"
