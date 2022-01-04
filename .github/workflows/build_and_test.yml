@@ -110,12 +110,12 @@ jobs:
           cd dist
           ls
           npm install -g h5p
-          "${{
+          ${{
             format(
               'h5p pack -r h5p-editor-topic-map h5p-editor-topic-map_{0}.h5p',
               steps.version.outputs.version
             )
-          }}"
+          }}
           h5p validate h5p-editor-topic-map.h5p
           ls ..
 
