@@ -1,6 +1,7 @@
 import { v4 as uuidV4 } from "uuid";
-import { ArrowDirection, ArrowType } from "../components/Arrow/Utils";
+import { ArrowDirection } from "../types/ArrowDirection";
 import { ArrowItemType } from "../types/ArrowItemType";
+import { ArrowType } from "../types/ArrowType";
 import { Cell } from "../types/Cell";
 import { Element } from "../types/Element";
 import { OccupiedCell } from "../types/OccupiedCell";

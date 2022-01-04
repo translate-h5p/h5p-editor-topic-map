@@ -3,7 +3,8 @@ import * as React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
 
 import { Arrow } from "./Arrow";
-import { ArrowDirection, ArrowType } from "./Utils";
+import { ArrowDirection } from "../../types/ArrowDirection";
+import { ArrowType } from "../../types/ArrowType";
 
 export default {
   title: "Molecules/Arrow",

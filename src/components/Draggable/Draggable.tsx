@@ -1,5 +1,6 @@
 import * as React from "react";
 import { t } from "../../h5p/H5P.util";
+import { ArrowType } from "../../types/ArrowType";
 import { OccupiedCell } from "../../types/OccupiedCell";
 import { Position } from "../../types/Position";
 import { Size } from "../../types/Size";
@@ -9,7 +10,6 @@ import {
   getPointerPositionFromEvent,
 } from "../../utils/draggable.utils";
 import { positionIsFree } from "../../utils/grid.utils";
-import { ArrowType } from "../Arrow/Utils";
 import { ContextMenu } from "../ContextMenu/ContextMenu";
 import { Dialog } from "../Dialog/Dialog";
 import { ScaleHandles } from "../ScaleHandles/ScaleHandles";

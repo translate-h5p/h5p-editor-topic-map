@@ -1,5 +1,7 @@
 import * as React from "react";
+import { ArrowDirection } from "../../types/ArrowDirection";
 import { ArrowItemType } from "../../types/ArrowItemType";
+import { ArrowType } from "../../types/ArrowType";
 import { Element } from "../../types/Element";
 import { OccupiedCell } from "../../types/OccupiedCell";
 import { Position } from "../../types/Position";
@@ -24,7 +26,6 @@ import {
   updateItem,
 } from "../../utils/grid.utils";
 import { Arrow } from "../Arrow/Arrow";
-import { ArrowDirection, ArrowType } from "../Arrow/Utils";
 import { Draggable } from "../Draggable/Draggable";
 import { GridIndicator } from "../GridIndicator/GridIndicator";
 import { ToolbarButtonType } from "../Toolbar/Toolbar";

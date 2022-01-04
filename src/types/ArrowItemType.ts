@@ -1,4 +1,5 @@
-import { ArrowDirection, ArrowType } from "../components/Arrow/Utils";
+import { ArrowType } from "./ArrowType";
+import { ArrowDirection } from "./ArrowDirection";
 import { CommonItemType } from "./CommonItemType";
 
 export type ArrowItemType = CommonItemType & {

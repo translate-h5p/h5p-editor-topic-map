@@ -8,8 +8,9 @@ import {
   MirroredArrowHead,
   ArrowHeadVertical,
   MirroredArrowHeadVertical,
-} from "./ArrowParts";
-import { ArrowDirection, ArrowType } from "./Utils";
+} from "../ArrowParts/ArrowParts";
+import { ArrowDirection } from "../../types/ArrowDirection";
+import { ArrowType } from "../../types/ArrowType";
 
 export type ArrowProps = {
   start: Position;

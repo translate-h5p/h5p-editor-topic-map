@@ -6,9 +6,10 @@ import {
   semantics,
   parent,
 } from "../../../.storybook/helpers/h5p.utils";
+import { ArrowDirection } from "../../types/ArrowDirection";
 import { ArrowItemType } from "../../types/ArrowItemType";
+import { ArrowType } from "../../types/ArrowType";
 import { TopicMapItemType } from "../../types/TopicMapItemType";
-import { ArrowDirection, ArrowType } from "../Arrow/Utils";
 import { MapEditorView } from "./MapEditorView";
 
 export default {
