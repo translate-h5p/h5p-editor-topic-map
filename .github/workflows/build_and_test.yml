@@ -139,9 +139,9 @@ jobs:
             ${steps.version.outputs.version}
           prerelease: false
           files: |
-            "${{
+            ${{
               format(
                 'dist/h5p-editor-topic-map_{0}.h5p',
                 steps.version.outputs.version
               )
-            }}"
+            }}
