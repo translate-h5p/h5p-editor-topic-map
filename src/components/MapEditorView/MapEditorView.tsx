@@ -75,7 +75,11 @@ export const MapEditorView: React.FC<MapEditorViewProps> = ({
 
   return (
     <div className={styles.mapEditorView}>
-      <Toolbar setActiveTool={setActive} activeTool={activeTool} />
+      <Toolbar
+        setActiveTool={setActive}
+        activeTool={activeTool}
+        isArrowButtonDisabled={gridItems.length < 2}
+      />
       <div className={styles.gridBorder}>
         <Grid
           numberOfColumns={columns}

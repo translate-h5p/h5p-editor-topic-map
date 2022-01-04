@@ -7,6 +7,7 @@ const labelTexts = {
   mapColor: t("toolbar-button-type_map-color"),
   createBox: t("toolbar-button-type_create-box"),
   createArrow: t("toolbar-button-type_create-arrow"),
+  cannotCreateArrow: t("toolbar-button-type_cannot-create-arrow"),
 };
 
 /*
@@ -22,11 +23,13 @@ export enum ToolbarButtonType {
 export type ToolBarProps = {
   setActiveTool: (activeTool: ToolbarButtonType | null) => void;
   activeTool: ToolbarButtonType | null;
+  isArrowButtonDisabled: boolean;
 };
 
 export const Toolbar: React.FC<ToolBarProps> = ({
   setActiveTool,
   activeTool,
+  isArrowButtonDisabled,
 }) => {
   const [activeButton, setActiveButton] = React.useState<string | null>(
     activeTool,
@@ -62,6 +65,7 @@ export const Toolbar: React.FC<ToolBarProps> = ({
         onClick={() => setActive(ToolbarButtonType.MapColor)}
         active={checkIfActive(ToolbarButtonType.MapColor)}
         showActive={false}
+        isDisabled={false}
       />
       <ToolbarButton
         icon={ToolbarButtonType.CreateBox}
@@ -69,13 +73,19 @@ export const Toolbar: React.FC<ToolBarProps> = ({
         onClick={() => setActive(ToolbarButtonType.CreateBox)}
         active={checkIfActive(ToolbarButtonType.CreateBox)}
         showActive
+        isDisabled={false}
       />
       <ToolbarButton
         icon={ToolbarButtonType.CreateArrow}
-        label={labelTexts.createArrow}
+        label={
+          isArrowButtonDisabled
+            ? labelTexts.cannotCreateArrow
+            : labelTexts.createArrow
+        }
         onClick={() => setActive(ToolbarButtonType.CreateArrow)}
         active={checkIfActive(ToolbarButtonType.CreateArrow)}
         showActive
+        isDisabled={isArrowButtonDisabled}
       />
     </div>
   );
