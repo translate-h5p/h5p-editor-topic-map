@@ -16,6 +16,7 @@
     "semantics-form_save": "Save",
     "toolbar-button-type_map-color": "Map color",
     "toolbar-button-type_create-box": "Create box",
-    "toolbar-button-type_create-arrow": "Create arrow"
+    "toolbar-button-type_create-arrow": "Create arrow",
+    "toolbar-button-type_cannot-create-arrow": "There are no boxes to connect with the arrow"
   }
 }

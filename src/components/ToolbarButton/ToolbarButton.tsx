@@ -9,6 +9,7 @@ export type ToolbarButtonProps = {
   onClick: React.MouseEventHandler;
   showActive: boolean;
   active: boolean;
+  isDisabled: boolean;
 };
 
 export const ToolbarButton: React.FC<ToolbarButtonProps> = ({
@@ -17,6 +18,7 @@ export const ToolbarButton: React.FC<ToolbarButtonProps> = ({
   onClick,
   showActive,
   active,
+  isDisabled,
 }) => {
   return (
     <button
@@ -26,6 +28,7 @@ export const ToolbarButton: React.FC<ToolbarButtonProps> = ({
           ? `${styles.toolbarButton} ${styles.active}`
           : styles.toolbarButton
       }
+      disabled={isDisabled}
       onClick={onClick}
       aria-label={label}
     >

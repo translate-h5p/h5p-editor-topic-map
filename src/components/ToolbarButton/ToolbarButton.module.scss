@@ -57,6 +57,12 @@
       fill: #fff;
     }
   }
+
+  &:disabled {
+    border: 1px solid #6f7070;
+    color: #fff;
+    background: linear-gradient(to bottom, #949494 0, #878a8a 100%);
+  }
 }
 
 .tooltip {
