@@ -85,13 +85,14 @@ jobs:
       - name: Load library.json
         id: set_library
         run: |
-          cd dist
+          pushd dist
           ls
           JSON=$(cat ./h5p-editor-topic-map/library.json)
           JSON="${JSON//'%'/%25}"
           JSON="${JSON//$'\n'/%0A}"
           JSON="${JSON//$'\r'/%0D}"
           echo "::set-output name=library::${JSON}"
+          popd
 
       - name: Create version string
         id: version
@@ -117,19 +118,18 @@ jobs:
             )
           }}
           h5p validate h5p-editor-topic-map.h5p
-          ls ..
 
       - name: Archive H5P pack
         uses: actions/upload-artifact@v2
         with:
           name: h5p-editor-topic-map.h5p
           path: |
-            "${{
+            ${{
               format(
                 'dist/h5p-editor-topic-map_{0}.h5p',
                 steps.version.outputs.version
               )
-            }}"
+            }}
 
       - uses: "marvinpinto/action-automatic-releases@latest" # https://github.com/marvinpinto/actions/tree/master/packages/automatic-releases
         if: ${{ github.ref == 'refs/heads/master' }}
