@@ -88,13 +88,48 @@ jobs:
         with:
           node-version: "16.x"
 
+      - name: Build main project
+        run: |
+          if test -f "h5p-editor-topic-map/package.json"
+          then
+            pushd h5p-editor-topic-map
+            npm install
+            npm run build --if-present
+            popd
+          fi
+
       - name: Get H5P dependencies
         run: |
           mkdir -p dist
-          cd dist
-          while read -r repo; do git clone ${repo}; done < ../h5p-editor-topic-map/build_info/repos
+          pushd dist
+
+          while read -r repo
+          do
+            git clone ${repo}
+            echo "Repo: ${repo}"
+
+          done < ../h5p-editor-topic-map/build_info/repos
 
           cp -r ../h5p-editor-topic-map .
+          popd
+
+      - name: Build dependencies
+        run: |
+          pushd dist
+
+          for dependency in */ ; do
+            echo "Dependency name: ${dependency}"
+
+            if test -f "${dependency}package.json"
+            then 
+              pushd ${dependency}
+              npm install
+              npm run build --if-present
+              popd
+            fi
+          done
+
+          popd
 
       - name: Load library.json
         id: set_library
