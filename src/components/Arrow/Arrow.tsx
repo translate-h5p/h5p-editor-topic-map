@@ -47,9 +47,9 @@ export const Arrow: React.FC<ArrowProps> = ({
       break;
   }
 
-  const UpOrDown =
+  const isVertical =
     direction === ArrowDirection.Up || direction === ArrowDirection.Down;
-  const leftOrRight =
+  const isHorizontal =
     direction === ArrowDirection.Left || direction === ArrowDirection.Right;
 
   let arrow;
@@ -57,22 +57,22 @@ export const Arrow: React.FC<ArrowProps> = ({
     case ArrowType.NonDirectional:
       arrow = (
         <div data-testid="ndArrow" className={classNames} style={length}>
-          {UpOrDown && <ArrowBodyVertical />}
-          {leftOrRight && <ArrowBody />}
+          {isVertical && <ArrowBodyVertical />}
+          {isHorizontal && <ArrowBody />}
         </div>
       );
       break;
     case ArrowType.BiDirectional:
       arrow = (
         <div data-testid="bdArrow" className={classNames} style={length}>
-          {UpOrDown && (
+          {isVertical && (
             <>
               <MirroredArrowHeadVertical />
               <ArrowBodyVertical />
               <ArrowHeadVertical />
             </>
           )}
-          {leftOrRight && (
+          {isHorizontal && (
             <>
               <MirroredArrowHead />
               <ArrowBody />
@@ -85,13 +85,13 @@ export const Arrow: React.FC<ArrowProps> = ({
     case ArrowType.Directional:
       arrow = (
         <div data-testid="dArrow" className={classNames} style={length}>
-          {UpOrDown && (
+          {isVertical && (
             <>
               <ArrowBodyVertical />
               <ArrowHeadVertical />
             </>
           )}
-          {leftOrRight && (
+          {isHorizontal && (
             <>
               <ArrowBody />
               <ArrowHead />

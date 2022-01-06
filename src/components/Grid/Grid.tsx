@@ -843,7 +843,7 @@ export const Grid: React.FC<GridProps> = ({
     }
 
     return arrowItems.map(item => {
-      const leftOrRightDirection =
+      const isHorizontal =
         item.arrowDirection === ArrowDirection.Left ||
         item.arrowDirection === ArrowDirection.Up;
 
@@ -880,14 +880,16 @@ export const Grid: React.FC<GridProps> = ({
           isArrow
         >
           <Arrow
-            start={{
-              x: leftOrRightDirection ? itemWidthPercentage : 0,
-              y: leftOrRightDirection ? itemHeightPercentage : 0,
-            }}
-            end={{
-              x: leftOrRightDirection ? 0 : itemWidthPercentage,
-              y: leftOrRightDirection ? 0 : itemHeightPercentage,
-            }}
+            start={
+              isHorizontal
+                ? { x: itemWidthPercentage, y: itemHeightPercentage }
+                : { x: 0, y: 0 }
+            }
+            end={
+              isHorizontal
+                ? { x: 0, y: 0 }
+                : { x: itemWidthPercentage, y: itemHeightPercentage }
+            }
             type={item.arrowType}
             direction={item.arrowDirection}
           />
