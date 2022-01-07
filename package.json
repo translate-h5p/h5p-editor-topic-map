@@ -68,7 +68,7 @@
     "file-loader": "^6.2.0",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^27.4.6",
-    "mini-css-extract-plugin": "^2.4.5",
+    "mini-css-extract-plugin": "^2.4.6",
     "prettier": "^2.5.1",
     "sass": "^1.46.0",
     "sass-loader": "^12.4.0",
