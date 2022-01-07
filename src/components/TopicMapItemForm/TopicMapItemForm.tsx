@@ -49,7 +49,7 @@ export const TopicMapItemForm: React.FC<TopicMapItemFormProps> = ({
         }),
       });
     },
-    [itemId, onSave],
+    [onSave, params.topicMapItems],
   );
 
   return formParams && topicMapField ? (
