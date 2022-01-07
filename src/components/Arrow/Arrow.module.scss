@@ -31,13 +31,20 @@
   width: 100%;
 }
 
+$end-offset: 6px;
+
+.pointUp,
+.pointDown {
+  flex-direction: column;
+}
+
 .pointLeft {
   /*
     TODO: Fix translate if the size of the grid or arrows changes. 
     The arrows should be placed in the center of the gridindicators 
     and should not overlap boxes.
   */
-  transform: rotate(180deg) translate(5px, 9px);
+  transform: rotate(180deg) translateX($end-offset);
 }
 
 .pointUp {
@@ -46,9 +53,7 @@
     The arrows should be placed in the center of the gridindicators 
     and should not overlap boxes.
   */
-  transform: rotate(180deg) translate(8px, 6px);
-  flex-direction: column;
-  width: 56px;
+  transform: rotate(180deg) translateY($end-offset);
 }
 
 .pointDown {
@@ -57,9 +62,7 @@
     The arrows should be placed in the center of the gridindicators 
     and should not overlap boxes.
   */
-  transform: rotate(0deg) translate(-9px, -6px);
-  flex-direction: column;
-  width: 56px;
+  transform: rotate(0deg) translateY(-$end-offset);
 }
 
 .pointRight {
@@ -68,5 +71,5 @@
     The arrows should be placed in the center of the gridindicators 
     and should not overlap boxes.
   */
-  transform: rotate(0deg) translate(-6px, -9px);
+  transform: rotate(0deg) translateX(-$end-offset);
 }
