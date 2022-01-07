@@ -436,7 +436,7 @@ describe(updateItem.name, () => {
 describe(findCellsElementOccupies.name, () => {
   /*
     The grid looks like this:
-    ([ ] = grid indicator)
+    ([ ] = cell)
 
     [ ] [ ] [ ] [ ]
     [ ] [ ] [ ] [ ]
@@ -445,7 +445,7 @@ describe(findCellsElementOccupies.name, () => {
   */
 
   const gapSize = 5;
-  const gridIndicatorSize = 10;
+  const cellSize = 10;
   const gridWidth = 55;
   const gridHeight = 55;
 
@@ -472,7 +472,7 @@ describe(findCellsElementOccupies.name, () => {
       gridWidth,
       gridHeight,
       gapSize,
-      gridIndicatorSize,
+      cellSize,
     );
 
     expect(actualCells).toEqual(expectedCells);
@@ -522,7 +522,7 @@ describe(findCellsElementOccupies.name, () => {
       gridWidth,
       gridHeight,
       gapSize,
-      gridIndicatorSize,
+      cellSize,
     );
 
     expect(actualCells).toEqual(expectedCells);
@@ -558,7 +558,7 @@ describe(findCellsElementOccupies.name, () => {
       gridWidth,
       gridHeight,
       gapSize,
-      gridIndicatorSize,
+      cellSize,
     );
 
     expect(actualCells).toEqual(expectedCells);
@@ -569,13 +569,13 @@ describe(getAllCells.name, () => {
   it("should return exactly as many cells as there should be", () => {
     /*
       The grid looks like this:
-      ([ ] = grid indicator)
+      ([ ] = cell)
 
       [ ] [ ]
       [ ] [ ]
     */
     const gapSize = 5;
-    const gridIndicatorSize = 10;
+    const cellSize = 10;
     const gridWidth = 25;
     const gridHeight = 25;
 
@@ -585,12 +585,7 @@ describe(getAllCells.name, () => {
       { x: 0, y: 15, index: 2 },
       { x: 15, y: 15, index: 3 },
     ];
-    const actualCells = getAllCells(
-      gridWidth,
-      gridHeight,
-      gapSize,
-      gridIndicatorSize,
-    );
+    const actualCells = getAllCells(gridWidth, gridHeight, gapSize, cellSize);
 
     expect(actualCells).toEqual(expectedCells);
   });
@@ -601,7 +596,7 @@ describe(cellIsOccupiedByElement.name, () => {
       We have placed an element in (1, 1) with the dimensions w: 3, h: 3.
 
       The grid looks like this:
-      ([ ] = grid indicator)
+      ([ ] = cell)
       ([x] = our 3*3 element)
 
       [ ] [ ] [ ] [ ] [ ]
@@ -612,15 +607,15 @@ describe(cellIsOccupiedByElement.name, () => {
     */
 
   const gapSize = 5;
-  const gridIndicatorSize = 10;
+  const cellSize = 10;
 
   const elementPosition: Position = {
-    x: 1 * gapSize + 1 * gridIndicatorSize,
-    y: 1 * gapSize + 1 * gridIndicatorSize,
+    x: 1 * gapSize + 1 * cellSize,
+    y: 1 * gapSize + 1 * cellSize,
   };
   const elementSize: Size = {
-    width: 2 * gapSize + 3 * gridIndicatorSize,
-    height: 2 * gapSize + 3 * gridIndicatorSize,
+    width: 2 * gapSize + 3 * cellSize,
+    height: 2 * gapSize + 3 * cellSize,
   };
 
   it("should return true if the cell is in the top left corner of the element", () => {
@@ -635,8 +630,8 @@ describe(cellIsOccupiedByElement.name, () => {
     */
 
     const cellPosition: Position = {
-      x: 1 * gapSize + 1 * gridIndicatorSize,
-      y: 1 * gapSize + 1 * gridIndicatorSize,
+      x: 1 * gapSize + 1 * cellSize,
+      y: 1 * gapSize + 1 * cellSize,
     };
 
     const expected = true;
@@ -661,8 +656,8 @@ describe(cellIsOccupiedByElement.name, () => {
     */
 
     const cellPosition: Position = {
-      x: 2 * gapSize + 2 * gridIndicatorSize,
-      y: 1 * gapSize + 1 * gridIndicatorSize,
+      x: 2 * gapSize + 2 * cellSize,
+      y: 1 * gapSize + 1 * cellSize,
     };
 
     const expected = true;
@@ -687,8 +682,8 @@ describe(cellIsOccupiedByElement.name, () => {
     */
 
     const cellPosition: Position = {
-      x: 3 * gapSize + 3 * gridIndicatorSize,
-      y: 1 * gapSize + 1 * gridIndicatorSize,
+      x: 3 * gapSize + 3 * cellSize,
+      y: 1 * gapSize + 1 * cellSize,
     };
 
     const expected = true;
@@ -713,8 +708,8 @@ describe(cellIsOccupiedByElement.name, () => {
     */
 
     const cellPosition: Position = {
-      x: 3 * gapSize + 3 * gridIndicatorSize,
-      y: 2 * gapSize + 2 * gridIndicatorSize,
+      x: 3 * gapSize + 3 * cellSize,
+      y: 2 * gapSize + 2 * cellSize,
     };
 
     const expected = true;
@@ -739,8 +734,8 @@ describe(cellIsOccupiedByElement.name, () => {
     */
 
     const cellPosition: Position = {
-      x: 3 * gapSize + 3 * gridIndicatorSize,
-      y: 3 * gapSize + 3 * gridIndicatorSize,
+      x: 3 * gapSize + 3 * cellSize,
+      y: 3 * gapSize + 3 * cellSize,
     };
 
     const expected = true;
@@ -765,8 +760,8 @@ describe(cellIsOccupiedByElement.name, () => {
     */
 
     const cellPosition: Position = {
-      x: 2 * gapSize + 2 * gridIndicatorSize,
-      y: 3 * gapSize + 3 * gridIndicatorSize,
+      x: 2 * gapSize + 2 * cellSize,
+      y: 3 * gapSize + 3 * cellSize,
     };
 
     const expected = true;
@@ -791,8 +786,8 @@ describe(cellIsOccupiedByElement.name, () => {
     */
 
     const cellPosition: Position = {
-      x: 1 * gapSize + 1 * gridIndicatorSize,
-      y: 3 * gapSize + 3 * gridIndicatorSize,
+      x: 1 * gapSize + 1 * cellSize,
+      y: 3 * gapSize + 3 * cellSize,
     };
 
     const expected = true;
@@ -817,8 +812,8 @@ describe(cellIsOccupiedByElement.name, () => {
     */
 
     const cellPosition: Position = {
-      x: 1 * gapSize + 1 * gridIndicatorSize,
-      y: 2 * gapSize + 2 * gridIndicatorSize,
+      x: 1 * gapSize + 1 * cellSize,
+      y: 2 * gapSize + 2 * cellSize,
     };
 
     const expected = true;
@@ -843,8 +838,8 @@ describe(cellIsOccupiedByElement.name, () => {
     */
 
     const cellPosition: Position = {
-      x: 2 * gapSize + 2 * gridIndicatorSize,
-      y: 2 * gapSize + 2 * gridIndicatorSize,
+      x: 2 * gapSize + 2 * cellSize,
+      y: 2 * gapSize + 2 * cellSize,
     };
 
     const expected = true;
@@ -869,8 +864,8 @@ describe(cellIsOccupiedByElement.name, () => {
     */
 
     const cellPosition: Position = {
-      x: 2 * gapSize + 2 * gridIndicatorSize,
-      y: 0 * gapSize + 0 * gridIndicatorSize,
+      x: 2 * gapSize + 2 * cellSize,
+      y: 0 * gapSize + 0 * cellSize,
     };
 
     const expected = false;
@@ -895,8 +890,8 @@ describe(cellIsOccupiedByElement.name, () => {
     */
 
     const cellPosition: Position = {
-      x: 4 * gapSize + 4 * gridIndicatorSize,
-      y: 2 * gapSize + 2 * gridIndicatorSize,
+      x: 4 * gapSize + 4 * cellSize,
+      y: 2 * gapSize + 2 * cellSize,
     };
 
     const expected = false;
@@ -921,8 +916,8 @@ describe(cellIsOccupiedByElement.name, () => {
     */
 
     const cellPosition: Position = {
-      x: 4 * gapSize + 4 * gridIndicatorSize,
-      y: 2 * gapSize + 2 * gridIndicatorSize,
+      x: 4 * gapSize + 4 * cellSize,
+      y: 2 * gapSize + 2 * cellSize,
     };
 
     const expected = false;
@@ -947,8 +942,8 @@ describe(cellIsOccupiedByElement.name, () => {
     */
 
     const cellPosition: Position = {
-      x: 0 * gapSize + 0 * gridIndicatorSize,
-      y: 2 * gapSize + 2 * gridIndicatorSize,
+      x: 0 * gapSize + 0 * cellSize,
+      y: 2 * gapSize + 2 * cellSize,
     };
 
     const expected = false;
@@ -967,7 +962,7 @@ describe(positionIsFree.name, () => {
     We have placed an element in (2, 1) with the dimensions w: 2, h: 3.
 
     The grid looks like this:
-    ([ ] = grid indicator)
+    ([ ] = cell)
     ([x] = our 2*3 element)
 
         0  15  30  45
@@ -978,50 +973,50 @@ describe(positionIsFree.name, () => {
   */
 
   const gapSize = 5;
-  const gridIndicatorSize = 10;
+  const cellSize = 10;
 
   const occupiedCells: Array<OccupiedCell> = [
     {
       index: 6,
       occupiedById: "1",
       occupiedByType: "item",
-      x: coordinatePosToPx(2, gapSize, gridIndicatorSize),
-      y: coordinatePosToPx(1, gapSize, gridIndicatorSize),
+      x: coordinatePosToPx(2, gapSize, cellSize),
+      y: coordinatePosToPx(1, gapSize, cellSize),
     },
     {
       index: 7,
       occupiedById: "1",
       occupiedByType: "item",
-      x: coordinatePosToPx(3, gapSize, gridIndicatorSize),
-      y: coordinatePosToPx(1, gapSize, gridIndicatorSize),
+      x: coordinatePosToPx(3, gapSize, cellSize),
+      y: coordinatePosToPx(1, gapSize, cellSize),
     },
     {
       index: 10,
       occupiedById: "1",
       occupiedByType: "item",
-      x: coordinatePosToPx(2, gapSize, gridIndicatorSize),
-      y: coordinatePosToPx(2, gapSize, gridIndicatorSize),
+      x: coordinatePosToPx(2, gapSize, cellSize),
+      y: coordinatePosToPx(2, gapSize, cellSize),
     },
     {
       index: 11,
       occupiedById: "1",
       occupiedByType: "item",
-      x: coordinatePosToPx(3, gapSize, gridIndicatorSize),
-      y: coordinatePosToPx(2, gapSize, gridIndicatorSize),
+      x: coordinatePosToPx(3, gapSize, cellSize),
+      y: coordinatePosToPx(2, gapSize, cellSize),
     },
     {
       index: 14,
       occupiedById: "1",
       occupiedByType: "item",
-      x: coordinatePosToPx(2, gapSize, gridIndicatorSize),
-      y: coordinatePosToPx(3, gapSize, gridIndicatorSize),
+      x: coordinatePosToPx(2, gapSize, cellSize),
+      y: coordinatePosToPx(3, gapSize, cellSize),
     },
     {
       index: 15,
       occupiedById: "1",
       occupiedByType: "item",
-      x: coordinatePosToPx(3, gapSize, gridIndicatorSize),
-      y: coordinatePosToPx(3, gapSize, gridIndicatorSize),
+      x: coordinatePosToPx(3, gapSize, cellSize),
+      y: coordinatePosToPx(3, gapSize, cellSize),
     },
   ];
 
@@ -1048,7 +1043,7 @@ describe(positionIsFree.name, () => {
       elementSize,
       gridSize,
       gapSize,
-      gridIndicatorSize,
+      cellSize,
       occupiedCells,
     );
 
@@ -1075,7 +1070,7 @@ describe(positionIsFree.name, () => {
       elementSize,
       gridSize,
       gapSize,
-      gridIndicatorSize,
+      cellSize,
       occupiedCells,
     );
 

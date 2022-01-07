@@ -115,11 +115,11 @@ export const getAllCells = (
   gridWidth: number,
   gridHeight: number,
   gapSize: number,
-  gridIndicatorSize: number,
+  cellSize: number,
 ): Array<Cell> => {
   const cells: Array<Cell> = [];
 
-  const stepSize = gapSize + gridIndicatorSize;
+  const stepSize = gapSize + cellSize;
   let currentIndex = 0;
 
   for (let y = 0; y < gridHeight; y += stepSize) {
@@ -152,14 +152,9 @@ export const findCellsElementOccupies = (
   gridWidth: number,
   gridHeight: number,
   gapSize: number,
-  gridIndicatorSize: number,
+  cellSize: number,
 ): Array<OccupiedCell> => {
-  const allCells = getAllCells(
-    gridWidth,
-    gridHeight,
-    gapSize,
-    gridIndicatorSize,
-  );
+  const allCells = getAllCells(gridWidth, gridHeight, gapSize, cellSize);
 
   const occupiedCells = allCells
     .filter(cell => cellIsOccupiedByElement(position, size, cell))
@@ -179,7 +174,7 @@ export const findOccupiedCells = (
   gridWidth: number,
   gridHeight: number,
   gapSize: number,
-  gridIndicatorSize: number,
+  cellSize: number,
 ): Array<OccupiedCell> => {
   const occupiedCells: Array<OccupiedCell> = [];
 
@@ -191,7 +186,7 @@ export const findOccupiedCells = (
         gridWidth,
         gridHeight,
         gapSize,
-        gridIndicatorSize,
+        cellSize,
       ),
     );
   }
@@ -227,7 +222,7 @@ export const positionIsFree = (
   elementSize: Size,
   gridSize: Size,
   gapSize: number,
-  gridIndicatorSize: number,
+  cellSize: number,
   occupiedCells: Array<OccupiedCell>,
 ): boolean => {
   const cellsThisElementWillOccupy = findCellsElementOccupies(
@@ -240,7 +235,7 @@ export const positionIsFree = (
     gridSize.width,
     gridSize.height,
     gapSize,
-    gridIndicatorSize,
+    cellSize,
   );
 
   const cellsOccupiedByOtherElements = occupiedCells.filter(
@@ -258,9 +253,9 @@ export const positionIsFree = (
 export const coordinatePosToPx = (
   coordinate: number,
   gapSize: number,
-  gridIndicatorSize: number,
+  cellSize: number,
 ): number => {
-  const stepSize = gapSize + gridIndicatorSize;
+  const stepSize = gapSize + cellSize;
 
   return coordinate * stepSize;
 };
@@ -268,9 +263,9 @@ export const coordinatePosToPx = (
 export const coordinateSizeToPx = (
   coordinate: number,
   gapSize: number,
-  gridIndicatorSize: number,
+  cellSize: number,
 ): number => {
-  return coordinate * gridIndicatorSize + (coordinate - 1) * gapSize;
+  return coordinate * cellSize + (coordinate - 1) * gapSize;
 };
 
 export const isDraggingLeft = (

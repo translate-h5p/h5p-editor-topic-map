@@ -12,7 +12,7 @@ describe("draggable utils", () => {
       10, 25, 40, and 55.
 
       The grid looks like this:
-      ([ ] = grid indicator)
+      ([ ] = cell)
 
       [ ] [ ] [ ] [ ]
       [ ] [ ] [ ] [ ]
@@ -23,7 +23,7 @@ describe("draggable utils", () => {
     const validWidths: ReadonlyArray<number> = [10, 25, 40, 55];
 
     const gapSize = 5;
-    const gridIndicatorSize = 10;
+    const cellSize = 10;
     const gridWidth = 55;
 
     it("should handle any number value", () =>
@@ -32,7 +32,7 @@ describe("draggable utils", () => {
           const newWidth = calculateClosestValidSizeComponent(
             attemptedWidth,
             gapSize,
-            gridIndicatorSize,
+            cellSize,
             gridWidth,
           );
 
@@ -47,7 +47,7 @@ describe("draggable utils", () => {
       const actualWidth = calculateClosestValidSizeComponent(
         width,
         gapSize,
-        gridIndicatorSize,
+        cellSize,
         gridWidth,
       );
 
@@ -61,7 +61,7 @@ describe("draggable utils", () => {
       const actualWidth = calculateClosestValidSizeComponent(
         width,
         gapSize,
-        gridIndicatorSize,
+        cellSize,
         gridWidth,
       );
 
@@ -75,7 +75,7 @@ describe("draggable utils", () => {
       const actualWidth = calculateClosestValidSizeComponent(
         width,
         gapSize,
-        gridIndicatorSize,
+        cellSize,
         gridWidth,
       );
 
@@ -89,7 +89,7 @@ describe("draggable utils", () => {
       const actualWidth = calculateClosestValidSizeComponent(
         width,
         gapSize,
-        gridIndicatorSize,
+        cellSize,
         gridWidth,
       );
 
@@ -103,7 +103,7 @@ describe("draggable utils", () => {
       const actualWidth = calculateClosestValidSizeComponent(
         width,
         gapSize,
-        gridIndicatorSize,
+        cellSize,
         gridWidth,
       );
 
@@ -116,7 +116,7 @@ describe("draggable utils", () => {
       const actualWidth = calculateClosestValidSizeComponent(
         width,
         gapSize,
-        gridIndicatorSize,
+        cellSize,
         gridWidth,
       );
 
@@ -128,10 +128,10 @@ describe("draggable utils", () => {
     /*
       With these values, valid x positions are
       0, 15, 30, and 45 if the element is exactly
-      one gridIndicatorSize wide (1).
+      one cellSize wide (1).
 
       The grid looks like this:
-      ([ ] = grid indicator)
+      ([ ] = cell)
 
       [ ] [ ] [ ] [ ]
       [ ] [ ] [ ] [ ]
@@ -142,8 +142,8 @@ describe("draggable utils", () => {
     const validXPositions: ReadonlyArray<number> = [0, 15, 30, 45];
 
     const gapSize = 5;
-    const gridIndicatorSize = 10;
-    const width = gridIndicatorSize;
+    const cellSize = 10;
+    const width = cellSize;
     const gridWidth = 55;
 
     it("should handle all number values", () =>
@@ -152,7 +152,7 @@ describe("draggable utils", () => {
           const xPosition = calculateClosestValidPositionComponent(
             attemptedXPosition,
             gapSize,
-            gridIndicatorSize,
+            cellSize,
             gridWidth,
             width,
           );
@@ -168,7 +168,7 @@ describe("draggable utils", () => {
       const actualXPos = calculateClosestValidPositionComponent(
         attemptedXPosition,
         gapSize,
-        gridIndicatorSize,
+        cellSize,
         gridWidth,
         width,
       );
@@ -183,7 +183,7 @@ describe("draggable utils", () => {
       const actualXPos = calculateClosestValidPositionComponent(
         attemptedXPosition,
         gapSize,
-        gridIndicatorSize,
+        cellSize,
         gridWidth,
         width,
       );
@@ -198,7 +198,7 @@ describe("draggable utils", () => {
       const actualXPos = calculateClosestValidPositionComponent(
         attemptedXPosition,
         gapSize,
-        gridIndicatorSize,
+        cellSize,
         gridWidth,
         width,
       );
@@ -213,7 +213,7 @@ describe("draggable utils", () => {
       const actualXPos = calculateClosestValidPositionComponent(
         attemptedXPosition,
         gapSize,
-        gridIndicatorSize,
+        cellSize,
         gridWidth,
         width,
       );

@@ -28,7 +28,7 @@ export type DraggableProps = {
   initialWidth: number;
   initialHeight: number;
   gapSize: number;
-  gridIndicatorSize: number;
+  cellSize: number;
   gridSize: Size;
   occupiedCells: Array<OccupiedCell>;
   isPreview: boolean;
@@ -61,7 +61,7 @@ export const Draggable: React.FC<DraggableProps> = ({
   initialWidth,
   initialHeight,
   gapSize,
-  gridIndicatorSize,
+  cellSize,
   gridSize,
   occupiedCells,
   isPreview,
@@ -83,15 +83,15 @@ export const Draggable: React.FC<DraggableProps> = ({
     React.useState<Position | null>();
   const [{ width, height }, setSize] = React.useState<Size>({
     // prettier-ignore
-    width: calculateClosestValidSizeComponent(initialWidth, gapSize, gridIndicatorSize, gridSize.width),
+    width: calculateClosestValidSizeComponent(initialWidth, gapSize, cellSize, gridSize.width),
     // prettier-ignore
-    height: calculateClosestValidSizeComponent(initialHeight, gapSize, gridIndicatorSize, gridSize.height),
+    height: calculateClosestValidSizeComponent(initialHeight, gapSize, cellSize, gridSize.height),
   });
   const [position, setPosition] = React.useState<Position>({
     // prettier-ignore
-    x: calculateClosestValidPositionComponent(initialXPosition, gapSize, gridIndicatorSize, gridSize.width, width),
+    x: calculateClosestValidPositionComponent(initialXPosition, gapSize, cellSize, gridSize.width, width),
     // prettier-ignore
-    y: calculateClosestValidPositionComponent(initialYPosition, gapSize, gridIndicatorSize, gridSize.height, height),
+    y: calculateClosestValidPositionComponent(initialYPosition, gapSize, cellSize, gridSize.height, height),
   });
   const [previousPosition, setPreviousPosition] =
     React.useState<Position>(position);
@@ -104,13 +104,13 @@ export const Draggable: React.FC<DraggableProps> = ({
     () =>
       setSize({
         // prettier-ignore
-        width: calculateClosestValidSizeComponent(initialWidth, gapSize, gridIndicatorSize, gridSize.width),
+        width: calculateClosestValidSizeComponent(initialWidth, gapSize, cellSize, gridSize.width),
         // prettier-ignore
-        height: calculateClosestValidSizeComponent(initialHeight, gapSize, gridIndicatorSize, gridSize.height),
+        height: calculateClosestValidSizeComponent(initialHeight, gapSize, cellSize, gridSize.height),
       }),
     [
       gapSize,
-      gridIndicatorSize,
+      cellSize,
       gridSize.height,
       gridSize.width,
       initialHeight,
@@ -122,13 +122,13 @@ export const Draggable: React.FC<DraggableProps> = ({
   React.useEffect(() => {
     setPosition({
       // prettier-ignore
-      x: calculateClosestValidPositionComponent(initialXPosition, gapSize, gridIndicatorSize, gridSize.width, width),
+      x: calculateClosestValidPositionComponent(initialXPosition, gapSize, cellSize, gridSize.width, width),
       // prettier-ignore
-      y: calculateClosestValidPositionComponent(initialYPosition, gapSize, gridIndicatorSize, gridSize.height, height),
+      y: calculateClosestValidPositionComponent(initialYPosition, gapSize, cellSize, gridSize.height, height),
     });
   }, [
     gapSize,
-    gridIndicatorSize,
+    cellSize,
     gridSize.height,
     gridSize.width,
     height,
@@ -165,11 +165,11 @@ export const Draggable: React.FC<DraggableProps> = ({
       calculateClosestValidPositionComponent(
         pointerX,
         gapSize,
-        gridIndicatorSize,
+        cellSize,
         gridSize.width,
         width,
       ),
-    [gapSize, gridIndicatorSize, gridSize.width, width],
+    [gapSize, cellSize, gridSize.width, width],
   );
 
   const getClosestValidYPosition = React.useCallback(
@@ -177,11 +177,11 @@ export const Draggable: React.FC<DraggableProps> = ({
       calculateClosestValidPositionComponent(
         pointerY,
         gapSize,
-        gridIndicatorSize,
+        cellSize,
         gridSize.height,
         height,
       ),
-    [gapSize, gridIndicatorSize, gridSize.height, height],
+    [gapSize, cellSize, gridSize.height, height],
   );
 
   const checkIfPositionIsFree = React.useCallback(
@@ -192,11 +192,11 @@ export const Draggable: React.FC<DraggableProps> = ({
         { width, height },
         gridSize,
         gapSize,
-        gridIndicatorSize,
+        cellSize,
         occupiedCells,
       );
     },
-    [gapSize, gridIndicatorSize, gridSize, height, id, occupiedCells, width],
+    [gapSize, cellSize, gridSize, height, id, occupiedCells, width],
   );
 
   const stopDrag = React.useCallback(() => {

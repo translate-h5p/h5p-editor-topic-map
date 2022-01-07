@@ -100,7 +100,7 @@ export const Grid: React.FC<GridProps> = ({
     setSelectedItem(newItem);
   }, []);
 
-  const getGridIndicatorSize = React.useCallback(() => {
+  const getCellSize = React.useCallback(() => {
     if (!elementRef.current) {
       return 0;
     }
@@ -128,9 +128,9 @@ export const Grid: React.FC<GridProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [size]);
 
-  const gridIndicatorSize = React.useMemo(getGridIndicatorSize, [
+  const cellSize = React.useMemo(getCellSize, [
     gapSize,
-    getGridIndicatorSize,
+    getCellSize,
     elementRef.current,
   ]);
 
@@ -153,11 +153,11 @@ export const Grid: React.FC<GridProps> = ({
           size.width,
           size.height,
           gapSize,
-          gridIndicatorSize,
+          cellSize,
         ),
       );
     },
-    [gapSize, gridIndicatorSize, items, size, updateItems],
+    [gapSize, cellSize, items, size, updateItems],
   );
 
   const createArrowEnter = React.useCallback(
@@ -254,7 +254,7 @@ export const Grid: React.FC<GridProps> = ({
         newSize,
         size,
         gapSize,
-        gridIndicatorSize,
+        cellSize,
         occupiedCells,
       );
 
@@ -271,7 +271,7 @@ export const Grid: React.FC<GridProps> = ({
       arrowStartIndex,
       currentArrowItemsLength,
       gapSize,
-      gridIndicatorSize,
+      cellSize,
       isDragging,
       numberOfColumns,
       numberOfRows,
@@ -417,7 +417,7 @@ export const Grid: React.FC<GridProps> = ({
         newSize,
         size,
         gapSize,
-        gridIndicatorSize,
+        cellSize,
         occupiedCells,
       );
 
@@ -455,7 +455,7 @@ export const Grid: React.FC<GridProps> = ({
       currentItemsLength,
       items,
       gapSize,
-      gridIndicatorSize,
+      cellSize,
       occupiedCells,
       updateItems,
       updateItemSize,
@@ -563,7 +563,7 @@ export const Grid: React.FC<GridProps> = ({
         newSize,
         size,
         gapSize,
-        gridIndicatorSize,
+        cellSize,
         occupiedCells,
       );
 
@@ -592,7 +592,7 @@ export const Grid: React.FC<GridProps> = ({
       numberOfRows,
       items,
       gapSize,
-      gridIndicatorSize,
+      cellSize,
       occupiedCells,
       updateItems,
       resizeDirectionLock,
@@ -698,12 +698,12 @@ export const Grid: React.FC<GridProps> = ({
         size.width,
         size.height,
         gapSize,
-        gridIndicatorSize,
+        cellSize,
       );
 
       setOccupiedCells(newOccupiedCells);
     },
-    [gapSize, gridIndicatorSize, items, size, updateItems],
+    [gapSize, cellSize, items, size, updateItems],
   );
 
   const updateArrowPosition = React.useCallback(
@@ -781,7 +781,7 @@ export const Grid: React.FC<GridProps> = ({
   );
 
   const children = React.useMemo(() => {
-    if (gapSize == null || gridIndicatorSize == null || size == null) {
+    if (gapSize == null || cellSize == null || size == null) {
       return null;
     }
 
@@ -795,7 +795,7 @@ export const Grid: React.FC<GridProps> = ({
         initialWidth={Math.abs(scaleX(item.widthPercentage, size.width))}
         initialHeight={Math.abs(scaleY(item.heightPercentage, size.height))}
         gapSize={gapSize}
-        gridIndicatorSize={gridIndicatorSize}
+        cellSize={cellSize}
         gridSize={size}
         occupiedCells={occupiedCells}
         isPreview={isDragging}
@@ -823,7 +823,7 @@ export const Grid: React.FC<GridProps> = ({
     ));
   }, [
     gapSize,
-    gridIndicatorSize,
+    cellSize,
     size,
     items,
     occupiedCells,
@@ -839,7 +839,7 @@ export const Grid: React.FC<GridProps> = ({
   ]);
 
   const childrenArrows = React.useMemo(() => {
-    if (gapSize == null || gridIndicatorSize == null || size == null) {
+    if (gapSize == null || cellSize == null || size == null) {
       return null;
     }
 
@@ -864,7 +864,7 @@ export const Grid: React.FC<GridProps> = ({
           initialWidth={Math.abs(scaleX(item.widthPercentage, size.width))}
           initialHeight={Math.abs(scaleY(item.heightPercentage, size.height))}
           gapSize={gapSize}
-          gridIndicatorSize={gridIndicatorSize}
+          cellSize={cellSize}
           gridSize={size}
           occupiedCells={occupiedCells}
           isPreview={isDragging}
@@ -899,7 +899,7 @@ export const Grid: React.FC<GridProps> = ({
     });
   }, [
     gapSize,
-    gridIndicatorSize,
+    cellSize,
     size,
     arrowItems,
     numberOfColumns,
@@ -967,7 +967,7 @@ export const Grid: React.FC<GridProps> = ({
     resize();
 
     // The grid's number of rows/columns might be updated by external factors,
-    // but still affects the grid indicator size
+    // but still affects the cell size
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [numberOfColumns, numberOfRows]);
 
@@ -982,10 +982,10 @@ export const Grid: React.FC<GridProps> = ({
         size.width,
         size.height,
         gapSize,
-        gridIndicatorSize,
+        cellSize,
       ),
     );
-  }, [gapSize, gridIndicatorSize, items, size]);
+  }, [gapSize, cellSize, items, size]);
 
   return (
     // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions

@@ -13,7 +13,7 @@ export default {
     height: 100,
     width: 100,
     gapSize: 10,
-    gridIndicatorSize: 10,
+    cellSize: 10,
     gridSize: {
       width: 200,
       height: 100,

@@ -6,10 +6,10 @@ import { clamp } from "./number.utils";
 export const calculateClosestValidSizeComponent = (
   attemptedSize: number,
   gapSize: number,
-  gridIndicatorSize: number,
+  cellSize: number,
   gridSize: number,
 ): number => {
-  const stepSize = gridIndicatorSize + gapSize;
+  const stepSize = cellSize + gapSize;
   const stepNumber = attemptedSize / stepSize;
 
   const smallerWidth = Math.floor(stepNumber) * stepSize - gapSize;
@@ -19,7 +19,7 @@ export const calculateClosestValidSizeComponent = (
     attemptedSize - smallerWidth < largerWidth - attemptedSize;
   const closestValidWidth = smallerIsClosest ? smallerWidth : largerWidth;
 
-  const minimum = gridIndicatorSize;
+  const minimum = cellSize;
   const maximum = gridSize;
 
   return clamp(minimum, closestValidWidth, maximum);
@@ -28,11 +28,11 @@ export const calculateClosestValidSizeComponent = (
 export const calculateClosestValidPositionComponent = (
   position: number,
   gapSize: number,
-  gridIndicatorSize: number,
+  cellSize: number,
   gridSizeComponent: number,
   elementSizeComponent: number,
 ): number => {
-  const stepSize = gridIndicatorSize + gapSize;
+  const stepSize = cellSize + gapSize;
 
   const closestInNegativeDirection = Math.floor(position / stepSize) * stepSize;
   const closestInPositiveDirection = Math.ceil(position / stepSize) * stepSize;
