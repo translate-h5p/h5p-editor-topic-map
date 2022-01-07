@@ -893,6 +893,8 @@ export const Grid: React.FC<GridProps> = ({
             }
             type={item.arrowType}
             direction={item.arrowDirection}
+            cellSize={gridIndicatorSize}
+            gapSize={gapSize}
           />
         </Draggable>
       );
