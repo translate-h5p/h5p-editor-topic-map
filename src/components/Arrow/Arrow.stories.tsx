@@ -11,11 +11,17 @@ export default {
   component: Arrow,
   argTypes: {
     type: {
-      // prettier-ignore
-      // prettier removes the button titles.
-      options: {"Directional": ArrowType.Directional, "BiDirectional": ArrowType.BiDirectional, "NonDirectional": ArrowType.NonDirectional},
+      options: {
+        Directional: ArrowType.Directional,
+        BiDirectional: ArrowType.BiDirectional,
+        NonDirectional: ArrowType.NonDirectional,
+      },
       control: { type: "radio" },
     },
+  },
+  args: {
+    cellSize: 30,
+    gapSize: 15,
   },
 } as ComponentMeta<typeof Arrow>;
 
