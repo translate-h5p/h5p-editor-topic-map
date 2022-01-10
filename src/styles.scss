@@ -14,9 +14,10 @@
 }
 
 /**
- * {1} Radix-UI adds `pointer-events: none` to the body element.
+ * {1} Radix UI adds `pointer-events: none` to the body element.
  *     The H5P dialogs are also affected by this, so we add a
- *     default forced `pointer-events: auto` to prevent the effect.
+ *     default forced `pointer-events: auto` to prevent the effect
+ *.    whenever Radix UI dialogs open H5P dialogs.
  */
 .h5p-confirmation-dialog-background {
   pointer-events: auto; /* {1} */
