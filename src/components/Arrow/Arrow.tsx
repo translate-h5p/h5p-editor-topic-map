@@ -1,17 +1,17 @@
 import * as React from "react";
-import { Position } from "../../types/Position";
-import styles from "./Arrow.module.scss";
-import {
-  ArrowBody,
-  ArrowHead,
-  ArrowBodyVertical,
-  MirroredArrowHead,
-  ArrowHeadVertical,
-  MirroredArrowHeadVertical,
-} from "../ArrowParts/ArrowParts";
 import { ArrowDirection } from "../../types/ArrowDirection";
 import { ArrowType } from "../../types/ArrowType";
+import { Position } from "../../types/Position";
 import { Size } from "../../types/Size";
+import {
+  ArrowBody,
+  ArrowBodyVertical,
+  ArrowHead,
+  ArrowHeadVertical,
+  MirroredArrowHead,
+  MirroredArrowHeadVertical,
+} from "../ArrowParts/ArrowParts";
+import styles from "./Arrow.module.scss";
 
 export type ArrowProps = {
   start: Position;
