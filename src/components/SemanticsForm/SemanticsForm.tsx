@@ -1,4 +1,5 @@
 import * as React from "react";
+import styles from "./SemanticsForm.module.scss";
 import { H5PEditor, t } from "../../h5p/H5P.util";
 import { H5PField } from "../../types/h5p/H5PField";
 import { H5PForm } from "../../types/h5p/H5PForm";
@@ -34,7 +35,11 @@ export const SemanticsForm: React.FC<SemanticsFormProps> = ({
   return (
     <form className={`${formClassName} h5peditor`}>
       <div ref={generatedFormRef} />
-      <button type="button" onClick={() => onSave(params)}>
+      <button
+        type="button"
+        className={styles.saveButton}
+        onClick={() => onSave(params)}
+      >
         {saveLabel}
       </button>
     </form>
