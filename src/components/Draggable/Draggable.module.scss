@@ -13,7 +13,7 @@
   will-change: transform;
   z-index: 1;
 
-  &:not(:focus-visible) {
+  &:not(:focus) {
     outline: none;
   }
 
