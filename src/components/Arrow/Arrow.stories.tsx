@@ -11,11 +11,17 @@ export default {
   component: Arrow,
   argTypes: {
     type: {
-      // prettier-ignore
-      // prettier removes the button titles.
-      options: {"Directional": ArrowType.Directional, "BiDirectional": ArrowType.BiDirectional, "NonDirectional": ArrowType.NonDirectional},
+      options: {
+        Directional: ArrowType.Directional,
+        "Bi-directional": ArrowType.BiDirectional,
+        "Non-directional": ArrowType.NonDirectional,
+      },
       control: { type: "radio" },
     },
+  },
+  args: {
+    cellSize: 30,
+    gapSize: 15,
   },
 } as ComponentMeta<typeof Arrow>;
 
@@ -35,6 +41,16 @@ RightDirectionalEmptyArrow.args = {
   direction: ArrowDirection.Right,
 };
 
+RightDirectionalEmptyArrow.argTypes = {
+  direction: {
+    options: {
+      Left: ArrowDirection.Left,
+      Right: ArrowDirection.Right,
+    },
+    control: { type: "radio" },
+  },
+};
+
 export const LeftDirectionalCompletedArrow = Template.bind({});
 LeftDirectionalCompletedArrow.args = {
   start: {
@@ -47,6 +63,16 @@ LeftDirectionalCompletedArrow.args = {
   },
   type: ArrowType.Directional,
   direction: ArrowDirection.Left,
+};
+
+LeftDirectionalCompletedArrow.argTypes = {
+  direction: {
+    options: {
+      Left: ArrowDirection.Left,
+      Right: ArrowDirection.Right,
+    },
+    control: { type: "radio" },
+  },
 };
 
 export const BidirectionalHorizontalEmptyArrow = Template.bind({});
@@ -63,6 +89,16 @@ BidirectionalHorizontalEmptyArrow.args = {
   direction: ArrowDirection.Right,
 };
 
+BidirectionalHorizontalEmptyArrow.argTypes = {
+  direction: {
+    options: {
+      Left: ArrowDirection.Left,
+      Right: ArrowDirection.Right,
+    },
+    control: { type: "radio" },
+  },
+};
+
 export const UpDirectionalEditedArrow = Template.bind({});
 UpDirectionalEditedArrow.args = {
   start: {
@@ -77,6 +113,16 @@ UpDirectionalEditedArrow.args = {
   direction: ArrowDirection.Up,
 };
 
+UpDirectionalEditedArrow.argTypes = {
+  direction: {
+    options: {
+      Up: ArrowDirection.Up,
+      Down: ArrowDirection.Down,
+    },
+    control: { type: "radio" },
+  },
+};
+
 export const NonDirectionalVerticalEmptyArrow = Template.bind({});
 NonDirectionalVerticalEmptyArrow.args = {
   start: {
@@ -89,4 +135,14 @@ NonDirectionalVerticalEmptyArrow.args = {
   },
   type: ArrowType.NonDirectional,
   direction: ArrowDirection.Up,
+};
+
+NonDirectionalVerticalEmptyArrow.argTypes = {
+  direction: {
+    options: {
+      Up: ArrowDirection.Up,
+      Down: ArrowDirection.Down,
+    },
+    control: { type: "radio" },
+  },
 };

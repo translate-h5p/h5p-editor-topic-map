@@ -161,5 +161,16 @@ FullscreenWithItems.args = {
         "You can do anything here - the only pre-requisite is that it makes you happy.",
     },
   ],
-  initialArrowItems: [],
+  initialArrowItems: [
+    {
+      id: "4",
+      xPercentagePosition: 35,
+      yPercentagePosition: 50,
+      widthPercentage: 15,
+      heightPercentage: 1,
+      arrowDirection: ArrowDirection.Right,
+      arrowType: ArrowType.Directional,
+      label: "",
+    },
+  ],
 };

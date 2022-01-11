@@ -1,34 +1,27 @@
 @use "sass:math";
 
-$size: 56px;
-
-.head {
-  min-width: math.div($size, 2);
-  max-width: math.div($size, 2);
-  height: $size;
+.headHorizontal,
+.headVertical,
+.bodyHorizontal,
+.bodyVertical {
   fill: var(--theme-color-1);
+}
+
+.headHorizontal {
+  height: 100%;
+  width: auto;
 }
 
 .headVertical {
-  min-height: math.div($size, 2);
-  max-height: math.div($size, 2);
-  width: $size;
-  height: math.div($size, 2);
-  fill: var(--theme-color-1);
-}
-
-.body {
-  flex-grow: 1;
+  height: auto;
   width: 100%;
-  height: $size;
-  fill: var(--theme-color-1);
 }
 
+.bodyHorizontal,
 .bodyVertical {
   flex-grow: 1;
-  width: $size;
   height: 100%;
-  fill: var(--theme-color-1);
+  width: 100%;
 }
 
 .mirrorX {
