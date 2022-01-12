@@ -1,15 +1,7 @@
 import * as React from "react";
 import styles from "./ContextMenu.module.scss";
 import { ContextMenuButton } from "../ContextMenuButton/ContextMenuButton";
-import { t } from "../../h5p/H5P.util";
-
-const labelTexts = {
-  edit: t("context-menu_edit"),
-  delete: t("context-menu_delete"),
-  directional: t("context-menu_arrow-directional"),
-  biDirectional: t("context-menu_arrow-bi-directional"),
-  nonDirectional: t("context-menu_arrow-non-directional"),
-};
+import { ContextMenuAction } from "../../types/ContextMenuAction";
 
 /*
   Name of svg icon should be similar to this,
@@ -26,21 +18,13 @@ export enum ContextMenuButtonType {
 export type ContextMenuProps = {
   show: boolean;
   turnLeft: boolean;
-  onEdit: React.MouseEventHandler;
-  onDelete: React.MouseEventHandler;
-  onChangeToDirectional?: React.MouseEventHandler;
-  onChangeToBiDirectional?: React.MouseEventHandler;
-  onChangeToNonDirectional?: React.MouseEventHandler;
+  actions: Array<ContextMenuAction>;
 };
 
 export const ContextMenu: React.FC<ContextMenuProps> = ({
   show,
   turnLeft,
-  onEdit,
-  onDelete,
-  onChangeToDirectional,
-  onChangeToBiDirectional,
-  onChangeToNonDirectional,
+  actions,
 }) => {
   const className = turnLeft ? styles.left : styles.right;
 
@@ -48,37 +32,9 @@ export const ContextMenu: React.FC<ContextMenuProps> = ({
     <div
       className={`${styles.contextMenu} ${className} ${show && styles.show}`}
     >
-      <ContextMenuButton
-        icon={ContextMenuButtonType.Edit}
-        label={labelTexts.edit}
-        onClick={onEdit}
-      />
-      {onChangeToDirectional && (
-        <ContextMenuButton
-          icon={ContextMenuButtonType.ArrowDirectional}
-          label={labelTexts.directional}
-          onClick={onChangeToDirectional}
-        />
-      )}
-      {onChangeToBiDirectional && (
-        <ContextMenuButton
-          icon={ContextMenuButtonType.ArrowBiDirectional}
-          label={labelTexts.biDirectional}
-          onClick={onChangeToBiDirectional}
-        />
-      )}
-      {onChangeToNonDirectional && (
-        <ContextMenuButton
-          icon={ContextMenuButtonType.ArrowNonDirectional}
-          label={labelTexts.nonDirectional}
-          onClick={onChangeToNonDirectional}
-        />
-      )}
-      <ContextMenuButton
-        icon={ContextMenuButtonType.Delete}
-        label={labelTexts.delete}
-        onClick={onDelete}
-      />
+      {actions.map(({ icon, label, onClick }) => (
+        <ContextMenuButton icon={icon} label={label} onClick={onClick} />
+      ))}
     </div>
   );
 };

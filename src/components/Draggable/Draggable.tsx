@@ -10,7 +10,8 @@ import {
   getPointerPositionFromEvent,
 } from "../../utils/draggable.utils";
 import { positionIsFree } from "../../utils/grid.utils";
-import { ContextMenu } from "../ContextMenu/ContextMenu";
+import { ContextMenu, ContextMenuButtonType } from "../ContextMenu/ContextMenu";
+import { ContextMenuAction } from "../../types/ContextMenuAction";
 import { Dialog } from "../Dialog/Dialog";
 import { ScaleHandles } from "../ScaleHandles/ScaleHandles";
 import styles from "./Draggable.module.scss";
@@ -310,6 +311,53 @@ export const Draggable: React.FC<DraggableProps> = ({
     setShowDeleteConfirmationDialog(false);
   }, []);
 
+  const contextMenuActions: Array<ContextMenuAction> = React.useMemo(() => {
+    const editAction: ContextMenuAction = {
+      icon: ContextMenuButtonType.Edit,
+      label: t("context-menu_edit"),
+      onClick: () => editItem(id),
+    };
+
+    const deleteAction: ContextMenuAction = {
+      icon: ContextMenuButtonType.Delete,
+      label: t("context-menu_delete"),
+      onClick: () => setShowDeleteConfirmationDialog(true),
+    };
+
+    let actions: Array<ContextMenuAction>;
+    if (isArrow && updateArrowType) {
+      const changeToDirectionalArrowAction: ContextMenuAction = {
+        icon: ContextMenuButtonType.ArrowDirectional,
+        label: t("context-menu_arrow-directional"),
+        onClick: () => updateArrowType(ArrowType.Directional, id),
+      };
+
+      const changeToBiDirectionalArrowAction: ContextMenuAction = {
+        icon: ContextMenuButtonType.ArrowBiDirectional,
+        label: t("context-menu_arrow-bi-directional"),
+        onClick: () => updateArrowType(ArrowType.BiDirectional, id),
+      };
+
+      const changeToNonDirectionalArrowAction: ContextMenuAction = {
+        icon: ContextMenuButtonType.ArrowNonDirectional,
+        label: t("context-menu_arrow-non-directional"),
+        onClick: () => updateArrowType(ArrowType.NonDirectional, id),
+      };
+
+      actions = [
+        editAction,
+        changeToDirectionalArrowAction,
+        changeToBiDirectionalArrowAction,
+        changeToNonDirectionalArrowAction,
+        deleteAction,
+      ];
+    } else {
+      actions = [editAction, deleteAction];
+    }
+
+    return actions;
+  }, [editItem, id, isArrow, updateArrowType]);
+
   /**
    * This offset is used to fix some of the floating point errors
    * that are placing items a few pixels off the grid.
@@ -355,23 +403,7 @@ export const Draggable: React.FC<DraggableProps> = ({
         />
       )}
       <ContextMenu
-        onEdit={() => editItem(id)}
-        onDelete={() => setShowDeleteConfirmationDialog(true)}
-        onChangeToDirectional={
-          isArrow && updateArrowType
-            ? () => updateArrowType(ArrowType.Directional, id)
-            : undefined
-        }
-        onChangeToBiDirectional={
-          isArrow && updateArrowType
-            ? () => updateArrowType(ArrowType.BiDirectional, id)
-            : undefined
-        }
-        onChangeToNonDirectional={
-          isArrow && updateArrowType
-            ? () => updateArrowType(ArrowType.NonDirectional, id)
-            : undefined
-        }
+        actions={contextMenuActions}
         show={selectedItem === id}
         turnLeft={checkIfRightSideOfGrid()}
       />
