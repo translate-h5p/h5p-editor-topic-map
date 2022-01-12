@@ -13,6 +13,10 @@
   will-change: transform;
   z-index: 1;
 
+  &:not(:focus) {
+    outline: none;
+  }
+
   &.preview {
     transition: none;
   }

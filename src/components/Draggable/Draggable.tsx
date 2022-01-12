@@ -341,7 +341,9 @@ export const Draggable: React.FC<DraggableProps> = ({
       onMouseUp={stopDrag}
       onTouchEnd={stopDrag}
     >
-      <div className={styles.inner}>{children}</div>
+      <div className={styles.inner} tabIndex={-1}>
+        {children}
+      </div>
 
       {showScaleHandles && (
         <ScaleHandles
