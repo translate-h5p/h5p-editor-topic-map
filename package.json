@@ -44,7 +44,7 @@
     "@storybook/manager-webpack5": "^6.4.12",
     "@storybook/react": "^6.4.12",
     "@types/jest": "^27.4.0",
-    "@types/jquery": "^3.5.11",
+    "@types/jquery": "^3.5.13",
     "@types/lodash": "^4.14.178",
     "@types/lodash.intersectionby": "^4.7.6",
     "@types/react": "^17.0.38",
