@@ -14,18 +14,18 @@ export type IconProps = {
   className: string;
 };
 
-export const icons = {
-  [ToolbarButtonType.MapColor]: MapColor,
-  [ToolbarButtonType.CreateBox]: CreateBox,
-  [ToolbarButtonType.CreateArrow]: CreateArrow,
-  [ContextMenuButtonType.Edit]: Edit,
-  [ContextMenuButtonType.Delete]: Delete,
-  [ContextMenuButtonType.ArrowDirectional]: CreateArrow,
-  [ContextMenuButtonType.ArrowBiDirectional]: BiDirectionalArrow,
-  [ContextMenuButtonType.ArrowNonDirectional]: SingleLine,
-} as const;
-
 export const Icon: React.FC<IconProps> = ({ icon, className }) => {
+  const icons = {
+    [ToolbarButtonType.MapColor]: MapColor,
+    [ToolbarButtonType.CreateBox]: CreateBox,
+    [ToolbarButtonType.CreateArrow]: CreateArrow,
+    [ContextMenuButtonType.Edit]: Edit,
+    [ContextMenuButtonType.Delete]: Delete,
+    [ContextMenuButtonType.ArrowDirectional]: CreateArrow,
+    [ContextMenuButtonType.ArrowBiDirectional]: BiDirectionalArrow,
+    [ContextMenuButtonType.ArrowNonDirectional]: SingleLine,
+  };
+
   const defaultIcon = MapColor;
   const CurrentIcon = icons[icon] ?? defaultIcon;
 
