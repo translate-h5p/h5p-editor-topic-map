@@ -339,13 +339,15 @@ export const findHeightPercentage = (
 export const createTopicMapItem = (): TopicMapItemType => {
   const id = uuidV4();
 
+  // backgroundImage is intentionally set to undefined here
+  // to correctly make the image field empty on item creation
   const item: TopicMapItemType = {
     id,
     xPercentagePosition: 0,
     yPercentagePosition: 0,
     widthPercentage: 0,
     heightPercentage: 0,
-    backgroundImage: { path: "", alt: "" },
+    backgroundImage: undefined,
     label: "",
   };
 
