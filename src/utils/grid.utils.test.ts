@@ -283,7 +283,7 @@ describe(updateItem.name, () => {
 
     updateItem(items, item, width, height, { newPosition, newSize });
 
-    expect(item).toEqual({
+    expect(item).toEqual<TopicMapItemType>({
       id: "1",
       xPercentagePosition: 25,
       yPercentagePosition: 20,
@@ -291,9 +291,10 @@ describe(updateItem.name, () => {
       heightPercentage: 10,
       backgroundImage: { path: "", alt: "" },
       label: "Label",
+      description: "",
     });
 
-    expect(items[0]).toEqual({
+    expect(items[0]).toEqual<TopicMapItemType>({
       id: "1",
       xPercentagePosition: 25,
       yPercentagePosition: 20,
@@ -301,6 +302,7 @@ describe(updateItem.name, () => {
       heightPercentage: 10,
       backgroundImage: { path: "", alt: "" },
       label: "Label",
+      description: "",
     });
 
     expect(items[1]).toEqual<TopicMapItemType>({
