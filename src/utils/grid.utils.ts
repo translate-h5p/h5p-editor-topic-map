@@ -349,6 +349,7 @@ export const createTopicMapItem = (): TopicMapItemType => {
     heightPercentage: 0,
     backgroundImage: undefined,
     label: "",
+    description: "",
   };
 
   return item;
@@ -367,7 +368,6 @@ export const createArrowItem = (
     heightPercentage: 0,
     arrowDirection: arrowHeadDirection,
     arrowType: ArrowType.Directional,
-    label: "",
   };
 
   return item;

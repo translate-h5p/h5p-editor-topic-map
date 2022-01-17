@@ -93,7 +93,6 @@ let withItemsArrows: Array<ArrowItemType> = [
     heightPercentage: 0,
     arrowDirection: ArrowDirection.Right,
     arrowType: ArrowType.Directional,
-    label: "",
   },
 ];
 
@@ -170,7 +169,6 @@ FullscreenWithItems.args = {
       heightPercentage: 1,
       arrowDirection: ArrowDirection.Right,
       arrowType: ArrowType.Directional,
-      label: "",
     },
   ],
 };

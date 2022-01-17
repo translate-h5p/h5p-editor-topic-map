@@ -120,6 +120,7 @@ export const parent: H5PForm = {
           heightPercentage: 33.33333333333335,
           backgroundImage: { path: "" },
           label: "",
+          description: "",
         },
         {
           id: "461c2820-da07-43bb-8d14-a798c396fd7a",
@@ -129,6 +130,7 @@ export const parent: H5PForm = {
           heightPercentage: 83.33333333333331,
           backgroundImage: { path: "" },
           label: "",
+          description: "",
         },
         {
           id: "8123ecbf-d416-42a5-8106-47b440de51ec",
@@ -138,6 +140,7 @@ export const parent: H5PForm = {
           heightPercentage: 25,
           backgroundImage: { path: "" },
           label: "",
+          description: "",
         },
       ],
       arrowItems: [],
