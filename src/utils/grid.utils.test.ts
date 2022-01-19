@@ -27,6 +27,7 @@ describe(resizeItem.name, () => {
       heightPercentage: 20,
       backgroundImage: { path: "", alt: "" },
       label: "Label",
+      description: "",
     };
 
     const scaleFactor = 0.5;
@@ -39,6 +40,7 @@ describe(resizeItem.name, () => {
       heightPercentage: 10,
       backgroundImage: { path: "", alt: "" },
       label: "Label",
+      description: "",
     };
 
     const actualItem = resizeItem(item, scaleFactor);
@@ -55,6 +57,7 @@ describe(resizeItem.name, () => {
       heightPercentage: 20,
       backgroundImage: { path: "", alt: "" },
       label: "Label",
+      description: "",
     };
 
     const scaleFactor = 2;
@@ -67,6 +70,7 @@ describe(resizeItem.name, () => {
       heightPercentage: 40,
       backgroundImage: { path: "", alt: "" },
       label: "Label",
+      description: "",
     };
 
     const actualItem = resizeItem(item, scaleFactor);
@@ -83,6 +87,7 @@ describe(resizeItem.name, () => {
       heightPercentage: 20,
       backgroundImage: { path: "", alt: "" },
       label: "Label",
+      description: "",
     };
 
     const scaleFactor = 1;
@@ -95,6 +100,7 @@ describe(resizeItem.name, () => {
       heightPercentage: 20,
       backgroundImage: { path: "", alt: "" },
       label: "Label",
+      description: "",
     };
 
     const actualItem = resizeItem(item, scaleFactor);
@@ -116,6 +122,7 @@ describe(resizeItem.name, () => {
           dialog: {
             links: [],
           },
+          description: "",
         };
 
         const expectedItem: TopicMapItemType = {
@@ -129,6 +136,7 @@ describe(resizeItem.name, () => {
           dialog: {
             links: [],
           },
+          description: "",
         };
 
         const actualItem = resizeItem(item, scaleFactor);
@@ -173,6 +181,7 @@ describe(updateItem.name, () => {
       heightPercentage: 10,
       backgroundImage: { path: "", alt: "" },
       label: "Label",
+      description: "",
     };
 
     const items: Array<TopicMapItemType> = [
@@ -185,6 +194,7 @@ describe(updateItem.name, () => {
         heightPercentage: 32,
         backgroundImage: { path: "", alt: "" },
         label: "Label",
+        description: "",
       },
     ];
 
@@ -209,6 +219,7 @@ describe(updateItem.name, () => {
       heightPercentage: 20,
       backgroundImage: { path: "", alt: "" },
       label: "Label",
+      description: "",
     };
 
     const actualItems = updateItem(items, item, width, height, {
@@ -226,6 +237,7 @@ describe(updateItem.name, () => {
         heightPercentage: 32,
         backgroundImage: { path: "", alt: "" },
         label: "Label",
+        description: "",
       },
     ]);
   });
@@ -239,6 +251,7 @@ describe(updateItem.name, () => {
       heightPercentage: 10,
       backgroundImage: { path: "", alt: "" },
       label: "Label",
+      description: "",
     };
 
     const items: Array<TopicMapItemType> = [
@@ -251,6 +264,7 @@ describe(updateItem.name, () => {
         heightPercentage: 32,
         backgroundImage: { path: "", alt: "" },
         label: "Label",
+        description: "",
       },
     ];
 
@@ -269,7 +283,7 @@ describe(updateItem.name, () => {
 
     updateItem(items, item, width, height, { newPosition, newSize });
 
-    expect(item).toEqual({
+    expect(item).toEqual<TopicMapItemType>({
       id: "1",
       xPercentagePosition: 25,
       yPercentagePosition: 20,
@@ -277,9 +291,10 @@ describe(updateItem.name, () => {
       heightPercentage: 10,
       backgroundImage: { path: "", alt: "" },
       label: "Label",
+      description: "",
     });
 
-    expect(items[0]).toEqual({
+    expect(items[0]).toEqual<TopicMapItemType>({
       id: "1",
       xPercentagePosition: 25,
       yPercentagePosition: 20,
@@ -287,6 +302,7 @@ describe(updateItem.name, () => {
       heightPercentage: 10,
       backgroundImage: { path: "", alt: "" },
       label: "Label",
+      description: "",
     });
 
     expect(items[1]).toEqual<TopicMapItemType>({
@@ -297,6 +313,7 @@ describe(updateItem.name, () => {
       heightPercentage: 32,
       backgroundImage: { path: "", alt: "" },
       label: "Label",
+      description: "",
     });
   });
 
@@ -309,6 +326,7 @@ describe(updateItem.name, () => {
       heightPercentage: 10,
       backgroundImage: { path: "", alt: "" },
       label: "Label",
+      description: "",
     };
 
     const items: Array<TopicMapItemType> = [
@@ -324,6 +342,7 @@ describe(updateItem.name, () => {
         dialog: {
           links: [],
         },
+        description: "",
       },
     ];
 
@@ -343,6 +362,7 @@ describe(updateItem.name, () => {
       heightPercentage: 20,
       backgroundImage: { path: "", alt: "" },
       label: "Label",
+      description: "",
     };
 
     const actualItems = updateItem(items, item, width, height, {
@@ -362,6 +382,7 @@ describe(updateItem.name, () => {
         dialog: {
           links: [],
         },
+        description: "",
       },
     ]);
   });
@@ -375,6 +396,7 @@ describe(updateItem.name, () => {
       heightPercentage: 10,
       backgroundImage: { path: "", alt: "" },
       label: "Label",
+      description: "",
     };
 
     const items: Array<TopicMapItemType> = [
@@ -390,6 +412,7 @@ describe(updateItem.name, () => {
         dialog: {
           links: [],
         },
+        description: "",
       },
     ];
 
@@ -409,6 +432,7 @@ describe(updateItem.name, () => {
       heightPercentage: 10,
       backgroundImage: { path: "", alt: "" },
       label: "Label",
+      description: "",
     };
 
     const actualItems = updateItem(items, item, width, height, {
@@ -428,6 +452,7 @@ describe(updateItem.name, () => {
         dialog: {
           links: [],
         },
+        description: "",
       },
     ]);
   });

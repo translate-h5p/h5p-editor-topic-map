@@ -1,5 +1,3 @@
-import { Image } from "./h5p/Image";
-
 export type CommonItemType = {
   id: string;
 
@@ -15,9 +13,6 @@ export type CommonItemType = {
   /** The height as a percentage of the container's height */
   heightPercentage: number;
 
-  label: string;
-  description?: string | undefined;
-  backgroundImage?: Image | undefined;
   dialog?: {
     links?: Array<string> | undefined;
     text?: string;
