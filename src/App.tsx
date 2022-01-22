@@ -1,5 +1,4 @@
 import * as React from "react";
-import { hot } from "react-hot-loader/root";
 import { MapEditorView } from "./components/MapEditorView/MapEditorView";
 import { ArrowItemType } from "./types/ArrowItemType";
 import { H5PField } from "./types/h5p/H5PField";
@@ -71,4 +70,4 @@ const App: React.FC<AppProps> = ({
   );
 };
 
-export default hot(App);
+export default App;
