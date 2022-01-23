@@ -10,7 +10,10 @@ on:
 
 jobs:
   check-h5p-library-version:
+    name: Check H5P if library version is updated
+  
     runs-on: ubuntu-latest
+
     steps:
       - name: Find current PR number
         uses: jwalton/gh-find-current-pr@v1 # https://github.com/jwalton/gh-find-current-pr
