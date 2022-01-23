@@ -34,24 +34,19 @@ jobs:
           type: delete
           comment_id: ${{ steps.find-comment.outputs.comment-id }}
 
-      - name: Cancel workflow if PR has `non-functional` label
-        uses: andymckay/cancel-action@0.2 # https://github.com/andymckay/cancel-action
-        if: contains(github.event.pull_request.labels.*.name, 'non-functional')
+      - name: PR has `non-functional` label
+        id: has-label
+        run: |
+          echo ::set-output name=has-label::${contains(github.event.pull_request.labels.*.name, 'non-functional')}
 
       - name: Check if library is updated
+        if: steps.has-label.outputs.has-label == 'false'
         uses: boyum/is-h5p-library-updated-action@v1
         id: h5p-version-check
 
-      - run: |
-          echo '${{ steps.h5p-version-check.outputs.main-version }}'
-          echo '${{ steps.h5p-version-check.outputs.current-version }}'
-
-          echo '${{ steps.h5p-version-check.outputs.main-version-formatted }}'
-          echo '${{ steps.h5p-version-check.outputs.current-version-formatted }}'
-
       - name: "Create comment: Version change missing"
         uses: peter-evans/create-or-update-comment@v1 # https://github.com/peter-evans/create-or-update-comment
-        if: steps.h5p-version-check.outputs.is-ahead == 'false'
+        if: steps.has-label.outputs.has-label == 'false' && steps.h5p-version-check.outputs.is-ahead == 'false'
         with:
           issue-number: ${{ steps.find-pr-number.outputs.number }}
           body: |
@@ -63,7 +58,7 @@ jobs:
 
       - name: "Create comment: Version changed"
         uses: peter-evans/create-or-update-comment@v1 # https://github.com/peter-evans/create-or-update-comment
-        if: steps.h5p-version-check.outputs.is-ahead != 'false'
+        if: steps.has-label.outputs.has-label == 'false' && steps.h5p-version-check.outputs.is-ahead != 'false'
         with:
           issue-number: ${{ steps.find-pr-number.outputs.number }}
           body: |
