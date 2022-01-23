@@ -11,8 +11,10 @@ jobs:
       - uses: boyum/is-h5p-library-updated-action@v1
         id: h5p-version-check
 
+      - run: echo ${{ steps.h5p-version-check.is-ahead }}
+
       - uses: thollander/actions-comment-pull-request@v1 # https://github.com/thollander/actions-comment-pull-request
-        if: ${{ steps.h5p-version-check.is-ahead == 'false' }}
+        if: ${{ steps.h5p-version-check.is-ahead == false }}
         with:
           message: |
             The library version was not updated.
