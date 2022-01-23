@@ -25,9 +25,9 @@ jobs:
         uses: peter-evans/find-comment@v1 # https://github.com/peter-evans/find-comment
         id: find-comment
         with:
-          issue-number: ${{ github.event.pull_request.number }}
-          comment-author: "github-actions[bot]"
-          body-includes: The
+          issue-number: ${{ steps.findPrNumber.outputs.number }}
+          comment-author: github-actions[bot]
+          body-includes: <!-- h5p-library-check -->
 
       - name: Create comment
         uses: peter-evans/create-or-update-comment@v1 # https://github.com/peter-evans/create-or-update-comment
