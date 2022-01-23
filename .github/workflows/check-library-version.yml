@@ -35,7 +35,7 @@ jobs:
           comment_id: ${{ steps.find-comment.outputs.comment-id }}
 
       - name: Cancel workflow if PR has `non-functional` label
-        uses: andymckay/cancel-action@0.2
+        uses: andymckay/cancel-action@0.2 # https://github.com/andymckay/cancel-action
         if: contains(github.event.pull_request.labels.*.name, 'non-functional')
 
       - name: Check if library is updated
