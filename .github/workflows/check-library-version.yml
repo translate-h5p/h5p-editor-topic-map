@@ -11,7 +11,7 @@ on:
 jobs:
   check-h5p-library-version:
     name: Check H5P if library version is updated
-  
+
     runs-on: ubuntu-latest
 
     steps:
