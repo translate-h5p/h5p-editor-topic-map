@@ -37,7 +37,7 @@ jobs:
       - name: PR has `non-functional` label
         id: has-label
         run: |
-          echo ::set-output name=has-label::${contains(github.event.pull_request.labels.*.name, 'non-functional')}
+          echo ::set-output name=has-label::$(contains(github.event.pull_request.labels.*.name, 'non-functional'))
 
       - name: Check if library is updated
         if: steps.has-label.outputs.has-label == 'false'
