@@ -7,7 +7,7 @@
   "author": "",
   "license": "ISC",
   "scripts": {
-    "start": "vite build --watch",
+    "start": "vite build --mode=development --watch",
     "build:dev": "vite build --mode=development",
     "build": "vite build",
     "format:check": "prettier . --check",
