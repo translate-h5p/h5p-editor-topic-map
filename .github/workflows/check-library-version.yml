@@ -11,6 +11,13 @@ jobs:
       - uses: boyum/is-h5p-library-updated-action@v1
         id: h5p-version-check
 
+      - run: |
+          echo '${{ steps.h5p-version-check.outputs.main-version }}'
+          echo '${{ steps.h5p-version-check.outputs.current-version }}'
+
+          echo '${{ steps.h5p-version-check.outputs.main-version-formatted }}'
+          echo '${{ steps.h5p-version-check.outputs.current-version-formatted }}'
+
       - uses: jwalton/gh-find-current-pr@v1 # https://github.com/jwalton/gh-find-current-pr
         id: findPrNumber
 
