@@ -20,7 +20,7 @@ jobs:
         uses: peter-evans/create-or-update-comment@v1 # https://github.com/peter-evans/create-or-update-comment
         if: ${{ steps.h5p-version-check.outputs.is-ahead == 'false' }}
         with:
-          issue-number: ${{ findPrNumber.outputs.number }}
+          issue-number: ${{ steps.findPrNumber.outputs.number }}
           body: |
             The library version was not updated.
 
