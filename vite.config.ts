@@ -24,6 +24,5 @@ export default defineConfig({
     },
 
     target: "esnext",
-    watch: {},
   },
 });
