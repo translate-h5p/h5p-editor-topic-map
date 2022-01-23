@@ -51,7 +51,7 @@ jobs:
 
       - name: "Create comment: Version change missing"
         uses: peter-evans/create-or-update-comment@v1 # https://github.com/peter-evans/create-or-update-comment
-        if: steps.h5p-version-check.outputs.is-ahead == 'false' && steps.find-comment.outputs.comment-id == ''
+        if: steps.h5p-version-check.outputs.is-ahead == 'false'
         with:
           issue-number: ${{ steps.find-pr-number.outputs.number }}
           body: |
@@ -63,7 +63,7 @@ jobs:
 
       - name: "Create comment: Version changed"
         uses: peter-evans/create-or-update-comment@v1 # https://github.com/peter-evans/create-or-update-comment
-        if: steps.h5p-version-check.outputs.is-ahead != 'false' && steps.find-comment.outputs.comment-id == ''
+        if: steps.h5p-version-check.outputs.is-ahead != 'false'
         with:
           issue-number: ${{ steps.find-pr-number.outputs.number }}
           body: |
