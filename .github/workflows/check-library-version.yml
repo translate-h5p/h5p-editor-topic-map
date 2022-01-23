@@ -25,14 +25,14 @@ jobs:
           type: delete
           comment_id: ${{ steps.find-comment.outputs.comment-id }}
 
-      - name: Check if PR has `non-functional` label
-        uses: Dreamcodeio/pr-has-label-action@master # https://github.com/Dreamcodeio/does-pr-has-label
+      - name: Check if PR has `non-functional` label # https://github.com/DanielTamkin/HasLabel
+        uses: DanielTamkin/HasLabel@v1
         id: check-label
         with:
-          label: non-functional
+          contains: non-functional
 
       - name: Cancel workflow if PR has `non-functional` label
-        if: steps.check-label.outputs.hasLabel
+        if: steps.check-label.outputs.labeled-non-functional == 'true'
         uses: andymckay/cancel-action@0.2
 
       - name: Check if library is updated
