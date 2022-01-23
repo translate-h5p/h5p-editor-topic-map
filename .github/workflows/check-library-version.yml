@@ -1,6 +1,12 @@
 name: Check H5P library version
 
-on: push
+on:
+  pull_request:
+    types:
+      - opened
+      - labeled
+      - unlabeled
+      - synchronize
 
 jobs:
   check-h5p-library-version:
@@ -25,15 +31,9 @@ jobs:
           type: delete
           comment_id: ${{ steps.find-comment.outputs.comment-id }}
 
-      - name: Check if PR has `non-functional` label # https://github.com/DanielTamkin/HasLabel
-        uses: DanielTamkin/HasLabel@v1
-        id: check-label
-        with:
-          contains: non-functional
-
       - name: Cancel workflow if PR has `non-functional` label
-        if: steps.check-label.outputs.labeled-non-functional == 'true'
         uses: andymckay/cancel-action@0.2
+        if: contains(github.event.pull_request.labels.*.name, 'non-functional')
 
       - name: Check if library is updated
         uses: boyum/is-h5p-library-updated-action@v1
