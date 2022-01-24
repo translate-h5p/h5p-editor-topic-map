@@ -9,4 +9,10 @@ export type TopicMapItemType = CommonItemType & {
    * and therefore arrows do not have their own customizable labels.
    */
   label: string;
+
+  /*
+   * This index is used for manually sort the items' tab order
+   * Topic map item indeces will be set manually by the user
+   */
+  index: number | undefined;
 };
