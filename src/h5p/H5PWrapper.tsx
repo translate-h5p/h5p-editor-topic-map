@@ -34,7 +34,15 @@ export class H5PWrapper
     );
   }
 
-  appendTo([containerElement]: JQuery<HTMLElement>): void {
+  appendTo($container: JQuery<HTMLElement>): void {
+    const containerElement = $container.get(0);
+    if (!containerElement) {
+      console.error(
+        "Found no containing element to attach `h5p-editor-topic-map` to.",
+      );
+      return;
+    }
+
     containerElement.appendChild(this.wrapper);
     containerElement.classList.add("h5p-topic-map");
   }
