@@ -1,19 +1,10 @@
 import * as React from "react";
+import { ResizeDirection } from "../../types/ResizeDirection";
 import { ScaleHandle } from "../ScaleHandle/ScaleHandle";
 
 export type ScaleHandlesProps = {
   setIsResizing: (isResizing: boolean) => void;
-  startResize: (
-    handlePosition:
-      | "horizontal"
-      | "horizontal-top"
-      | "vertical-left"
-      | "vertical"
-      | "left"
-      | "top"
-      | "top-left"
-      | "none",
-  ) => void;
+  startResize: (handlePosition: ResizeDirection) => void;
   stopResize: () => void;
   verticalScaleHandleLabelText: string;
   horizontalScaleHandleLabelText: string;

@@ -15,6 +15,7 @@ import { ContextMenuAction } from "../../types/ContextMenuAction";
 import { Dialog } from "../Dialog/Dialog";
 import { ScaleHandles } from "../ScaleHandles/ScaleHandles";
 import styles from "./Draggable.module.scss";
+import { ResizeDirection } from "../../types/ResizeDirection";
 
 const labelTexts = {
   selected: t("draggable_selected"),
@@ -36,17 +37,7 @@ export type DraggableProps = {
   deleteItem: (item: string) => void;
   setSelectedItem: (newItem: string | null) => void;
   selectedItem: string | null;
-  startResize: (
-    directionLock:
-      | "horizontal"
-      | "horizontal-top"
-      | "vertical-left"
-      | "vertical"
-      | "left"
-      | "top"
-      | "top-left"
-      | "none",
-  ) => void;
+  startResize: (directionLock: ResizeDirection) => void;
   mouseOutsideGrid: boolean;
   editItem: (id: string) => void;
   showScaleHandles: boolean;

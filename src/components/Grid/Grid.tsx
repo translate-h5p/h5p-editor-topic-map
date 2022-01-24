@@ -5,6 +5,7 @@ import { ArrowType } from "../../types/ArrowType";
 import { Element } from "../../types/Element";
 import { OccupiedCell } from "../../types/OccupiedCell";
 import { Position } from "../../types/Position";
+import { ResizeDirection } from "../../types/ResizeDirection";
 import { Size } from "../../types/Size";
 import { TopicMapItemType } from "../../types/TopicMapItemType";
 import {
@@ -58,40 +59,25 @@ export const Grid: React.FC<GridProps> = ({
   activeTool,
   setEditedItem,
 }) => {
-  const [size, setSize] = React.useState<Size | null>();
-  const [hasRendered, setHasRendered] = React.useState<boolean>(false);
-  const [items, setItems] =
-    React.useState<Array<TopicMapItemType>>(initialItems);
-  const [arrowItems, setArrowItems] = React.useState<Array<ArrowItemType>>(
-    initialArrowItems ?? [],
-  );
+  const [size, setSize] = React.useState<Size | null>(null);
+  const [hasRendered, setHasRendered] = React.useState(false);
+  const [items, setItems] = React.useState(initialItems);
+  const [arrowItems, setArrowItems] = React.useState(initialArrowItems ?? []);
   const [selectedItem, setSelectedItem] = React.useState<string | null>(null);
-  const [occupiedCells, setOccupiedCells] = React.useState<Array<OccupiedCell>>(
-    [],
-  );
+  // prettier-ignore
+  const [occupiedCells, setOccupiedCells] = React.useState<Array<OccupiedCell>>([]);
   const [boxStartIndex, setBoxStartIndex] = React.useState<number | null>(null);
-  const [arrowStartIndex, setArrowStartIndex] = React.useState<number | null>(
-    null,
-  );
-  const [currentItemsLength, setCurrentItemsLength] = React.useState<number>(
-    items.length,
-  );
-  const [currentArrowItemsLength, setCurrentArrowItemsLength] =
-    React.useState<number>(arrowItems.length);
-  const [isDragging, setIsDragging] = React.useState<boolean>(false);
-  const [resizedItemId, setResizedItemId] = React.useState<string | null>();
-  const [resizeDirectionLock, setResizeDirectionLock] = React.useState<
-    | "horizontal"
-    | "horizontal-top"
-    | "vertical-left"
-    | "vertical"
-    | "left"
-    | "top"
-    | "top-left"
-    | "none"
-  >("none");
-  const [mouseOutsideGrid, setMouseOutsideGrid] =
-    React.useState<boolean>(false);
+  // prettier-ignore
+  const [arrowStartIndex, setArrowStartIndex] = React.useState<number | null>(null);
+  // prettier-ignore
+  const [currentItemsLength, setCurrentItemsLength] = React.useState(items.length);
+  // prettier-ignore
+  const [currentArrowItemsLength, setCurrentArrowItemsLength] = React.useState(arrowItems.length);
+  const [isDragging, setIsDragging] = React.useState(false);
+  const [resizedItemId, setResizedItemId] = React.useState<string | null>(null);
+  // prettier-ignore
+  const [resizeDirectionLock, setResizeDirectionLock] = React.useState<ResizeDirection>("none");
+  const [mouseOutsideGrid, setMouseOutsideGrid] = React.useState(false);
   const [prevIndex, setPrevIndex] = React.useState<number | null>(null);
 
   const elementRef = React.useRef<HTMLDivElement>(null);
