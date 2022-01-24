@@ -1,23 +1,22 @@
 import * as React from "react";
 import { MapEditorView } from "./components/MapEditorView/MapEditorView";
-import { ArrowItemType } from "./types/ArrowItemType";
-import { H5PField } from "./types/h5p/H5PField";
+import { H5PFieldGroup } from "./types/h5p/H5PField";
 import { H5PForm } from "./types/h5p/H5PForm";
 import { Params } from "./types/h5p/Params";
-import { TopicMapItemType } from "./types/TopicMapItemType";
 import {
   fillInMissingParamsProperties,
   getEmptyParams,
 } from "./utils/H5P/form.utils";
+import { defaultTheme } from "./utils/theme.utils";
 
 export type AppProps = {
   setValue: (params: Params) => void;
-  semantics: H5PField;
+  semantics: H5PFieldGroup;
   initialParams: Partial<Params> | undefined;
   parent: H5PForm;
 };
 
-const App: React.FC<AppProps> = ({
+export const App: React.FC<AppProps> = ({
   setValue,
   semantics,
   initialParams,
@@ -29,11 +28,11 @@ const App: React.FC<AppProps> = ({
       : getEmptyParams(),
   );
 
-  const updateItems = React.useCallback(
-    (items: Array<TopicMapItemType>) => {
+  const updateParams = React.useCallback(
+    (updatedParams: Partial<Params>) => {
       const newParams: Params = {
         ...params,
-        topicMapItems: items,
+        ...updatedParams,
       };
 
       setParams(newParams);
@@ -42,26 +41,18 @@ const App: React.FC<AppProps> = ({
     [params, setValue],
   );
 
-  const updateArrowItems = React.useCallback(
-    (items: Array<ArrowItemType>) => {
-      const newParams: Params = {
-        ...params,
-        arrowItems: items,
-      };
-
-      setParams(newParams);
-      setValue(newParams);
-    },
-    [params, setValue],
-  );
+  const backgroundImage: string | undefined =
+    params.appearance?.backgroundImage?.path;
 
   return (
-    <div className="h5p-editor-topic-map">
+    <div
+      className={`h5p-editor-topic-map theme-${
+        params.appearance?.colorTheme ?? defaultTheme
+      }`}
+      style={{ backgroundImage }}
+    >
       <MapEditorView
-        updateItems={updateItems}
-        initialGridItems={params.topicMapItems ?? []}
-        updateArrowItems={updateArrowItems}
-        initialArrowItems={params.arrowItems ?? []}
+        setParams={updateParams}
         semantics={semantics}
         params={params}
         parent={parent}
@@ -69,5 +60,3 @@ const App: React.FC<AppProps> = ({
     </div>
   );
 };
-
-export default App;

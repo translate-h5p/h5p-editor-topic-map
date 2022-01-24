@@ -9,8 +9,8 @@ export type SemanticsFormProps = {
   fields: Array<H5PField>;
   params: Params;
   parent: H5PForm;
-  formClassName?: string;
   onSave: (params: Params) => void;
+  formClassName?: string;
 };
 
 export const SemanticsForm: React.FC<SemanticsFormProps> = ({
@@ -22,15 +22,20 @@ export const SemanticsForm: React.FC<SemanticsFormProps> = ({
 }) => {
   const generatedFormRef = React.useRef<HTMLDivElement>(null);
   const saveLabel = t("semantics-form_save");
+  const [hasRendered, setHasRendered] = React.useState(false);
 
   React.useEffect(() => {
-    if (!generatedFormRef.current) {
+    setHasRendered(true);
+  }, []);
+
+  React.useEffect(() => {
+    if (!generatedFormRef.current || hasRendered) {
       return;
     }
 
     const $wrapper = H5PEditor.$(generatedFormRef.current);
     H5PEditor.processSemanticsChunk(fields, params, $wrapper, parent);
-  }, [fields, params, parent, generatedFormRef]);
+  }, [fields, params, parent, generatedFormRef, hasRendered]);
 
   return (
     <form className={`${formClassName} h5peditor`}>

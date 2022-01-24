@@ -1,8 +1,12 @@
-import { H5PField } from "../../src/types/h5p/H5PField";
+import { ArrowDirection } from "../../src/types/ArrowDirection";
+import { ArrowType } from "../../src/types/ArrowType";
+import { ColorTheme } from "../../src/types/ColorTheme";
+import { H5PField, H5PFieldGroup } from "../../src/types/h5p/H5PField";
 import { H5PFieldType } from "../../src/types/h5p/H5PFieldType";
 import { H5PForm } from "../../src/types/h5p/H5PForm";
+import { Params } from "../../src/types/h5p/Params";
 
-export const params = {
+export const params: Required<Params> = {
   topicMapItems: [
     {
       heightPercentage: 100,
@@ -15,6 +19,7 @@ export const params = {
       dialog: {
         links: ["https://example.com", "https://example.com/2"],
       },
+      description: "",
     },
     {
       heightPercentage: 100,
@@ -23,12 +28,31 @@ export const params = {
       label: "Label 2",
       xPercentagePosition: 0,
       yPercentagePosition: 0,
-      backgroundImage: { path: "", alt: "" },
+      backgroundImage: undefined,
+      description: "",
     },
   ],
+  arrowItems: [
+    {
+      heightPercentage: 20,
+      widthPercentage: 5,
+      id: "1",
+      xPercentagePosition: 40,
+      yPercentagePosition: 30,
+      dialog: {
+        links: ["https://example.com", "https://example.com/2"],
+      },
+      arrowDirection: ArrowDirection.Down,
+      arrowType: ArrowType.Directional,
+    },
+  ],
+  appearance: {
+    backgroundImage: undefined,
+    colorTheme: ColorTheme.Blue,
+  },
 };
 
-export const semantics: H5PField = {
+export const semantics: H5PFieldGroup = {
   label: "Topic map editor",
   name: "topicMap",
   type: H5PFieldType.Group,
@@ -40,32 +64,40 @@ export const semantics: H5PField = {
       name: "topicMapItems",
       type: H5PFieldType.List,
       entity: "Topic map item",
+      importance: "low",
       field: {
+        label: "Item",
         name: "topicMapItem",
+        importance: "low",
         type: H5PFieldType.Group,
         fields: [
           {
             name: "id",
+            label: "Id",
             type: H5PFieldType.Text,
             widget: "none",
           },
           {
             name: "xPercentagePosition",
+            label: "X-position as a percentage of the container width",
             type: H5PFieldType.Number,
             widget: "none",
           },
           {
             name: "yPercentagePosition",
+            label: "Y-position as a percentage of the container height",
             type: H5PFieldType.Number,
             widget: "none",
           },
           {
             name: "widthPercentage",
+            label: "Width as a percentage of the container width",
             type: H5PFieldType.Number,
             widget: "none",
           },
           {
             name: "heightPercentage",
+            label: "Height as a percentage of the container height",
             type: H5PFieldType.Number,
             widget: "none",
           },
@@ -76,17 +108,56 @@ export const semantics: H5PField = {
             type: H5PFieldType.Text,
           },
           {
+            label: "Description",
+            description:
+              "The description is shown on top of the background image, below the label",
+            name: "description",
+            type: H5PFieldType.Text,
+            optional: true,
+          },
+          {
             label: "Background image",
             name: "backgroundImage",
             type: H5PFieldType.Image,
           },
           {
-            label: "Links",
-            name: "links",
+            label: "Dialog",
+            name: "dialog",
+            type: H5PFieldType.Group,
+            fields: [
+              {
+                label: "Text",
+                name: "text",
+                type: H5PFieldType.Text,
+                widget: "html",
+              },
+              {
+                label: "Video",
+                name: "video",
+                type: H5PFieldType.Video,
+              },
+              {
+                label: "Links",
+                name: "links",
+                description:
+                  "These links are as auxiliary links for the user in the element's modal window",
+                type: H5PFieldType.List,
+                entity: "linkItem",
+                field: {
+                  label: "Link",
+                  name: "link",
+                  type: H5PFieldType.Text,
+                },
+              },
+            ],
+          },
+          {
+            label: "Index",
             description:
-              "These links are as auxiliary links for the user in the element's modal window",
-            type: H5PFieldType.List,
-            field: { label: "Link", name: "link", type: H5PFieldType.Text },
+              "⚠️ Advanced feature: Used for manually setting tab order.",
+            name: "label",
+            type: H5PFieldType.Number,
+            optional: true,
           },
         ],
       },
@@ -95,18 +166,124 @@ export const semantics: H5PField = {
       label: "Arrows",
       name: "arrows",
       type: H5PFieldType.List,
-      entity: "Arrow",
+      entity: "arrowItem",
       field: {
+        label: "Arrow",
         name: "arrow",
         type: H5PFieldType.Group,
         fields: [
-          { name: "showStartHead", type: H5PFieldType.Boolean, widget: "none" },
-          { name: "showEndHead", type: H5PFieldType.Boolean, widget: "none" },
+          {
+            name: "id",
+            label: "Id",
+            type: H5PFieldType.Text,
+            widget: "none",
+          },
+          {
+            name: "xPercentagePosition",
+            label: "X-position as a percentage of the container width",
+            type: H5PFieldType.Number,
+            widget: "none",
+          },
+          {
+            name: "yPercentagePosition",
+            label: "Y-position as a percentage of the container height",
+            type: H5PFieldType.Number,
+            widget: "none",
+          },
+          {
+            name: "widthPercentage",
+            label: "Width as a percentage of the container width",
+            type: H5PFieldType.Number,
+            widget: "none",
+          },
+          {
+            name: "heightPercentage",
+            label: "Height as a percentage of the container height",
+            type: H5PFieldType.Number,
+            widget: "none",
+          },
+          {
+            label: "Show start arrow-head",
+            name: "showStartHead",
+            type: H5PFieldType.Boolean,
+            widget: "none",
+            default: false,
+          },
+          {
+            label: "Show end arrow-head",
+            name: "showEndHead",
+            type: H5PFieldType.Boolean,
+            widget: "none",
+            default: true,
+          },
+          {
+            label: "Dialog",
+            name: "dialog",
+            type: H5PFieldType.Group,
+            fields: [
+              {
+                label: "Text",
+                name: "text",
+                type: H5PFieldType.Text,
+                widget: "html",
+              },
+              {
+                label: "Video",
+                name: "video",
+                type: H5PFieldType.Video,
+              },
+              {
+                label: "Links",
+                name: "links",
+                description:
+                  "These links are as auxiliary links for the user in the element's modal window",
+                type: H5PFieldType.List,
+                entity: "linkItem",
+                field: {
+                  label: "Link",
+                  name: "link",
+                  type: H5PFieldType.Text,
+                },
+              },
+            ],
+          },
+          {
+            label: "Index",
+            name: "label",
+            type: H5PFieldType.Number,
+            optional: true,
+            widget: "none",
+          },
         ],
       },
     },
+    {
+      label: "Appearance",
+      name: "appearance",
+      type: H5PFieldType.Group,
+      importance: "low",
+      widget: "none",
+      fields: [
+        {
+          label: "Background image",
+          name: "gridBackgroundImage",
+          type: H5PFieldType.Image,
+          optional: true,
+        },
+        {
+          label: "Color theme",
+          name: "colorTheme",
+          type: H5PFieldType.Select,
+          default: ColorTheme.Blue,
+          options: Object.entries(ColorTheme).map(([label, value]) => ({
+            label,
+            value,
+          })),
+        },
+      ],
+    },
   ],
-} as H5PField;
+};
 
 export const parent: H5PForm = {
   params: {
@@ -144,6 +321,9 @@ export const parent: H5PForm = {
         },
       ],
       arrowItems: [],
+      appearance: {
+        colorTheme: ColorTheme.Blue,
+      },
     },
   },
   passReadies: false,

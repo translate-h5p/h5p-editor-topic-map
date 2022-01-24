@@ -1,45 +1,58 @@
 import { H5PEditor } from "../../h5p/H5P.util";
-import { H5PField } from "../../types/h5p/H5PField";
+import {
+  H5PField,
+  H5PFieldGroup,
+  H5PFieldImage,
+} from "../../types/h5p/H5PField";
 import { Params } from "../../types/h5p/Params";
 
-export const getTopicMapField = (semantics: H5PField): H5PField | null => {
+const getSingleField = <Type extends H5PField>(
+  fieldName: string,
+  semantics: H5PFieldGroup,
+): Type | null => {
   if (!H5PEditor.findSemanticsField) {
     return null;
   }
 
-  const topicMapField = H5PEditor.findSemanticsField(
-    "topicMapItems",
+  const field = H5PEditor.findSemanticsField(
+    fieldName,
     semantics,
-  );
+  ) as Type | null;
 
-  if (!topicMapField) {
-    throw new Error("Could not find the `topicMapItems` field");
+  if (!field) {
+    throw new Error(`Could not find the \`${fieldName}\` field`);
   }
 
-  if (Array.isArray(topicMapField)) {
-    console.error("`topicMapField` is an array", topicMapField);
-    return topicMapField[0];
+  if (Array.isArray(field)) {
+    console.error(`\`${fieldName}\` is an array`, field);
+    return field[0];
   }
 
-  return topicMapField;
+  return field;
 };
 
-export const getEmptyParams = (): Params => {
-  const params: Params = {
+export const getTopicMapItemsField = (
+  semantics: H5PFieldGroup,
+): H5PField | null => getSingleField("topicMapItems", semantics);
+
+export const getBackgroundImageField = (
+  semantics: H5PFieldGroup,
+): H5PFieldImage | null =>
+  getSingleField<H5PFieldImage>("gridBackgroundImage", semantics);
+
+export const getEmptyParams = (): Required<Params> => {
+  return {
     topicMapItems: [],
     arrowItems: [],
+    appearance: {},
   };
-
-  return params;
 };
 
 export const fillInMissingParamsProperties = (
   partialParams: Partial<Params>,
-): Params => {
-  const params: Params = {
+): Required<Params> => {
+  return {
     ...getEmptyParams(),
     ...partialParams,
   };
-
-  return params;
 };

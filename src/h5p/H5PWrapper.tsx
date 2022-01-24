@@ -1,8 +1,8 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { IH5PEditorWrapper } from "../../H5P";
-import App from "../App";
-import { H5PField } from "../types/h5p/H5PField";
+import { App } from "../App";
+import { H5PFieldGroup } from "../types/h5p/H5PField";
 import { H5PForm } from "../types/h5p/H5PForm";
 import { H5PSetValue } from "../types/h5p/H5PSetValue";
 import { Params } from "../types/h5p/Params";
@@ -16,7 +16,7 @@ export class H5PWrapper
 
   constructor(
     parent: H5PForm,
-    semantics: H5PField,
+    semantics: H5PFieldGroup,
     params: Params,
     setValue: H5PSetValue,
   ) {
@@ -44,7 +44,7 @@ export class H5PWrapper
     }
 
     containerElement.appendChild(this.wrapper);
-    containerElement.classList.add("h5p-topic-map");
+    containerElement.classList.add("h5p-editor-topic-map");
   }
 
   validate(): boolean {

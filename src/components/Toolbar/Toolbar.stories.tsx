@@ -7,7 +7,7 @@ import { Toolbar } from "./Toolbar";
 export default {
   title: "Organisms/Toolbar",
   component: Toolbar,
-  ars: {
+  args: {
     setActiveTool: () => console.info("new active tool"),
   },
 } as ComponentMeta<typeof Toolbar>;

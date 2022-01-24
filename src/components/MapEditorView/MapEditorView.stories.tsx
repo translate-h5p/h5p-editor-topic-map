@@ -9,6 +9,7 @@ import {
 import { ArrowDirection } from "../../types/ArrowDirection";
 import { ArrowItemType } from "../../types/ArrowItemType";
 import { ArrowType } from "../../types/ArrowType";
+import { Params } from "../../types/h5p/Params";
 import { TopicMapItemType } from "../../types/TopicMapItemType";
 import { MapEditorView } from "./MapEditorView";
 
@@ -18,10 +19,8 @@ export default {
   args: {
     numberOfColumns: 20,
     numberOfRows: 12,
-    updateItems: (items: Array<TopicMapItemType>) =>
-      console.info("Items updated", { items }),
-    updateArrowItems: (items: Array<ArrowItemType>) =>
-      console.info("Arrow items updated", { items }),
+    setParams: (newParams: Params) =>
+      console.info("Params updated", { newParams }),
     semantics,
     params,
     parent,
@@ -35,12 +34,9 @@ const Template: ComponentStory<typeof MapEditorView> = args => (
 );
 
 export const Empty = Template.bind({});
-Empty.args = {
-  initialGridItems: [],
-  initialArrowItems: [],
-};
+Empty.args = {};
 
-let withItemsItems: Array<TopicMapItemType> = [
+const withItemsItems: Array<TopicMapItemType> = [
   {
     id: "1",
     xPercentagePosition: 0,
@@ -84,7 +80,7 @@ let withItemsItems: Array<TopicMapItemType> = [
   },
 ];
 
-let withItemsArrows: Array<ArrowItemType> = [
+const withItemsArrows: Array<ArrowItemType> = [
   {
     id: "4",
     xPercentagePosition: 35,
@@ -98,13 +94,10 @@ let withItemsArrows: Array<ArrowItemType> = [
 
 export const WithItems = Template.bind({});
 WithItems.args = {
-  initialGridItems: withItemsItems,
-  updateItems: (items: Array<TopicMapItemType>) => {
-    withItemsItems = items;
-  },
-  initialArrowItems: withItemsArrows,
-  updateArrowItems: (items: Array<ArrowItemType>) => {
-    withItemsArrows = items;
+  params: {
+    ...params,
+    topicMapItems: withItemsItems,
+    arrowItems: withItemsArrows,
   },
 };
 
@@ -117,58 +110,61 @@ FullscreenEmpty.args = {};
 
 export const FullscreenWithItems = TemplateFullscreen.bind({});
 FullscreenWithItems.args = {
-  initialGridItems: [
-    {
-      id: "1",
-      xPercentagePosition: 0,
-      yPercentagePosition: 0,
-      widthPercentage: 15,
-      heightPercentage: 20,
-      backgroundImage: {
-        path: "https://images.unsplash.com/photo-1601242453944-421cde7cfc84?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
-        alt: "",
+  params: {
+    ...params,
+    topicMapItems: [
+      {
+        id: "1",
+        xPercentagePosition: 0,
+        yPercentagePosition: 0,
+        widthPercentage: 15,
+        heightPercentage: 20,
+        backgroundImage: {
+          path: "https://images.unsplash.com/photo-1601242453944-421cde7cfc84?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
+          alt: "",
+        },
+        label: "Label 1",
+        description: "",
       },
-      label: "Label 1",
-      description: "",
-    },
-    {
-      id: "2",
-      xPercentagePosition: 5,
-      yPercentagePosition: 30,
-      widthPercentage: 30,
-      heightPercentage: 60,
-      backgroundImage: {
-        path: "https://images.unsplash.com/photo-1596985122625-faf96c53e0c6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1374&q=80",
-        alt: "",
+      {
+        id: "2",
+        xPercentagePosition: 5,
+        yPercentagePosition: 30,
+        widthPercentage: 30,
+        heightPercentage: 60,
+        backgroundImage: {
+          path: "https://images.unsplash.com/photo-1596985122625-faf96c53e0c6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1374&q=80",
+          alt: "",
+        },
+        label: "Label 2",
+        description:
+          "Let's put some highlights on these little trees. The sun wouldn't forget them. I will take some magic white, and a little bit of Vandyke brown and a little touch of yellow. Didn't you know you had that much power? You can move mountains. You can do anything.",
       },
-      label: "Label 2",
-      description:
-        "Let's put some highlights on these little trees. The sun wouldn't forget them. I will take some magic white, and a little bit of Vandyke brown and a little touch of yellow. Didn't you know you had that much power? You can move mountains. You can do anything.",
-    },
-    {
-      id: "3",
-      xPercentagePosition: 50,
-      yPercentagePosition: 30,
-      widthPercentage: 20,
-      heightPercentage: 50,
-      backgroundImage: {
-        path: "https://images.unsplash.com/photo-1598328514034-58f20ba7d2d3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1064&q=80",
-        alt: "",
+      {
+        id: "3",
+        xPercentagePosition: 50,
+        yPercentagePosition: 30,
+        widthPercentage: 20,
+        heightPercentage: 50,
+        backgroundImage: {
+          path: "https://images.unsplash.com/photo-1598328514034-58f20ba7d2d3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1064&q=80",
+          alt: "",
+        },
+        label: "Label 3",
+        description:
+          "You can do anything here - the only pre-requisite is that it makes you happy.",
       },
-      label: "Label 3",
-      description:
-        "You can do anything here - the only pre-requisite is that it makes you happy.",
-    },
-  ],
-  initialArrowItems: [
-    {
-      id: "4",
-      xPercentagePosition: 35,
-      yPercentagePosition: 50,
-      widthPercentage: 15,
-      heightPercentage: 1,
-      arrowDirection: ArrowDirection.Right,
-      arrowType: ArrowType.Directional,
-    },
-  ],
+    ],
+    arrowItems: [
+      {
+        id: "4",
+        xPercentagePosition: 35,
+        yPercentagePosition: 50,
+        widthPercentage: 15,
+        heightPercentage: 1,
+        arrowDirection: ArrowDirection.Right,
+        arrowType: ArrowType.Directional,
+      },
+    ],
+  },
 };

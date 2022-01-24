@@ -1,13 +1,13 @@
 import * as React from "react";
-import { H5PField } from "../../types/h5p/H5PField";
+import { H5PField, H5PFieldGroup } from "../../types/h5p/H5PField";
 import { H5PForm } from "../../types/h5p/H5PForm";
 import { Params } from "../../types/h5p/Params";
-import { getTopicMapField } from "../../utils/H5P/form.utils";
+import { getTopicMapItemsField } from "../../utils/H5P/form.utils";
 import { SemanticsForm } from "../SemanticsForm/SemanticsForm";
 import "./TopicMapItemForm.scss";
 
 export type TopicMapItemFormProps = {
-  semantics: H5PField;
+  semantics: H5PFieldGroup;
   params: Params;
   parent: H5PForm;
   itemId: string;
@@ -25,8 +25,12 @@ export const TopicMapItemForm: React.FC<TopicMapItemFormProps> = ({
   const [formParams, setFormParams] = React.useState<Params>();
 
   React.useEffect(() => {
-    const field = getTopicMapField(semantics);
+    const field = getTopicMapItemsField(semantics);
     setTopicMapField(field);
+
+    if (!params.topicMapItems) {
+      return;
+    }
 
     setFormParams({
       ...params,
@@ -36,17 +40,19 @@ export const TopicMapItemForm: React.FC<TopicMapItemFormProps> = ({
 
   const onUpdate = React.useCallback(
     (newParams: Params) => {
+      if (!newParams.topicMapItems) {
+        return;
+      }
+
       const updatedItem = newParams.topicMapItems[0];
+      const updatedItems =
+        params.topicMapItems?.map(item =>
+          item.id === updatedItem.id ? updatedItem : item,
+        ) ?? [];
+
       onSave({
         ...newParams,
-        topicMapItems: params.topicMapItems.map(item => {
-          const isUpdatedItem = item.id === updatedItem.id;
-          if (isUpdatedItem) {
-            return updatedItem;
-          }
-
-          return item;
-        }),
+        topicMapItems: updatedItems,
       });
     },
     [onSave, params.topicMapItems],
@@ -59,6 +65,7 @@ export const TopicMapItemForm: React.FC<TopicMapItemFormProps> = ({
       parent={parent}
       onSave={onUpdate}
       formClassName="topic-map-item-form"
+      showSaveButton
     />
   ) : null;
 };
