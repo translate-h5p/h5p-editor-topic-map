@@ -25,7 +25,7 @@ describe(resizeItem.name, () => {
       yPercentagePosition: 10,
       widthPercentage: 20,
       heightPercentage: 20,
-      backgroundImage: { path: "", alt: "" },
+      topicImage: { path: "", alt: "" },
       label: "Label",
       description: "",
     };
@@ -38,7 +38,7 @@ describe(resizeItem.name, () => {
       yPercentagePosition: 5,
       widthPercentage: 10,
       heightPercentage: 10,
-      backgroundImage: { path: "", alt: "" },
+      topicImage: { path: "", alt: "" },
       label: "Label",
       description: "",
     };
@@ -55,7 +55,7 @@ describe(resizeItem.name, () => {
       yPercentagePosition: 10,
       widthPercentage: 20,
       heightPercentage: 20,
-      backgroundImage: { path: "", alt: "" },
+      topicImage: { path: "", alt: "" },
       label: "Label",
       description: "",
     };
@@ -68,7 +68,7 @@ describe(resizeItem.name, () => {
       yPercentagePosition: 20,
       widthPercentage: 40,
       heightPercentage: 40,
-      backgroundImage: { path: "", alt: "" },
+      topicImage: { path: "", alt: "" },
       label: "Label",
       description: "",
     };
@@ -85,7 +85,7 @@ describe(resizeItem.name, () => {
       yPercentagePosition: 10,
       widthPercentage: 20,
       heightPercentage: 20,
-      backgroundImage: { path: "", alt: "" },
+      topicImage: { path: "", alt: "" },
       label: "Label",
       description: "",
     };
@@ -98,7 +98,7 @@ describe(resizeItem.name, () => {
       yPercentagePosition: 10,
       widthPercentage: 20,
       heightPercentage: 20,
-      backgroundImage: { path: "", alt: "" },
+      topicImage: { path: "", alt: "" },
       label: "Label",
       description: "",
     };
@@ -117,7 +117,7 @@ describe(resizeItem.name, () => {
           yPercentagePosition: 10,
           widthPercentage: 20,
           heightPercentage: 20,
-          backgroundImage: { path: "", alt: "" },
+          topicImage: { path: "", alt: "" },
           label: "Label",
           dialog: {
             links: [],
@@ -131,7 +131,7 @@ describe(resizeItem.name, () => {
           yPercentagePosition: 10 * scaleFactor,
           widthPercentage: 20 * scaleFactor,
           heightPercentage: 20 * scaleFactor,
-          backgroundImage: { path: "", alt: "" },
+          topicImage: { path: "", alt: "" },
           label: "Label",
           dialog: {
             links: [],
@@ -179,7 +179,7 @@ describe(updateItem.name, () => {
       yPercentagePosition: 20,
       widthPercentage: 10,
       heightPercentage: 10,
-      backgroundImage: { path: "", alt: "" },
+      topicImage: { path: "", alt: "" },
       label: "Label",
       description: "",
     };
@@ -192,7 +192,7 @@ describe(updateItem.name, () => {
         yPercentagePosition: 60,
         widthPercentage: 65,
         heightPercentage: 32,
-        backgroundImage: { path: "", alt: "" },
+        topicImage: { path: "", alt: "" },
         label: "Label",
         description: "",
       },
@@ -217,7 +217,7 @@ describe(updateItem.name, () => {
       yPercentagePosition: 10,
       widthPercentage: 20,
       heightPercentage: 20,
-      backgroundImage: { path: "", alt: "" },
+      topicImage: { path: "", alt: "" },
       label: "Label",
       description: "",
     };
@@ -235,7 +235,7 @@ describe(updateItem.name, () => {
         yPercentagePosition: 60,
         widthPercentage: 65,
         heightPercentage: 32,
-        backgroundImage: { path: "", alt: "" },
+        topicImage: { path: "", alt: "" },
         label: "Label",
         description: "",
       },
@@ -249,7 +249,7 @@ describe(updateItem.name, () => {
       yPercentagePosition: 20,
       widthPercentage: 10,
       heightPercentage: 10,
-      backgroundImage: { path: "", alt: "" },
+      topicImage: { path: "", alt: "" },
       label: "Label",
       description: "",
     };
@@ -262,7 +262,7 @@ describe(updateItem.name, () => {
         yPercentagePosition: 60,
         widthPercentage: 65,
         heightPercentage: 32,
-        backgroundImage: { path: "", alt: "" },
+        topicImage: { path: "", alt: "" },
         label: "Label",
         description: "",
       },
@@ -289,7 +289,7 @@ describe(updateItem.name, () => {
       yPercentagePosition: 20,
       widthPercentage: 10,
       heightPercentage: 10,
-      backgroundImage: { path: "", alt: "" },
+      topicImage: { path: "", alt: "" },
       label: "Label",
       description: "",
     });
@@ -300,7 +300,7 @@ describe(updateItem.name, () => {
       yPercentagePosition: 20,
       widthPercentage: 10,
       heightPercentage: 10,
-      backgroundImage: { path: "", alt: "" },
+      topicImage: { path: "", alt: "" },
       label: "Label",
       description: "",
     });
@@ -311,7 +311,7 @@ describe(updateItem.name, () => {
       yPercentagePosition: 60,
       widthPercentage: 65,
       heightPercentage: 32,
-      backgroundImage: { path: "", alt: "" },
+      topicImage: { path: "", alt: "" },
       label: "Label",
       description: "",
     });
@@ -324,7 +324,7 @@ describe(updateItem.name, () => {
       yPercentagePosition: 20,
       widthPercentage: 10,
       heightPercentage: 10,
-      backgroundImage: { path: "", alt: "" },
+      topicImage: { path: "", alt: "" },
       label: "Label",
       description: "",
     };
@@ -337,7 +337,7 @@ describe(updateItem.name, () => {
         yPercentagePosition: 60,
         widthPercentage: 65,
         heightPercentage: 32,
-        backgroundImage: { path: "", alt: "" },
+        topicImage: { path: "", alt: "" },
         label: "Label",
         dialog: {
           links: [],
@@ -360,7 +360,7 @@ describe(updateItem.name, () => {
       yPercentagePosition: 20,
       widthPercentage: 20,
       heightPercentage: 20,
-      backgroundImage: { path: "", alt: "" },
+      topicImage: { path: "", alt: "" },
       label: "Label",
       description: "",
     };
@@ -377,7 +377,7 @@ describe(updateItem.name, () => {
         yPercentagePosition: 60,
         widthPercentage: 65,
         heightPercentage: 32,
-        backgroundImage: { path: "", alt: "" },
+        topicImage: { path: "", alt: "" },
         label: "Label",
         dialog: {
           links: [],
@@ -394,7 +394,7 @@ describe(updateItem.name, () => {
       yPercentagePosition: 20,
       widthPercentage: 10,
       heightPercentage: 10,
-      backgroundImage: { path: "", alt: "" },
+      topicImage: { path: "", alt: "" },
       label: "Label",
       description: "",
     };
@@ -407,7 +407,7 @@ describe(updateItem.name, () => {
         yPercentagePosition: 60,
         widthPercentage: 65,
         heightPercentage: 32,
-        backgroundImage: { path: "", alt: "" },
+        topicImage: { path: "", alt: "" },
         label: "Label",
         dialog: {
           links: [],
@@ -430,7 +430,7 @@ describe(updateItem.name, () => {
       yPercentagePosition: 10,
       widthPercentage: 10,
       heightPercentage: 10,
-      backgroundImage: { path: "", alt: "" },
+      topicImage: { path: "", alt: "" },
       label: "Label",
       description: "",
     };
@@ -447,7 +447,7 @@ describe(updateItem.name, () => {
         yPercentagePosition: 60,
         widthPercentage: 65,
         heightPercentage: 32,
-        backgroundImage: { path: "", alt: "" },
+        topicImage: { path: "", alt: "" },
         label: "Label",
         dialog: {
           links: [],

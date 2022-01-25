@@ -1,5 +1,10 @@
+import { Image } from "./h5p/Image";
+
 export type CommonItemType = {
   id: string;
+
+  description?: string;
+  topicImage?: Image;
 
   /** The x position as a percentage of the container's width */
   xPercentagePosition: number;

@@ -16,15 +16,15 @@ export type TopicMapItemProps = {
 };
 
 export const TopicMapItem: React.FC<TopicMapItemProps> = ({ item }) => {
-  const imageUrl = getImageUrl(item.backgroundImage?.path);
+  const imageUrl = getImageUrl(item.topicImage?.path);
 
   return (
     <div className={styles.topicMapItem}>
-      {item.backgroundImage && imageUrl && (
+      {item.topicImage && imageUrl && (
         <img
           className={styles.image}
           src={imageUrl}
-          alt={item.backgroundImage.alt ?? ""}
+          alt={item.topicImage.alt ?? ""}
         />
       )}
 
