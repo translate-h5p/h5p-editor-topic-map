@@ -1,4 +1,5 @@
 import { Image } from "./h5p/Image";
+import { Video } from "./h5p/Video";
 
 export type CommonItemType = {
   id: string;
@@ -19,8 +20,8 @@ export type CommonItemType = {
   heightPercentage: number;
 
   dialog?: {
-    links?: Array<string> | undefined;
+    links?: Array<string>;
     text?: string;
-    video?: unknown;
+    video?: Video;
   };
 };
