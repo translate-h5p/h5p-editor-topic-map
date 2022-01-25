@@ -38,7 +38,10 @@ export const SemanticsForm: React.FC<SemanticsFormProps> = ({
   }, [fields, params, parent, generatedFormRef, hasRendered]);
 
   return (
-    <form className={`${formClassName} h5peditor`}>
+    <form
+      className={`${formClassName} h5peditor`}
+      onSubmit={event => event.preventDefault()}
+    >
       <div ref={generatedFormRef} />
       <button
         type="button"
