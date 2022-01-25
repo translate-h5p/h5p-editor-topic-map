@@ -65,7 +65,6 @@ export const TopicMapItemForm: React.FC<TopicMapItemFormProps> = ({
       parent={parent}
       onSave={onUpdate}
       formClassName="topic-map-item-form"
-      showSaveButton
     />
   ) : null;
 };
