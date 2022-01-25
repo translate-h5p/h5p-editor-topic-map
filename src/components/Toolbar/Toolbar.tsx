@@ -3,15 +3,16 @@ import { t } from "../../h5p/H5P.util";
 import { H5PFieldImage } from "../../types/h5p/H5PField";
 import { H5PForm } from "../../types/h5p/H5PForm";
 import { Params } from "../../types/h5p/Params";
+import { TranslationKey } from "../../types/TranslationKey";
 import { AppearanceDialog } from "../AppearanceDialog/AppearanceDialog";
 import { ToolbarButton } from "../ToolbarButton/ToolbarButton";
 import styles from "./Toolbar.module.scss";
 
-const labelTexts = {
-  mapColor: t("toolbar-button-type_map-color"),
-  createBox: t("toolbar-button-type_create-box"),
-  createArrow: t("toolbar-button-type_create-arrow"),
-  cannotCreateArrow: t("toolbar-button-type_cannot-create-arrow"),
+const labelTextKeys: Record<string, TranslationKey> = {
+  mapColor: "toolbar-button-type_map-color",
+  createBox: "toolbar-button-type_create-box",
+  createArrow: "toolbar-button-type_create-arrow",
+  cannotCreateArrow: "toolbar-button-type_cannot-create-arrow",
 };
 
 /*
@@ -72,7 +73,7 @@ export const Toolbar: React.FC<ToolBarProps> = ({
     <div className={styles.toolbar}>
       <ToolbarButton
         icon={ToolbarButtonType.MapColor}
-        label={labelTexts.mapColor}
+        label={t(labelTextKeys.mapColor)}
         onClick={() => setAppearanceDialogOpen(wasOpen => !wasOpen)}
         active={false}
         showActive={false}
@@ -80,7 +81,7 @@ export const Toolbar: React.FC<ToolBarProps> = ({
       />
       <ToolbarButton
         icon={ToolbarButtonType.CreateBox}
-        label={labelTexts.createBox}
+        label={t(labelTextKeys.createBox)}
         onClick={() => setActive(ToolbarButtonType.CreateBox)}
         active={checkIfActive(ToolbarButtonType.CreateBox)}
         showActive
@@ -90,8 +91,8 @@ export const Toolbar: React.FC<ToolBarProps> = ({
         icon={ToolbarButtonType.CreateArrow}
         label={
           isArrowButtonDisabled
-            ? labelTexts.cannotCreateArrow
-            : labelTexts.createArrow
+            ? t(labelTextKeys.cannotCreateArrow)
+            : t(labelTextKeys.createArrow)
         }
         onClick={() => setActive(ToolbarButtonType.CreateArrow)}
         active={checkIfActive(ToolbarButtonType.CreateArrow)}
