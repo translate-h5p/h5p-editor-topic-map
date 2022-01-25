@@ -33,7 +33,7 @@ Primary.args = {
         yPercentagePosition: 0,
         widthPercentage: 15,
         heightPercentage: 20,
-        backgroundImage: {
+        topicImage: {
           path: "https://images.unsplash.com/photo-1601242453944-421cde7cfc84?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
           alt: "",
         },
@@ -46,7 +46,7 @@ Primary.args = {
         yPercentagePosition: 30,
         widthPercentage: 30,
         heightPercentage: 60,
-        backgroundImage: {
+        topicImage: {
           path: "https://images.unsplash.com/photo-1596985122625-faf96c53e0c6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1374&q=80",
           alt: "",
         },
@@ -60,7 +60,7 @@ Primary.args = {
         yPercentagePosition: 30,
         widthPercentage: 20,
         heightPercentage: 50,
-        backgroundImage: {
+        topicImage: {
           path: "https://images.unsplash.com/photo-1598328514034-58f20ba7d2d3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1064&q=80",
           alt: "",
         },
@@ -72,6 +72,7 @@ Primary.args = {
     arrowItems: [
       {
         id: "4",
+        description: "",
         xPercentagePosition: 35,
         yPercentagePosition: 50,
         widthPercentage: 15,
