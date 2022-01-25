@@ -28,7 +28,7 @@ export const ThemePicker: React.FC<ThemePickerProps> = ({
 
   const colorThemes = React.useMemo(
     () =>
-      themes.map(({ label, value }) => (
+      themes.map(({ labelKey, value }) => (
         <button
           type="button"
           key={value}
@@ -37,7 +37,7 @@ export const ThemePicker: React.FC<ThemePickerProps> = ({
           }`}
           onClick={() => setTheme(value)}
         >
-          {label}
+          {t(labelKey)}
           <div className={styles.colorCircles}>{renderColorCircles()}</div>
         </button>
       )),

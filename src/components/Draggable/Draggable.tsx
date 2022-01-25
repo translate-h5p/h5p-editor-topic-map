@@ -1,9 +1,13 @@
 import * as React from "react";
+import { useState } from "react";
 import { t } from "../../h5p/H5P.util";
 import { ArrowType } from "../../types/ArrowType";
+import { ContextMenuAction } from "../../types/ContextMenuAction";
 import { OccupiedCell } from "../../types/OccupiedCell";
 import { Position } from "../../types/Position";
+import { ResizeDirection } from "../../types/ResizeDirection";
 import { Size } from "../../types/Size";
+import { TranslationKey } from "../../types/TranslationKey";
 import {
   calculateClosestValidPositionComponent,
   calculateClosestValidSizeComponent,
@@ -11,15 +15,13 @@ import {
 } from "../../utils/draggable.utils";
 import { positionIsFree } from "../../utils/grid.utils";
 import { ContextMenu, ContextMenuButtonType } from "../ContextMenu/ContextMenu";
-import { ContextMenuAction } from "../../types/ContextMenuAction";
 import { Dialog } from "../Dialog/Dialog";
 import { ScaleHandles } from "../ScaleHandles/ScaleHandles";
 import styles from "./Draggable.module.scss";
-import { ResizeDirection } from "../../types/ResizeDirection";
 
-const labelTexts = {
-  selected: t("draggable_selected"),
-  notSelected: t("draggable_not-selected"),
+const labelTextKeys: Record<string, TranslationKey> = {
+  selected: "draggable_selected",
+  notSelected: "draggable_not-selected",
 };
 
 export type DraggableProps = {
@@ -68,28 +70,27 @@ export const Draggable: React.FC<DraggableProps> = ({
   isArrow,
   updateArrowType,
 }) => {
-  const [isDragging, setIsDragging] = React.useState(false);
-  const [isSelected, setIsSelected] = React.useState(selectedItem === id);
-  const [labelText, setLabelText] = React.useState(labelTexts.notSelected);
+  const [isDragging, setIsDragging] = useState(false);
+  const [isSelected, setIsSelected] = useState(selectedItem === id);
+  const [labelText, setLabelText] = useState(t(labelTextKeys.notSelected));
   const [pointerStartPosition, setPointerStartPosition] =
-    React.useState<Position | null>();
-  const [{ width, height }, setSize] = React.useState<Size>({
+    useState<Position | null>();
+  const [{ width, height }, setSize] = useState<Size>({
     // prettier-ignore
     width: calculateClosestValidSizeComponent(initialWidth, gapSize, cellSize, gridSize.width),
     // prettier-ignore
     height: calculateClosestValidSizeComponent(initialHeight, gapSize, cellSize, gridSize.height),
   });
-  const [position, setPosition] = React.useState<Position>({
+  const [position, setPosition] = useState<Position>({
     // prettier-ignore
     x: calculateClosestValidPositionComponent(initialXPosition, gapSize, cellSize, gridSize.width, width),
     // prettier-ignore
     y: calculateClosestValidPositionComponent(initialYPosition, gapSize, cellSize, gridSize.height, height),
   });
-  const [previousPosition, setPreviousPosition] =
-    React.useState<Position>(position);
-  const [isResizing, setIsResizing] = React.useState<boolean>();
+  const [previousPosition, setPreviousPosition] = useState(position);
+  const [isResizing, setIsResizing] = useState(false);
   const [showDeleteConfirmationDialog, setShowDeleteConfirmationDialog] =
-    React.useState<boolean>(false);
+    useState(false);
 
   // Update Draggable's size whenever the container's size changes
   React.useEffect(
@@ -263,7 +264,9 @@ export const Draggable: React.FC<DraggableProps> = ({
   }, []);
 
   React.useEffect(() => {
-    setLabelText(isSelected ? labelTexts.selected : labelTexts.notSelected);
+    setLabelText(
+      isSelected ? t(labelTextKeys.selected) : t(labelTextKeys.notSelected),
+    );
   }, [isSelected]);
 
   const horizontalScaleHandleLabelText = "";
