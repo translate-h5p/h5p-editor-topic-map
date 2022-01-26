@@ -1,4 +1,4 @@
-import { H5PWrapper } from "../../h5p/H5PWrapper";
+import { H5PWrapper } from "../../H5P/H5PWrapper";
 import { H5PGroup } from "./H5PGroup";
 import { H5PMetadata } from "./H5PMetadata";
 import { H5PMetadataForm } from "./H5PMetadataForm";

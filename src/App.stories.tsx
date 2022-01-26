@@ -4,7 +4,7 @@ import * as React from "react";
 import { params, semantics, parent } from "../.storybook/helpers/h5p.utils";
 import { ArrowDirection } from "./types/ArrowDirection";
 import { ArrowType } from "./types/ArrowType";
-import { Params } from "./types/h5p/Params";
+import { Params } from "./types/H5P/Params";
 import { App } from "./App";
 
 export default {

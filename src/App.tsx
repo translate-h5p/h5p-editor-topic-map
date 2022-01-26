@@ -1,8 +1,8 @@
 import * as React from "react";
 import { MapEditorView } from "./components/MapEditorView/MapEditorView";
-import { H5PFieldGroup } from "./types/h5p/H5PField";
-import { H5PForm } from "./types/h5p/H5PForm";
-import { Params } from "./types/h5p/Params";
+import { H5PFieldGroup } from "./types/H5P/H5PField";
+import { H5PForm } from "./types/H5P/H5PForm";
+import { Params } from "./types/H5P/Params";
 import {
   fillInMissingParamsProperties,
   getEmptyParams,

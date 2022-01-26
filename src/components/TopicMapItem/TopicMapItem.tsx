@@ -1,5 +1,5 @@
 import * as React from "react";
-import { getImageUrl } from "../../h5p/H5P.util";
+import { getImageUrl } from "../../H5P/H5P.util";
 import { TopicMapItemType } from "../../types/TopicMapItemType";
 import styles from "./TopicMapItem.module.scss";
 

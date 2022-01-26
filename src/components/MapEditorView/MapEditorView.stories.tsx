@@ -9,7 +9,7 @@ import {
 import { ArrowDirection } from "../../types/ArrowDirection";
 import { ArrowItemType } from "../../types/ArrowItemType";
 import { ArrowType } from "../../types/ArrowType";
-import { Params } from "../../types/h5p/Params";
+import { Params } from "../../types/H5P/Params";
 import { TopicMapItemType } from "../../types/TopicMapItemType";
 import { MapEditorView } from "./MapEditorView";
 

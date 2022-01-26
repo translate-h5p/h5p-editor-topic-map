@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useState } from "react";
-import { t } from "../../h5p/H5P.util";
+import { t } from "../../H5P/H5P.util";
 import { ArrowType } from "../../types/ArrowType";
 import { ContextMenuAction } from "../../types/ContextMenuAction";
 import { OccupiedCell } from "../../types/OccupiedCell";

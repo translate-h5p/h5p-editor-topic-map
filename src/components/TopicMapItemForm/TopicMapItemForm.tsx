@@ -1,7 +1,7 @@
 import * as React from "react";
-import { H5PField, H5PFieldGroup } from "../../types/h5p/H5PField";
-import { H5PForm } from "../../types/h5p/H5PForm";
-import { Params } from "../../types/h5p/Params";
+import { H5PField, H5PFieldGroup } from "../../types/H5P/H5PField";
+import { H5PForm } from "../../types/H5P/H5PForm";
+import { Params } from "../../types/H5P/Params";
 import { getTopicMapItemsField } from "../../utils/H5P/form.utils";
 import { SemanticsForm } from "../SemanticsForm/SemanticsForm";
 import "./TopicMapItemForm.scss";

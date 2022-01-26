@@ -1,8 +1,8 @@
 import * as React from "react";
-import { t } from "../../h5p/H5P.util";
-import { H5PFieldImage } from "../../types/h5p/H5PField";
-import { H5PForm } from "../../types/h5p/H5PForm";
-import { Params } from "../../types/h5p/Params";
+import { t } from "../../H5P/H5P.util";
+import { H5PFieldImage } from "../../types/H5P/H5PField";
+import { H5PForm } from "../../types/H5P/H5PForm";
+import { Params } from "../../types/H5P/Params";
 import { TranslationKey } from "../../types/TranslationKey";
 import { AppearanceDialog } from "../AppearanceDialog/AppearanceDialog";
 import { ToolbarButton } from "../ToolbarButton/ToolbarButton";

@@ -1,10 +1,10 @@
 import { ArrowDirection } from "../../src/types/ArrowDirection";
 import { ArrowType } from "../../src/types/ArrowType";
 import { ColorTheme } from "../../src/types/ColorTheme";
-import { H5PField, H5PFieldGroup } from "../../src/types/h5p/H5PField";
-import { H5PFieldType } from "../../src/types/h5p/H5PFieldType";
-import { H5PForm } from "../../src/types/h5p/H5PForm";
-import { Params } from "../../src/types/h5p/Params";
+import { H5PField, H5PFieldGroup } from "../../src/types/H5P/H5PField";
+import { H5PFieldType } from "../../src/types/H5P/H5PFieldType";
+import { H5PForm } from "../../src/types/H5P/H5PForm";
+import { Params } from "../../src/types/H5P/Params";
 
 export const params: Required<Params> = {
   topicMapItems: [

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { t } from "../../h5p/H5P.util";
+import { t } from "../../H5P/H5P.util";
 import styles from "./GridIndicator.module.scss";
 
 export type GridIndicatorProps = {

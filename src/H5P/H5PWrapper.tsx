@@ -2,10 +2,10 @@ import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { IH5PEditorWrapper } from "../../H5P";
 import { App } from "../App";
-import { H5PFieldGroup } from "../types/h5p/H5PField";
-import { H5PForm } from "../types/h5p/H5PForm";
-import { H5PSetValue } from "../types/h5p/H5PSetValue";
-import { Params } from "../types/h5p/Params";
+import { H5PFieldGroup } from "../types/H5P/H5PField";
+import { H5PForm } from "../types/H5P/H5PForm";
+import { H5PSetValue } from "../types/H5P/H5PSetValue";
+import { Params } from "../types/H5P/Params";
 import { H5P } from "./H5P.util";
 
 export class H5PWrapper

@@ -1,7 +1,7 @@
-import { H5PWrapper } from "./src/h5p/H5PWrapper";
-import { H5PField } from "./src/types/h5p/H5PField";
-import { H5PForm } from "./src/types/h5p/H5PForm";
-import { Params } from "./src/types/h5p/Params";
+import { H5PWrapper } from "./src/H5P/H5PWrapper";
+import { H5PField } from "./src/types/H5P/H5PField";
+import { H5PForm } from "./src/types/H5P/H5PForm";
+import { Params } from "./src/types/H5P/Params";
 
 export interface H5PObject {
   EventDispatcher: typeof EventDispatcher;

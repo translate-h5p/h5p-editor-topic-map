@@ -1,5 +1,5 @@
-import { Audio } from "./h5p/Audio";
-import { Video } from "./h5p/Video";
+import { Audio } from "./H5P/Audio";
+import { Video } from "./H5P/Video";
 
 export type DialogContent = {
   links?: Array<string>;
