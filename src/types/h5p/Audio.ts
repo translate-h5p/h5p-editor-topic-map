@@ -1,3 +1,3 @@
 import { Media } from "./Media";
 
-export type Video = Media;
+export type Audio = Media;

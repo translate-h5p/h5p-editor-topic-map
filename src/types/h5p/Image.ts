@@ -1,10 +1,7 @@
-import { Copyright } from "./Copyright";
+import { Media } from "./Media";
 
-export type Image = {
-  path: string;
-  alt?: string | undefined;
-  copyright?: Copyright;
+export type Image = Media & {
+  alt?: string;
   height?: number;
   width?: number;
-  mime?: string;
 };
