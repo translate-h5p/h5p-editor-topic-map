@@ -405,6 +405,7 @@ export const Draggable: React.FC<DraggableProps> = ({
         isOpen={showDeleteConfirmationDialog}
         title={t("draggable_delete-confirmation")}
         onOpenChange={setShowDeleteConfirmationDialog}
+        size="medium"
       >
         <div className={styles.deleteConfirmationButtons}>
           <button

@@ -19,5 +19,12 @@ export default componentMeta;
 
 const Template: ComponentStory<typeof Dialog> = args => <Dialog {...args} />;
 
-export const Default = Template.bind({});
-Default.args = {};
+export const SizeMedium = Template.bind({});
+SizeMedium.args = {
+  size: "medium",
+};
+
+export const SizeLarge = Template.bind({});
+SizeLarge.args = {
+  size: "large",
+};

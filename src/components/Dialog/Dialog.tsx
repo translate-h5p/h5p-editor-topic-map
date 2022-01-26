@@ -11,11 +11,19 @@ import { Cross2Icon } from "@radix-ui/react-icons";
 import styles from "./Dialog.module.scss";
 import { t } from "../../h5p/H5P.util";
 
+type DialogSize = "medium" | "large";
+
 export type DialogProps = {
   isOpen: boolean;
   title: string;
   description?: string | undefined;
   onOpenChange: (open: boolean) => void;
+  size: DialogSize;
+};
+
+const maxWidths: Record<DialogSize, number> = {
+  medium: 450,
+  large: 750,
 };
 
 export const Dialog: React.FC<DialogProps> = ({
@@ -24,13 +32,16 @@ export const Dialog: React.FC<DialogProps> = ({
   description,
   onOpenChange,
   children,
+  size,
 }) => {
   const closeButtonLabel = t("dialog_close");
+
+  const maxWidth = maxWidths[size];
 
   return (
     <Root open={isOpen} onOpenChange={onOpenChange}>
       <Overlay className={styles.overlay} />
-      <Content className={styles.content}>
+      <Content className={styles.content} style={{ maxWidth }}>
         <Title className={styles.title}>{title}</Title>
         {description && <Description>{description}</Description>}
         <Close className={styles.closeButton} aria-label={closeButtonLabel}>
