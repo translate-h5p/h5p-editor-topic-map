@@ -40,7 +40,12 @@ export const AppearanceDialog: React.FC<AppearanceDialogProps> = ({
   };
 
   return (
-    <Dialog title={dialogTitle} isOpen={isOpen} onOpenChange={setIsOpen}>
+    <Dialog
+      title={dialogTitle}
+      isOpen={isOpen}
+      size="medium"
+      onOpenChange={setIsOpen}
+    >
       <div className={styles.dialogContent}>
         <div className={styles.themePicker}>
           <ThemePicker
