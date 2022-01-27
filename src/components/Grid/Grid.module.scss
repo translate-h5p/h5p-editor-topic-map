@@ -5,3 +5,17 @@
   position: relative;
   touch-action: none;
 }
+
+.gridIndicatorsActive {
+  [data-grid-indicator] {
+    cursor: pointer;
+    opacity: 1;
+
+    &:focus,
+    &:hover {
+      background-color: #e1f5fe;
+      border-color: #6999d9;
+      transition-duration: 0.1s; /* {1} */
+    }
+  }
+}

@@ -1,32 +1,28 @@
 import * as React from "react";
-import { t } from "../../H5P/H5P.util";
+import { useEffect } from "react";
 import styles from "./GridIndicator.module.scss";
 
 export type GridIndicatorProps = {
   onMouseDown: (index: number) => void;
   onMouseEnter: (index: number) => void;
   index: number;
-  active: boolean;
+  label: string;
 };
 
-export const GridIndicator: React.FC<GridIndicatorProps> = ({
-  onMouseDown,
-  onMouseEnter,
-  index,
-  active,
-}) => {
-  const label = t("grid-indicator_label");
-  return (
-    <button
-      type="button"
-      className={`grid-indicator ${styles.gridIndicator} ${
-        active && styles.active
-      }`}
-      onMouseDown={() => onMouseDown(index)}
-      onMouseEnter={() => onMouseEnter(index)}
-      onTouchStart={() => onMouseDown(index)}
-      onTouchMove={() => onMouseEnter(index)}
-      aria-label={label}
-    />
-  );
-};
+export const GridIndicator: React.FC<GridIndicatorProps> = React.memo(
+  ({ onMouseDown, onMouseEnter, index, label }) => {
+    return (
+      <button
+        type="button"
+        className={`grid-indicator ${styles.gridIndicator}`}
+        onMouseDown={() => onMouseDown(index)}
+        onMouseEnter={() => onMouseEnter(index)}
+        onTouchStart={() => onMouseDown(index)}
+        onTouchMove={() => onMouseEnter(index)}
+        aria-label={label}
+        data-grid-indicator="true"
+      />
+    );
+  },
+  () => false,
+);

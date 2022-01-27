@@ -2,6 +2,7 @@ import * as React from "react";
 import { useEffect, useState } from "react";
 import { useEffectOnce } from "react-use";
 import Xarrow, { Xwrapper } from "react-xarrows";
+import { t } from "../../H5P/H5P.util";
 import { ArrowItemType } from "../../types/ArrowItemType";
 import { ArrowType } from "../../types/ArrowType";
 import { Element } from "../../types/Element";
@@ -531,7 +532,7 @@ export const Grid: React.FC<GridProps> = ({
             index={index}
             onMouseDown={createBoxStart}
             onMouseEnter={onGridIndicatorMouseEnter}
-            active={activeHoverOnGrid}
+            label={t("grid-indicator_label")}
           />
         )),
     // We need to update the value of grid indicators each time `activeTool` or `items`
@@ -799,7 +800,10 @@ export const Grid: React.FC<GridProps> = ({
       <div
         ref={elementRef}
         role="application" /* https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/Application_Role */
-        className={styles.grid}
+        className={
+          styles.grid +
+          (activeHoverOnGrid ? ` ${styles.gridIndicatorsActive}` : "")
+        }
         style={{
           // @ts-expect-error Custom properties should be allowed
           "--gap-size": `${gapSize}px`,

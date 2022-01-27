@@ -15,18 +15,6 @@
   transition-timing-function: ease-in-out;
   width: 100%;
 
-  &.active {
-    cursor: pointer;
-    opacity: 1;
-
-    &:focus,
-    &:hover {
-      background-color: #e1f5fe;
-      border-color: #6999d9;
-      transition-duration: 0.1s; /* {1} */
-    }
-  }
-
   &::before {
     content: "";
     left: calc(-1 * var(--gap-size));
