@@ -2,7 +2,6 @@
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 import * as React from "react";
 import { params, semantics, parent } from "../.storybook/helpers/h5p.utils";
-import { ArrowDirection } from "./types/ArrowDirection";
 import { ArrowType } from "./types/ArrowType";
 import { Params } from "./types/H5P/Params";
 import { App } from "./App";
@@ -28,7 +27,7 @@ Primary.args = {
     ...params,
     topicMapItems: [
       {
-        id: "1",
+        id: "box-1",
         xPercentagePosition: 0,
         yPercentagePosition: 0,
         widthPercentage: 15,
@@ -41,7 +40,7 @@ Primary.args = {
         description: "",
       },
       {
-        id: "2",
+        id: "box-2",
         xPercentagePosition: 5,
         yPercentagePosition: 30,
         widthPercentage: 30,
@@ -55,7 +54,7 @@ Primary.args = {
           "Let's put some highlights on these little trees. The sun wouldn't forget them. I will take some magic white, and a little bit of Vandyke brown and a little touch of yellow. Didn't you know you had that much power? You can move mountains. You can do anything.",
       },
       {
-        id: "3",
+        id: "box-3",
         xPercentagePosition: 50,
         yPercentagePosition: 30,
         widthPercentage: 20,
@@ -71,14 +70,11 @@ Primary.args = {
     ],
     arrowItems: [
       {
-        id: "4",
+        id: "arrow-1",
         description: "",
-        xPercentagePosition: 35,
-        yPercentagePosition: 50,
-        widthPercentage: 15,
-        heightPercentage: 1,
-        arrowDirection: ArrowDirection.Right,
         arrowType: ArrowType.Directional,
+        startElementId: "box-1",
+        endElementId: "box-2",
       },
     ],
   },

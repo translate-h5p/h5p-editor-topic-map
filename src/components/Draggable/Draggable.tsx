@@ -1,5 +1,6 @@
 import * as React from "react";
-import { useState } from "react";
+import { FC, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useXarrow } from "react-xarrows";
 import { t } from "../../H5P/H5P.util";
 import { ArrowType } from "../../types/ArrowType";
 import { ContextMenuAction } from "../../types/ContextMenuAction";
@@ -45,9 +46,10 @@ export type DraggableProps = {
   showScaleHandles: boolean;
   isArrow: boolean;
   updateArrowType?: (type: ArrowType, item: string) => void;
+  onPointerDown: () => void;
 };
 
-export const Draggable: React.FC<DraggableProps> = ({
+export const Draggable: FC<DraggableProps> = ({
   id,
   initialXPosition,
   initialYPosition,
@@ -69,6 +71,7 @@ export const Draggable: React.FC<DraggableProps> = ({
   showScaleHandles,
   isArrow,
   updateArrowType,
+  onPointerDown,
 }) => {
   const [isDragging, setIsDragging] = useState(false);
   const [isSelected, setIsSelected] = useState(selectedItem === id);
@@ -92,8 +95,10 @@ export const Draggable: React.FC<DraggableProps> = ({
   const [showDeleteConfirmationDialog, setShowDeleteConfirmationDialog] =
     useState(false);
 
+  const updateXarrow = useXarrow();
+
   // Update Draggable's size whenever the container's size changes
-  React.useEffect(
+  useEffect(
     () =>
       setSize({
         // prettier-ignore
@@ -110,9 +115,8 @@ export const Draggable: React.FC<DraggableProps> = ({
       initialWidth,
     ],
   );
-
   // Update Draggable's position whenever the container's size changes
-  React.useEffect(() => {
+  useEffect(() => {
     setPosition({
       // prettier-ignore
       x: calculateClosestValidPositionComponent(initialXPosition, gapSize, cellSize, gridSize.width, width),
@@ -130,10 +134,12 @@ export const Draggable: React.FC<DraggableProps> = ({
     width,
   ]);
 
-  const elementRef = React.useRef<HTMLDivElement>(null);
+  const elementRef = useRef<HTMLDivElement>(null);
 
-  const startDrag = React.useCallback(
+  const startDrag = useCallback(
     (event: React.MouseEvent | React.TouchEvent) => {
+      onPointerDown();
+
       setIsDragging(true);
       setIsSelected(true);
       setSelectedItem(id);
@@ -145,15 +151,12 @@ export const Draggable: React.FC<DraggableProps> = ({
         y: y - position.y,
       });
     },
-    [setSelectedItem, id, position],
+    [onPointerDown, setSelectedItem, id, position.x, position.y],
   );
 
-  const getNewPosition = React.useCallback(
-    (x: number, y: number) => ({ x, y }),
-    [],
-  );
+  const getNewPosition = useCallback((x: number, y: number) => ({ x, y }), []);
 
-  const getClosestValidXPosition = React.useCallback(
+  const getClosestValidXPosition = useCallback(
     (pointerX: number) =>
       calculateClosestValidPositionComponent(
         pointerX,
@@ -165,7 +168,7 @@ export const Draggable: React.FC<DraggableProps> = ({
     [gapSize, cellSize, gridSize.width, width],
   );
 
-  const getClosestValidYPosition = React.useCallback(
+  const getClosestValidYPosition = useCallback(
     (pointerY: number) =>
       calculateClosestValidPositionComponent(
         pointerY,
@@ -177,7 +180,7 @@ export const Draggable: React.FC<DraggableProps> = ({
     [gapSize, cellSize, gridSize.height, height],
   );
 
-  const checkIfPositionIsFree = React.useCallback(
+  const checkIfPositionIsFree = useCallback(
     (newPosition: Position): boolean => {
       return positionIsFree(
         newPosition,
@@ -192,7 +195,7 @@ export const Draggable: React.FC<DraggableProps> = ({
     [gapSize, cellSize, gridSize, height, id, occupiedCells, width],
   );
 
-  const stopDrag = React.useCallback(() => {
+  const stopDrag = useCallback(() => {
     const { x, y } = position;
 
     const closestValidXPosition = getClosestValidXPosition(x);
@@ -225,7 +228,7 @@ export const Draggable: React.FC<DraggableProps> = ({
     previousPosition,
   ]);
 
-  const drag = React.useCallback(
+  const drag = useCallback(
     (event: MouseEvent | TouchEvent) => {
       if (showDeleteConfirmationDialog) {
         return;
@@ -248,7 +251,10 @@ export const Draggable: React.FC<DraggableProps> = ({
       );
 
       setPosition(newPosition);
+      window.requestAnimationFrame(() => updateXarrow());
     },
+    // Do not add `updateXarrow` to this list, as it generates maximum update errors
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [
       showDeleteConfirmationDialog,
       isDragging,
@@ -259,11 +265,11 @@ export const Draggable: React.FC<DraggableProps> = ({
     ],
   );
 
-  const preventDefault = React.useCallback((event: React.DragEvent) => {
+  const preventDefault = useCallback((event: React.DragEvent) => {
     event.preventDefault();
   }, []);
 
-  React.useEffect(() => {
+  useEffect(() => {
     setLabelText(
       isSelected ? t(labelTextKeys.selected) : t(labelTextKeys.notSelected),
     );
@@ -272,7 +278,7 @@ export const Draggable: React.FC<DraggableProps> = ({
   const horizontalScaleHandleLabelText = "";
   const verticalScaleHandleLabelText = "";
 
-  React.useEffect(() => {
+  useEffect(() => {
     /* 
       These are tied to `window`, because the
       cursor might not be on top of the element
@@ -287,25 +293,26 @@ export const Draggable: React.FC<DraggableProps> = ({
     };
   }, [drag]);
 
-  const stopResize = React.useCallback(() => {
+  const stopResize = useCallback(() => {
     stopDrag();
     setIsResizing(false);
   }, [stopDrag]);
 
-  const checkIfRightSideOfGrid = React.useCallback(() => {
-    return position.x > gridSize.width / 2;
-  }, [gridSize.width, position.x]);
+  const checkIfRightSideOfGrid = useCallback(
+    () => position.x > gridSize.width / 2,
+    [gridSize.width, position.x],
+  );
 
-  const confirmDeletion = React.useCallback(() => {
+  const confirmDeletion = useCallback(() => {
     deleteItem(id);
     setShowDeleteConfirmationDialog(false);
   }, [deleteItem, id]);
 
-  const denyDeletion = React.useCallback(() => {
+  const denyDeletion = useCallback(() => {
     setShowDeleteConfirmationDialog(false);
   }, []);
 
-  const contextMenuActions: Array<ContextMenuAction> = React.useMemo(() => {
+  const contextMenuActions: Array<ContextMenuAction> = useMemo(() => {
     const editAction: ContextMenuAction = {
       icon: ContextMenuButtonType.Edit,
       label: t("context-menu_edit"),
@@ -360,6 +367,7 @@ export const Draggable: React.FC<DraggableProps> = ({
 
   return (
     <div
+      id={id}
       ref={elementRef}
       role="button"
       tabIndex={0}
@@ -382,6 +390,7 @@ export const Draggable: React.FC<DraggableProps> = ({
       aria-label={labelText}
       onMouseUp={stopDrag}
       onTouchEnd={stopDrag}
+      onTransitionEnd={() => updateXarrow()}
     >
       <div className={styles.inner} tabIndex={-1}>
         {children}

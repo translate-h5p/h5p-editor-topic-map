@@ -6,7 +6,6 @@ import {
   semantics,
   parent,
 } from "../../../.storybook/helpers/h5p.utils";
-import { ArrowDirection } from "../../types/ArrowDirection";
 import { ArrowItemType } from "../../types/ArrowItemType";
 import { ArrowType } from "../../types/ArrowType";
 import { Params } from "../../types/H5P/Params";
@@ -38,7 +37,7 @@ Empty.args = {};
 
 const withItemsItems: Array<TopicMapItemType> = [
   {
-    id: "1",
+    id: "box-1",
     xPercentagePosition: 0,
     yPercentagePosition: 0,
     widthPercentage: 15,
@@ -51,7 +50,7 @@ const withItemsItems: Array<TopicMapItemType> = [
     description: "",
   },
   {
-    id: "2",
+    id: "box-2",
     xPercentagePosition: 5,
     yPercentagePosition: 30,
     widthPercentage: 30,
@@ -65,7 +64,7 @@ const withItemsItems: Array<TopicMapItemType> = [
       "Let's put some highlights on these little trees. The sun wouldn't forget them. I will take some magic white, and a little bit of Vandyke brown and a little touch of yellow. Didn't you know you had that much power? You can move mountains. You can do anything.",
   },
   {
-    id: "3",
+    id: "box-3",
     xPercentagePosition: 50,
     yPercentagePosition: 30,
     widthPercentage: 20,
@@ -82,14 +81,11 @@ const withItemsItems: Array<TopicMapItemType> = [
 
 const withItemsArrows: Array<ArrowItemType> = [
   {
-    id: "4",
+    id: "arrow-4",
     description: "",
-    xPercentagePosition: 35,
-    yPercentagePosition: 40,
-    widthPercentage: 15,
-    heightPercentage: 0,
-    arrowDirection: ArrowDirection.Right,
     arrowType: ArrowType.Directional,
+    startElementId: "box-1",
+    endElementId: "box-2",
   },
 ];
 
@@ -115,7 +111,7 @@ FullscreenWithItems.args = {
     ...params,
     topicMapItems: [
       {
-        id: "1",
+        id: "box-1",
         xPercentagePosition: 0,
         yPercentagePosition: 0,
         widthPercentage: 15,
@@ -128,7 +124,7 @@ FullscreenWithItems.args = {
         description: "",
       },
       {
-        id: "2",
+        id: "box-2",
         xPercentagePosition: 5,
         yPercentagePosition: 30,
         widthPercentage: 30,
@@ -142,7 +138,7 @@ FullscreenWithItems.args = {
           "Let's put some highlights on these little trees. The sun wouldn't forget them. I will take some magic white, and a little bit of Vandyke brown and a little touch of yellow. Didn't you know you had that much power? You can move mountains. You can do anything.",
       },
       {
-        id: "3",
+        id: "box-3",
         xPercentagePosition: 50,
         yPercentagePosition: 30,
         widthPercentage: 20,
@@ -158,14 +154,11 @@ FullscreenWithItems.args = {
     ],
     arrowItems: [
       {
-        id: "4",
+        id: "arrow-4",
         description: "",
-        xPercentagePosition: 35,
-        yPercentagePosition: 50,
-        widthPercentage: 15,
-        heightPercentage: 1,
-        arrowDirection: ArrowDirection.Right,
         arrowType: ArrowType.Directional,
+        startElementId: "box-1",
+        endElementId: "box-2",
       },
     ],
   },

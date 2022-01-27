@@ -1,5 +1,4 @@
 import { ArrowType } from "./ArrowType";
-import { ArrowDirection } from "./ArrowDirection";
 import { CommonItemType } from "./CommonItemType";
 
 export type ArrowItemType = CommonItemType & {
@@ -9,9 +8,9 @@ export type ArrowItemType = CommonItemType & {
    */
   index?: number;
 
-  /** The direction of the arrow's head */
-  arrowDirection: ArrowDirection;
-
   /** The arrow type */
   arrowType: ArrowType;
+
+  startElementId: string;
+  endElementId: string;
 };

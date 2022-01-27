@@ -1,7 +1,6 @@
-import { ArrowDirection } from "../../src/types/ArrowDirection";
 import { ArrowType } from "../../src/types/ArrowType";
 import { ColorTheme } from "../../src/types/ColorTheme";
-import { H5PField, H5PFieldGroup } from "../../src/types/H5P/H5PField";
+import { H5PFieldGroup } from "../../src/types/H5P/H5PField";
 import { H5PFieldType } from "../../src/types/H5P/H5PFieldType";
 import { H5PForm } from "../../src/types/H5P/H5PForm";
 import { Params } from "../../src/types/H5P/Params";
@@ -11,7 +10,7 @@ export const params: Required<Params> = {
     {
       heightPercentage: 100,
       widthPercentage: 100,
-      id: "1",
+      id: "box-1",
       label: "Label 1",
       xPercentagePosition: 0,
       yPercentagePosition: 0,
@@ -24,7 +23,7 @@ export const params: Required<Params> = {
     {
       heightPercentage: 100,
       widthPercentage: 100,
-      id: "2",
+      id: "box-2",
       label: "Label 2",
       xPercentagePosition: 0,
       yPercentagePosition: 0,
@@ -34,16 +33,13 @@ export const params: Required<Params> = {
   ],
   arrowItems: [
     {
-      heightPercentage: 20,
-      widthPercentage: 5,
-      id: "1",
-      xPercentagePosition: 40,
-      yPercentagePosition: 30,
+      id: "arrow-1",
       dialog: {
         links: ["https://example.com", "https://example.com/2"],
       },
-      arrowDirection: ArrowDirection.Down,
       arrowType: ArrowType.Directional,
+      startElementId: "box-1",
+      endElementId: "box-2",
     },
   ],
   appearance: {
