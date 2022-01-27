@@ -6,15 +6,15 @@ import {
   parent,
   semantics,
 } from "../../../.storybook/helpers/h5p.utils";
-import { TopicMapItemForm, TopicMapItemFormProps } from "./TopicMapItemForm";
+import { ArrowItemForm, ArrowItemFormProps } from "./ArrowItemForm";
 
 export default {
-  title: "Organisms/Topic Map Item Form",
-  component: TopicMapItemForm,
-} as ComponentMeta<typeof TopicMapItemForm>;
+  title: "Organisms/Arrow Item Form",
+  component: ArrowItemForm,
+} as ComponentMeta<typeof ArrowItemForm>;
 
-const Template: ComponentStory<typeof TopicMapItemForm> = args => (
-  <TopicMapItemForm {...args} />
+const Template: ComponentStory<typeof ArrowItemForm> = args => (
+  <ArrowItemForm {...args} />
 );
 
 export const Primary = Template.bind({});
@@ -23,4 +23,4 @@ Primary.args = {
   params,
   semantics,
   parent,
-} as TopicMapItemFormProps;
+} as ArrowItemFormProps;

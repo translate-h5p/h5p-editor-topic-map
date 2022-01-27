@@ -365,3 +365,17 @@ export const findItem = (
 
   return items.find(item => item.id === id) ?? null;
 };
+
+export const checkIfRightSideOfGrid = (
+  xPosition: number,
+  gridWidth: number,
+): boolean => xPosition > gridWidth / 2;
+
+export const findConnectedArrows = (
+  itemId: string,
+  arrows: Array<ArrowItemType>,
+): Array<ArrowItemType> => {
+  return arrows.filter(arrow =>
+    [arrow.startElementId, arrow.endElementId].includes(itemId),
+  );
+};

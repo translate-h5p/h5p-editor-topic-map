@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useState } from "react";
 import { t } from "../../H5P/H5P.util";
 import { ArrowItemType } from "../../types/ArrowItemType";
 import { H5PFieldGroup } from "../../types/H5P/H5PField";
@@ -6,6 +7,7 @@ import { H5PForm } from "../../types/H5P/H5PForm";
 import { Params } from "../../types/H5P/Params";
 import { TopicMapItemType } from "../../types/TopicMapItemType";
 import { getBackgroundImageField } from "../../utils/H5P/form.utils";
+import { ArrowItemForm } from "../ArrowItemForm/ArrowItemForm";
 import { Dialog } from "../Dialog/Dialog";
 import { Grid } from "../Grid/Grid";
 import { Toolbar, ToolbarButtonType } from "../Toolbar/Toolbar";
@@ -35,11 +37,11 @@ export const MapEditorView: React.FC<MapEditorViewProps> = ({
   const rows = numberOfRows ?? 12;
   const defaultGapSize = 8;
 
-  // prettier-ignore
-  const [activeTool, setActiveTool] = React.useState<ToolbarButtonType | null>(null);
-  const [gridItems, setGridItems] = React.useState(params.topicMapItems ?? []);
-  const [arrowItems, setArrowItems] = React.useState(params.arrowItems ?? []);
-  const [editedItem, setEditedItem] = React.useState<string | null>();
+  const [activeTool, setActiveTool] = useState<ToolbarButtonType | null>(null);
+  const [gridItems, setGridItems] = useState(params.topicMapItems ?? []);
+  const [arrowItems, setArrowItems] = useState(params.arrowItems ?? []);
+  const [editedItem, setEditedItem] = useState<string | null>(null);
+  const [editedArrow, setEditedArrow] = useState<string | null>(null);
 
   const setActive = (newValue: ToolbarButtonType | null): void => {
     setActiveTool(newValue);
@@ -97,6 +99,7 @@ export const MapEditorView: React.FC<MapEditorViewProps> = ({
           setActiveTool={setActive}
           activeTool={activeTool}
           setEditedItem={setEditedItem}
+          setEditedArrow={setEditedArrow}
         />
         <Dialog
           isOpen={Boolean(semantics && editedItem)}
@@ -117,6 +120,19 @@ export const MapEditorView: React.FC<MapEditorViewProps> = ({
               onSave={newParams => {
                 updateItems(newParams.topicMapItems ?? []);
                 setEditedItem(null);
+              }}
+            />
+          )}
+
+          {editedArrow && (
+            <ArrowItemForm
+              itemId={editedArrow}
+              semantics={semantics}
+              params={params}
+              parent={parent}
+              onSave={newParams => {
+                updateArrows(newParams.arrowItems ?? []);
+                setEditedArrow(null);
               }}
             />
           )}

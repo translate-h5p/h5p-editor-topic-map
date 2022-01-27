@@ -35,6 +35,9 @@ export const getTopicMapItemsField = (
   semantics: H5PFieldGroup,
 ): H5PField | null => getSingleField("topicMapItems", semantics);
 
+export const getArrowItemsField = (semantics: H5PFieldGroup): H5PField | null =>
+  getSingleField("arrows", semantics);
+
 export const getBackgroundImageField = (
   semantics: H5PFieldGroup,
 ): H5PFieldImage | null =>

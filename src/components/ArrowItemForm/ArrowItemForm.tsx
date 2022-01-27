@@ -2,11 +2,11 @@ import * as React from "react";
 import { H5PField, H5PFieldGroup } from "../../types/H5P/H5PField";
 import { H5PForm } from "../../types/H5P/H5PForm";
 import { Params } from "../../types/H5P/Params";
-import { getTopicMapItemsField } from "../../utils/H5P/form.utils";
+import { getArrowItemsField } from "../../utils/H5P/form.utils";
 import { SemanticsForm } from "../SemanticsForm/SemanticsForm";
-import "./TopicMapItemForm.scss";
+import "./ArrowItemForm.scss";
 
-export type TopicMapItemFormProps = {
+export type ArrowItemFormProps = {
   semantics: H5PFieldGroup;
   params: Params;
   parent: H5PForm;
@@ -14,58 +14,57 @@ export type TopicMapItemFormProps = {
   onSave: (params: Params) => void;
 };
 
-export const TopicMapItemForm: React.FC<TopicMapItemFormProps> = ({
+export const ArrowItemForm: React.FC<ArrowItemFormProps> = ({
   semantics,
   params,
   parent,
   itemId,
   onSave,
 }) => {
-  const [topicMapItemsField, setTopicMapItemsField] =
-    React.useState<H5PField | null>();
+  const [arrowItemField, setArrowItemField] = React.useState<H5PField | null>();
   const [formParams, setFormParams] = React.useState<Params>();
 
   React.useEffect(() => {
-    const field = getTopicMapItemsField(semantics);
-    setTopicMapItemsField(field);
+    const field = getArrowItemsField(semantics);
+    setArrowItemField(field);
 
-    if (!params.topicMapItems) {
+    if (!params.arrowItems) {
       return;
     }
 
     setFormParams({
       ...params,
-      topicMapItems: params.topicMapItems.filter(item => item.id === itemId),
+      arrowItems: params.arrowItems.filter(item => item.id === itemId),
     });
   }, [itemId, params, semantics]);
 
   const onUpdate = React.useCallback(
     (newParams: Params) => {
-      if (!newParams.topicMapItems) {
+      if (!newParams.arrowItems) {
         return;
       }
 
-      const updatedItem = newParams.topicMapItems[0];
+      const updatedItem = newParams.arrowItems[0];
       const updatedItems =
-        params.topicMapItems?.map(item =>
+        params.arrowItems?.map(item =>
           item.id === updatedItem.id ? updatedItem : item,
         ) ?? [];
 
       onSave({
         ...newParams,
-        topicMapItems: updatedItems,
+        arrowItems: updatedItems,
       });
     },
-    [onSave, params.topicMapItems],
+    [onSave, params.arrowItems],
   );
 
-  return formParams && topicMapItemsField ? (
+  return formParams && arrowItemField ? (
     <SemanticsForm
-      fields={[topicMapItemsField]}
+      fields={[arrowItemField]}
       params={formParams}
       parent={parent}
       onSave={onUpdate}
-      formClassName="topic-map-item-form"
+      formClassName="arrow-item-form"
     />
   ) : null;
 };

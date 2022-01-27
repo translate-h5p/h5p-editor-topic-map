@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
 import { useEffectOnce } from "react-use";
-import Xarrow, { Xwrapper } from "react-xarrows";
+import { Xwrapper } from "react-xarrows";
 import { t } from "../../H5P/H5P.util";
 import { ArrowItemType } from "../../types/ArrowItemType";
 import { ArrowType } from "../../types/ArrowType";
@@ -14,6 +14,7 @@ import { TopicMapItemType } from "../../types/TopicMapItemType";
 import {
   createArrowItem,
   createTopicMapItem,
+  findConnectedArrows,
   findHeightPercentage,
   findItem,
   findOccupiedCells,
@@ -25,8 +26,10 @@ import {
   resizeItems,
   scaleX,
   scaleY,
+  updateArrowType,
   updateItem,
 } from "../../utils/grid.utils";
+import { Arrow } from "../Arrow/Arrow";
 import { Draggable } from "../Draggable/Draggable";
 import { GridIndicator } from "../GridIndicator/GridIndicator";
 import { ToolbarButtonType } from "../Toolbar/Toolbar";
@@ -45,6 +48,7 @@ export type GridProps = {
   setActiveTool: (newValue: ToolbarButtonType | null) => void;
   activeTool: ToolbarButtonType | null;
   setEditedItem: (itemId: string) => void;
+  setEditedArrow: (itemId: string) => void;
 };
 
 export const Grid: React.FC<GridProps> = ({
@@ -58,6 +62,7 @@ export const Grid: React.FC<GridProps> = ({
   setActiveTool,
   activeTool,
   setEditedItem,
+  setEditedArrow,
 }) => {
   const [size, setSize] = useState<Size | null>(null);
   const [items, setItems] = useState(initialItems);
@@ -158,7 +163,8 @@ export const Grid: React.FC<GridProps> = ({
       const arrowExistsAlready =
         arrowItems.find(
           ({ startElementId, endElementId }) =>
-            startElementId === arrowStartId && endElementId === elementId,
+            (startElementId === arrowStartId && endElementId === elementId) ||
+            (startElementId === elementId && endElementId === arrowStartId),
         ) != null;
 
       if (!arrowExistsAlready && !startsAndEndsAtSameElement && arrowStartId) {
@@ -169,9 +175,10 @@ export const Grid: React.FC<GridProps> = ({
         setArrowItems(newItems);
       }
 
+      setActiveTool(null);
       setArrowStartId(null);
     },
-    [activeTool, arrowItems, arrowStartId, updateArrowItems],
+    [activeTool, arrowItems, arrowStartId, setActiveTool, updateArrowItems],
   );
 
   const createBoxStart = React.useCallback(
@@ -580,55 +587,65 @@ export const Grid: React.FC<GridProps> = ({
     [size, items, updateItems, gapSize, cellSize],
   );
 
+  const editItem = React.useCallback(
+    (id: string) => {
+      if (!activeTool) {
+        setEditedItem(id);
+      }
+    },
+    [activeTool, setEditedItem],
+  );
+
+  const editArrow = React.useCallback(
+    (id: string) => {
+      if (!activeTool) {
+        setEditedArrow(id);
+      }
+    },
+    [activeTool, setEditedArrow],
+  );
+
+  const deleteArrow = React.useCallback(
+    (id: string) => {
+      /* TODO: Add dialog to confirm delete */
+      const newItems = arrowItems.filter(item => item.id !== id);
+
+      updateArrowItems(newItems);
+      setArrowItems(newItems);
+    },
+    [arrowItems, updateArrowItems],
+  );
+
   const deleteItem = React.useCallback(
     (id: string) => {
       /* TODO: Add dialog to confirm delete */
       const newItems = items.filter(item => item.id !== id);
 
+      const connectedArrows = findConnectedArrows(id, arrowItems);
+      connectedArrows.forEach(item => deleteItem(item.id));
+
       updateItems(newItems);
       setItems(newItems);
       setCurrentItemsLength(newItems.length);
     },
-    [items, updateItems],
+    [arrowItems, items, updateItems],
   );
 
-  // const deleteArrow = React.useCallback(
-  //   (id: string) => {
-  //     /* TODO: Add dialog to confirm delete */
-  //     const newItems = arrowItems.filter(item => item.id !== id);
+  const setArrowType = React.useCallback(
+    (type: ArrowType, id: string) => {
+      const updatedItem = arrowItems.find(item => item.id === id);
 
-  //     updateArrowItems(newItems);
-  //     setArrowItems(newItems);
-  //     setCurrentArrowItemsLength(newItems.length);
-  //   },
-  //   [arrowItems, updateArrowItems],
-  // );
+      if (!updatedItem) {
+        throw new Error(`Updated arrow with id "${id}" does not exist`);
+      }
 
-  // const updateArrowType = React.useCallback(
-  //   (type: ArrowType, id: string) => {
-  //     const updatedItem = arrowItems.find(item => item.id === id);
+      const newItems = updateArrowType(arrowItems, updatedItem, type);
 
-  //     if (!updatedItem) {
-  //       throw new Error(`Updated arrow with id "${id}" does not exist`);
-  //     }
-  //     if (!size) {
-  //       throw new Error("Grid has no size.");
-  //     }
-
-  //     const newItems = updateArrowItem(
-  //       arrowItems,
-  //       updatedItem,
-  //       size.width,
-  //       size.height,
-  //       {},
-  //       type,
-  //     );
-
-  //     updateArrowItems(newItems);
-  //     setArrowItems(newItems);
-  //   },
-  //   [arrowItems, size, updateArrowItems],
-  // );
+      updateArrowItems(newItems);
+      setArrowItems(newItems);
+    },
+    [arrowItems, updateArrowItems],
+  );
 
   const children = React.useMemo(() => {
     if (gapSize == null || cellSize == null || size == null) {
@@ -649,11 +666,7 @@ export const Grid: React.FC<GridProps> = ({
         gridSize={size}
         occupiedCells={occupiedCells}
         isPreview={isDragging}
-        editItem={id => {
-          if (!activeTool) {
-            setEditedItem(id);
-          }
-        }}
+        editItem={editItem}
         deleteItem={deleteItem}
         setSelectedItem={setSelected}
         selectedItem={selectedItem}
@@ -670,7 +683,6 @@ export const Grid: React.FC<GridProps> = ({
         }}
         mouseOutsideGrid={mouseOutsideGrid}
         showScaleHandles
-        isArrow={false}
         onPointerDown={() => createArrow(item.id)}
       >
         <TopicMapItem item={item} />
@@ -683,45 +695,33 @@ export const Grid: React.FC<GridProps> = ({
     items,
     occupiedCells,
     isDragging,
+    editItem,
     deleteItem,
     setSelected,
     selectedItem,
     mouseOutsideGrid,
     updateItemPosition,
-    activeTool,
-    setEditedItem,
     numberOfColumns,
     numberOfRows,
     createArrow,
   ]);
 
-  const childrenArrows = React.useMemo(() => {
-    if (gapSize == null || cellSize == null || size == null) {
-      return null;
-    }
-
-    return arrowItems.map(item => {
-      return (
-        <Xarrow
+  const childrenArrows = React.useMemo(
+    () =>
+      arrowItems.map(item => (
+        <Arrow
           key={item.id}
-          start={item.startElementId}
-          end={item.endElementId}
-          path="grid"
-          showHead={[ArrowType.BiDirectional, ArrowType.Directional].includes(
-            item.arrowType,
-          )}
-          showTail={[ArrowType.BiDirectional].includes(item.arrowType)}
-          lineColor="var(--theme-color-2)"
-          headColor="var(--theme-color-2)"
-          tailColor="var(--theme-color-2)"
-          strokeWidth={cellSize / 3}
-          headSize={cellSize / 10}
-          tailSize={cellSize / 10}
-          zIndex={1}
+          cellSize={cellSize}
+          item={item}
+          deleteItem={deleteArrow}
+          editItem={editArrow}
+          selectedItemId={selectedItem}
+          setSelectedItemId={setSelectedItem}
+          updateArrowType={setArrowType}
         />
-      );
-    });
-  }, [gapSize, cellSize, size, arrowItems]);
+      )),
+    [arrowItems, cellSize, deleteArrow, editArrow, selectedItem, setArrowType],
+  );
 
   const resize = React.useCallback(() => {
     window.requestAnimationFrame(() => {
@@ -795,7 +795,7 @@ export const Grid: React.FC<GridProps> = ({
   }, [activeTool]);
 
   return (
-    <Xwrapper css={{ zIndex: 1 }}>
+    <Xwrapper>
       {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
       <div
         ref={elementRef}
