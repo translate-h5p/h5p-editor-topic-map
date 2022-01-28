@@ -2,6 +2,7 @@
   background-color: #fefefe;
   display: grid;
   gap: var(--gap-size);
+  overflow: hidden;
   position: relative;
   touch-action: none;
 }
@@ -18,4 +19,13 @@
       transition-duration: 0.1s; /* {1} */
     }
   }
+}
+
+.arrowHeadPreview {
+  height: 0;
+  left: 0;
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  width: 0;
 }

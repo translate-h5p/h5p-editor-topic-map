@@ -1,7 +1,7 @@
 import * as React from "react";
 import { FC, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useEffectOnce } from "react-use";
-import { Xwrapper } from "react-xarrows";
+import { useXarrow, Xwrapper } from "react-xarrows";
 import { t } from "../../H5P/H5P.util";
 import { ArrowItemType } from "../../types/ArrowItemType";
 import { ArrowType } from "../../types/ArrowType";
@@ -12,6 +12,7 @@ import { ResizeDirection } from "../../types/ResizeDirection";
 import { Size } from "../../types/Size";
 import { TopicMapItemType } from "../../types/TopicMapItemType";
 import { getLabel, updateArrowType } from "../../utils/arrow.utils";
+import { getPointerPositionFromEvent } from "../../utils/draggable.utils";
 import {
   createArrowItem,
   createTopicMapItem,
@@ -78,6 +79,11 @@ export const Grid: FC<GridProps> = ({
   const [mouseOutsideGrid, setMouseOutsideGrid] = useState(false);
   const [prevIndex, setPrevIndex] = useState<number | null>(null);
   const [arrowStartId, setArrowStartId] = useState<string | null>(null);
+  const [ahPreviewPosition, setAhPreviewPosition] = useState<Position | null>(
+    null,
+  );
+  const [arrowPreview, setArrowPreview] = useState<ArrowItemType | null>(null);
+  const updateXarrow = useXarrow();
 
   const elementRef = useRef<HTMLDivElement>(null);
 
@@ -142,7 +148,7 @@ export const Grid: FC<GridProps> = ({
   );
 
   const createArrow = useCallback(
-    (elementId: string) => {
+    (elementId: string, pointerPosition: Position) => {
       const isCreatingNewArrow = activeTool === ToolbarButtonType.CreateArrow;
       if (!isCreatingNewArrow) {
         return;
@@ -151,6 +157,16 @@ export const Grid: FC<GridProps> = ({
       const hasStartElementId = !!arrowStartId;
       if (!hasStartElementId) {
         setArrowStartId(elementId);
+
+        const newItem = createArrowItem(
+          elementId,
+          "arrow-head-preview",
+          "",
+          ArrowType.Directional,
+        );
+        setArrowPreview(newItem);
+        setAhPreviewPosition(pointerPosition);
+
         return;
       }
 
@@ -184,6 +200,8 @@ export const Grid: FC<GridProps> = ({
 
       setActiveTool(null);
       setArrowStartId(null);
+      setAhPreviewPosition(null);
+      setArrowPreview(null);
     },
     [
       activeTool,
@@ -671,7 +689,7 @@ export const Grid: FC<GridProps> = ({
   );
 
   const children = useMemo(() => {
-    if (gapSize == null || cellSize == null || size == null) {
+    if (size == null) {
       return null;
     }
 
@@ -696,7 +714,7 @@ export const Grid: FC<GridProps> = ({
         startResize={directionLock => startResize(item, directionLock)}
         mouseOutsideGrid={mouseOutsideGrid}
         showScaleHandles
-        onPointerDown={() => createArrow(item.id)}
+        onPointerDown={pointerPosition => createArrow(item.id, pointerPosition)}
         activeTool={activeTool}
       >
         <TopicMapItem item={item} />
@@ -720,21 +738,25 @@ export const Grid: FC<GridProps> = ({
     createArrow,
   ]);
 
+  const renderArrow = useCallback(
+    (item: ArrowItemType) => (
+      <Arrow
+        key={item.id}
+        cellSize={cellSize}
+        item={item}
+        deleteItem={deleteArrow}
+        editItem={editArrow}
+        selectedItemId={selectedItem}
+        setSelectedItemId={setSelectedItem}
+        updateArrowType={setArrowType}
+      />
+    ),
+    [cellSize, deleteArrow, editArrow, selectedItem, setArrowType],
+  );
+
   const childrenArrows = useMemo(
-    () =>
-      arrowItems.map(item => (
-        <Arrow
-          key={item.id}
-          cellSize={cellSize}
-          item={item}
-          deleteItem={deleteArrow}
-          editItem={editArrow}
-          selectedItemId={selectedItem}
-          setSelectedItemId={setSelectedItem}
-          updateArrowType={setArrowType}
-        />
-      )),
-    [arrowItems, cellSize, deleteArrow, editArrow, selectedItem, setArrowType],
+    () => arrowItems.map(item => renderArrow(item)),
+    [arrowItems, renderArrow],
   );
 
   const resize = useCallback(() => {
@@ -805,8 +827,20 @@ export const Grid: FC<GridProps> = ({
     const isCreatingArrow = activeTool === ToolbarButtonType.CreateArrow;
     if (!isCreatingArrow) {
       setArrowStartId(null);
+      setAhPreviewPosition(null);
+      setArrowPreview(null);
     }
   }, [activeTool]);
+
+  const moveAHPreview = (event: React.MouseEvent | React.TouchEvent): void => {
+    const showAhPreview = !!arrowStartId;
+    if (!showAhPreview) {
+      return;
+    }
+
+    setAhPreviewPosition(getPointerPositionFromEvent(event));
+    updateXarrow();
+  };
 
   return (
     <Xwrapper>
@@ -835,11 +869,23 @@ export const Grid: FC<GridProps> = ({
             setMouseOutsideGrid(false);
           }
         }}
+        onMouseMove={moveAHPreview}
+        onTouchMove={moveAHPreview}
       >
         {childrenArrows}
+        {arrowPreview ? renderArrow(arrowPreview) : null}
         {children}
         {gridIndicators}
       </div>
+
+      <div
+        id="arrow-head-preview"
+        className={styles.arrowHeadPreview}
+        style={{
+          left: `${ahPreviewPosition?.x}px`,
+          top: `${ahPreviewPosition?.y}px`,
+        }}
+      />
     </Xwrapper>
   );
 };
