@@ -44,7 +44,7 @@ export type DraggableProps = {
   mouseOutsideGrid: boolean;
   editItem: (id: string) => void;
   showScaleHandles: boolean;
-  onPointerDown: () => void;
+  onPointerDown: (pointerPosition: Position) => void;
   activeTool: ToolbarButtonType | null;
 };
 
@@ -136,7 +136,7 @@ export const Draggable: FC<DraggableProps> = ({
 
   const startDrag = useCallback(
     (event: React.MouseEvent | React.TouchEvent) => {
-      onPointerDown();
+      onPointerDown(getPointerPositionFromEvent(event));
       const aToolIsActive = activeTool !== null;
       if (aToolIsActive) {
         return;
