@@ -3,8 +3,8 @@
  */
 .gridIndicator {
   background-color: transparent;
-  border-radius: 0.5rem;
-  border: 0.125rem dashed #dce2e7;
+  border-radius: 20%;
+  border: 0.125rem dashed var(--theme-color-3);
   display: block;
   height: 0;
   opacity: 0.6;

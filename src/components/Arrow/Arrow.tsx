@@ -100,12 +100,12 @@ export const Arrow: FC<ArrowProps> = ({
           item.arrowType,
         )}
         showTail={[ArrowType.BiDirectional].includes(item.arrowType)}
-        lineColor="var(--theme-color-2)"
-        headColor="var(--theme-color-2)"
-        tailColor="var(--theme-color-2)"
+        lineColor="var(--theme-color-4)"
+        headColor="var(--theme-color-4)"
+        tailColor="var(--theme-color-4)"
         strokeWidth={arrowBodyWidth}
-        headSize={cellSize / 10}
-        tailSize={cellSize / 10}
+        headSize={3}
+        tailSize={3}
         zIndex={1}
         divContainerStyle={{
           pointerEvents: "auto",
