@@ -2,7 +2,6 @@ import * as React from "react";
 import { FC, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useXarrow } from "react-xarrows";
 import { t } from "../../H5P/H5P.util";
-import { ArrowType } from "../../types/ArrowType";
 import { ContextMenuAction } from "../../types/ContextMenuAction";
 import { OccupiedCell } from "../../types/OccupiedCell";
 import { Position } from "../../types/Position";
@@ -14,10 +13,11 @@ import {
   calculateClosestValidSizeComponent,
   getPointerPositionFromEvent,
 } from "../../utils/draggable.utils";
-import { positionIsFree } from "../../utils/grid.utils";
+import { checkIfRightSideOfGrid, positionIsFree } from "../../utils/grid.utils";
 import { ContextMenu, ContextMenuButtonType } from "../ContextMenu/ContextMenu";
 import { Dialog } from "../Dialog/Dialog";
 import { ScaleHandles } from "../ScaleHandles/ScaleHandles";
+import { ToolbarButtonType } from "../Toolbar/Toolbar";
 import styles from "./Draggable.module.scss";
 
 const labelTextKeys: Record<string, TranslationKey> = {
@@ -44,9 +44,8 @@ export type DraggableProps = {
   mouseOutsideGrid: boolean;
   editItem: (id: string) => void;
   showScaleHandles: boolean;
-  isArrow: boolean;
-  updateArrowType?: (type: ArrowType, item: string) => void;
   onPointerDown: () => void;
+  activeTool: ToolbarButtonType | null;
 };
 
 export const Draggable: FC<DraggableProps> = ({
@@ -69,9 +68,8 @@ export const Draggable: FC<DraggableProps> = ({
   mouseOutsideGrid,
   editItem,
   showScaleHandles,
-  isArrow,
-  updateArrowType,
   onPointerDown,
+  activeTool,
 }) => {
   const [isDragging, setIsDragging] = useState(false);
   const [isSelected, setIsSelected] = useState(selectedItem === id);
@@ -139,6 +137,10 @@ export const Draggable: FC<DraggableProps> = ({
   const startDrag = useCallback(
     (event: React.MouseEvent | React.TouchEvent) => {
       onPointerDown();
+      const aToolIsActive = activeTool !== null;
+      if (aToolIsActive) {
+        return;
+      }
 
       setIsDragging(true);
       setIsSelected(true);
@@ -151,7 +153,7 @@ export const Draggable: FC<DraggableProps> = ({
         y: y - position.y,
       });
     },
-    [onPointerDown, setSelectedItem, id, position.x, position.y],
+    [onPointerDown, activeTool, setSelectedItem, id, position.x, position.y],
   );
 
   const getNewPosition = useCallback((x: number, y: number) => ({ x, y }), []);
@@ -181,8 +183,8 @@ export const Draggable: FC<DraggableProps> = ({
   );
 
   const checkIfPositionIsFree = useCallback(
-    (newPosition: Position): boolean => {
-      return positionIsFree(
+    (newPosition: Position): boolean =>
+      positionIsFree(
         newPosition,
         id,
         { width, height },
@@ -190,8 +192,7 @@ export const Draggable: FC<DraggableProps> = ({
         gapSize,
         cellSize,
         occupiedCells,
-      );
-    },
+      ),
     [gapSize, cellSize, gridSize, height, id, occupiedCells, width],
   );
 
@@ -298,11 +299,6 @@ export const Draggable: FC<DraggableProps> = ({
     setIsResizing(false);
   }, [stopDrag]);
 
-  const checkIfRightSideOfGrid = useCallback(
-    () => position.x > gridSize.width / 2,
-    [gridSize.width, position.x],
-  );
-
   const confirmDeletion = useCallback(() => {
     deleteItem(id);
     setShowDeleteConfirmationDialog(false);
@@ -325,39 +321,8 @@ export const Draggable: FC<DraggableProps> = ({
       onClick: () => setShowDeleteConfirmationDialog(true),
     };
 
-    let actions: Array<ContextMenuAction>;
-    if (isArrow && updateArrowType) {
-      const changeToDirectionalArrowAction: ContextMenuAction = {
-        icon: ContextMenuButtonType.ArrowDirectional,
-        label: t("context-menu_arrow-directional"),
-        onClick: () => updateArrowType(ArrowType.Directional, id),
-      };
-
-      const changeToBiDirectionalArrowAction: ContextMenuAction = {
-        icon: ContextMenuButtonType.ArrowBiDirectional,
-        label: t("context-menu_arrow-bi-directional"),
-        onClick: () => updateArrowType(ArrowType.BiDirectional, id),
-      };
-
-      const changeToNonDirectionalArrowAction: ContextMenuAction = {
-        icon: ContextMenuButtonType.ArrowNonDirectional,
-        label: t("context-menu_arrow-non-directional"),
-        onClick: () => updateArrowType(ArrowType.NonDirectional, id),
-      };
-
-      actions = [
-        editAction,
-        changeToDirectionalArrowAction,
-        changeToBiDirectionalArrowAction,
-        changeToNonDirectionalArrowAction,
-        deleteAction,
-      ];
-    } else {
-      actions = [editAction, deleteAction];
-    }
-
-    return actions;
-  }, [editItem, id, isArrow, updateArrowType]);
+    return [editAction, deleteAction];
+  }, [editItem, id]);
 
   /**
    * This offset is used to fix some of the floating point errors
@@ -408,7 +373,7 @@ export const Draggable: FC<DraggableProps> = ({
       <ContextMenu
         actions={contextMenuActions}
         show={selectedItem === id}
-        turnLeft={checkIfRightSideOfGrid()}
+        turnLeft={checkIfRightSideOfGrid(position.x, gridSize.width)}
       />
       <Dialog
         isOpen={showDeleteConfirmationDialog}

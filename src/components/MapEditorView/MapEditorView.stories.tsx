@@ -7,7 +7,6 @@ import {
   parent,
 } from "../../../.storybook/helpers/h5p.utils";
 import { ArrowItemType } from "../../types/ArrowItemType";
-import { ArrowType } from "../../types/ArrowType";
 import { Params } from "../../types/H5P/Params";
 import { TopicMapItemType } from "../../types/TopicMapItemType";
 import { MapEditorView } from "./MapEditorView";
@@ -79,15 +78,7 @@ const withItemsItems: Array<TopicMapItemType> = [
   },
 ];
 
-const withItemsArrows: Array<ArrowItemType> = [
-  {
-    id: "arrow-4",
-    description: "",
-    arrowType: ArrowType.Directional,
-    startElementId: "box-1",
-    endElementId: "box-2",
-  },
-];
+const withItemsArrows: Array<ArrowItemType> = [];
 
 export const WithItems = Template.bind({});
 WithItems.args = {
@@ -111,7 +102,7 @@ FullscreenWithItems.args = {
     ...params,
     topicMapItems: [
       {
-        id: "box-1",
+        id: "box-4",
         xPercentagePosition: 0,
         yPercentagePosition: 0,
         widthPercentage: 15,
@@ -124,7 +115,7 @@ FullscreenWithItems.args = {
         description: "",
       },
       {
-        id: "box-2",
+        id: "box-5",
         xPercentagePosition: 5,
         yPercentagePosition: 30,
         widthPercentage: 30,
@@ -138,7 +129,7 @@ FullscreenWithItems.args = {
           "Let's put some highlights on these little trees. The sun wouldn't forget them. I will take some magic white, and a little bit of Vandyke brown and a little touch of yellow. Didn't you know you had that much power? You can move mountains. You can do anything.",
       },
       {
-        id: "box-3",
+        id: "box-6",
         xPercentagePosition: 50,
         yPercentagePosition: 30,
         widthPercentage: 20,
@@ -152,14 +143,6 @@ FullscreenWithItems.args = {
           "You can do anything here - the only pre-requisite is that it makes you happy.",
       },
     ],
-    arrowItems: [
-      {
-        id: "arrow-4",
-        description: "",
-        arrowType: ArrowType.Directional,
-        startElementId: "box-1",
-        endElementId: "box-2",
-      },
-    ],
+    arrowItems: [],
   },
 };
