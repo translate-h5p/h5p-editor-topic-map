@@ -508,9 +508,7 @@ export const Grid: FC<GridProps> = ({
   ]);
 
   const activeHoverOnGrid = useMemo(
-    () =>
-      activeTool === ToolbarButtonType.CreateArrow ||
-      activeTool === ToolbarButtonType.CreateBox,
+    () => activeTool === ToolbarButtonType.CreateBox,
     [activeTool],
   );
 
