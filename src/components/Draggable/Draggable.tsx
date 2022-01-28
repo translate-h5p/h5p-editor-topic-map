@@ -17,6 +17,7 @@ import { checkIfRightSideOfGrid, positionIsFree } from "../../utils/grid.utils";
 import { ContextMenu, ContextMenuButtonType } from "../ContextMenu/ContextMenu";
 import { Dialog } from "../Dialog/Dialog";
 import { ScaleHandles } from "../ScaleHandles/ScaleHandles";
+import { ToolbarButtonType } from "../Toolbar/Toolbar";
 import styles from "./Draggable.module.scss";
 
 const labelTextKeys: Record<string, TranslationKey> = {
@@ -44,6 +45,7 @@ export type DraggableProps = {
   editItem: (id: string) => void;
   showScaleHandles: boolean;
   onPointerDown: () => void;
+  activeTool: ToolbarButtonType | null;
 };
 
 export const Draggable: FC<DraggableProps> = ({
@@ -67,6 +69,7 @@ export const Draggable: FC<DraggableProps> = ({
   editItem,
   showScaleHandles,
   onPointerDown,
+  activeTool,
 }) => {
   const [isDragging, setIsDragging] = useState(false);
   const [isSelected, setIsSelected] = useState(selectedItem === id);
@@ -134,6 +137,10 @@ export const Draggable: FC<DraggableProps> = ({
   const startDrag = useCallback(
     (event: React.MouseEvent | React.TouchEvent) => {
       onPointerDown();
+      const aToolIsActive = activeTool !== null;
+      if (aToolIsActive) {
+        return;
+      }
 
       setIsDragging(true);
       setIsSelected(true);
@@ -146,7 +153,7 @@ export const Draggable: FC<DraggableProps> = ({
         y: y - position.y,
       });
     },
-    [onPointerDown, setSelectedItem, id, position.x, position.y],
+    [onPointerDown, activeTool, setSelectedItem, id, position.x, position.y],
   );
 
   const getNewPosition = useCallback((x: number, y: number) => ({ x, y }), []);

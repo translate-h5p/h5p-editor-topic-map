@@ -81,7 +81,7 @@ export const Arrow: FC<ArrowProps> = ({
   }, []);
 
   return (
-    <>
+    <div className={`arrow-item ${styles.arrow}`}>
       <Xarrow
         start={item.startElementId}
         end={item.endElementId}
@@ -134,6 +134,6 @@ export const Arrow: FC<ArrowProps> = ({
           </button>
         </div>
       </Dialog>
-    </>
+    </div>
   );
 };

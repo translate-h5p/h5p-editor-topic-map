@@ -102,7 +102,7 @@ export const MapEditorView: React.FC<MapEditorViewProps> = ({
           setEditedArrow={setEditedArrow}
         />
         <Dialog
-          isOpen={Boolean(semantics && editedItem)}
+          isOpen={Boolean(semantics && (editedItem || editedArrow))}
           title={topicMapItemFormDialogTitle}
           size="large"
           onOpenChange={isOpen => {

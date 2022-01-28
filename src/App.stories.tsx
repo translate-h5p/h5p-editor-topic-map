@@ -2,7 +2,6 @@
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 import * as React from "react";
 import { params, semantics, parent } from "../.storybook/helpers/h5p.utils";
-import { ArrowType } from "./types/ArrowType";
 import { Params } from "./types/H5P/Params";
 import { App } from "./App";
 
@@ -68,14 +67,6 @@ Primary.args = {
           "You can do anything here - the only pre-requisite is that it makes you happy.",
       },
     ],
-    arrowItems: [
-      {
-        id: "arrow-1",
-        description: "",
-        arrowType: ArrowType.Directional,
-        startElementId: "box-1",
-        endElementId: "box-2",
-      },
-    ],
+    arrowItems: [],
   },
 };
