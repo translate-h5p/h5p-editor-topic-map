@@ -32,7 +32,13 @@ const Template: ComponentStory<typeof MapEditorView> = args => (
 );
 
 export const Empty = Template.bind({});
-Empty.args = {};
+Empty.args = {
+  params: {
+    ...params,
+    topicMapItems: [],
+    arrowItems: [],
+  },
+};
 
 const withItemsItems: Array<TopicMapItemType> = [
   {
@@ -94,7 +100,13 @@ const TemplateFullscreen: ComponentStory<typeof MapEditorView> = args => (
 );
 
 export const FullscreenEmpty = TemplateFullscreen.bind({});
-FullscreenEmpty.args = {};
+FullscreenEmpty.args = {
+  params: {
+    ...params,
+    topicMapItems: [],
+    arrowItems: [],
+  },
+};
 
 export const FullscreenWithItems = TemplateFullscreen.bind({});
 FullscreenWithItems.args = {
