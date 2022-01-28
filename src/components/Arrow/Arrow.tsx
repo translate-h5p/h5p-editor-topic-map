@@ -80,12 +80,15 @@ export const Arrow: FC<ArrowProps> = ({
     setShowDeleteConfirmationDialog(false);
   }, []);
 
+  const arrowBodyWidth = cellSize / 2.5;
+
   return (
     <div aria-label={item.label} className={`arrow-item ${styles.arrow}`}>
       <Xarrow
         start={item.startElementId}
         end={item.endElementId}
         path="grid"
+        gridBreak={item.arrowType === ArrowType.Directional ? "0%" : undefined}
         showHead={[ArrowType.BiDirectional, ArrowType.Directional].includes(
           item.arrowType,
         )}
@@ -93,7 +96,7 @@ export const Arrow: FC<ArrowProps> = ({
         lineColor="var(--theme-color-2)"
         headColor="var(--theme-color-2)"
         tailColor="var(--theme-color-2)"
-        strokeWidth={cellSize / 2.5}
+        strokeWidth={arrowBodyWidth}
         headSize={cellSize / 10}
         tailSize={cellSize / 10}
         zIndex={1}
@@ -106,11 +109,13 @@ export const Arrow: FC<ArrowProps> = ({
           role: "button",
         }}
       />
+
       <ContextMenu
         actions={contextMenuActions}
         show={selectedItemId === item.id}
         turnLeft={false} // TODO: {checkIfRightSideOfGrid(position.x, gridSize.width)}
       />
+
       <Dialog
         isOpen={showDeleteConfirmationDialog}
         title={t("draggable_delete-confirmation")}
