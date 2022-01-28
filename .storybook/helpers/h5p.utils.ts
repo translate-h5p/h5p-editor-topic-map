@@ -40,6 +40,7 @@ export const params: Required<Params> = {
       arrowType: ArrowType.Directional,
       startElementId: "box-1",
       endElementId: "box-2",
+      label: "",
     },
   ],
   appearance: {

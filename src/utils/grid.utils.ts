@@ -71,29 +71,6 @@ export const updateItem = (
   return newItems;
 };
 
-export const updateArrowType = (
-  items: Array<ArrowItemType>,
-  updatedItem: ArrowItemType,
-  type: ArrowType,
-): Array<ArrowItemType> => {
-  const newItems = items.map((item: ArrowItemType) => {
-    const isCorrectItem = item.id === updatedItem.id;
-
-    if (!isCorrectItem) {
-      return item;
-    }
-
-    const newItem: ArrowItemType = {
-      ...item,
-      arrowType: type,
-    };
-
-    return newItem;
-  });
-
-  return newItems;
-};
-
 export const getAllCells = (
   gridWidth: number,
   gridHeight: number,
@@ -341,13 +318,16 @@ export const createTopicMapItem = (): TopicMapItemType => {
 export const createArrowItem = (
   startId: string,
   endId: string,
+  label: string,
+  arrowType: ArrowType,
 ): ArrowItemType => {
   const id = uuidV4();
 
   const item: ArrowItemType = {
     id,
+    label,
+    arrowType,
     description: "",
-    arrowType: ArrowType.Directional,
     startElementId: startId,
     endElementId: endId,
   };

@@ -11,6 +11,7 @@ import { Position } from "../../types/Position";
 import { ResizeDirection } from "../../types/ResizeDirection";
 import { Size } from "../../types/Size";
 import { TopicMapItemType } from "../../types/TopicMapItemType";
+import { getLabel, updateArrowType } from "../../utils/arrow.utils";
 import {
   createArrowItem,
   createTopicMapItem,
@@ -26,7 +27,6 @@ import {
   resizeItems,
   scaleX,
   scaleY,
-  updateArrowType,
   updateItem,
 } from "../../utils/grid.utils";
 import { Arrow } from "../Arrow/Arrow";
@@ -166,7 +166,15 @@ export const Grid: FC<GridProps> = ({
       const shouldCreateArrow =
         !arrowExistsAlready && !startsAndEndsAtSameElement && arrowStartId;
       if (shouldCreateArrow) {
-        const newItem = createArrowItem(arrowStartId, elementId);
+        const arrowType = ArrowType.Directional;
+        const label = getLabel(arrowStartId, elementId, arrowType, items);
+
+        const newItem = createArrowItem(
+          arrowStartId,
+          elementId,
+          label,
+          arrowType,
+        );
         const newItems = [...arrowItems, newItem];
 
         updateArrowItems(newItems);
@@ -177,7 +185,14 @@ export const Grid: FC<GridProps> = ({
       setActiveTool(null);
       setArrowStartId(null);
     },
-    [activeTool, arrowItems, arrowStartId, setActiveTool, updateArrowItems],
+    [
+      activeTool,
+      arrowItems,
+      arrowStartId,
+      items,
+      setActiveTool,
+      updateArrowItems,
+    ],
   );
 
   const createBoxStart = useCallback(
@@ -647,12 +662,12 @@ export const Grid: FC<GridProps> = ({
         throw new Error(`Updated arrow with id "${id}" does not exist`);
       }
 
-      const newItems = updateArrowType(arrowItems, updatedItem, type);
+      const newItems = updateArrowType(arrowItems, updatedItem, type, items);
 
       updateArrowItems(newItems);
       setArrowItems(newItems);
     },
-    [arrowItems, updateArrowItems],
+    [arrowItems, items, updateArrowItems],
   );
 
   const children = useMemo(() => {
