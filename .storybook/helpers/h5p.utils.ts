@@ -113,8 +113,10 @@ export const semantics: H5PFieldGroup = {
             optional: true,
           },
           {
-            label: "Background image",
-            name: "backgroundImage",
+            label: "Topic image",
+            description:
+              "Background image for card and image above text in dialog",
+            name: "topicImage",
             type: H5PFieldType.Image,
           },
           {
@@ -127,11 +129,34 @@ export const semantics: H5PFieldGroup = {
                 name: "text",
                 type: H5PFieldType.Text,
                 widget: "html",
+                optional: true,
               },
               {
                 label: "Video",
                 name: "video",
                 type: H5PFieldType.Video,
+                optional: true,
+              },
+              {
+                label: "Audio",
+                name: "audio",
+                type: H5PFieldType.Group,
+                optional: true,
+                importance: "low",
+                fields: [
+                  {
+                    label: "Audio",
+                    name: "audioFile",
+                    type: H5PFieldType.Audio,
+                  },
+                  {
+                    label: "Subtext",
+                    name: "subtext",
+                    type: H5PFieldType.Text,
+                    widget: "html",
+                    optional: true,
+                  },
+                ],
               },
               {
                 label: "Links",
@@ -139,6 +164,7 @@ export const semantics: H5PFieldGroup = {
                 description:
                   "These links are as auxiliary links for the user in the element's modal window",
                 type: H5PFieldType.List,
+                optional: true,
                 entity: "linkItem",
                 field: {
                   label: "Link",
@@ -161,7 +187,7 @@ export const semantics: H5PFieldGroup = {
     },
     {
       label: "Arrows",
-      name: "arrows",
+      name: "arrowItems",
       type: H5PFieldType.List,
       entity: "arrowItem",
       field: {
@@ -176,29 +202,41 @@ export const semantics: H5PFieldGroup = {
             widget: "none",
           },
           {
-            name: "xPercentagePosition",
-            label: "X-position as a percentage of the container width",
-            type: H5PFieldType.Number,
+            name: "startElementId",
+            label: "Id of start element",
+            type: H5PFieldType.Text,
             widget: "none",
           },
           {
-            name: "yPercentagePosition",
-            label: "Y-position as a percentage of the container height",
-            type: H5PFieldType.Number,
+            name: "endElementId",
+            label: "Id of end element",
+
+            type: H5PFieldType.Text,
             widget: "none",
           },
           {
-            name: "widthPercentage",
-            label: "Width as a percentage of the container width",
-            type: H5PFieldType.Number,
+            label: "Label",
+            description:
+              "The label is used by screen readers and on the summary page",
+            name: "label",
+            type: H5PFieldType.Text,
             widget: "none",
           },
           {
-            name: "heightPercentage",
-            label: "Height as a percentage of the container height",
-            type: H5PFieldType.Number,
-            widget: "none",
+            label: "Description",
+            description:
+              "The description is shown on top of the background image, below the label",
+            name: "description",
+            type: H5PFieldType.Text,
+            optional: true,
           },
+          {
+            label: "Topic image",
+            description: "Image above text in dialog",
+            name: "topicImage",
+            type: H5PFieldType.Image,
+          },
+
           {
             label: "Show start arrow-head",
             name: "showStartHead",
@@ -223,11 +261,34 @@ export const semantics: H5PFieldGroup = {
                 name: "text",
                 type: H5PFieldType.Text,
                 widget: "html",
+                optional: true,
               },
               {
                 label: "Video",
                 name: "video",
                 type: H5PFieldType.Video,
+                optional: true,
+              },
+              {
+                label: "Audio",
+                name: "audio",
+                type: H5PFieldType.Group,
+                optional: true,
+                importance: "low",
+                fields: [
+                  {
+                    label: "Audio",
+                    name: "audioFile",
+                    type: H5PFieldType.Audio,
+                  },
+                  {
+                    label: "Subtext",
+                    name: "subtext",
+                    type: H5PFieldType.Text,
+                    widget: "html",
+                    optional: true,
+                  },
+                ],
               },
               {
                 label: "Links",
@@ -235,6 +296,7 @@ export const semantics: H5PFieldGroup = {
                 description:
                   "These links are as auxiliary links for the user in the element's modal window",
                 type: H5PFieldType.List,
+                optional: true,
                 entity: "linkItem",
                 field: {
                   label: "Link",
