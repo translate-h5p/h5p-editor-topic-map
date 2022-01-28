@@ -650,13 +650,13 @@ export const Grid: FC<GridProps> = ({
       const newItems = items.filter(item => item.id !== id);
 
       const connectedArrows = findConnectedArrows(id, arrowItems);
-      connectedArrows.forEach(item => deleteItem(item.id));
+      connectedArrows.forEach(item => deleteArrow(item.id));
 
       updateItems(newItems);
       setItems(newItems);
       setCurrentItemsLength(newItems.length);
     },
-    [arrowItems, items, updateItems],
+    [arrowItems, deleteArrow, items, updateItems],
   );
 
   const startResize = useCallback(
