@@ -842,16 +842,24 @@ export const Grid: FC<GridProps> = ({
     updateXarrow();
   };
 
+  let className = styles.grid;
+
+  if (activeHoverOnGrid) {
+    className += ` ${styles.gridIndicatorsActive}`;
+  }
+
+  const isCreatingArrow = activeTool === ToolbarButtonType.CreateArrow;
+  if (isCreatingArrow) {
+    className += ` ${styles.isCreatingArrow}`;
+  }
+
   return (
     <Xwrapper>
       {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
       <div
         ref={elementRef}
         role="application" /* https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/Application_Role */
-        className={
-          styles.grid +
-          (activeHoverOnGrid ? ` ${styles.gridIndicatorsActive}` : "")
-        }
+        className={className}
         style={{
           // @ts-expect-error Custom properties should be allowed
           "--gap-size": `${gapSize}px`,

@@ -1,5 +1,4 @@
 import * as React from "react";
-import { useEffect } from "react";
 import styles from "./GridIndicator.module.scss";
 
 export type GridIndicatorProps = {
