@@ -216,7 +216,6 @@ export const Grid: FC<GridProps> = ({
         setSelectedItem(newItem.id);
       }
 
-      setActiveTool(null);
       setArrowStartId(null);
       setAhPreviewPosition(null);
       setArrowPreview(null);
@@ -247,7 +246,6 @@ export const Grid: FC<GridProps> = ({
       setIsDragging(false);
       setBoxStartIndex(null);
       setCurrentItemsLength(items.length);
-      setActiveTool(null);
 
       if (items[currentItemsLength]) {
         setSelectedItem(items[currentItemsLength].id);
