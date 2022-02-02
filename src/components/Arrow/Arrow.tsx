@@ -82,6 +82,13 @@ export const Arrow: FC<ArrowProps> = ({
 
   const arrowBodyWidth = cellSize / 2.5;
 
+  const arrowProps = {
+    tabIndex: -1,
+    onClick: () => setSelectedItemId(item.id),
+    onDoubleClick: () => editItem(item.id),
+    role: "button",
+  };
+
   return (
     <div aria-label={item.label} className={`arrow-item ${styles.arrow}`}>
       <Xarrow
@@ -103,11 +110,8 @@ export const Arrow: FC<ArrowProps> = ({
         divContainerStyle={{
           pointerEvents: "auto",
         }}
-        arrowBodyProps={{
-          tabIndex: -1,
-          onClick: () => setSelectedItemId(item.id),
-          role: "button",
-        }}
+        arrowHeadProps={{ ...arrowProps, style: { outline: "none" } }}
+        arrowBodyProps={arrowProps}
       />
 
       <ContextMenu

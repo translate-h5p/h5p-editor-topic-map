@@ -356,6 +356,7 @@ export const Draggable: FC<DraggableProps> = ({
       onMouseUp={stopDrag}
       onTouchEnd={stopDrag}
       onTransitionEnd={() => updateXarrow()}
+      onDoubleClick={() => editItem(id)}
     >
       <div className={styles.inner} tabIndex={-1}>
         {children}
