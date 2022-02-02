@@ -1,3 +1,4 @@
+import { v4 as uuidV4 } from "uuid";
 import * as React from "react";
 import { FC, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useEffectOnce } from "react-use";
@@ -558,33 +559,29 @@ export const Grid: FC<GridProps> = ({
     [activeTool, createBoxEnter, resizeBoxEnter, resizedItemId],
   );
 
-  const gridIndicators = useMemo(
+  const gridIndicators = useMemo(() => {
+    const label = t("grid-indicator_label");
+
+    return Array(numberOfColumns * numberOfRows)
+      .fill(null)
+      .map((_, index) => ({
+        id: uuidV4(),
+        label,
+        index,
+      }));
+  }, [numberOfColumns, numberOfRows]);
+
+  const gridIndicatorElements = useMemo(
     () =>
-      Array(numberOfColumns * numberOfRows)
-        .fill(null)
-        .map((_, index) => (
-          <GridIndicator
-            // eslint-disable-next-line react/no-array-index-key
-            key={`grid-indicator-${index}`}
-            index={index}
-            onMouseDown={createBoxStart}
-            onMouseEnter={onGridIndicatorMouseEnter}
-            label={t("grid-indicator_label")}
-          />
-        )),
-    // We need to update the value of grid indicators each time `activeTool` or `items`
-    // are changed because they affect how the `gridIndicator` click events work.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [
-      numberOfColumns,
-      numberOfRows,
-      activeTool,
-      items,
-      boxStartIndex,
-      activeHoverOnGrid,
-      currentItemsLength,
-      isDragging,
-    ],
+      gridIndicators.map(({ id, index, label }) => (
+        <GridIndicator
+          key={id}
+          onMouseDown={() => createBoxStart(index)}
+          onMouseEnter={() => onGridIndicatorMouseEnter(index)}
+          label={label}
+        />
+      )),
+    [gridIndicators, createBoxStart, onGridIndicatorMouseEnter],
   );
 
   const updateItemPosition = useCallback(
@@ -883,7 +880,7 @@ export const Grid: FC<GridProps> = ({
         {childrenArrows}
         {arrowPreview ? renderArrow(arrowPreview) : null}
         {children}
-        {gridIndicators}
+        {gridIndicatorElements}
       </div>
 
       <div

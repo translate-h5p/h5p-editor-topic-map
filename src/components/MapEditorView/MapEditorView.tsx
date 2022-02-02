@@ -34,7 +34,7 @@ export const MapEditorView: React.FC<MapEditorViewProps> = ({
   setParams,
 }) => {
   const columns = numberOfColumns ?? 30;
-  const rows = numberOfRows ?? 24;
+  const rows = numberOfRows ?? 18;
   const defaultGapSize = 4;
 
   const [activeTool, setActiveTool] = useState<ToolbarButtonType | null>(null);
