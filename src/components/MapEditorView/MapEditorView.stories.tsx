@@ -15,8 +15,6 @@ export default {
   title: "Templates/Map Editor View",
   component: MapEditorView,
   args: {
-    numberOfColumns: 20,
-    numberOfRows: 12,
     setParams: (newParams: Params) =>
       console.info("Params updated", { newParams }),
     semantics,

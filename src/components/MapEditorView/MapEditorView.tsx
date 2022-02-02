@@ -33,9 +33,9 @@ export const MapEditorView: React.FC<MapEditorViewProps> = ({
   semantics,
   setParams,
 }) => {
-  const columns = numberOfColumns ?? 20;
-  const rows = numberOfRows ?? 12;
-  const defaultGapSize = 8;
+  const columns = numberOfColumns ?? 30;
+  const rows = numberOfRows ?? 18;
+  const defaultGapSize = 4;
 
   const [activeTool, setActiveTool] = useState<ToolbarButtonType | null>(null);
   const [gridItems, setGridItems] = useState(params.topicMapItems ?? []);
