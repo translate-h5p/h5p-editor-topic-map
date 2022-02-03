@@ -620,7 +620,7 @@ export const Grid: FC<GridProps> = ({
   const editItem = useCallback(
     (id: string) => {
       if (activeTool) {
-        setActiveTool(null)
+        setActiveTool(null);
       }
       setEditedItem(id);
     },
