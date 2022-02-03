@@ -108,6 +108,7 @@ export const MapEditorView: React.FC<MapEditorViewProps> = ({
           onOpenChange={isOpen => {
             if (!isOpen) {
               setEditedItem(null);
+              setEditedArrow(null);
             }
           }}
         >
