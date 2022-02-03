@@ -213,22 +213,13 @@ export const Grid: FC<GridProps> = ({
 
         updateArrowItems(newItems);
         setArrowItems(newItems);
-        setSelectedItem(newItem.id);
       }
 
       setArrowStartId(null);
       setAhPreviewPosition(null);
       setArrowPreview(null);
     },
-    [
-      activeTool,
-      arrowItems,
-      arrowStartId,
-      items,
-      setActiveTool,
-      setSelectedItem,
-      updateArrowItems,
-    ],
+    [activeTool, arrowItems, arrowStartId, items, updateArrowItems],
   );
 
   const createBoxStart = useCallback(
@@ -246,19 +237,8 @@ export const Grid: FC<GridProps> = ({
       setIsDragging(false);
       setBoxStartIndex(null);
       setCurrentItemsLength(items.length);
-
-      if (items[currentItemsLength]) {
-        setSelectedItem(items[currentItemsLength].id);
-      }
     }
-  }, [
-    activeTool,
-    setCurrentItemsLength,
-    items,
-    setActiveTool,
-    currentItemsLength,
-    setSelectedItem,
-  ]);
+  }, [activeTool, items.length, setCurrentItemsLength]);
 
   const resizeBoxEnd = useCallback(() => {
     setPrevIndex(null);
@@ -639,20 +619,22 @@ export const Grid: FC<GridProps> = ({
 
   const editItem = useCallback(
     (id: string) => {
-      if (!activeTool) {
-        setEditedItem(id);
+      if (activeTool) {
+        setActiveTool(null)
       }
+      setEditedItem(id);
     },
-    [activeTool, setEditedItem],
+    [activeTool, setActiveTool, setEditedItem],
   );
 
   const editArrow = useCallback(
     (id: string) => {
-      if (!activeTool) {
-        setEditedArrow(id);
+      if (activeTool) {
+        setActiveTool(null);
       }
+      setEditedArrow(id);
     },
-    [activeTool, setEditedArrow],
+    [activeTool, setActiveTool, setEditedArrow],
   );
 
   const deleteArrow = useCallback(
