@@ -30,6 +30,13 @@
   --theme-color-4: #f97578;
 }
 
+.theme-4 {
+  --theme-color-1: #131516;
+  --theme-color-2: #373d3f;
+  --theme-color-3: #6f7c80;
+  --theme-color-4: #a7afb2;
+}
+
 /**
  * {1} Radix UI adds `pointer-events: none` to the body element.
  *     The H5P dialogs are also affected by this, so we add a
