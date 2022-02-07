@@ -37,6 +37,7 @@ import { GridIndicator } from "../GridIndicator/GridIndicator";
 import { ToolbarButtonType } from "../Toolbar/Toolbar";
 import { TopicMapItem } from "../TopicMapItem/TopicMapItem";
 import styles from "./Grid.module.scss";
+import { Dialog } from "../Dialog/Dialog";
 
 export type GridProps = {
   numberOfColumns: number;
@@ -85,6 +86,8 @@ export const Grid: FC<GridProps> = ({
   );
   const [arrowPreview, setArrowPreview] = useState<ArrowItemType | null>(null);
   const updateXarrow = useXarrow();
+  const [showDeleteConfirmationDialog, setShowDeleteConfirmationDialog] =
+    useState(false);
 
   const elementRef = useRef<HTMLDivElement>(null);
 
@@ -652,9 +655,14 @@ export const Grid: FC<GridProps> = ({
       updateItems(newItems);
       setItems(newItems);
       setCurrentItemsLength(newItems.length);
+      setShowDeleteConfirmationDialog(false);
     },
     [arrowItems, deleteArrow, items, updateItems],
   );
+
+  const denyDeletion = useCallback(() => {
+    setShowDeleteConfirmationDialog(false);
+  }, []);
 
   const startResize = useCallback(
     (item: TopicMapItemType, directionLock: ResizeDirection) => {
@@ -691,45 +699,75 @@ export const Grid: FC<GridProps> = ({
     }
 
     return items.map(item => (
-      <Draggable
-        key={item.id}
-        id={item.id}
-        initialXPosition={scaleX(item.xPercentagePosition, size.width)}
-        initialYPosition={scaleY(item.yPercentagePosition, size.height)}
-        updatePosition={newPosition => updateItemPosition(item, newPosition)}
-        initialWidth={Math.abs(scaleX(item.widthPercentage, size.width))}
-        initialHeight={Math.abs(scaleY(item.heightPercentage, size.height))}
-        gapSize={gapSize}
-        cellSize={cellSize}
-        gridSize={size}
-        occupiedCells={occupiedCells}
-        isPreview={isDragging}
-        editItem={editItem}
-        deleteItem={deleteItem}
-        setSelectedItem={setSelectedItem}
-        selectedItem={selectedItem}
-        startResize={directionLock => startResize(item, directionLock)}
-        mouseOutsideGrid={mouseOutsideGrid}
-        showScaleHandles
-        onPointerDown={pointerPosition => createArrow(item.id, pointerPosition)}
-        activeTool={activeTool}
-      >
-        <TopicMapItem item={item} />
-      </Draggable>
+      <>
+        <Draggable
+          key={item.id}
+          id={item.id}
+          initialXPosition={scaleX(item.xPercentagePosition, size.width)}
+          initialYPosition={scaleY(item.yPercentagePosition, size.height)}
+          updatePosition={newPosition => updateItemPosition(item, newPosition)}
+          initialWidth={Math.abs(scaleX(item.widthPercentage, size.width))}
+          initialHeight={Math.abs(scaleY(item.heightPercentage, size.height))}
+          gapSize={gapSize}
+          cellSize={cellSize}
+          gridSize={size}
+          occupiedCells={occupiedCells}
+          isPreview={isDragging}
+          editItem={editItem}
+          // deleteItem={deleteItem}
+          openDeleteDialogue={setShowDeleteConfirmationDialog}
+          isDeleteDialogueOpen={showDeleteConfirmationDialog}
+          setSelectedItem={setSelectedItem}
+          selectedItem={selectedItem}
+          startResize={directionLock => startResize(item, directionLock)}
+          mouseOutsideGrid={mouseOutsideGrid}
+          showScaleHandles
+          onPointerDown={pointerPosition =>
+            createArrow(item.id, pointerPosition)
+          }
+          activeTool={activeTool}
+        >
+          <TopicMapItem item={item} />
+        </Draggable>
+        <Dialog
+          isOpen={showDeleteConfirmationDialog}
+          title={t("draggable_delete-confirmation")}
+          onOpenChange={setShowDeleteConfirmationDialog}
+          size="medium"
+        >
+          <div className={styles.deleteConfirmationButtons}>
+            <button
+              type="button"
+              className={styles.deleteConfirmationPositive}
+              onClick={() => deleteItem(item.id)}
+            >
+              {t("draggable_delete-positive")}
+            </button>
+            <button
+              type="button"
+              className={styles.deleteConfirmationNegative}
+              onClick={denyDeletion}
+            >
+              {t("draggable_delete-negative")}
+            </button>
+          </div>
+        </Dialog>
+      </>
     ));
   }, [
-    gapSize,
-    cellSize,
     size,
     items,
+    gapSize,
+    cellSize,
     occupiedCells,
     isDragging,
     editItem,
-    deleteItem,
-    setSelectedItem,
+    showDeleteConfirmationDialog,
     selectedItem,
     mouseOutsideGrid,
     activeTool,
+    deleteItem,
+    denyDeletion,
     updateItemPosition,
     startResize,
     createArrow,
