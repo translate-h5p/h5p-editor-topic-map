@@ -15,7 +15,6 @@ import {
 } from "../../utils/draggable.utils";
 import { checkIfRightSideOfGrid, positionIsFree } from "../../utils/grid.utils";
 import { ContextMenu, ContextMenuButtonType } from "../ContextMenu/ContextMenu";
-import { Dialog } from "../Dialog/Dialog";
 import { ScaleHandles } from "../ScaleHandles/ScaleHandles";
 import { ToolbarButtonType } from "../Toolbar/Toolbar";
 import styles from "./Draggable.module.scss";
@@ -37,7 +36,7 @@ export type DraggableProps = {
   gridSize: Size;
   occupiedCells: Array<OccupiedCell>;
   isPreview: boolean;
-  deleteItem: (item: string) => void;
+  openDeleteDialogue: (id: string) => void;
   setSelectedItem: (newItem: string | null) => void;
   selectedItem: string | null;
   startResize: (directionLock: ResizeDirection) => void;
@@ -60,7 +59,7 @@ export const Draggable: FC<DraggableProps> = ({
   gridSize,
   occupiedCells,
   isPreview,
-  deleteItem,
+  openDeleteDialogue,
   setSelectedItem,
   selectedItem,
   startResize,
@@ -75,7 +74,7 @@ export const Draggable: FC<DraggableProps> = ({
   const [isSelected, setIsSelected] = useState(selectedItem === id);
   const [labelText, setLabelText] = useState(t(labelTextKeys.notSelected));
   const [pointerStartPosition, setPointerStartPosition] =
-    useState<Position | null>();
+    useState<Position | null>(null);
   const [{ width, height }, setSize] = useState<Size>({
     // prettier-ignore
     width: calculateClosestValidSizeComponent(initialWidth, gapSize, cellSize, gridSize.width),
@@ -90,8 +89,6 @@ export const Draggable: FC<DraggableProps> = ({
   });
   const [previousPosition, setPreviousPosition] = useState(position);
   const [isResizing, setIsResizing] = useState(false);
-  const [showDeleteConfirmationDialog, setShowDeleteConfirmationDialog] =
-    useState(false);
 
   const updateXarrow = useXarrow();
 
@@ -231,10 +228,6 @@ export const Draggable: FC<DraggableProps> = ({
 
   const drag = useCallback(
     (event: MouseEvent | TouchEvent) => {
-      if (showDeleteConfirmationDialog) {
-        return;
-      }
-
       if (!isDragging || !pointerStartPosition) {
         return;
       }
@@ -257,7 +250,6 @@ export const Draggable: FC<DraggableProps> = ({
     // Do not add `updateXarrow` to this list, as it generates maximum update errors
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [
-      showDeleteConfirmationDialog,
       isDragging,
       pointerStartPosition,
       mouseOutsideGrid,
@@ -299,15 +291,6 @@ export const Draggable: FC<DraggableProps> = ({
     setIsResizing(false);
   }, [stopDrag]);
 
-  const confirmDeletion = useCallback(() => {
-    deleteItem(id);
-    setShowDeleteConfirmationDialog(false);
-  }, [deleteItem, id]);
-
-  const denyDeletion = useCallback(() => {
-    setShowDeleteConfirmationDialog(false);
-  }, []);
-
   const contextMenuActions: Array<ContextMenuAction> = useMemo(() => {
     const editAction: ContextMenuAction = {
       icon: ContextMenuButtonType.Edit,
@@ -318,11 +301,11 @@ export const Draggable: FC<DraggableProps> = ({
     const deleteAction: ContextMenuAction = {
       icon: ContextMenuButtonType.Delete,
       label: t("context-menu_delete"),
-      onClick: () => setShowDeleteConfirmationDialog(true),
+      onClick: () => openDeleteDialogue(id),
     };
 
     return [editAction, deleteAction];
-  }, [editItem, id]);
+  }, [editItem, id, openDeleteDialogue]);
 
   /**
    * This offset is used to fix some of the floating point errors
@@ -377,29 +360,6 @@ export const Draggable: FC<DraggableProps> = ({
         show={selectedItem === id}
         turnLeft={checkIfRightSideOfGrid(position.x, gridSize.width)}
       />
-      <Dialog
-        isOpen={showDeleteConfirmationDialog}
-        title={t("draggable_delete-confirmation")}
-        onOpenChange={setShowDeleteConfirmationDialog}
-        size="medium"
-      >
-        <div className={styles.deleteConfirmationButtons}>
-          <button
-            type="button"
-            className={styles.deleteConfirmationPositive}
-            onClick={confirmDeletion}
-          >
-            {t("draggable_delete-positive")}
-          </button>
-          <button
-            type="button"
-            className={styles.deleteConfirmationNegative}
-            onClick={denyDeletion}
-          >
-            {t("draggable_delete-negative")}
-          </button>
-        </div>
-      </Dialog>
     </div>
   );
 };

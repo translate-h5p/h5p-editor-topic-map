@@ -6,6 +6,7 @@ import { H5PFieldGroup } from "../../types/H5P/H5PField";
 import { H5PForm } from "../../types/H5P/H5PForm";
 import { Params } from "../../types/H5P/Params";
 import { TopicMapItemType } from "../../types/TopicMapItemType";
+import { findConnectedArrows } from "../../utils/grid.utils";
 import { getBackgroundImageField } from "../../utils/H5P/form.utils";
 import { ArrowItemForm } from "../ArrowItemForm/ArrowItemForm";
 import { Dialog } from "../Dialog/Dialog";
@@ -41,7 +42,17 @@ export const MapEditorView: React.FC<MapEditorViewProps> = ({
   const [gridItems, setGridItems] = useState(params.topicMapItems ?? []);
   const [arrowItems, setArrowItems] = useState(params.arrowItems ?? []);
   const [editedItem, setEditedItem] = useState<string | null>(null);
+  const [deletedItem, setDeletedItem] = useState<string | null>(null);
+  const [selectedItem, setSelectedItem] = useState<string | null>(null);
+  const [currentItemsLength, setCurrentItemsLength] = useState(
+    gridItems.length,
+  );
   const [editedArrow, setEditedArrow] = useState<string | null>(null);
+  const [showDeleteConfirmationDialog, setShowDeleteConfirmationDialog] =
+    useState(false);
+  const updateGrid = React.useRef((newItems: TopicMapItemType[]): void =>
+    updateGrid.current(newItems),
+  );
 
   const setActive = (newValue: ToolbarButtonType | null): void => {
     setActiveTool(newValue);
@@ -62,6 +73,40 @@ export const MapEditorView: React.FC<MapEditorViewProps> = ({
     },
     [setParams],
   );
+
+  const openDeleteDialogue = React.useCallback((itemId: string) => {
+    setDeletedItem(itemId);
+    setShowDeleteConfirmationDialog(true);
+  }, []);
+
+  const deleteArrow = React.useCallback(
+    (id: string) => {
+      const newItems = arrowItems.filter(item => item.id !== id);
+
+      updateArrows(newItems);
+      setArrowItems(newItems);
+    },
+    [arrowItems, updateArrows],
+  );
+
+  const deleteItem = React.useCallback(() => {
+    const newItems = gridItems.filter(item => item.id !== deletedItem);
+
+    const connectedArrows = findConnectedArrows(deletedItem ?? "", arrowItems);
+    connectedArrows.forEach(item => deleteArrow(item.id));
+
+    updateItems(newItems);
+    setGridItems(newItems);
+    updateGrid.current(newItems);
+    setShowDeleteConfirmationDialog(false);
+    setSelectedItem(null);
+    setCurrentItemsLength(newItems.length);
+  }, [arrowItems, deleteArrow, deletedItem, gridItems, updateItems]);
+
+  const denyDeletion = React.useCallback(() => {
+    setShowDeleteConfirmationDialog(false);
+    setSelectedItem(null);
+  }, []);
 
   const topicMapItemFormDialogTitle = t("map-editor-view_item-dialog-title");
   const backgroundImageField = React.useMemo(() => {
@@ -100,7 +145,41 @@ export const MapEditorView: React.FC<MapEditorViewProps> = ({
           activeTool={activeTool}
           setEditedItem={setEditedItem}
           setEditedArrow={setEditedArrow}
+          setSelectedItem={setSelectedItem}
+          selectedItem={selectedItem}
+          openDeleteDialogue={openDeleteDialogue}
+          updateGrid={updateGrid}
+          currentItemsLength={currentItemsLength}
+          setCurrentItemsLength={setCurrentItemsLength}
         />
+        <Dialog
+          isOpen={showDeleteConfirmationDialog}
+          title={t("draggable_delete-confirmation")}
+          onOpenChange={isOpen => {
+            if (!isOpen) {
+              setDeletedItem(null);
+              denyDeletion();
+            }
+          }}
+          size="medium"
+        >
+          <div className={styles.deleteConfirmationButtons}>
+            <button
+              type="button"
+              className={styles.deleteConfirmationPositive}
+              onClick={deleteItem}
+            >
+              {t("draggable_delete-positive")}
+            </button>
+            <button
+              type="button"
+              className={styles.deleteConfirmationNegative}
+              onClick={denyDeletion}
+            >
+              {t("draggable_delete-negative")}
+            </button>
+          </div>
+        </Dialog>
         <Dialog
           isOpen={Boolean(semantics && (editedItem || editedArrow))}
           title={topicMapItemFormDialogTitle}
