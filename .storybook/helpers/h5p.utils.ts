@@ -178,7 +178,7 @@ export const semantics: H5PFieldGroup = {
             label: "Index",
             description:
               "⚠️ Advanced feature: Used for manually setting tab order.",
-            name: "label",
+            name: "index",
             type: H5PFieldType.Number,
             optional: true,
           },
@@ -308,7 +308,7 @@ export const semantics: H5PFieldGroup = {
           },
           {
             label: "Index",
-            name: "label",
+            name: "index",
             type: H5PFieldType.Number,
             optional: true,
             widget: "none",
