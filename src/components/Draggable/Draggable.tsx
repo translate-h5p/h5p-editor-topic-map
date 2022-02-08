@@ -36,8 +36,7 @@ export type DraggableProps = {
   gridSize: Size;
   occupiedCells: Array<OccupiedCell>;
   isPreview: boolean;
-  openDeleteDialogue: React.Dispatch<React.SetStateAction<boolean>>;
-  isDeleteDialogueOpen: boolean;
+  openDeleteDialogue: (id: string) => void;
   setSelectedItem: (newItem: string | null) => void;
   selectedItem: string | null;
   startResize: (directionLock: ResizeDirection) => void;
@@ -61,7 +60,6 @@ export const Draggable: FC<DraggableProps> = ({
   occupiedCells,
   isPreview,
   openDeleteDialogue,
-  isDeleteDialogueOpen,
   setSelectedItem,
   selectedItem,
   startResize,
@@ -76,7 +74,7 @@ export const Draggable: FC<DraggableProps> = ({
   const [isSelected, setIsSelected] = useState(selectedItem === id);
   const [labelText, setLabelText] = useState(t(labelTextKeys.notSelected));
   const [pointerStartPosition, setPointerStartPosition] =
-    useState<Position | null>();
+    useState<Position | null>(null);
   const [{ width, height }, setSize] = useState<Size>({
     // prettier-ignore
     width: calculateClosestValidSizeComponent(initialWidth, gapSize, cellSize, gridSize.width),
@@ -230,10 +228,6 @@ export const Draggable: FC<DraggableProps> = ({
 
   const drag = useCallback(
     (event: MouseEvent | TouchEvent) => {
-      if (isDeleteDialogueOpen) {
-        return;
-      }
-
       if (!isDragging || !pointerStartPosition) {
         return;
       }
@@ -307,7 +301,7 @@ export const Draggable: FC<DraggableProps> = ({
     const deleteAction: ContextMenuAction = {
       icon: ContextMenuButtonType.Delete,
       label: t("context-menu_delete"),
-      onClick: () => openDeleteDialogue(true),
+      onClick: () => openDeleteDialogue(id),
     };
 
     return [editAction, deleteAction];

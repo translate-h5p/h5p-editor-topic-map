@@ -17,7 +17,6 @@ import { getPointerPositionFromEvent } from "../../utils/draggable.utils";
 import {
   createArrowItem,
   createTopicMapItem,
-  findConnectedArrows,
   findHeightPercentage,
   findItem,
   findOccupiedCells,
@@ -37,7 +36,6 @@ import { GridIndicator } from "../GridIndicator/GridIndicator";
 import { ToolbarButtonType } from "../Toolbar/Toolbar";
 import { TopicMapItem } from "../TopicMapItem/TopicMapItem";
 import styles from "./Grid.module.scss";
-import { Dialog } from "../Dialog/Dialog";
 
 export type GridProps = {
   numberOfColumns: number;
@@ -52,6 +50,12 @@ export type GridProps = {
   activeTool: ToolbarButtonType | null;
   setEditedItem: (itemId: string) => void;
   setEditedArrow: (itemId: string) => void;
+  setSelectedItem: (itemId: string | null) => void;
+  selectedItem: string | null;
+  openDeleteDialogue: (itemId: string) => void;
+  updateGrid: React.MutableRefObject<(newItems: TopicMapItemType[]) => void>;
+  currentItemsLength: number;
+  setCurrentItemsLength: (itemsLength: number) => void;
 };
 
 export const Grid: FC<GridProps> = ({
@@ -66,14 +70,18 @@ export const Grid: FC<GridProps> = ({
   activeTool,
   setEditedItem,
   setEditedArrow,
+  setSelectedItem,
+  selectedItem,
+  openDeleteDialogue,
+  updateGrid,
+  currentItemsLength,
+  setCurrentItemsLength,
 }) => {
   const [size, setSize] = useState<Size | null>(null);
   const [items, setItems] = useState(initialItems);
   const [arrowItems, setArrowItems] = useState(initialArrowItems ?? []);
-  const [selectedItem, setSelectedItem] = useState<string | null>(null);
   const [occupiedCells, setOccupiedCells] = useState<Array<OccupiedCell>>([]);
   const [boxStartIndex, setBoxStartIndex] = useState<number | null>(null);
-  const [currentItemsLength, setCurrentItemsLength] = useState(items.length);
   const [isDragging, setIsDragging] = useState(false);
   const [resizedItemId, setResizedItemId] = useState<string | null>(null);
   const [resizeDirectionLock, setResizeDirectionLock] =
@@ -86,8 +94,14 @@ export const Grid: FC<GridProps> = ({
   );
   const [arrowPreview, setArrowPreview] = useState<ArrowItemType | null>(null);
   const updateXarrow = useXarrow();
-  const [showDeleteConfirmationDialog, setShowDeleteConfirmationDialog] =
-    useState(false);
+
+  const updateLocalGrid = (newItems: TopicMapItemType[]): void => {
+    setItems(newItems);
+  };
+  useEffectOnce(() => {
+    // eslint-disable-next-line no-param-reassign
+    updateGrid.current = updateLocalGrid;
+  });
 
   const elementRef = useRef<HTMLDivElement>(null);
 
@@ -213,6 +227,7 @@ export const Grid: FC<GridProps> = ({
       arrowStartId,
       items,
       setActiveTool,
+      setSelectedItem,
       updateArrowItems,
     ],
   );
@@ -238,7 +253,14 @@ export const Grid: FC<GridProps> = ({
         setSelectedItem(items[currentItemsLength].id);
       }
     }
-  }, [activeTool, items, setActiveTool, currentItemsLength]);
+  }, [
+    activeTool,
+    setCurrentItemsLength,
+    items,
+    setActiveTool,
+    currentItemsLength,
+    setSelectedItem,
+  ]);
 
   const resizeBoxEnd = useCallback(() => {
     setPrevIndex(null);
@@ -645,25 +667,6 @@ export const Grid: FC<GridProps> = ({
     [arrowItems, updateArrowItems],
   );
 
-  const deleteItem = useCallback(
-    (id: string) => {
-      const newItems = items.filter(item => item.id !== id);
-
-      const connectedArrows = findConnectedArrows(id, arrowItems);
-      connectedArrows.forEach(item => deleteArrow(item.id));
-
-      updateItems(newItems);
-      setItems(newItems);
-      setCurrentItemsLength(newItems.length);
-      setShowDeleteConfirmationDialog(false);
-    },
-    [arrowItems, deleteArrow, items, updateItems],
-  );
-
-  const denyDeletion = useCallback(() => {
-    setShowDeleteConfirmationDialog(false);
-  }, []);
-
   const startResize = useCallback(
     (item: TopicMapItemType, directionLock: ResizeDirection) => {
       const x = Math.floor((item.xPercentagePosition / 100) * numberOfColumns);
@@ -699,60 +702,31 @@ export const Grid: FC<GridProps> = ({
     }
 
     return items.map(item => (
-      <>
-        <Draggable
-          key={item.id}
-          id={item.id}
-          initialXPosition={scaleX(item.xPercentagePosition, size.width)}
-          initialYPosition={scaleY(item.yPercentagePosition, size.height)}
-          updatePosition={newPosition => updateItemPosition(item, newPosition)}
-          initialWidth={Math.abs(scaleX(item.widthPercentage, size.width))}
-          initialHeight={Math.abs(scaleY(item.heightPercentage, size.height))}
-          gapSize={gapSize}
-          cellSize={cellSize}
-          gridSize={size}
-          occupiedCells={occupiedCells}
-          isPreview={isDragging}
-          editItem={editItem}
-          // deleteItem={deleteItem}
-          openDeleteDialogue={setShowDeleteConfirmationDialog}
-          isDeleteDialogueOpen={showDeleteConfirmationDialog}
-          setSelectedItem={setSelectedItem}
-          selectedItem={selectedItem}
-          startResize={directionLock => startResize(item, directionLock)}
-          mouseOutsideGrid={mouseOutsideGrid}
-          showScaleHandles
-          onPointerDown={pointerPosition =>
-            createArrow(item.id, pointerPosition)
-          }
-          activeTool={activeTool}
-        >
-          <TopicMapItem item={item} />
-        </Draggable>
-        <Dialog
-          isOpen={showDeleteConfirmationDialog}
-          title={t("draggable_delete-confirmation")}
-          onOpenChange={setShowDeleteConfirmationDialog}
-          size="medium"
-        >
-          <div className={styles.deleteConfirmationButtons}>
-            <button
-              type="button"
-              className={styles.deleteConfirmationPositive}
-              onClick={() => deleteItem(item.id)}
-            >
-              {t("draggable_delete-positive")}
-            </button>
-            <button
-              type="button"
-              className={styles.deleteConfirmationNegative}
-              onClick={denyDeletion}
-            >
-              {t("draggable_delete-negative")}
-            </button>
-          </div>
-        </Dialog>
-      </>
+      <Draggable
+        key={item.id}
+        id={item.id}
+        initialXPosition={scaleX(item.xPercentagePosition, size.width)}
+        initialYPosition={scaleY(item.yPercentagePosition, size.height)}
+        updatePosition={newPosition => updateItemPosition(item, newPosition)}
+        initialWidth={Math.abs(scaleX(item.widthPercentage, size.width))}
+        initialHeight={Math.abs(scaleY(item.heightPercentage, size.height))}
+        gapSize={gapSize}
+        cellSize={cellSize}
+        gridSize={size}
+        occupiedCells={occupiedCells}
+        isPreview={isDragging}
+        editItem={editItem}
+        openDeleteDialogue={openDeleteDialogue}
+        setSelectedItem={setSelectedItem}
+        selectedItem={selectedItem}
+        startResize={directionLock => startResize(item, directionLock)}
+        mouseOutsideGrid={mouseOutsideGrid}
+        showScaleHandles
+        onPointerDown={pointerPosition => createArrow(item.id, pointerPosition)}
+        activeTool={activeTool}
+      >
+        <TopicMapItem item={item} />
+      </Draggable>
     ));
   }, [
     size,
@@ -762,12 +736,11 @@ export const Grid: FC<GridProps> = ({
     occupiedCells,
     isDragging,
     editItem,
-    showDeleteConfirmationDialog,
+    openDeleteDialogue,
+    setSelectedItem,
     selectedItem,
     mouseOutsideGrid,
     activeTool,
-    deleteItem,
-    denyDeletion,
     updateItemPosition,
     startResize,
     createArrow,
@@ -786,7 +759,14 @@ export const Grid: FC<GridProps> = ({
         updateArrowType={setArrowType}
       />
     ),
-    [cellSize, deleteArrow, editArrow, selectedItem, setArrowType],
+    [
+      cellSize,
+      deleteArrow,
+      editArrow,
+      selectedItem,
+      setArrowType,
+      setSelectedItem,
+    ],
   );
 
   const childrenArrows = useMemo(
@@ -887,6 +867,12 @@ export const Grid: FC<GridProps> = ({
   if (isCreatingArrow) {
     className += ` ${styles.isCreatingArrow}`;
   }
+
+  useEffect(() => {
+    if (!selectedItem) {
+      setMouseOutsideGrid(false);
+    }
+  }, [selectedItem]);
 
   return (
     <Xwrapper>
