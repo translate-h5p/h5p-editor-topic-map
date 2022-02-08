@@ -99,17 +99,9 @@ export const MapEditorView: React.FC<MapEditorViewProps> = ({
     setGridItems(newItems);
     updateGrid.current(newItems);
     setShowDeleteConfirmationDialog(false);
-    console.info(selectedItem);
     setSelectedItem(null);
     setCurrentItemsLength(newItems.length);
-  }, [
-    arrowItems,
-    deleteArrow,
-    deletedItem,
-    gridItems,
-    selectedItem,
-    updateItems,
-  ]);
+  }, [arrowItems, deleteArrow, deletedItem, gridItems, updateItems]);
 
   const denyDeletion = React.useCallback(() => {
     setShowDeleteConfirmationDialog(false);
