@@ -135,7 +135,8 @@ export const Draggable: FC<DraggableProps> = ({
     (event: React.MouseEvent | React.TouchEvent) => {
       onPointerDown(getPointerPositionFromEvent(event));
       const aToolIsActive = activeTool !== null;
-      if (aToolIsActive) {
+      const createBoxToolIsActive = activeTool === ToolbarButtonType.CreateBox;
+      if (aToolIsActive && !createBoxToolIsActive) {
         return;
       }
 
