@@ -28,7 +28,11 @@ export const TopicMapItem: React.FC<TopicMapItemProps> = ({ item }) => {
         />
       )}
 
-      <div className={styles.inner}>
+      <div
+        className={`${styles.inner} ${
+          item.topicImage?.path ? "" : styles.noImage
+        }`}
+      >
         <div className={styles.label}>{item.label}</div>
         {item.description && (
           <div className={styles.description}>{item.description}</div>
