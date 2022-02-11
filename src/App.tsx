@@ -41,9 +41,9 @@ export const App: React.FC<AppProps> = ({
     [params, setValue],
   );
 
-  const backgroundImage: string | undefined = params.appearance?.backgroundImage
-    ?.path
-    ? `url(${params.appearance.backgroundImage.path})`
+  const backgroundImage: string | undefined = params.appearance
+    ?.gridBackgroundImage?.path
+    ? `url(${params.appearance.gridBackgroundImage.path})`
     : undefined;
 
   return (

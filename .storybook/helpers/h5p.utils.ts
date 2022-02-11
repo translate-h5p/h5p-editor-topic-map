@@ -44,7 +44,7 @@ export const params: Required<Params> = {
     },
   ],
   appearance: {
-    backgroundImage: undefined,
+    gridBackgroundImage: undefined,
     colorTheme: ColorTheme.Blue,
   },
 };
