@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useState } from "react";
-import { t } from "../../H5P/H5P.util";
+import { getImageUrl, t } from "../../H5P/H5P.util";
 import { ArrowItemType } from "../../types/ArrowItemType";
 import { H5PFieldGroup } from "../../types/H5P/H5PField";
 import { H5PForm } from "../../types/H5P/H5PForm";
@@ -121,6 +121,10 @@ export const MapEditorView: React.FC<MapEditorViewProps> = ({
     return bgImgField;
   }, [semantics]);
 
+  const backgroundImage: string | undefined = params.gridBackgroundImage?.path
+    ? `url(${getImageUrl(params.gridBackgroundImage?.path)})`
+    : undefined;
+
   return (
     <div className={styles.mapEditorView}>
       <Toolbar
@@ -132,7 +136,12 @@ export const MapEditorView: React.FC<MapEditorViewProps> = ({
         parent={parent}
         backgroundImageField={backgroundImageField}
       />
-      <div className={styles.gridBorder}>
+      <div
+        className={`${styles.gridBorder} ${
+          backgroundImage ? styles.backgroundImage : ""
+        }`}
+        style={{ backgroundImage }}
+      >
         <Grid
           numberOfColumns={columns}
           numberOfRows={rows}

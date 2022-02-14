@@ -41,17 +41,11 @@ export const App: React.FC<AppProps> = ({
     [params, setValue],
   );
 
-  const backgroundImage: string | undefined = params.appearance?.backgroundImage
-    ?.path
-    ? `url(${params.appearance.backgroundImage.path})`
-    : undefined;
-
   return (
     <div
       className={`h5p-editor-topic-map theme-${
         params.appearance?.colorTheme ?? defaultTheme
       }`}
-      style={{ backgroundImage }}
     >
       <MapEditorView
         setParams={updateParams}

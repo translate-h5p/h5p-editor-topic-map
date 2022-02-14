@@ -5,7 +5,7 @@ import { H5PFieldType } from "../../src/types/H5P/H5PFieldType";
 import { H5PForm } from "../../src/types/H5P/H5PForm";
 import { Params } from "../../src/types/H5P/Params";
 
-export const params: Required<Params> = {
+export const params: Params = {
   topicMapItems: [
     {
       heightPercentage: 100,
@@ -44,7 +44,6 @@ export const params: Required<Params> = {
     },
   ],
   appearance: {
-    backgroundImage: undefined,
     colorTheme: ColorTheme.Blue,
   },
 };
@@ -317,18 +316,18 @@ export const semantics: H5PFieldGroup = {
       },
     },
     {
+      label: "Background image",
+      name: "gridBackgroundImage",
+      type: H5PFieldType.Image,
+      optional: true,
+    },
+    {
       label: "Appearance",
       name: "appearance",
       type: H5PFieldType.Group,
       importance: "low",
       widget: "none",
       fields: [
-        {
-          label: "Background image",
-          name: "gridBackgroundImage",
-          type: H5PFieldType.Image,
-          optional: true,
-        },
         {
           label: "Color theme",
           name: "colorTheme",
