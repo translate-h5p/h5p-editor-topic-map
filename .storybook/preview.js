@@ -22,7 +22,8 @@ export const parameters = {
       { name: "Red", class: "theme-3", color: "#981b1e" },
       { name: "Grey", class: "theme-4", color: "#373d3f" },
     ],
-    target: ".h5p-editor-topic-map .h5p-editor-topic-map",
+    target:
+      ".h5p-editor-topic-map .h5p-editor-topic-map, .h5p-editor-topic-map",
     clearable: false,
   },
 };
