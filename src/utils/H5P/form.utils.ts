@@ -43,7 +43,7 @@ export const getBackgroundImageField = (
 ): H5PFieldImage | null =>
   getSingleField<H5PFieldImage>("gridBackgroundImage", semantics);
 
-export const getEmptyParams = (): Required<Params> => {
+export const getEmptyParams = (): Params => {
   return {
     topicMapItems: [],
     arrowItems: [],
@@ -53,7 +53,7 @@ export const getEmptyParams = (): Required<Params> => {
 
 export const fillInMissingParamsProperties = (
   partialParams: Partial<Params>,
-): Required<Params> => {
+): Params => {
   return {
     ...getEmptyParams(),
     ...partialParams,
