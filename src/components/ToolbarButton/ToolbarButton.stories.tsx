@@ -9,9 +9,9 @@ export default {
   title: "Atoms/ToolbarButton",
   component: ToolbarButton,
   args: {
-    icon: ToolbarButtonType.MapColor,
+    icon: ToolbarButtonType.MapAppearance,
     onClick: () => console.info("Toolbar button clicked"),
-    label: "Map Color",
+    label: "Map Appearance",
     showActive: false,
     active: false,
   },

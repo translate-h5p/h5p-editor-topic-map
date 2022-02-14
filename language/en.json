@@ -23,6 +23,6 @@
     "toolbar-button-type_cannot-create-arrow": "There must be at least two boxes before an arrow can be added",
     "toolbar-button-type_create-arrow": "Create arrow",
     "toolbar-button-type_create-box": "Create box",
-    "toolbar-button-type_map-color": "Map color"
+    "toolbar-button-type_map-appearance": "Map appearance"
   }
 }

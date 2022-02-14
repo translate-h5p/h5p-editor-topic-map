@@ -14,7 +14,7 @@
     "semantics-form_save": "Guardar",
     "context-menu_delete": "Eliminar",
     "draggable_delete-confirmation": "¿Está seguro de querer eliminar este elemento?",
-    "toolbar-button-type_map-color": "Mapear color",
+    "toolbar-button-type_map-appearance": "Mapear apariencia",
     "toolbar-button-type_create-box": "Crear caja",
     "toolbar-button-type_create-arrow": "Crear flecha"
   }

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { MapColor } from "../../icons/MapColor";
+import { MapAppearance } from "../../icons/MapAppearance";
 import { CreateBox } from "../../icons/CreateBox";
 import { CreateArrow } from "../../icons/CreateArrow";
 import { Edit } from "../../icons/Edit";
@@ -16,7 +16,7 @@ export type IconProps = {
 
 export const Icon: React.FC<IconProps> = ({ icon, className }) => {
   const icons = {
-    [ToolbarButtonType.MapColor]: MapColor,
+    [ToolbarButtonType.MapAppearance]: MapAppearance,
     [ToolbarButtonType.CreateBox]: CreateBox,
     [ToolbarButtonType.CreateArrow]: CreateArrow,
     [ContextMenuButtonType.Edit]: Edit,
@@ -26,7 +26,7 @@ export const Icon: React.FC<IconProps> = ({ icon, className }) => {
     [ContextMenuButtonType.ArrowNonDirectional]: SingleLine,
   };
 
-  const defaultIcon = MapColor;
+  const defaultIcon = MapAppearance;
   const CurrentIcon = icons[icon] ?? defaultIcon;
 
   return <CurrentIcon className={className} />;
