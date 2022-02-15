@@ -9,7 +9,7 @@ import { ToolbarButton } from "../ToolbarButton/ToolbarButton";
 import styles from "./Toolbar.module.scss";
 
 const labelTextKeys: Record<string, TranslationKey> = {
-  mapColor: "toolbar-button-type_map-color",
+  mapAppearance: "toolbar-button-type_map-appearance",
   createBox: "toolbar-button-type_create-box",
   createArrow: "toolbar-button-type_create-arrow",
   cannotCreateArrow: "toolbar-button-type_cannot-create-arrow",
@@ -20,7 +20,7 @@ const labelTextKeys: Record<string, TranslationKey> = {
   specify the svg icon in icons.tsx
 */
 export enum ToolbarButtonType {
-  MapColor = "mapColor",
+  MapAppearance = "mapAppearance",
   CreateBox = "createBox",
   CreateArrow = "createArrow",
 }
@@ -72,8 +72,8 @@ export const Toolbar: React.FC<ToolBarProps> = ({
   return (
     <div className={styles.toolbar}>
       <ToolbarButton
-        icon={ToolbarButtonType.MapColor}
-        label={t(labelTextKeys.mapColor)}
+        icon={ToolbarButtonType.MapAppearance}
+        label={t(labelTextKeys.mapAppearance)}
         onClick={() => setAppearanceDialogOpen(wasOpen => !wasOpen)}
         active={false}
         showActive={false}

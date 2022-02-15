@@ -1,10 +1,10 @@
 import * as React from "react";
 
-export type MapColorProps = {
+export type MapAppearanceProps = {
   className: string;
 };
 
-export const MapColor: React.FC<MapColorProps> = ({ className }) => {
+export const MapAppearance: React.FC<MapAppearanceProps> = ({ className }) => {
   return (
     <svg
       className={className}
