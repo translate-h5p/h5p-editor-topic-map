@@ -120,6 +120,7 @@ describe(resizeItem.name, () => {
           topicImage: { path: "", alt: "" },
           label: "Label",
           dialog: {
+            hasNote: true,
             links: [],
           },
           description: "",
@@ -134,6 +135,7 @@ describe(resizeItem.name, () => {
           topicImage: { path: "", alt: "" },
           label: "Label",
           dialog: {
+            hasNote: true,
             links: [],
           },
           description: "",
@@ -340,6 +342,7 @@ describe(updateItem.name, () => {
         topicImage: { path: "", alt: "" },
         label: "Label",
         dialog: {
+          hasNote: true,
           links: [],
         },
         description: "",
@@ -380,6 +383,7 @@ describe(updateItem.name, () => {
         topicImage: { path: "", alt: "" },
         label: "Label",
         dialog: {
+          hasNote: true,
           links: [],
         },
         description: "",
@@ -410,6 +414,7 @@ describe(updateItem.name, () => {
         topicImage: { path: "", alt: "" },
         label: "Label",
         dialog: {
+          hasNote: true,
           links: [],
         },
         description: "",
@@ -450,6 +455,7 @@ describe(updateItem.name, () => {
         topicImage: { path: "", alt: "" },
         label: "Label",
         dialog: {
+          hasNote: true,
           links: [],
         },
         description: "",

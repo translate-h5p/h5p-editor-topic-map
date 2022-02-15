@@ -16,6 +16,7 @@ export const params: Params = {
       yPercentagePosition: 0,
       topicImage: { path: "", alt: "" },
       dialog: {
+        hasNote: true,
         links: ["https://example.com", "https://example.com/2"],
       },
       description: "",
@@ -35,6 +36,7 @@ export const params: Params = {
     {
       id: "arrow-1",
       dialog: {
+        hasNote: true,
         links: ["https://example.com", "https://example.com/2"],
       },
       arrowType: ArrowType.Directional,
