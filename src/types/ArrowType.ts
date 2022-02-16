@@ -1,5 +1,5 @@
 export enum ArrowType {
-  Directional,
-  BiDirectional,
-  NonDirectional,
+  Directional = "0",
+  BiDirectional = "1",
+  NonDirectional = "2",
 }
