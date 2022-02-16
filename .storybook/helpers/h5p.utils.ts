@@ -45,9 +45,7 @@ export const params: Params = {
       label: "",
     },
   ],
-  appearance: {
-    colorTheme: ColorTheme.Blue,
-  },
+  colorTheme: ColorTheme.Blue,
 };
 
 export const semantics: H5PFieldGroup = {
@@ -381,9 +379,7 @@ export const parent: H5PForm = {
         },
       ],
       arrowItems: [],
-      appearance: {
-        colorTheme: ColorTheme.Blue,
-      },
+      colorTheme: ColorTheme.Blue,
     },
   },
   passReadies: false,

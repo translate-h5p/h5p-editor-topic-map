@@ -32,10 +32,7 @@ export const AppearanceDialog: React.FC<AppearanceDialogProps> = ({
   const setTheme = (colorTheme: ColorTheme): void => {
     onSave({
       ...params,
-      appearance: {
-        ...params.appearance,
-        colorTheme,
-      },
+      colorTheme,
     });
   };
 
@@ -50,7 +47,7 @@ export const AppearanceDialog: React.FC<AppearanceDialogProps> = ({
         <div className={styles.themePicker}>
           <ThemePicker
             setTheme={setTheme}
-            activeTheme={params.appearance?.colorTheme ?? defaultTheme}
+            activeTheme={params.colorTheme ?? defaultTheme}
           />
         </div>
 
