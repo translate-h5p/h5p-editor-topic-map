@@ -44,7 +44,7 @@ export const App: React.FC<AppProps> = ({
   return (
     <div
       className={`h5p-editor-topic-map theme-${
-        params.appearance?.colorTheme ?? defaultTheme
+        params.colorTheme ?? defaultTheme
       }`}
     >
       <MapEditorView

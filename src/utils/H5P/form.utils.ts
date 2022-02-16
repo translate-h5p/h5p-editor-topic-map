@@ -24,7 +24,10 @@ const getSingleField = <Type extends H5PField>(
   }
 
   if (Array.isArray(field)) {
-    console.error(`\`${fieldName}\` is an array`, field);
+    console.error(
+      `\`${fieldName}\` is an array, which means that more than one field with the name was found.`,
+      field,
+    );
     return field[0];
   }
 
@@ -47,7 +50,6 @@ export const getEmptyParams = (): Params => {
   return {
     topicMapItems: [],
     arrowItems: [],
-    appearance: {},
   };
 };
 
