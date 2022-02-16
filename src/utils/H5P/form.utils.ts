@@ -47,7 +47,6 @@ export const getEmptyParams = (): Params => {
   return {
     topicMapItems: [],
     arrowItems: [],
-    appearance: {},
   };
 };
 
