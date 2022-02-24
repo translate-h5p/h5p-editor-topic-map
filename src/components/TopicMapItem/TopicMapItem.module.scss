@@ -7,6 +7,30 @@
   height: 100%;
   overflow: hidden;
   width: 100%;
+
+  &.large {
+    font-size: 1.125rem;
+
+    .inner {
+      padding: 1em 1.25em;
+    }
+  }
+
+  &.medium {
+    font-size: 1rem;
+
+    .inner {
+      padding: 0.75em 1em;
+    }
+  }
+
+  &.small {
+    font-size: 0.813rem;
+
+    .inner {
+      padding: 0.75em;
+    }
+  }
 }
 
 .image {
@@ -22,7 +46,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 1rem 1.5rem;
+  padding: 1em 1.5em;
   width: 100%;
 
   &.noImage {
@@ -30,13 +54,21 @@
   }
 }
 
+.label,
+.description {
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+  overflow-wrap: break-word;
+}
+
 .label {
-  font-size: 1.125rem;
+  font-size: 1.125em;
   font-weight: 500;
   text-align: center;
 }
 
 .description {
-  font-size: 0.625rem;
-  margin-top: 0.5rem;
+  font-size: 0.625em;
+  margin-top: 0.5em;
 }
