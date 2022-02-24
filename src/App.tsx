@@ -1,5 +1,7 @@
+import useResizeObserver from "@react-hook/resize-observer";
 import * as React from "react";
 import { MapEditorView } from "./components/MapEditorView/MapEditorView";
+import { AppWidthContext } from "./contexts/AppWidthContext";
 import { H5PFieldGroup } from "./types/H5P/H5PField";
 import { H5PForm } from "./types/H5P/H5PForm";
 import { Params } from "./types/H5P/Params";
@@ -22,6 +24,19 @@ export const App: React.FC<AppProps> = ({
   initialParams,
   parent,
 }) => {
+  const containerRef = React.useRef<HTMLDivElement>(null);
+  const [width, setWidth] = React.useState(0);
+
+  React.useLayoutEffect(() => {
+    const initialWidth =
+      containerRef.current?.getBoundingClientRect().width ?? 0;
+    setWidth(initialWidth);
+  }, []);
+
+  useResizeObserver(containerRef, ({ contentRect }) => {
+    setWidth(contentRect.width);
+  });
+
   const [params, setParams] = React.useState<Params>(
     initialParams
       ? fillInMissingParamsProperties(initialParams)
@@ -42,17 +57,20 @@ export const App: React.FC<AppProps> = ({
   );
 
   return (
-    <div
-      className={`h5p-editor-topic-map theme-${
-        params.colorTheme ?? defaultTheme
-      }`}
-    >
-      <MapEditorView
-        setParams={updateParams}
-        semantics={semantics}
-        params={params}
-        parent={parent}
-      />
-    </div>
+    <AppWidthContext.Provider value={width}>
+      <div
+        className={`h5p-editor-topic-map theme-${
+          params.colorTheme ?? defaultTheme
+        }`}
+        ref={containerRef}
+      >
+        <MapEditorView
+          setParams={updateParams}
+          semantics={semantics}
+          params={params}
+          parent={parent}
+        />
+      </div>
+    </AppWidthContext.Provider>
   );
 };
