@@ -188,8 +188,6 @@ export const Grid: FC<GridProps> = ({
 
   const createArrow = useCallback(
     (elementId: string, pointerPosition: Position) => {
-      // eslint-disable-next-line no-console
-      console.log("activetool", activeTool);
       const isCreatingNewArrow = activeTool === ToolbarButtonType.CreateArrow;
       const isCreatingClassicArrow =
         activeTool === ToolbarButtonType.CreateClassicArrow;
