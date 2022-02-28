@@ -1,14 +1,16 @@
 import * as React from "react";
+import { Position } from "../../types/Position";
 import styles from "./GridIndicator.module.scss";
 
 export type GridIndicatorProps = {
   onMouseDown: () => void;
   onMouseEnter: () => void;
   label: string;
+  position: Position;
 };
 
 export const GridIndicator: React.FC<GridIndicatorProps> = React.memo(
-  ({ onMouseDown, onMouseEnter, label }) => {
+  ({ onMouseDown, onMouseEnter, label, position }) => {
     return (
       <button
         type="button"
@@ -19,6 +21,8 @@ export const GridIndicator: React.FC<GridIndicatorProps> = React.memo(
         onTouchMove={onMouseEnter}
         aria-label={label}
         data-grid-indicator="true"
+        data-x={position.x}
+        data-y={position.y}
       />
     );
   },
