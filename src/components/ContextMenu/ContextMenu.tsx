@@ -19,18 +19,23 @@ export type ContextMenuProps = {
   show: boolean;
   turnLeft: boolean;
   actions: Array<ContextMenuAction>;
+  x: number;
+  y: number;
 };
 
 export const ContextMenu: React.FC<ContextMenuProps> = ({
   show,
   turnLeft,
   actions,
+  x,
+  y,
 }) => {
   const className = turnLeft ? styles.left : styles.right;
 
   return (
     <div
       className={`${styles.contextMenu} ${className} ${show && styles.show}`}
+      style={{ left: x, top: y }}
     >
       {actions.map(({ icon, label, onClick }) => (
         <ContextMenuButton

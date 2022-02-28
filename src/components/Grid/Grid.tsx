@@ -897,6 +897,9 @@ export const Grid: FC<GridProps> = ({
         cellSize={cellSize}
         gapSize={gapSize}
         item={item}
+        editItem={editArrow}
+        selectedItemId={selectedItem}
+        setSelectedItemId={setSelectedItem}
       />
     ),
     [
