@@ -405,10 +405,10 @@ export const asGridPosition = (
   } as Position;
 };
 
-export const findClosestGridIndicator = (
+export const findClosestGridIndicator = <T>(
   position: Position,
-  gridIndicators: NodeListOf<any>,
-): any | null => {
+  gridIndicators: NodeListOf<T>,
+): T | null => {
   const indicators = Array.from(gridIndicators);
 
   indicators.sort((a, b) => {
