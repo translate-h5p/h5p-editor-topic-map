@@ -1,0 +1,116 @@
+.arrow {
+    cursor: pointer;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .path {
+      pointer-events: all;
+  }
+  
+  .deleteConfirmationPositive,
+  .deleteConfirmationNegative {
+    background-color: #fff;
+    border-radius: 0.25em;
+    border: 2px solid currentColor;
+    box-sizing: border-box;
+    color: #0d2769;
+    cursor: pointer;
+    display: inline-block;
+    font-weight: 600;
+    margin: 10px 0 0 0;
+    padding: 0.5rem 1.25rem;
+    width: auto;
+  }
+  
+  .deleteConfirmationPositive {
+    background-color: #0d2769;
+    color: #fff;
+  }
+  
+  .deleteConfirmationButtons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin: 1rem 0 0;
+  }
+
+//   .arrow {
+//     display: flex;
+//   }
+  
+//   .filledArrow,
+//   .emptyArrow:hover,
+//   .emptyArrow:focus-within {
+//     button {
+//       opacity: 1;
+//       pointer-events: auto;
+//     }
+//   }
+  
+//   .arrow button {
+//     opacity: 0;
+//     pointer-events: none;
+//     transition: opacity 0.15s ease-in-out;
+//     border-radius: 0;
+//     border: none;
+//     background-color: transparent;
+//     padding: 0;
+  
+//     &:focus {
+//       outline: 0;
+//     }
+//   }
+  
+//   .shadow {
+//     filter: drop-shadow(0 4px 4px rgba(0, 0, 0, 0.25));
+//     height: 100%;
+//     width: 100%;
+//   }
+  
+//   $end-offset: 6px;
+  
+//   .pointUp,
+//   .pointDown {
+//     flex-direction: column;
+//   }
+  
+//   .pointLeft {
+//     /*
+//       TODO: Fix translate if the size of the grid or arrows changes. 
+//       The arrows should be placed in the center of the gridindicators 
+//       and should not overlap boxes.
+//     */
+//     transform: rotate(180deg) translateX($end-offset);
+//   }
+  
+//   .pointUp {
+//     /*
+//       TODO: Fix translate if the size of the grid or arrows changes. 
+//       The arrows should be placed in the center of the gridindicators 
+//       and should not overlap boxes.
+//     */
+//     transform: rotate(180deg) translateY($end-offset);
+//   }
+  
+//   .pointDown {
+//     /*
+//       TODO: Fix translate if the size of the grid or arrows changes. 
+//       The arrows should be placed in the center of the gridindicators 
+//       and should not overlap boxes.
+//     */
+//     transform: rotate(0deg) translateY(-$end-offset);
+//   }
+  
+//   .pointRight {
+//     /*
+//       TODO: Fix translate if the size of the grid or arrows changes. 
+//       The arrows should be placed in the center of the gridindicators 
+//       and should not overlap boxes.
+//     */
+//     transform: rotate(0deg) translateX(-$end-offset);
+//   }

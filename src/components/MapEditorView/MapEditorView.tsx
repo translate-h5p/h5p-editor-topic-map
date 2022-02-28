@@ -2,6 +2,7 @@ import * as React from "react";
 import { useState } from "react";
 import { getImageUrl, t } from "../../H5P/H5P.util";
 import { ArrowItemType } from "../../types/ArrowItemType";
+import { ClassicArrowItemType } from "../../types/ClassicArrowItemType";
 import { H5PFieldGroup } from "../../types/H5P/H5PField";
 import { H5PForm } from "../../types/H5P/H5PForm";
 import { Params } from "../../types/H5P/Params";
@@ -41,6 +42,7 @@ export const MapEditorView: React.FC<MapEditorViewProps> = ({
   const [activeTool, setActiveTool] = useState<ToolbarButtonType | null>(null);
   const [gridItems, setGridItems] = useState(params.topicMapItems ?? []);
   const [arrowItems, setArrowItems] = useState(params.arrowItems ?? []);
+  const [classicArrowItems, setClassicArrowItems] = useState(params.classicArrowItems ?? []);
   const [editedItem, setEditedItem] = useState<string | null>(null);
   const [deletedItem, setDeletedItem] = useState<string | null>(null);
   const [selectedItem, setSelectedItem] = useState<string | null>(null);
@@ -70,6 +72,14 @@ export const MapEditorView: React.FC<MapEditorViewProps> = ({
     (items: Array<ArrowItemType>) => {
       setParams({ arrowItems: items });
       setArrowItems(items);
+    },
+    [setParams],
+  );
+
+  const updateClassicArrows = React.useCallback(
+    (items: Array<ClassicArrowItemType>) => {
+      setParams({ classicArrowItems: items });
+      setClassicArrowItems(items);
     },
     [setParams],
   );
@@ -149,6 +159,7 @@ export const MapEditorView: React.FC<MapEditorViewProps> = ({
           updateItems={updateItems}
           initialArrowItems={arrowItems}
           updateArrowItems={updateArrows}
+          updateClassicArrowItems={updateClassicArrows}
           gapSize={gapSize ?? defaultGapSize}
           setActiveTool={setActive}
           activeTool={activeTool}

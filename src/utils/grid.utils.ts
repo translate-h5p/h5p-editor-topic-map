@@ -1,5 +1,6 @@
 import { v4 as uuidV4 } from "uuid";
 import { ArrowItemType } from "../types/ArrowItemType";
+import { ClassicArrowItemType } from "../types/ClassicArrowItemType";
 import { ArrowType } from "../types/ArrowType";
 import { Cell } from "../types/Cell";
 import { Element } from "../types/Element";
@@ -8,6 +9,7 @@ import { Position } from "../types/Position";
 import { Size } from "../types/Size";
 import { TopicMapItemType } from "../types/TopicMapItemType";
 import { arraysHaveSomeOverlap } from "./array.utils";
+import { ArrowDirection } from "../types/ArrowDirection";
 
 export const resizeItem = (
   item: TopicMapItemType,
@@ -335,6 +337,36 @@ export const createArrowItem = (
   return item;
 };
 
+export const createClassicArrowItem = (
+  startId: string,
+  endId: string,
+  label: string,
+  arrowType: ArrowType,
+  arrowDirection: ArrowDirection,
+  startPosition: Position,
+  endPosition: Position,
+  startGridPosition: Position,
+  endGridPosition: Position,
+): ClassicArrowItemType => {
+  const id = uuidV4();
+
+  const item: ClassicArrowItemType = {
+    id,
+    label,
+    arrowType,
+    description: "",
+    startElementId: startId,
+    endElementId: endId,
+    arrowDirection,
+    startPosition,
+    endPosition,
+    startGridPosition,
+    endGridPosition,
+  };
+
+  return item;
+};
+
 export const findItem = (
   id: string,
   items: Array<TopicMapItemType>,
@@ -359,3 +391,46 @@ export const findConnectedArrows = (
     [arrow.startElementId, arrow.endElementId].includes(itemId),
   );
 };
+
+export const asGridPosition = (
+  position:Position,
+  width: number,
+  height: number): Position => {
+    const xPercentagePosition = calculateXPercentage(position.x, width);
+    const yPercentagePosition = calculateYPercentage(position.y, height);
+    return {
+      x: xPercentagePosition,
+      y: yPercentagePosition,
+    } as Position;
+};
+
+export const findClosestGridIndicator = (
+  position: Position,
+  gridIndicators: NodeListOf<any>,
+): any | null => {
+  const indicators = Array.from(gridIndicators);
+
+  indicators.sort((a, b) => {
+    
+    const aDistance = Math.abs(a.offsetLeft - position.x);
+    const bDistance = Math.abs(b.offsetTop - position.y);
+    return Math.abs(aDistance - bDistance);
+  });
+  return indicators[0];
+}
+
+export const straightenArrowEnd = (
+  start: Position,
+  end: Position,
+): Position => {
+  if(Math.abs(start.x - end.x) >= Math.abs(start.y - end.y)) {
+    return {
+      x: end.x,
+      y: start.y,
+    } as Position;
+  }
+  return {
+    x: start.x,
+    y: end.y,
+  } as Position;
+}
