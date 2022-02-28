@@ -405,19 +405,6 @@ export const asGridPosition = (
   } as Position;
 };
 
-export const findClosestGridIndicator = <T>(
-  position: Position,
-  gridIndicators: NodeListOf<T>,
-): T | null => {
-  const indicators = Array.from(gridIndicators);
-
-  indicators.sort((a, b) => {
-    const aDistance = Math.abs(a.offsetLeft - position.x);
-    const bDistance = Math.abs(b.offsetTop - position.y);
-    return Math.abs(aDistance - bDistance);
-  });
-  return indicators[0];
-};
 
 export const straightenArrowEnd = (
   start: Position,

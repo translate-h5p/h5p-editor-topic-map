@@ -18,7 +18,6 @@ import {
   createArrowItem,
   createClassicArrowItem,
   createTopicMapItem,
-  findClosestGridIndicator,
   findHeightPercentage,
   findItem,
   findOccupiedCells,
