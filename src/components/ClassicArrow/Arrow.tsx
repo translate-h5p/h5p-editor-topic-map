@@ -45,14 +45,6 @@ export const ClassicArrow: React.FC<ClassicArrowProps> = ({
     y: (item.endGridPosition.y + yAdjust) * (cellSize + gapSize),
   };
 
-  // eslint-disable-next-line no-console
-  console.log(
-    item.startGridPosition,
-    startPos,
-    item.endGridPosition,
-    endPos,
-    isHorizontal,
-  );
   const pathDef = `M ${startPos.x} ${startPos.y} L ${endPos.x} ${endPos.y}`;
   // Apply shadow around arrow
   return (

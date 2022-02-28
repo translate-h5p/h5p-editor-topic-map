@@ -238,11 +238,6 @@ export const Grid: FC<GridProps> = ({
         setAhPreviewPosition(null);
         setArrowPreview(null);
       } else if (isCreatingClassicArrow) {
-        // eslint-disable-next-line no-console
-        console.log(
-          "elements from point",
-          document.elementsFromPoint(pointerPosition.x, pointerPosition.y),
-        );
         const gridIndicator = document
           .elementsFromPoint(pointerPosition.x, pointerPosition.y)
           .find(element =>
