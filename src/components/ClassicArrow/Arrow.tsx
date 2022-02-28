@@ -24,7 +24,6 @@ export const ClassicArrow: React.FC<ClassicArrowProps> = ({
   selectedItemId,
   setSelectedItemId,
 }) => {
-
   const contextMenuActions: Array<ContextMenuAction> = React.useMemo(() => {
     const editAction: ContextMenuAction = {
       icon: ContextMenuButtonType.Edit,
@@ -109,7 +108,11 @@ export const ClassicArrow: React.FC<ClassicArrowProps> = ({
             refY="1"
             orient="auto"
           >
-            <path d="M0,0 L0,2 L1.5,1 z" fill="var(--theme-color-4)" onClick={() => setSelectedItemId(item.id)}/>
+            <path
+              d="M0,0 L0,2 L1.5,1 z"
+              fill="var(--theme-color-4)"
+              onClick={() => setSelectedItemId(item.id)}
+            />
           </marker>
         </defs>
         <path
@@ -127,8 +130,16 @@ export const ClassicArrow: React.FC<ClassicArrowProps> = ({
         actions={contextMenuActions}
         show={selectedItemId === item.id}
         turnLeft={false} // TODO: {checkIfRightSideOfGrid(position.x, gridSize.width)}
-        x={isHorizontal ? endPos.x - 1.5*(cellSize + gapSize) : endPos.x - (2*(cellSize + gapSize))}
-        y={isHorizontal ? endPos.y - 1*(cellSize + gapSize) : endPos.y + (2*(cellSize + gapSize))}
+        x={
+          isHorizontal
+            ? endPos.x - 1.5 * (cellSize + gapSize)
+            : endPos.x - 2 * (cellSize + gapSize)
+        }
+        y={
+          isHorizontal
+            ? endPos.y - 1 * (cellSize + gapSize)
+            : endPos.y + 2 * (cellSize + gapSize)
+        }
       />
 
       {/* <Dialog
@@ -154,7 +165,6 @@ export const ClassicArrow: React.FC<ClassicArrowProps> = ({
           </button>
         </div>
       </Dialog> */}
-
     </div>
   );
 };
