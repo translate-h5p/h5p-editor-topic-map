@@ -874,8 +874,6 @@ export const Grid: FC<GridProps> = ({
       <ClassicArrow
         key={item.id}
         cellSize={cellSize}
-        type={ArrowType.Directional}
-        direction={item.arrowDirection}
         gapSize={gapSize}
         item={item}
       />
