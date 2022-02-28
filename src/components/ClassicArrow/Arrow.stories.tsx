@@ -25,7 +25,9 @@ export default {
   },
 } as ComponentMeta<typeof ClassicArrow>;
 
-const Template: ComponentStory<typeof ClassicArrow> = args => <ClassicArrow {...args} />;
+const Template: ComponentStory<typeof ClassicArrow> = args => (
+  <ClassicArrow {...args} />
+);
 
 export const RightDirectionalEmptyArrow = Template.bind({});
 RightDirectionalEmptyArrow.args = {
@@ -89,10 +91,10 @@ BidirectionalHorizontalEmptyArrow.argTypes = {
 
 export const UpDirectionalEditedArrow = Template.bind({});
 UpDirectionalEditedArrow.args = {
-    item: {
-        startPosition: { x: 0, y: 100 },
-        endPosition: { x: 0, y: 0 },
-      } as ClassicArrowItemType,
+  item: {
+    startPosition: { x: 0, y: 100 },
+    endPosition: { x: 0, y: 0 },
+  } as ClassicArrowItemType,
   type: ArrowType.Directional,
   direction: ArrowDirection.Up,
 };

@@ -15,7 +15,7 @@ export type ClassicArrowItemType = CommonItemType & {
 
   /** The arrow type */
   arrowType: ArrowType;
-  
+
   startElementId: string;
   endElementId: string;
   startPosition: Position;

@@ -393,15 +393,16 @@ export const findConnectedArrows = (
 };
 
 export const asGridPosition = (
-  position:Position,
+  position: Position,
   width: number,
-  height: number): Position => {
-    const xPercentagePosition = calculateXPercentage(position.x, width);
-    const yPercentagePosition = calculateYPercentage(position.y, height);
-    return {
-      x: xPercentagePosition,
-      y: yPercentagePosition,
-    } as Position;
+  height: number,
+): Position => {
+  const xPercentagePosition = calculateXPercentage(position.x, width);
+  const yPercentagePosition = calculateYPercentage(position.y, height);
+  return {
+    x: xPercentagePosition,
+    y: yPercentagePosition,
+  } as Position;
 };
 
 export const findClosestGridIndicator = (
@@ -411,19 +412,18 @@ export const findClosestGridIndicator = (
   const indicators = Array.from(gridIndicators);
 
   indicators.sort((a, b) => {
-    
     const aDistance = Math.abs(a.offsetLeft - position.x);
     const bDistance = Math.abs(b.offsetTop - position.y);
     return Math.abs(aDistance - bDistance);
   });
   return indicators[0];
-}
+};
 
 export const straightenArrowEnd = (
   start: Position,
   end: Position,
 ): Position => {
-  if(Math.abs(start.x - end.x) >= Math.abs(start.y - end.y)) {
+  if (Math.abs(start.x - end.x) >= Math.abs(start.y - end.y)) {
     return {
       x: end.x,
       y: start.y,
@@ -433,4 +433,4 @@ export const straightenArrowEnd = (
     x: start.x,
     y: end.y,
   } as Position;
-}
+};

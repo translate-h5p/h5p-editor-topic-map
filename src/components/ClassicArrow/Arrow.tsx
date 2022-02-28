@@ -29,35 +29,39 @@ const directionClassNames = {
   [ArrowDirection.Right]: styles.pointRight,
 } as const;
 
-const closestDivisor = (n: number, m: number):number => {
-    // eslint-disable-next-line radix
-    const q = Math.floor(n / m);
-     
-    // 1st possible closest number
-    const n1 = m * q;
-     
-    // 2nd possible closest number
-    const n2 = (n * m) > 0 ?
-        (m * (q + 1)) : (m * (q - 1));
-     
-    // if true, then n1 is the
-    // required closest number
-    if (Math.abs(n - n1) < Math.abs(n - n2))
-        return n1;
-     
-    // else n2 is the required
-    // closest number
-    return n2;
-}
+const closestDivisor = (n: number, m: number): number => {
+  // eslint-disable-next-line radix
+  const q = Math.floor(n / m);
 
-const snapToGrid = (position: Position, offsetLeft: number, offsetTop: number, cellSize: number, gapSize: number):Position => {
-  const {x,y} = position;
-  
+  // 1st possible closest number
+  const n1 = m * q;
+
+  // 2nd possible closest number
+  const n2 = n * m > 0 ? m * (q + 1) : m * (q - 1);
+
+  // if true, then n1 is the
+  // required closest number
+  if (Math.abs(n - n1) < Math.abs(n - n2)) return n1;
+
+  // else n2 is the required
+  // closest number
+  return n2;
+};
+
+const snapToGrid = (
+  position: Position,
+  offsetLeft: number,
+  offsetTop: number,
+  cellSize: number,
+  gapSize: number,
+): Position => {
+  const { x, y } = position;
+
   return {
     x: closestDivisor(x, cellSize + gapSize),
     y: closestDivisor(y, cellSize + gapSize) - 8,
   };
-}
+};
 
 // TODO: Share code with h5p-topic-map instead of duplicating
 export const ClassicArrow: React.FC<ClassicArrowProps> = ({
@@ -68,7 +72,8 @@ export const ClassicArrow: React.FC<ClassicArrowProps> = ({
   gapSize,
 }) => {
   const isHorizontal =
-    Math.abs(item.startPosition.x - item.endPosition.x) > Math.abs(item.startPosition.y - item.endPosition.y);
+    Math.abs(item.startPosition.x - item.endPosition.x) >
+    Math.abs(item.startPosition.y - item.endPosition.y);
 
   const classNames = `${styles.arrow} ${directionClassNames[direction]}`;
 
@@ -86,12 +91,19 @@ export const ClassicArrow: React.FC<ClassicArrowProps> = ({
         width: cellSize + gapSize,
       };
 
-  const gridElement = document.querySelector("div[role=application]") as HTMLElement;
-  
-  const offsetLeft = gridElement.offsetLeft + (gridElement.offsetParent as HTMLElement).offsetLeft; ;
-  const offsetTop = gridElement.offsetTop + (gridElement.offsetParent as HTMLElement).offsetTop; ;
+  const gridElement = document.querySelector(
+    "div[role=application]",
+  ) as HTMLElement;
 
-  const viewBox = `${offsetLeft} ${offsetTop} ${gridElement.clientWidth - gridElement.offsetLeft} ${gridElement.clientHeight - gridElement.offsetTop}`;
+  const offsetLeft =
+    gridElement.offsetLeft +
+    (gridElement.offsetParent as HTMLElement).offsetLeft;
+  const offsetTop =
+    gridElement.offsetTop + (gridElement.offsetParent as HTMLElement).offsetTop;
+
+  const viewBox = `${offsetLeft} ${offsetTop} ${
+    gridElement.clientWidth - gridElement.offsetLeft
+  } ${gridElement.clientHeight - gridElement.offsetTop}`;
 
   // const endElement = document.getElementById(item.endElementId) as HTMLElement;
   // eslint-disable-next-line no-console
@@ -100,28 +112,61 @@ export const ClassicArrow: React.FC<ClassicArrowProps> = ({
   // const endPos = snapToGrid(item.endPosition, 0, 0, cellSize, gapSize);
   // const pathDef = `M ${item.startPosition.x} ${item.startPosition.y} L ${item.endPosition.x} ${item.endPosition.y}`;
 
-
-  const startPos = {x: (item.startGridPosition.x - 0.5) * (cellSize + gapSize), y: (item.startGridPosition.y -0.5 ) * (cellSize + gapSize)};
+  const startPos = {
+    x: (item.startGridPosition.x - 0.5) * (cellSize + gapSize),
+    y: (item.startGridPosition.y - 0.5) * (cellSize + gapSize),
+  };
   // eslint-disable-next-line no-nested-ternary
-  const xAdjust = isHorizontal && item.startGridPosition.x <= item.endGridPosition.x ? -1.75 : isHorizontal ? 0.5: -0.5;
+  const xAdjust =
+    isHorizontal && item.startGridPosition.x <= item.endGridPosition.x
+      ? -1.75
+      : isHorizontal
+      ? 0.5
+      : -0.5;
   // eslint-disable-next-line no-nested-ternary
-  const yAdjust = isHorizontal ? -0.5 : item.startGridPosition.y <= item.endGridPosition.y ? -1.75 : 0.5;
-  const endPos = {x: (item.endGridPosition.x + xAdjust) * (cellSize + gapSize), y: (item.endGridPosition.y + yAdjust) * (cellSize + gapSize)};
+  const yAdjust = isHorizontal
+    ? -0.5
+    : item.startGridPosition.y <= item.endGridPosition.y
+    ? -1.75
+    : 0.5;
+  const endPos = {
+    x: (item.endGridPosition.x + xAdjust) * (cellSize + gapSize),
+    y: (item.endGridPosition.y + yAdjust) * (cellSize + gapSize),
+  };
 
   // eslint-disable-next-line no-console
-  console.log(item.startGridPosition, startPos, item.endGridPosition,  endPos, isHorizontal);
+  console.log(
+    item.startGridPosition,
+    startPos,
+    item.endGridPosition,
+    endPos,
+    isHorizontal,
+  );
   const pathDef = `M ${startPos.x} ${startPos.y} L ${endPos.x} ${endPos.y}`;
   // Apply shadow around arrow
   return (
     <div className={styles.arrow} style={{ transform }}>
       <svg className={styles.arrow}>
         <defs>
-            <marker id="arrowhead" markerWidth="10" markerHeight="10" 
-            refX="0.7" refY="1" orient="auto">
-                <path d="M0,0 L0,2 L1.5,1 z" fill="var(--theme-color-4)" />
-            </marker>
+          <marker
+            id="arrowhead"
+            markerWidth="10"
+            markerHeight="10"
+            refX="0.7"
+            refY="1"
+            orient="auto"
+          >
+            <path d="M0,0 L0,2 L1.5,1 z" fill="var(--theme-color-4)" />
+          </marker>
         </defs>
-        <path className={styles.path} d={pathDef} fill="transparent" stroke="var(--theme-color-4)" strokeWidth={cellSize} markerEnd="url(#arrowhead)"/>
+        <path
+          className={styles.path}
+          d={pathDef}
+          fill="transparent"
+          stroke="var(--theme-color-4)"
+          strokeWidth={cellSize}
+          markerEnd="url(#arrowhead)"
+        />
       </svg>
     </div>
   );

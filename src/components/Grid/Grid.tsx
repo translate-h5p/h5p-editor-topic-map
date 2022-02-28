@@ -88,8 +88,9 @@ export const Grid: FC<GridProps> = ({
   const [size, setSize] = useState<Size | null>(null);
   const [items, setItems] = useState(initialItems);
   const [arrowItems, setArrowItems] = useState(initialArrowItems ?? []);
-  const [classicArrowItems, setClassicArrowItems] = useState<Array<ClassicArrowItemType>>
-  ([]);
+  const [classicArrowItems, setClassicArrowItems] = useState<
+    Array<ClassicArrowItemType>
+  >([]);
   const [occupiedCells, setOccupiedCells] = useState<Array<OccupiedCell>>([]);
   const [boxStartIndex, setBoxStartIndex] = useState<number | null>(null);
   const [isDragging, setIsDragging] = useState(false);
@@ -105,14 +106,15 @@ export const Grid: FC<GridProps> = ({
   const [arrowPreview, setArrowPreview] = useState<ArrowItemType | null>(null);
   const updateXarrow = useXarrow();
 
-  const [classicArrowStartId, setClassicArrowStartId] = useState<string | null>(null);
-  const [classicAhPreviewPosition, setClassicAhPreviewPosition] = useState<Position | null>(
+  const [classicArrowStartId, setClassicArrowStartId] = useState<string | null>(
     null,
   );
-  const [classicAhPreviewGridPosition, setClassicAhPreviewGridPosition] = useState<Position | null>(
-    null,
-  );
-  const [classicArrowPreview, setClassicArrowPreview] = useState<ClassicArrowItemType | null>(null);
+  const [classicAhPreviewPosition, setClassicAhPreviewPosition] =
+    useState<Position | null>(null);
+  const [classicAhPreviewGridPosition, setClassicAhPreviewGridPosition] =
+    useState<Position | null>(null);
+  const [classicArrowPreview, setClassicArrowPreview] =
+    useState<ClassicArrowItemType | null>(null);
 
   const updateLocalGrid = (newItems: TopicMapItemType[]): void => {
     setItems(newItems);
@@ -135,7 +137,7 @@ export const Grid: FC<GridProps> = ({
     }
 
     const { width } = gridIndicator.getBoundingClientRect();
-    
+
     /**
      * This number might differ from browser to browser, but it's hopefully (😬) ok.
      * We use it to counteract floating point number errors.
@@ -189,10 +191,9 @@ export const Grid: FC<GridProps> = ({
       // eslint-disable-next-line no-console
       console.log("activetool", activeTool);
       const isCreatingNewArrow = activeTool === ToolbarButtonType.CreateArrow;
-      const isCreatingClassicArrow = activeTool === ToolbarButtonType.CreateClassicArrow;
-      if(isCreatingNewArrow) {
-      
-
+      const isCreatingClassicArrow =
+        activeTool === ToolbarButtonType.CreateClassicArrow;
+      if (isCreatingNewArrow) {
         const hasStartElementId = !!arrowStartId;
         if (!hasStartElementId) {
           setArrowStartId(elementId);
@@ -239,12 +240,22 @@ export const Grid: FC<GridProps> = ({
         setArrowStartId(null);
         setAhPreviewPosition(null);
         setArrowPreview(null);
-      } else if(isCreatingClassicArrow) {
+      } else if (isCreatingClassicArrow) {
         // eslint-disable-next-line no-console
-        console.log("elements from point", document.elementsFromPoint(pointerPosition.x, pointerPosition.y));
-        const gridIndicator = document.elementsFromPoint(pointerPosition.x, pointerPosition.y).find(element => element.classList.contains("grid-indicator")) as HTMLElement;
-        const gridPosition = {x: parseInt(gridIndicator.dataset.x as string, 10), y: parseInt(gridIndicator.dataset.y as string, 10)} as Position
-        
+        console.log(
+          "elements from point",
+          document.elementsFromPoint(pointerPosition.x, pointerPosition.y),
+        );
+        const gridIndicator = document
+          .elementsFromPoint(pointerPosition.x, pointerPosition.y)
+          .find(element =>
+            element.classList.contains("grid-indicator"),
+          ) as HTMLElement;
+        const gridPosition = {
+          x: parseInt(gridIndicator.dataset.x as string, 10),
+          y: parseInt(gridIndicator.dataset.y as string, 10),
+        } as Position;
+
         // eslint-disable-next-line no-console
         console.log("grid position", gridPosition);
         const hasStartElementId = !!classicArrowStartId;
@@ -274,17 +285,24 @@ export const Grid: FC<GridProps> = ({
         const arrowExistsAlready =
           classicArrowItems.find(
             ({ startElementId, endElementId }) =>
-              (startElementId === classicArrowStartId && endElementId === elementId) ||
-              (startElementId === elementId && endElementId === classicArrowStartId),
+              (startElementId === classicArrowStartId &&
+                endElementId === elementId) ||
+              (startElementId === elementId &&
+                endElementId === classicArrowStartId),
           ) != null;
 
         const shouldCreateArrow =
-          !arrowExistsAlready && !startsAndEndsAtSameElement && classicArrowStartId;
+          !arrowExistsAlready &&
+          !startsAndEndsAtSameElement &&
+          classicArrowStartId;
         if (shouldCreateArrow) {
           const arrowType = ArrowType.Directional;
-          const label = getLabel(classicArrowStartId, elementId, arrowType, items);
-          
-          
+          const label = getLabel(
+            classicArrowStartId,
+            elementId,
+            arrowType,
+            items,
+          );
 
           const newItem = createClassicArrowItem(
             classicArrowStartId,
@@ -293,7 +311,10 @@ export const Grid: FC<GridProps> = ({
             arrowType,
             ArrowDirection.Right,
             classicAhPreviewPosition as Position,
-            straightenArrowEnd(classicAhPreviewPosition as Position, pointerPosition),
+            straightenArrowEnd(
+              classicAhPreviewPosition as Position,
+              pointerPosition,
+            ),
             classicAhPreviewGridPosition as Position,
             gridPosition,
           );
@@ -309,10 +330,15 @@ export const Grid: FC<GridProps> = ({
         setClassicArrowPreview(null);
       }
     },
-    [activeTool, arrowItems, classicArrowItems, arrowStartId, items, updateArrowItems],
+    [
+      activeTool,
+      arrowItems,
+      classicArrowItems,
+      arrowStartId,
+      items,
+      updateArrowItems,
+    ],
   );
-
-    
 
   const createBoxStart = useCallback(
     (index: number) => {
@@ -674,7 +700,10 @@ export const Grid: FC<GridProps> = ({
           onMouseDown={() => createBoxStart(index)}
           onMouseEnter={() => onGridIndicatorMouseEnter(index)}
           label={label}
-          position={{y: Math.floor(index/numberOfColumns)+1, x: (index % numberOfColumns)+1}}
+          position={{
+            y: Math.floor(index / numberOfColumns) + 1,
+            x: (index % numberOfColumns) + 1,
+          }}
         />
       )),
     [gridIndicators, createBoxStart, onGridIndicatorMouseEnter],
@@ -747,8 +776,7 @@ export const Grid: FC<GridProps> = ({
       const cellIndex = x + y * numberOfColumns;
 
       setBoxStartIndex(cellIndex);
-      
-      
+
       setResizeDirectionLock(directionLock);
     },
     [numberOfColumns, numberOfRows],
@@ -849,7 +877,7 @@ export const Grid: FC<GridProps> = ({
         key={item.id}
         cellSize={cellSize}
         type={ArrowType.Directional}
-        direction={item.arrowDirection} 
+        direction={item.arrowDirection}
         gapSize={gapSize}
         item={item}
       />
