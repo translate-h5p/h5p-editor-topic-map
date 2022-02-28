@@ -405,7 +405,6 @@ export const asGridPosition = (
   } as Position;
 };
 
-
 export const straightenArrowEnd = (
   start: Position,
   end: Position,
