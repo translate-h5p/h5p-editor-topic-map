@@ -768,12 +768,19 @@ export const Grid: FC<GridProps> = ({
 
   const deleteArrow = useCallback(
     (id: string) => {
+      // eslint-disable-next-line no-console
+      console.log("delete arrow", id);
       const newItems = arrowItems.filter(item => item.id !== id);
-
       updateArrowItems(newItems);
       setArrowItems(newItems);
+
+      const newClassicArrowItems = classicArrowItems.filter(
+        item => item.id !== id,
+      );
+      updateClassicArrowItems(newClassicArrowItems);
+      setClassicArrowItems(newClassicArrowItems);
     },
-    [arrowItems, updateArrowItems],
+    [arrowItems, updateArrowItems, classicArrowItems, updateClassicArrowItems],
   );
 
   const startResize = useCallback(
@@ -898,6 +905,7 @@ export const Grid: FC<GridProps> = ({
         gapSize={gapSize}
         item={item}
         editItem={editArrow}
+        deleteItem={deleteArrow}
         selectedItemId={selectedItem}
         setSelectedItemId={setSelectedItem}
       />
@@ -946,7 +954,7 @@ export const Grid: FC<GridProps> = ({
   useEffectOnce(() => {
     const windowClickListener = (event: MouseEvent | TouchEvent): void => {
       const draggableWasClicked = !!(event.target as HTMLElement).closest(
-        ".draggable, .arrow-item",
+        ".draggable, .arrow-item, .context-menu-button",
       );
 
       if (!draggableWasClicked) {

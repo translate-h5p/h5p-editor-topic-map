@@ -5,12 +5,14 @@ import { ClassicArrowItemType } from "../../types/ClassicArrowItemType";
 import { ContextMenu, ContextMenuButtonType } from "../ContextMenu/ContextMenu";
 import { ContextMenuAction } from "../../types/ContextMenuAction";
 import { t } from "../../H5P/H5P.util";
+import { Dialog } from "../Dialog/Dialog";
 
 export type ClassicArrowProps = {
   cellSize: number;
   gapSize: number;
   item: ClassicArrowItemType;
   editItem: (itemId: string) => void;
+  deleteItem: (itemId: string) => void;
   selectedItemId: string | null;
   setSelectedItemId: (itemId: string) => void;
 };
@@ -21,21 +23,32 @@ export const ClassicArrow: React.FC<ClassicArrowProps> = ({
   cellSize,
   gapSize,
   editItem,
+  deleteItem,
   selectedItemId,
   setSelectedItemId,
 }) => {
+  const [showDeleteConfirmationDialog, setShowDeleteConfirmationDialog] =
+    React.useState(false);
+
+  const confirmDeletion = React.useCallback(() => {
+    deleteItem(item.id);
+    setShowDeleteConfirmationDialog(false);
+  }, [deleteItem, item.id]);
+
+  const denyDeletion = React.useCallback(() => {
+    setShowDeleteConfirmationDialog(false);
+  }, []);
   const contextMenuActions: Array<ContextMenuAction> = React.useMemo(() => {
     const editAction: ContextMenuAction = {
       icon: ContextMenuButtonType.Edit,
       label: t("context-menu_edit"),
       onClick: () => editItem(item.id),
     };
-
-    // const deleteAction: ContextMenuAction = {
-    //   icon: ContextMenuButtonType.Delete,
-    //   label: t("context-menu_delete"),
-    //   onClick: () => setShowDeleteConfirmationDialog(true),
-    // };
+    const deleteAction: ContextMenuAction = {
+      icon: ContextMenuButtonType.Delete,
+      label: t("context-menu_delete"),
+      onClick: () => setShowDeleteConfirmationDialog(true),
+    };
 
     // const changeToDirectionalArrowAction: ContextMenuAction = {
     //   icon: ContextMenuButtonType.ArrowDirectional,
@@ -60,7 +73,7 @@ export const ClassicArrow: React.FC<ClassicArrowProps> = ({
       // changeToDirectionalArrowAction,
       // changeToBiDirectionalArrowAction,
       // changeToNonDirectionalArrowAction,
-      // deleteAction,
+      deleteAction,
     ];
   }, [editItem, item.id]);
 
@@ -116,7 +129,9 @@ export const ClassicArrow: React.FC<ClassicArrowProps> = ({
           </marker>
         </defs>
         <path
-          className={styles.path}
+          className={
+            selectedItemId === null ? styles.path : styles.pathSelected
+          }
           d={pathDef}
           fill="transparent"
           stroke="var(--theme-color-4)"
@@ -142,7 +157,7 @@ export const ClassicArrow: React.FC<ClassicArrowProps> = ({
         }
       />
 
-      {/* <Dialog
+      <Dialog
         isOpen={showDeleteConfirmationDialog}
         title={t("draggable_delete-confirmation")}
         onOpenChange={setShowDeleteConfirmationDialog}
@@ -164,7 +179,7 @@ export const ClassicArrow: React.FC<ClassicArrowProps> = ({
             {t("draggable_delete-negative")}
           </button>
         </div>
-      </Dialog> */}
+      </Dialog>
     </div>
   );
 };

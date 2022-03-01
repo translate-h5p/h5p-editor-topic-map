@@ -18,6 +18,7 @@ export const ContextMenuButton: React.FC<ContextMenuButtonProps> = ({
     <button
       type="button"
       className={styles.contextMenuButton}
+      // eslint-disable-next-line no-console
       onClick={onClick}
       aria-label={label}
     >
