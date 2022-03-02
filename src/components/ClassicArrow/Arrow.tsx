@@ -6,6 +6,13 @@ import { ContextMenu, ContextMenuButtonType } from "../ContextMenu/ContextMenu";
 import { ContextMenuAction } from "../../types/ContextMenuAction";
 import { t } from "../../H5P/H5P.util";
 import { Dialog } from "../Dialog/Dialog";
+import { ArrowType } from "../../types/ArrowType";
+import {
+  xAdjustmentEnd,
+  xAdjustmentStart,
+  yAdjustmentEnd,
+  yAdjustmentStart,
+} from "../../utils/arrow.utils";
 
 export type ClassicArrowProps = {
   cellSize: number;
@@ -15,6 +22,7 @@ export type ClassicArrowProps = {
   deleteItem: (itemId: string) => void;
   selectedItemId: string | null;
   setSelectedItemId: (itemId: string) => void;
+  updateArrowType: (type: ArrowType, itemId: string) => void;
 };
 
 // TODO: Share code with h5p-topic-map instead of duplicating
@@ -26,6 +34,7 @@ export const ClassicArrow: React.FC<ClassicArrowProps> = ({
   deleteItem,
   selectedItemId,
   setSelectedItemId,
+  updateArrowType,
 }) => {
   const [showDeleteConfirmationDialog, setShowDeleteConfirmationDialog] =
     React.useState(false);
@@ -50,29 +59,29 @@ export const ClassicArrow: React.FC<ClassicArrowProps> = ({
       onClick: () => setShowDeleteConfirmationDialog(true),
     };
 
-    // const changeToDirectionalArrowAction: ContextMenuAction = {
-    //   icon: ContextMenuButtonType.ArrowDirectional,
-    //   label: t("context-menu_arrow-directional"),
-    //   onClick: () => updateArrowType(ArrowType.Directional, item.id),
-    // };
+    const changeToDirectionalArrowAction: ContextMenuAction = {
+      icon: ContextMenuButtonType.ArrowDirectional,
+      label: t("context-menu_arrow-directional"),
+      onClick: () => updateArrowType(ArrowType.Directional, item.id),
+    };
 
-    // const changeToBiDirectionalArrowAction: ContextMenuAction = {
-    //   icon: ContextMenuButtonType.ArrowBiDirectional,
-    //   label: t("context-menu_arrow-bi-directional"),
-    //   onClick: () => updateArrowType(ArrowType.BiDirectional, item.id),
-    // };
+    const changeToBiDirectionalArrowAction: ContextMenuAction = {
+      icon: ContextMenuButtonType.ArrowBiDirectional,
+      label: t("context-menu_arrow-bi-directional"),
+      onClick: () => updateArrowType(ArrowType.BiDirectional, item.id),
+    };
 
-    // const changeToNonDirectionalArrowAction: ContextMenuAction = {
-    //   icon: ContextMenuButtonType.ArrowNonDirectional,
-    //   label: t("context-menu_arrow-non-directional"),
-    //   onClick: () => updateArrowType(ArrowType.NonDirectional, item.id),
-    // };
+    const changeToNonDirectionalArrowAction: ContextMenuAction = {
+      icon: ContextMenuButtonType.ArrowNonDirectional,
+      label: t("context-menu_arrow-non-directional"),
+      onClick: () => updateArrowType(ArrowType.NonDirectional, item.id),
+    };
 
     return [
       editAction,
-      // changeToDirectionalArrowAction,
-      // changeToBiDirectionalArrowAction,
-      // changeToNonDirectionalArrowAction,
+      changeToDirectionalArrowAction,
+      changeToBiDirectionalArrowAction,
+      changeToNonDirectionalArrowAction,
       deleteAction,
     ];
   }, [editItem, item.id]);
@@ -85,23 +94,18 @@ export const ClassicArrow: React.FC<ClassicArrowProps> = ({
     ? `translateY(-${gapSize / 2}px)`
     : `translateX(-${gapSize / 2}px)`;
 
+  const xAdjustStart = xAdjustmentStart(item, isHorizontal);
+  const yAdjustStart = yAdjustmentStart(item, isHorizontal);
+
   const startPos = {
-    x: (item.startGridPosition.x - 0.5) * (cellSize + gapSize),
-    y: (item.startGridPosition.y - 0.5) * (cellSize + gapSize),
+    x: (item.startGridPosition.x + xAdjustStart) * (cellSize + gapSize),
+    y: (item.startGridPosition.y + yAdjustStart) * (cellSize + gapSize),
   };
 
-  const xAdjust =
-    isHorizontal && item.startGridPosition.x <= item.endGridPosition.x
-      ? -1.75
-      : isHorizontal
-      ? 0.5
-      : -0.5;
+  const xAdjust = xAdjustmentEnd(item, isHorizontal);
 
-  const yAdjust = isHorizontal
-    ? -0.5
-    : item.startGridPosition.y <= item.endGridPosition.y
-    ? -1.75
-    : 0.5;
+  const yAdjust = yAdjustmentEnd(item, isHorizontal);
+
   const endPos = {
     x: (item.endGridPosition.x + xAdjust) * (cellSize + gapSize),
     y: (item.endGridPosition.y + yAdjust) * (cellSize + gapSize),
@@ -127,6 +131,20 @@ export const ClassicArrow: React.FC<ClassicArrowProps> = ({
               onClick={() => setSelectedItemId(item.id)}
             />
           </marker>
+          <marker
+            id="arrowtail"
+            markerWidth="10"
+            markerHeight="10"
+            refX="0.7"
+            refY="1"
+            orient="auto-start-reverse"
+          >
+            <path
+              d="M0,0 L0,2 L1.5,1 z"
+              fill="var(--theme-color-4)"
+              onClick={() => setSelectedItemId(item.id)}
+            />
+          </marker>
         </defs>
         <path
           className={
@@ -136,7 +154,15 @@ export const ClassicArrow: React.FC<ClassicArrowProps> = ({
           fill="transparent"
           stroke="var(--theme-color-4)"
           strokeWidth={cellSize}
-          markerEnd="url(#arrowhead)"
+          markerEnd={
+            item.arrowType === ArrowType.BiDirectional ||
+            item.arrowType === ArrowType.Directional
+              ? "url(#arrowhead)"
+              : ""
+          }
+          markerStart={
+            item.arrowType === ArrowType.BiDirectional ? "url(#arrowtail)" : ""
+          }
           onClick={() => setSelectedItemId(item.id)}
         />
       </svg>

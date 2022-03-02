@@ -12,7 +12,11 @@ import { Position } from "../../types/Position";
 import { ResizeDirection } from "../../types/ResizeDirection";
 import { Size } from "../../types/Size";
 import { TopicMapItemType } from "../../types/TopicMapItemType";
-import { getLabel, updateArrowType } from "../../utils/arrow.utils";
+import {
+  getLabel,
+  updateArrowType,
+  updateClassicArrowType,
+} from "../../utils/arrow.utils";
 import { getPointerPositionFromEvent } from "../../utils/draggable.utils";
 import {
   createArrowItem,
@@ -799,15 +803,26 @@ export const Grid: FC<GridProps> = ({
   const setArrowType = useCallback(
     (type: ArrowType, id: string) => {
       const updatedItem = arrowItems.find(item => item.id === id);
-
-      if (!updatedItem) {
+      const updatedClassicItem = classicArrowItems.find(item => item.id === id);
+      if (!updatedItem && !updatedClassicItem) {
         throw new Error(`Updated arrow with id "${id}" does not exist`);
       }
 
-      const newItems = updateArrowType(arrowItems, updatedItem, type, items);
+      if (updatedItem) {
+        const newItems = updateArrowType(arrowItems, updatedItem, type, items);
 
-      updateArrowItems(newItems);
-      setArrowItems(newItems);
+        updateArrowItems(newItems);
+        setArrowItems(newItems);
+      } else if (updatedClassicItem) {
+        const newClassicItems = updateClassicArrowType(
+          classicArrowItems,
+          updatedClassicItem,
+          type,
+          items,
+        );
+        updateClassicArrowItems(newClassicItems);
+        setClassicArrowItems(newClassicItems);
+      }
     },
     [arrowItems, items, updateArrowItems],
   );
@@ -908,6 +923,7 @@ export const Grid: FC<GridProps> = ({
         deleteItem={deleteArrow}
         selectedItemId={selectedItem}
         setSelectedItemId={setSelectedItem}
+        updateArrowType={setArrowType}
       />
     ),
     [
