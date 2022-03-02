@@ -768,7 +768,7 @@ export const Grid: FC<GridProps> = ({
       const cellIndex = x + y * numberOfColumns;
 
       setBoxStartIndex(cellIndex);
-
+      setResizedItemId(item.id);
       setResizeDirectionLock(directionLock);
     },
     [numberOfColumns, numberOfRows],
