@@ -114,8 +114,8 @@ export const ClassicArrow: React.FC<ClassicArrowProps> = ({
   const pathDef = `M ${startPos.x} ${startPos.y} L ${endPos.x} ${endPos.y}`;
   // Apply shadow around arrow
   return (
-    <div className={styles.arrow} style={{ transform }}>
-      <svg className={styles.arrow}>
+    <div className={styles.arrow}>
+      <svg className={styles.arrowSvg}>
         <defs>
           <marker
             id="arrowhead"

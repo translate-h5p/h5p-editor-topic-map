@@ -4,11 +4,18 @@
   height: 100%;
   width: 100%;
   pointer-events: none;
+}
+
+.arrowSvg {
+  position: absolute;
+  height: 100%;
+  width: 100%;
   z-index: 1;
 }
 
 .path {
   pointer-events: all;
+  z-index: 1;
 }
 
 .pathSelected {

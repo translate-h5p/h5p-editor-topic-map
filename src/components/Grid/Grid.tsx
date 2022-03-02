@@ -253,8 +253,6 @@ export const Grid: FC<GridProps> = ({
           y: parseInt(gridIndicator.dataset.y as string, 10),
         } as Position;
 
-        // eslint-disable-next-line no-console
-        console.log("grid position", gridPosition);
         const hasStartElementId = !!classicArrowStartId;
         if (!hasStartElementId) {
           setClassicArrowStartId(elementId);
@@ -494,6 +492,7 @@ export const Grid: FC<GridProps> = ({
 
   const resizeBoxEnter = useCallback(
     (indicatorIndex: number) => {
+      console.info("resizeBoxEnter", indicatorIndex);
       const isResizing = resizedItemId != null;
       if (!isResizing) {
         return;
@@ -681,6 +680,7 @@ export const Grid: FC<GridProps> = ({
   const onGridIndicatorMouseEnter = useCallback(
     (indicatorIndex: number) => {
       const isResizing = resizedItemId != null;
+      console.info("onGridIndicatorMouseEnter", indicatorIndex, isResizing);
       if (isResizing) {
         resizeBoxEnter(indicatorIndex);
       }
@@ -789,6 +789,7 @@ export const Grid: FC<GridProps> = ({
 
   const startResize = useCallback(
     (item: TopicMapItemType, directionLock: ResizeDirection) => {
+      console.info("Grid: start resize", item, directionLock);
       const x = Math.floor((item.xPercentagePosition / 100) * numberOfColumns);
       const y = Math.floor((item.yPercentagePosition / 100) * numberOfRows);
       const cellIndex = x + y * numberOfColumns;
@@ -970,7 +971,7 @@ export const Grid: FC<GridProps> = ({
   useEffectOnce(() => {
     const windowClickListener = (event: MouseEvent | TouchEvent): void => {
       const draggableWasClicked = !!(event.target as HTMLElement).closest(
-        ".draggable, .arrow-item, .context-menu-button",
+        ".draggable, .arrow-item, .context-menu-button, .scaleHandle",
       );
 
       if (!draggableWasClicked) {
