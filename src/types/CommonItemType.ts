@@ -7,6 +7,7 @@ export type CommonItemType = {
 
   description?: string;
   topicImage?: Image;
+  topicImageAltText?: string;
 
   dialog?: DialogContent;
 };
