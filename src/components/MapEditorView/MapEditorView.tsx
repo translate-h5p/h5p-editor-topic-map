@@ -66,6 +66,7 @@ export const MapEditorView: React.FC<MapEditorViewProps> = ({
     (items: Array<TopicMapItemType>) => {
       setParams({ topicMapItems: items });
       setGridItems(items);
+      updateGrid.current(items);
     },
     [setParams],
   );

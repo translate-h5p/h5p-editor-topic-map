@@ -35,6 +35,7 @@ Primary.args = {
           path: "https://images.unsplash.com/photo-1601242453944-421cde7cfc84?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
           alt: "",
         },
+        topicImageAltText: "Red flower with white background.",
         label: "Label 1",
         description: "",
       },
@@ -48,6 +49,7 @@ Primary.args = {
           path: "https://images.unsplash.com/photo-1596985122625-faf96c53e0c6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1374&q=80",
           alt: "",
         },
+        topicImageAltText: "Pink flower surrounded by green leaves.",
         label: "Label 2",
         description:
           "Let's put some highlights on these little trees. The sun wouldn't forget them. I will take some magic white, and a little bit of Vandyke brown and a little touch of yellow. Didn't you know you had that much power? You can move mountains. You can do anything.",
@@ -62,6 +64,7 @@ Primary.args = {
           path: "https://images.unsplash.com/photo-1598328514034-58f20ba7d2d3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1064&q=80",
           alt: "",
         },
+        topicImageAltText: "Yellow flower with yellow background.",
         label: "Label 3",
         description:
           "You can do anything here - the only pre-requisite is that it makes you happy.",

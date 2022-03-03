@@ -119,6 +119,14 @@ export const semantics: H5PFieldGroup = {
             type: H5PFieldType.Image,
           },
           {
+            label: "Topic image alt text",
+            description:
+              "Alternative text for the image that is used by screen readers",
+            name: "topicImageAltText",
+            type: H5PFieldType.Text,
+            optional: true,
+          },
+          {
             label: "Dialog",
             name: "dialog",
             type: H5PFieldType.Group,
@@ -209,7 +217,6 @@ export const semantics: H5PFieldGroup = {
           {
             name: "endElementId",
             label: "Id of end element",
-
             type: H5PFieldType.Text,
             widget: "none",
           },
@@ -235,7 +242,14 @@ export const semantics: H5PFieldGroup = {
             name: "topicImage",
             type: H5PFieldType.Image,
           },
-
+          {
+            label: "Topic image alt text",
+            description:
+              "Alternative text for the image that is used by screen readers",
+            name: "topicImageAltText",
+            type: H5PFieldType.Text,
+            optional: true,
+          },
           {
             label: "Show start arrow-head",
             name: "showStartHead",
