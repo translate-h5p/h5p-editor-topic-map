@@ -38,7 +38,7 @@ export const TopicMapItem: React.FC<TopicMapItemProps> = ({ item }) => {
         <img
           className={styles.image}
           src={imageUrl}
-          alt={item.topicImageAltText ?? item.topicImage.alt ?? ""}
+          alt={item.topicImageAltText ?? ""}
           width={item.topicImage.width}
           height={item.topicImage.height}
         />
