@@ -156,11 +156,15 @@ export const findOccupiedCells = (
   return occupiedCells;
 };
 
-export const scaleX = (xPercentage: number, gridWidth: number): number =>
-  (gridWidth * xPercentage) / 100;
+export const scaleX = (xPercentage: number, gridWidth: number): number => {
+  const newX = (gridWidth * xPercentage) / 100;
+  return newX > 42 ? newX : 42;
+};
 
-export const scaleY = (yPercentage: number, height: number): number =>
-  (height * yPercentage) / 100;
+export const scaleY = (yPercentage: number, height: number): number => {
+  const newY = (height * yPercentage) / 100;
+  return newY > 42 ? newY : 42;
+};
 
 export const mapTopicMapItemToElement = (
   item: TopicMapItemType,
