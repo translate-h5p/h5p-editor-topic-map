@@ -156,29 +156,38 @@ export const findOccupiedCells = (
   return occupiedCells;
 };
 
-export const scaleX = (xPercentage: number, gridWidth: number): number => {
+export const scaleX = (
+  xPercentage: number,
+  gridWidth: number,
+  cellSize: number,
+): number => {
   const newX = (gridWidth * xPercentage) / 100;
-  return newX > 42 ? newX : 42;
+  return newX > cellSize ? newX : cellSize;
 };
 
-export const scaleY = (yPercentage: number, height: number): number => {
+export const scaleY = (
+  yPercentage: number,
+  height: number,
+  cellSize: number,
+): number => {
   const newY = (height * yPercentage) / 100;
-  return newY > 42 ? newY : 42;
+  return newY > cellSize ? newY : cellSize;
 };
 
 export const mapTopicMapItemToElement = (
   item: TopicMapItemType,
   gridSize: Size,
+  cellSize: number,
 ): Element => ({
   id: item.id,
   type: "item",
   position: {
-    x: scaleX(item.xPercentagePosition, gridSize.width),
-    y: scaleY(item.yPercentagePosition, gridSize.height),
+    x: scaleX(item.xPercentagePosition, gridSize.width, cellSize),
+    y: scaleY(item.yPercentagePosition, gridSize.height, cellSize),
   },
   size: {
-    width: scaleX(item.widthPercentage, gridSize.width),
-    height: scaleY(item.heightPercentage, gridSize.height),
+    width: scaleX(item.widthPercentage, gridSize.width, cellSize),
+    height: scaleY(item.heightPercentage, gridSize.height, cellSize),
   },
 });
 
