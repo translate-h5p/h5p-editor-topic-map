@@ -121,7 +121,7 @@ export const semantics: H5PFieldGroup = {
           {
             label: "Topic image alt text",
             description:
-              "Alternative text for the image that is used by screen readers.",
+              "Alternative text for the image that is used by screen readers",
             name: "topicImageAltText",
             type: H5PFieldType.Text,
             optional: true,
@@ -245,7 +245,7 @@ export const semantics: H5PFieldGroup = {
           {
             label: "Topic image alt text",
             description:
-              "Alternative text for the image that is used by screen readers.",
+              "Alternative text for the image that is used by screen readers",
             name: "topicImageAltText",
             type: H5PFieldType.Text,
             optional: true,
