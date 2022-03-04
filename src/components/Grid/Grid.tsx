@@ -174,7 +174,7 @@ export const Grid: FC<GridProps> = ({
 
       setOccupiedCells(
         findOccupiedCells(
-          items.map(item => mapTopicMapItemToElement(item, size)),
+          items.map(item => mapTopicMapItemToElement(item, size, cellSize)),
           size.width,
           size.height,
           gapSize,
@@ -427,12 +427,12 @@ export const Grid: FC<GridProps> = ({
       newItem.heightPercentage = heightPercentage;
 
       const newPosition = {
-        x: scaleX(xPercentagePosition, size.width),
-        y: scaleY(yPercentagePosition, size.height),
+        x: scaleX(xPercentagePosition, size.width, cellSize),
+        y: scaleY(yPercentagePosition, size.height, cellSize),
       };
       const newSize = {
-        width: scaleX(widthPercentage, size.width),
-        height: scaleY(heightPercentage, size.height),
+        width: scaleX(widthPercentage, size.width, cellSize),
+        height: scaleY(heightPercentage, size.height, cellSize),
       };
 
       const lastItem = items[currentItemsLength];
@@ -572,12 +572,12 @@ export const Grid: FC<GridProps> = ({
       );
 
       const newPosition = {
-        x: scaleX(xPercentagePosition, size.width),
-        y: scaleY(yPercentagePosition, size.height),
+        x: scaleX(xPercentagePosition, size.width, cellSize),
+        y: scaleY(yPercentagePosition, size.height, cellSize),
       };
       const newSize = {
-        width: scaleX(widthPercentage, size.width),
-        height: scaleY(heightPercentage, size.height),
+        width: scaleX(widthPercentage, size.width, cellSize),
+        height: scaleY(heightPercentage, size.height, cellSize),
       };
 
       setPrevIndex(indicatorIndex);
@@ -715,7 +715,7 @@ export const Grid: FC<GridProps> = ({
       setItems(newItems);
 
       const elements: Array<Element> = items.map(item =>
-        mapTopicMapItemToElement(item, size),
+        mapTopicMapItemToElement(item, size, cellSize),
       );
 
       const newOccupiedCells = findOccupiedCells(
@@ -799,11 +799,23 @@ export const Grid: FC<GridProps> = ({
       <Draggable
         key={item.id}
         id={item.id}
-        initialXPosition={scaleX(item.xPercentagePosition, size.width)}
-        initialYPosition={scaleY(item.yPercentagePosition, size.height)}
+        initialXPosition={scaleX(
+          item.xPercentagePosition,
+          size.width,
+          cellSize,
+        )}
+        initialYPosition={scaleY(
+          item.yPercentagePosition,
+          size.height,
+          cellSize,
+        )}
         updatePosition={newPosition => updateItemPosition(item, newPosition)}
-        initialWidth={Math.abs(scaleX(item.widthPercentage, size.width))}
-        initialHeight={Math.abs(scaleY(item.heightPercentage, size.height))}
+        initialWidth={Math.abs(
+          scaleX(item.widthPercentage, size.width, cellSize),
+        )}
+        initialHeight={Math.abs(
+          scaleY(item.heightPercentage, size.height, cellSize),
+        )}
         gapSize={gapSize}
         cellSize={cellSize}
         gridSize={size}
@@ -947,7 +959,7 @@ export const Grid: FC<GridProps> = ({
 
     setOccupiedCells(
       findOccupiedCells(
-        items.map(item => mapTopicMapItemToElement(item, size)),
+        items.map(item => mapTopicMapItemToElement(item, size, cellSize)),
         size.width,
         size.height,
         gapSize,
