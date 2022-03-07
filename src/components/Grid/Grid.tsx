@@ -310,7 +310,11 @@ export const Grid: FC<GridProps> = ({
             label,
             arrowType,
             ArrowDirection.Right,
-            gridToPercentage(classicAhPreviewGridPosition as Position, numberOfColumns, numberOfRows),
+            gridToPercentage(
+              classicAhPreviewGridPosition as Position,
+              numberOfColumns,
+              numberOfRows,
+            ),
             gridToPercentage(gridPosition, numberOfColumns, numberOfRows),
             classicAhPreviewGridPosition as Position,
             gridPosition,
@@ -327,7 +331,19 @@ export const Grid: FC<GridProps> = ({
         setClassicArrowPreview(null);
       }
     },
-    [activeTool, arrowStartId, arrowItems, items, updateArrowItems, classicArrowStartId, classicArrowItems, numberOfColumns, numberOfRows, classicAhPreviewGridPosition, updateClassicArrowItems],
+    [
+      activeTool,
+      arrowStartId,
+      arrowItems,
+      items,
+      updateArrowItems,
+      classicArrowStartId,
+      classicArrowItems,
+      numberOfColumns,
+      numberOfRows,
+      classicAhPreviewGridPosition,
+      updateClassicArrowItems,
+    ],
   );
 
   const createBoxStart = useCallback(

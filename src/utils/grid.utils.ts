@@ -357,8 +357,8 @@ export const createArrowItem = (
     description: "",
     startElementId: startId,
     endElementId: endId,
-    startPosition: {x: 0, y: 0},
-    endPosition: {x: 0, y: 0},
+    startPosition: { x: 0, y: 0 },
+    endPosition: { x: 0, y: 0 },
   };
 
   return item;
@@ -448,7 +448,11 @@ export const straightenArrowEnd = (
   } as Position;
 };
 
-export const gridToPercentage = (gridPosition: Position, numberOfColumns: number, numberOfRows: number) :Position => {
+export const gridToPercentage = (
+  gridPosition: Position,
+  numberOfColumns: number,
+  numberOfRows: number,
+): Position => {
   const xPercentage = (gridPosition.x / numberOfColumns) * 100;
   const yPercentage = (gridPosition.y / numberOfRows) * 100;
 
@@ -456,4 +460,4 @@ export const gridToPercentage = (gridPosition: Position, numberOfColumns: number
     x: xPercentage,
     y: yPercentage,
   };
-}
+};

@@ -94,15 +94,22 @@ export const updateClassicArrowType = (
   return newItems;
 };
 
-export const calculateIsHorizontal = (startPosition: Position, endPosition: Position):boolean => {
-  return Math.abs(startPosition.x - endPosition.x) >
-         Math.abs(startPosition.y - endPosition.y);
+export const calculateIsHorizontal = (
+  startPosition: Position,
+  endPosition: Position,
+): boolean => {
+  return (
+    Math.abs(startPosition.x - endPosition.x) >
+    Math.abs(startPosition.y - endPosition.y)
+  );
 };
 
-
-
 export const xAdjustmentStart = (
-  item: {arrowType:ArrowType;startGridPosition:Position; endGridPosition:Position},
+  item: {
+    arrowType: ArrowType;
+    startGridPosition: Position;
+    endGridPosition: Position;
+  },
   isHorizontal: boolean,
 ): number => {
   if (item.arrowType === ArrowType.BiDirectional) {
@@ -118,7 +125,11 @@ export const xAdjustmentStart = (
 };
 
 export const yAdjustmentStart = (
-  item: {arrowType:ArrowType;startGridPosition:Position; endGridPosition:Position},
+  item: {
+    arrowType: ArrowType;
+    startGridPosition: Position;
+    endGridPosition: Position;
+  },
   isHorizontal: boolean,
 ): number => {
   if (item.arrowType === ArrowType.BiDirectional) {
@@ -133,7 +144,11 @@ export const yAdjustmentStart = (
 };
 
 export const xAdjustmentEnd = (
-  item: {arrowType:ArrowType;startGridPosition:Position; endGridPosition:Position},
+  item: {
+    arrowType: ArrowType;
+    startGridPosition: Position;
+    endGridPosition: Position;
+  },
   isHorizontal: boolean,
 ): number => {
   if (
@@ -166,7 +181,11 @@ export const xAdjustmentEnd = (
 };
 
 export const yAdjustmentEnd = (
-  item: {arrowType:ArrowType;startGridPosition:Position; endGridPosition:Position},
+  item: {
+    arrowType: ArrowType;
+    startGridPosition: Position;
+    endGridPosition: Position;
+  },
   isHorizontal: boolean,
 ): number => {
   if (
@@ -196,21 +215,56 @@ export const yAdjustmentEnd = (
   return 0;
 };
 
-
-export const adjustArrowStartPosition = (startPosition: Position, endPosition: Position, arrowType: ArrowType):Position => {
+export const adjustArrowStartPosition = (
+  startPosition: Position,
+  endPosition: Position,
+  arrowType: ArrowType,
+): Position => {
   const isHorizontal = calculateIsHorizontal(startPosition, endPosition);
 
   return {
-    x: xAdjustmentStart({arrowType, startGridPosition:startPosition, endGridPosition:endPosition}, isHorizontal),
-    y: yAdjustmentStart({arrowType, startGridPosition:startPosition, endGridPosition:endPosition}, isHorizontal)
+    x: xAdjustmentStart(
+      {
+        arrowType,
+        startGridPosition: startPosition,
+        endGridPosition: endPosition,
+      },
+      isHorizontal,
+    ),
+    y: yAdjustmentStart(
+      {
+        arrowType,
+        startGridPosition: startPosition,
+        endGridPosition: endPosition,
+      },
+      isHorizontal,
+    ),
   } as Position;
-}
+};
 
-export const adjustArrowEndPosition = (startPosition: Position, endPosition: Position, arrowType: ArrowType):Position => {
+export const adjustArrowEndPosition = (
+  startPosition: Position,
+  endPosition: Position,
+  arrowType: ArrowType,
+): Position => {
   const isHorizontal = calculateIsHorizontal(startPosition, endPosition);
 
   return {
-    x: xAdjustmentEnd({arrowType, startGridPosition:startPosition, endGridPosition:endPosition}, isHorizontal),
-    y: yAdjustmentEnd({arrowType, startGridPosition:startPosition, endGridPosition:endPosition}, isHorizontal)
+    x: xAdjustmentEnd(
+      {
+        arrowType,
+        startGridPosition: startPosition,
+        endGridPosition: endPosition,
+      },
+      isHorizontal,
+    ),
+    y: yAdjustmentEnd(
+      {
+        arrowType,
+        startGridPosition: startPosition,
+        endGridPosition: endPosition,
+      },
+      isHorizontal,
+    ),
   } as Position;
-}
+};
