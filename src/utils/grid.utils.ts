@@ -67,6 +67,7 @@ export const updateItem = (
       newItem.heightPercentage = calculateYPercentage(newSize.height, height);
     }
 
+    // Drag from TOP og LEFT har newPosition, from Right og bottom har undefined
     return newItem;
   });
 
@@ -172,6 +173,17 @@ export const scaleY = (
 ): number => {
   const newY = (height * yPercentage) / 100;
   return newY > cellSize ? newY : cellSize;
+};
+
+export const minimumSizeReached = (
+  xPercentage: number,
+  gridWidth: number,
+  yPercentage: number,
+  gridHeight: number,
+): boolean => {
+  const newY = (gridHeight * yPercentage) / 100;
+  const newX = (gridWidth * xPercentage) / 100;
+  return newX < 0 || newY < 0;
 };
 
 export const mapTopicMapItemToElement = (

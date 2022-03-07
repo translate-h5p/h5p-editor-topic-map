@@ -25,6 +25,7 @@ import {
   isDraggingLeft,
   isDraggingUp,
   mapTopicMapItemToElement,
+  minimumSizeReached,
   positionIsFree,
   resizeItems,
   scaleX,
@@ -571,7 +572,7 @@ export const Grid: FC<GridProps> = ({
         xEndPercentagePosition,
       );
 
-      const newPosition = {
+      let newPosition = {
         x: scaleX(xPercentagePosition, size.width, cellSize),
         y: scaleY(yPercentagePosition, size.height, cellSize),
       };
@@ -579,6 +580,20 @@ export const Grid: FC<GridProps> = ({
         width: scaleX(widthPercentage, size.width, cellSize),
         height: scaleY(heightPercentage, size.height, cellSize),
       };
+
+      if (
+        minimumSizeReached(
+          widthPercentage,
+          size.width,
+          heightPercentage,
+          size.height,
+        )
+      ) {
+        newPosition = {
+          x: scaleX(existingItem.xPercentagePosition, size.width, cellSize),
+          y: scaleX(existingItem.yPercentagePosition, size.height, cellSize),
+        };
+      }
 
       setPrevIndex(indicatorIndex);
 
