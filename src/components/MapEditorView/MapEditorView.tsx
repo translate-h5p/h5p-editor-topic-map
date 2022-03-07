@@ -58,14 +58,15 @@ export const MapEditorView: React.FC<MapEditorViewProps> = ({
     updateGrid.current(newItems),
   );
 
-
   const setActive = (newValue: ToolbarButtonType | null): void => {
     setActiveTool(newValue);
   };
 
-  const updateGridDimensions = React.useCallback((newGrid: GridDimensions): void => {
-    setParams({grid: newGrid});
-  }, [setParams],
+  const updateGridDimensions = React.useCallback(
+    (newGrid: GridDimensions): void => {
+      setParams({ grid: newGrid });
+    },
+    [setParams],
   );
 
   const updateItems = React.useCallback(

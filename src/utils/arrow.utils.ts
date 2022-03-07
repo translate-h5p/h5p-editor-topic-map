@@ -224,8 +224,26 @@ export const adjustArrowStartPosition = (
   const isHorizontal = calculateIsHorizontal(startPosition, endPosition);
 
   return {
-    x: startPosition.x + xAdjustmentStart({arrowType, startGridPosition:startPosition, endGridPosition:endPosition}, isHorizontal),
-    y: startPosition.y + yAdjustmentStart({arrowType, startGridPosition:startPosition, endGridPosition:endPosition}, isHorizontal)
+    x:
+      startPosition.x +
+      xAdjustmentStart(
+        {
+          arrowType,
+          startGridPosition: startPosition,
+          endGridPosition: endPosition,
+        },
+        isHorizontal,
+      ),
+    y:
+      startPosition.y +
+      yAdjustmentStart(
+        {
+          arrowType,
+          startGridPosition: startPosition,
+          endGridPosition: endPosition,
+        },
+        isHorizontal,
+      ),
   } as Position;
 };
 
@@ -237,7 +255,25 @@ export const adjustArrowEndPosition = (
   const isHorizontal = calculateIsHorizontal(startPosition, endPosition);
 
   return {
-    x: endPosition.x + xAdjustmentEnd({arrowType, startGridPosition:startPosition, endGridPosition:endPosition}, isHorizontal),
-    y: endPosition.y + yAdjustmentEnd({arrowType, startGridPosition:startPosition, endGridPosition:endPosition}, isHorizontal)
+    x:
+      endPosition.x +
+      xAdjustmentEnd(
+        {
+          arrowType,
+          startGridPosition: startPosition,
+          endGridPosition: endPosition,
+        },
+        isHorizontal,
+      ),
+    y:
+      endPosition.y +
+      yAdjustmentEnd(
+        {
+          arrowType,
+          startGridPosition: startPosition,
+          endGridPosition: endPosition,
+        },
+        isHorizontal,
+      ),
   } as Position;
 };

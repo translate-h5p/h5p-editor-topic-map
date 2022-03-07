@@ -308,8 +308,16 @@ export const Grid: FC<GridProps> = ({
             arrowType,
             items,
           );
-          const adjustedStartGridPosition = adjustArrowStartPosition(classicAhPreviewGridPosition as Position, gridPosition,arrowType);
-          const adjustedEndGridPosition = adjustArrowEndPosition(classicAhPreviewGridPosition as Position, gridPosition,arrowType);
+          const adjustedStartGridPosition = adjustArrowStartPosition(
+            classicAhPreviewGridPosition as Position,
+            gridPosition,
+            arrowType,
+          );
+          const adjustedEndGridPosition = adjustArrowEndPosition(
+            classicAhPreviewGridPosition as Position,
+            gridPosition,
+            arrowType,
+          );
           console.info(adjustedStartGridPosition, adjustedEndGridPosition);
           const newItem = createClassicArrowItem(
             classicArrowStartId,
@@ -317,8 +325,16 @@ export const Grid: FC<GridProps> = ({
             label,
             arrowType,
             ArrowDirection.Right,
-            gridToPercentage(adjustedStartGridPosition, numberOfColumns, numberOfRows),
-            gridToPercentage(adjustedEndGridPosition, numberOfColumns, numberOfRows),
+            gridToPercentage(
+              adjustedStartGridPosition,
+              numberOfColumns,
+              numberOfRows,
+            ),
+            gridToPercentage(
+              adjustedEndGridPosition,
+              numberOfColumns,
+              numberOfRows,
+            ),
             classicAhPreviewGridPosition as Position,
             gridPosition,
           );
@@ -811,7 +827,7 @@ export const Grid: FC<GridProps> = ({
       setBoxStartIndex(cellIndex);
       setResizedItemId(item.id);
       setResizeDirectionLock(directionLock);
-      updateGridDimensions({numberOfColumns, numberOfRows});
+      updateGridDimensions({ numberOfColumns, numberOfRows });
     },
     [numberOfColumns, numberOfRows],
   );
