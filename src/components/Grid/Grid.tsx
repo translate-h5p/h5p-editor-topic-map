@@ -13,6 +13,8 @@ import { ResizeDirection } from "../../types/ResizeDirection";
 import { Size } from "../../types/Size";
 import { TopicMapItemType } from "../../types/TopicMapItemType";
 import {
+  adjustArrowEndPosition,
+  adjustArrowStartPosition,
   getLabel,
   updateArrowType,
   updateClassicArrowType,
@@ -26,6 +28,7 @@ import {
   findItem,
   findOccupiedCells,
   findWidthPercentage,
+  gridToPercentage,
   isDraggingLeft,
   isDraggingUp,
   mapTopicMapItemToElement,
@@ -263,8 +266,8 @@ export const Grid: FC<GridProps> = ({
             "",
             ArrowType.Directional,
             ArrowDirection.Right,
-            pointerPosition,
-            pointerPosition,
+            gridToPercentage(gridPosition, numberOfColumns, numberOfRows),
+            gridToPercentage(gridPosition, numberOfColumns, numberOfRows),
             gridPosition,
             gridPosition,
           );
@@ -298,18 +301,17 @@ export const Grid: FC<GridProps> = ({
             arrowType,
             items,
           );
-
+          // const adjustedStartGridPosition = adjustArrowStartPosition(classicAhPreviewGridPosition as Position, gridPosition,arrowType);
+          // const adjustedEndGridPosition = adjustArrowEndPosition(classicAhPreviewGridPosition as Position, gridPosition,arrowType);
+          // console.info(adjustedStartGridPosition, adjustedEndGridPosition);
           const newItem = createClassicArrowItem(
             classicArrowStartId,
             elementId,
             label,
             arrowType,
             ArrowDirection.Right,
-            classicAhPreviewPosition as Position,
-            straightenArrowEnd(
-              classicAhPreviewPosition as Position,
-              pointerPosition,
-            ),
+            gridToPercentage(classicAhPreviewGridPosition as Position, numberOfColumns, numberOfRows),
+            gridToPercentage(gridPosition, numberOfColumns, numberOfRows),
             classicAhPreviewGridPosition as Position,
             gridPosition,
           );
@@ -325,14 +327,7 @@ export const Grid: FC<GridProps> = ({
         setClassicArrowPreview(null);
       }
     },
-    [
-      activeTool,
-      arrowItems,
-      classicArrowItems,
-      arrowStartId,
-      items,
-      updateArrowItems,
-    ],
+    [activeTool, arrowStartId, arrowItems, items, updateArrowItems, classicArrowStartId, classicArrowItems, numberOfColumns, numberOfRows, classicAhPreviewGridPosition, updateClassicArrowItems],
   );
 
   const createBoxStart = useCallback(

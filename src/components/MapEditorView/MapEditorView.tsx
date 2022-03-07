@@ -73,7 +73,7 @@ export const MapEditorView: React.FC<MapEditorViewProps> = ({
 
   const updateArrows = React.useCallback(
     (items: Array<ArrowItemType>) => {
-      setParams({ arrowItems: items });
+      // setParams({ arrowItems: items });
       setArrowItems(items);
     },
     [setParams],
@@ -81,7 +81,7 @@ export const MapEditorView: React.FC<MapEditorViewProps> = ({
 
   const updateClassicArrows = React.useCallback(
     (items: Array<ClassicArrowItemType>) => {
-      setParams({ classicArrowItems: items });
+      setParams({ arrowItems: items });
       setClassicArrowItems(items);
     },
     [setParams],
