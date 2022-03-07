@@ -11,7 +11,7 @@ import { findConnectedArrows } from "../../utils/grid.utils";
 import { getBackgroundImageField } from "../../utils/H5P/form.utils";
 import { ArrowItemForm } from "../ArrowItemForm/ArrowItemForm";
 import { Dialog } from "../Dialog/Dialog";
-import { Grid } from "../Grid/Grid";
+import { Grid, GridDimensions } from "../Grid/Grid";
 import { Toolbar, ToolbarButtonType } from "../Toolbar/Toolbar";
 import { TopicMapItemForm } from "../TopicMapItemForm/TopicMapItemForm";
 import styles from "./MapEditorView.module.scss";
@@ -58,9 +58,15 @@ export const MapEditorView: React.FC<MapEditorViewProps> = ({
     updateGrid.current(newItems),
   );
 
+
   const setActive = (newValue: ToolbarButtonType | null): void => {
     setActiveTool(newValue);
   };
+
+  const updateGridDimensions = React.useCallback((newGrid: GridDimensions): void => {
+    setParams({grid: newGrid});
+  }, [setParams],
+  );
 
   const updateItems = React.useCallback(
     (items: Array<TopicMapItemType>) => {
@@ -163,6 +169,7 @@ export const MapEditorView: React.FC<MapEditorViewProps> = ({
           initialArrowItems={arrowItems}
           updateArrowItems={updateArrows}
           updateClassicArrowItems={updateClassicArrows}
+          updateGridDimensions={updateGridDimensions}
           gapSize={gapSize ?? defaultGapSize}
           setActiveTool={setActive}
           activeTool={activeTool}

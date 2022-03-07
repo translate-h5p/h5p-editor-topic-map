@@ -50,6 +50,11 @@ import { ArrowDirection } from "../../types/ArrowDirection";
 import { ClassicArrowItemType } from "../../types/ClassicArrowItemType";
 import { ClassicArrow } from "../ClassicArrow/Arrow";
 
+export type GridDimensions = {
+  numberOfColumns: number;
+  numberOfRows: number;
+};
+
 export type GridProps = {
   numberOfColumns: number;
   numberOfRows: number;
@@ -58,6 +63,7 @@ export type GridProps = {
   initialArrowItems?: Array<ArrowItemType>;
   updateArrowItems: (items: Array<ArrowItemType>) => void;
   updateClassicArrowItems: (items: Array<ClassicArrowItemType>) => void;
+  updateGridDimensions: (dimensions: GridDimensions) => void;
   gapSize: number;
   children?: never;
   setActiveTool: (newValue: ToolbarButtonType | null) => void;
@@ -80,6 +86,7 @@ export const Grid: FC<GridProps> = ({
   initialArrowItems,
   updateArrowItems,
   updateClassicArrowItems,
+  updateGridDimensions,
   gapSize,
   setActiveTool,
   activeTool,
@@ -301,21 +308,17 @@ export const Grid: FC<GridProps> = ({
             arrowType,
             items,
           );
-          // const adjustedStartGridPosition = adjustArrowStartPosition(classicAhPreviewGridPosition as Position, gridPosition,arrowType);
-          // const adjustedEndGridPosition = adjustArrowEndPosition(classicAhPreviewGridPosition as Position, gridPosition,arrowType);
-          // console.info(adjustedStartGridPosition, adjustedEndGridPosition);
+          const adjustedStartGridPosition = adjustArrowStartPosition(classicAhPreviewGridPosition as Position, gridPosition,arrowType);
+          const adjustedEndGridPosition = adjustArrowEndPosition(classicAhPreviewGridPosition as Position, gridPosition,arrowType);
+          console.info(adjustedStartGridPosition, adjustedEndGridPosition);
           const newItem = createClassicArrowItem(
             classicArrowStartId,
             elementId,
             label,
             arrowType,
             ArrowDirection.Right,
-            gridToPercentage(
-              classicAhPreviewGridPosition as Position,
-              numberOfColumns,
-              numberOfRows,
-            ),
-            gridToPercentage(gridPosition, numberOfColumns, numberOfRows),
+            gridToPercentage(adjustedStartGridPosition, numberOfColumns, numberOfRows),
+            gridToPercentage(adjustedEndGridPosition, numberOfColumns, numberOfRows),
             classicAhPreviewGridPosition as Position,
             gridPosition,
           );
@@ -808,6 +811,7 @@ export const Grid: FC<GridProps> = ({
       setBoxStartIndex(cellIndex);
       setResizedItemId(item.id);
       setResizeDirectionLock(directionLock);
+      updateGridDimensions({numberOfColumns, numberOfRows});
     },
     [numberOfColumns, numberOfRows],
   );

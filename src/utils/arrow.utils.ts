@@ -1,3 +1,4 @@
+/* eslint-disable no-debugger */
 import { ArrowItemType } from "../types/ArrowItemType";
 import { ArrowType } from "../types/ArrowType";
 import { ClassicArrowItemType } from "../types/ClassicArrowItemType";
@@ -223,22 +224,8 @@ export const adjustArrowStartPosition = (
   const isHorizontal = calculateIsHorizontal(startPosition, endPosition);
 
   return {
-    x: xAdjustmentStart(
-      {
-        arrowType,
-        startGridPosition: startPosition,
-        endGridPosition: endPosition,
-      },
-      isHorizontal,
-    ),
-    y: yAdjustmentStart(
-      {
-        arrowType,
-        startGridPosition: startPosition,
-        endGridPosition: endPosition,
-      },
-      isHorizontal,
-    ),
+    x: startPosition.x + xAdjustmentStart({arrowType, startGridPosition:startPosition, endGridPosition:endPosition}, isHorizontal),
+    y: startPosition.y + yAdjustmentStart({arrowType, startGridPosition:startPosition, endGridPosition:endPosition}, isHorizontal)
   } as Position;
 };
 
@@ -250,21 +237,7 @@ export const adjustArrowEndPosition = (
   const isHorizontal = calculateIsHorizontal(startPosition, endPosition);
 
   return {
-    x: xAdjustmentEnd(
-      {
-        arrowType,
-        startGridPosition: startPosition,
-        endGridPosition: endPosition,
-      },
-      isHorizontal,
-    ),
-    y: yAdjustmentEnd(
-      {
-        arrowType,
-        startGridPosition: startPosition,
-        endGridPosition: endPosition,
-      },
-      isHorizontal,
-    ),
+    x: endPosition.x + xAdjustmentEnd({arrowType, startGridPosition:startPosition, endGridPosition:endPosition}, isHorizontal),
+    y: endPosition.y + yAdjustmentEnd({arrowType, startGridPosition:startPosition, endGridPosition:endPosition}, isHorizontal)
   } as Position;
 };
