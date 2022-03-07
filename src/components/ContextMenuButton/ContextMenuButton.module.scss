@@ -14,7 +14,7 @@
   color: #09f;
   background: #c4e3f7;
   z-index: 1;
-
+  pointer-events: all;
   &:hover,
   &:focus {
     border-color: #0061a2;

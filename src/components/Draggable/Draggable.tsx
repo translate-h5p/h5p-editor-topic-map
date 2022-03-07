@@ -360,6 +360,8 @@ export const Draggable: FC<DraggableProps> = ({
         actions={contextMenuActions}
         show={selectedItem === id}
         turnLeft={checkIfRightSideOfGrid(position.x, gridSize.width)}
+        x={0}
+        y={0}
       />
     </div>
   );

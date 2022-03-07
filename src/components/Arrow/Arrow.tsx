@@ -118,6 +118,8 @@ export const Arrow: FC<ArrowProps> = ({
         actions={contextMenuActions}
         show={selectedItemId === item.id}
         turnLeft={false} // TODO: {checkIfRightSideOfGrid(position.x, gridSize.width)}
+        x={0}
+        y={0}
       />
 
       <Dialog

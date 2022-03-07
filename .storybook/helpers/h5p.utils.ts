@@ -43,6 +43,8 @@ export const params: Params = {
       startElementId: "box-1",
       endElementId: "box-2",
       label: "",
+      startPosition: { x: 0, y: 0 },
+      endPosition: { x: 0, y: 0 },
     },
   ],
   colorTheme: ColorTheme.Blue,

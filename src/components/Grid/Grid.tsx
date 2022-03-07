@@ -12,7 +12,13 @@ import { Position } from "../../types/Position";
 import { ResizeDirection } from "../../types/ResizeDirection";
 import { Size } from "../../types/Size";
 import { TopicMapItemType } from "../../types/TopicMapItemType";
-import { getLabel, updateArrowType } from "../../utils/arrow.utils";
+import {
+  adjustArrowEndPosition,
+  adjustArrowStartPosition,
+  getLabel,
+  updateArrowType,
+  updateClassicArrowType,
+} from "../../utils/arrow.utils";
 import { getPointerPositionFromEvent } from "../../utils/draggable.utils";
 import {
   createArrowItem,
@@ -22,6 +28,7 @@ import {
   findItem,
   findOccupiedCells,
   findWidthPercentage,
+  gridToPercentage,
   isDraggingLeft,
   isDraggingUp,
   mapTopicMapItemToElement,
@@ -43,6 +50,11 @@ import { ArrowDirection } from "../../types/ArrowDirection";
 import { ClassicArrowItemType } from "../../types/ClassicArrowItemType";
 import { ClassicArrow } from "../ClassicArrow/Arrow";
 
+export type GridDimensions = {
+  numberOfColumns: number;
+  numberOfRows: number;
+};
+
 export type GridProps = {
   numberOfColumns: number;
   numberOfRows: number;
@@ -51,6 +63,7 @@ export type GridProps = {
   initialArrowItems?: Array<ArrowItemType>;
   updateArrowItems: (items: Array<ArrowItemType>) => void;
   updateClassicArrowItems: (items: Array<ClassicArrowItemType>) => void;
+  updateGridDimensions: (dimensions: GridDimensions) => void;
   gapSize: number;
   children?: never;
   setActiveTool: (newValue: ToolbarButtonType | null) => void;
@@ -73,6 +86,7 @@ export const Grid: FC<GridProps> = ({
   initialArrowItems,
   updateArrowItems,
   updateClassicArrowItems,
+  updateGridDimensions,
   gapSize,
   setActiveTool,
   activeTool,
@@ -249,8 +263,6 @@ export const Grid: FC<GridProps> = ({
           y: parseInt(gridIndicator.dataset.y as string, 10),
         } as Position;
 
-        // eslint-disable-next-line no-console
-        console.log("grid position", gridPosition);
         const hasStartElementId = !!classicArrowStartId;
         if (!hasStartElementId) {
           setClassicArrowStartId(elementId);
@@ -261,8 +273,8 @@ export const Grid: FC<GridProps> = ({
             "",
             ArrowType.Directional,
             ArrowDirection.Right,
-            pointerPosition,
-            pointerPosition,
+            gridToPercentage(gridPosition, numberOfColumns, numberOfRows),
+            gridToPercentage(gridPosition, numberOfColumns, numberOfRows),
             gridPosition,
             gridPosition,
           );
@@ -296,17 +308,32 @@ export const Grid: FC<GridProps> = ({
             arrowType,
             items,
           );
-
+          const adjustedStartGridPosition = adjustArrowStartPosition(
+            classicAhPreviewGridPosition as Position,
+            gridPosition,
+            arrowType,
+          );
+          const adjustedEndGridPosition = adjustArrowEndPosition(
+            classicAhPreviewGridPosition as Position,
+            gridPosition,
+            arrowType,
+          );
+          console.info(adjustedStartGridPosition, adjustedEndGridPosition);
           const newItem = createClassicArrowItem(
             classicArrowStartId,
             elementId,
             label,
             arrowType,
             ArrowDirection.Right,
-            classicAhPreviewPosition as Position,
-            straightenArrowEnd(
-              classicAhPreviewPosition as Position,
-              pointerPosition,
+            gridToPercentage(
+              adjustedStartGridPosition,
+              numberOfColumns,
+              numberOfRows,
+            ),
+            gridToPercentage(
+              adjustedEndGridPosition,
+              numberOfColumns,
+              numberOfRows,
             ),
             classicAhPreviewGridPosition as Position,
             gridPosition,
@@ -325,11 +352,16 @@ export const Grid: FC<GridProps> = ({
     },
     [
       activeTool,
-      arrowItems,
-      classicArrowItems,
       arrowStartId,
+      arrowItems,
       items,
       updateArrowItems,
+      classicArrowStartId,
+      classicArrowItems,
+      numberOfColumns,
+      numberOfRows,
+      classicAhPreviewGridPosition,
+      updateClassicArrowItems,
     ],
   );
 
@@ -490,6 +522,7 @@ export const Grid: FC<GridProps> = ({
 
   const resizeBoxEnter = useCallback(
     (indicatorIndex: number) => {
+      console.info("resizeBoxEnter", indicatorIndex);
       const isResizing = resizedItemId != null;
       if (!isResizing) {
         return;
@@ -677,6 +710,7 @@ export const Grid: FC<GridProps> = ({
   const onGridIndicatorMouseEnter = useCallback(
     (indicatorIndex: number) => {
       const isResizing = resizedItemId != null;
+      console.info("onGridIndicatorMouseEnter", indicatorIndex, isResizing);
       if (isResizing) {
         resizeBoxEnter(indicatorIndex);
       }
@@ -768,16 +802,24 @@ export const Grid: FC<GridProps> = ({
 
   const deleteArrow = useCallback(
     (id: string) => {
+      // eslint-disable-next-line no-console
+      console.log("delete arrow", id);
       const newItems = arrowItems.filter(item => item.id !== id);
-
       updateArrowItems(newItems);
       setArrowItems(newItems);
+
+      const newClassicArrowItems = classicArrowItems.filter(
+        item => item.id !== id,
+      );
+      updateClassicArrowItems(newClassicArrowItems);
+      setClassicArrowItems(newClassicArrowItems);
     },
-    [arrowItems, updateArrowItems],
+    [arrowItems, updateArrowItems, classicArrowItems, updateClassicArrowItems],
   );
 
   const startResize = useCallback(
     (item: TopicMapItemType, directionLock: ResizeDirection) => {
+      console.info("Grid: start resize", item, directionLock);
       const x = Math.floor((item.xPercentagePosition / 100) * numberOfColumns);
       const y = Math.floor((item.yPercentagePosition / 100) * numberOfRows);
       const cellIndex = x + y * numberOfColumns;
@@ -785,6 +827,7 @@ export const Grid: FC<GridProps> = ({
       setBoxStartIndex(cellIndex);
       setResizedItemId(item.id);
       setResizeDirectionLock(directionLock);
+      updateGridDimensions({ numberOfColumns, numberOfRows });
     },
     [numberOfColumns, numberOfRows],
   );
@@ -792,15 +835,26 @@ export const Grid: FC<GridProps> = ({
   const setArrowType = useCallback(
     (type: ArrowType, id: string) => {
       const updatedItem = arrowItems.find(item => item.id === id);
-
-      if (!updatedItem) {
+      const updatedClassicItem = classicArrowItems.find(item => item.id === id);
+      if (!updatedItem && !updatedClassicItem) {
         throw new Error(`Updated arrow with id "${id}" does not exist`);
       }
 
-      const newItems = updateArrowType(arrowItems, updatedItem, type, items);
+      if (updatedItem) {
+        const newItems = updateArrowType(arrowItems, updatedItem, type, items);
 
-      updateArrowItems(newItems);
-      setArrowItems(newItems);
+        updateArrowItems(newItems);
+        setArrowItems(newItems);
+      } else if (updatedClassicItem) {
+        const newClassicItems = updateClassicArrowType(
+          classicArrowItems,
+          updatedClassicItem,
+          type,
+          items,
+        );
+        updateClassicArrowItems(newClassicItems);
+        setClassicArrowItems(newClassicItems);
+      }
     },
     [arrowItems, items, updateArrowItems],
   );
@@ -897,6 +951,11 @@ export const Grid: FC<GridProps> = ({
         cellSize={cellSize}
         gapSize={gapSize}
         item={item}
+        editItem={editArrow}
+        deleteItem={deleteArrow}
+        selectedItemId={selectedItem}
+        setSelectedItemId={setSelectedItem}
+        updateArrowType={setArrowType}
       />
     ),
     [
@@ -943,7 +1002,7 @@ export const Grid: FC<GridProps> = ({
   useEffectOnce(() => {
     const windowClickListener = (event: MouseEvent | TouchEvent): void => {
       const draggableWasClicked = !!(event.target as HTMLElement).closest(
-        ".draggable, .arrow-item",
+        ".draggable, .arrow-item, .context-menu-button, .scaleHandle",
       );
 
       if (!draggableWasClicked) {

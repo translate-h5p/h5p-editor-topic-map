@@ -4,11 +4,22 @@
   height: 100%;
   width: 100%;
   pointer-events: none;
+}
+
+.arrowSvg {
+  position: absolute;
+  height: 100%;
+  width: 100%;
   z-index: 1;
 }
 
 .path {
   pointer-events: all;
+  z-index: 1;
+}
+
+.pathSelected {
+  pointer-events: none;
 }
 
 .deleteConfirmationPositive,
@@ -37,6 +48,8 @@
   justify-content: flex-end;
   gap: 1rem;
   margin: 1rem 0 0;
+  pointer-events: all;
+  z-index: 10;
 }
 
 //   .arrow {

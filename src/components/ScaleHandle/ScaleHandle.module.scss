@@ -3,6 +3,7 @@
 $handle-size: 1rem;
 .scaleHandle {
   position: absolute;
+  pointer-events: all;
 }
 
 .scaleHandleLeft,

@@ -3,6 +3,7 @@ import { ColorTheme } from "../ColorTheme";
 import { ClassicArrowItemType } from "../ClassicArrowItemType";
 import { TopicMapItemType } from "../TopicMapItemType";
 import { Image } from "./Image";
+import { GridDimensions, GridProps } from "../../components/Grid/Grid";
 
 export type Params = {
   topicMapItems?: Array<TopicMapItemType>;
@@ -10,4 +11,5 @@ export type Params = {
   classicArrowItems?: Array<ClassicArrowItemType>;
   gridBackgroundImage?: Image;
   colorTheme?: ColorTheme;
+  grid?: GridDimensions;
 };

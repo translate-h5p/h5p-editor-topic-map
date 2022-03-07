@@ -16,7 +16,8 @@ export default {
   component: MapEditorView,
   args: {
     setParams: (newParams: Params) =>
-      console.info("Params updated", { newParams }),
+      // eslint-disable-next-line no-console
+      console.debug("Params updated", { newParams }),
     semantics,
     params,
     parent,
