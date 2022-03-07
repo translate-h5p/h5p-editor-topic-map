@@ -89,7 +89,7 @@ export const Toolbar: React.FC<ToolBarProps> = ({
         showActive
         isDisabled={false}
       />
-      <ToolbarButton
+      {/* <ToolbarButton
         icon={ToolbarButtonType.CreateArrow}
         label={
           isArrowButtonDisabled
@@ -100,13 +100,13 @@ export const Toolbar: React.FC<ToolBarProps> = ({
         active={checkIfActive(ToolbarButtonType.CreateArrow)}
         showActive
         isDisabled={isArrowButtonDisabled}
-      />
+      /> */}
       <ToolbarButton
         icon={ToolbarButtonType.CreateClassicArrow}
         label={
           isArrowButtonDisabled
-            ? t(labelTextKeys.cannotCreateClassicArrow)
-            : t(labelTextKeys.createClassicArrow)
+            ? t(labelTextKeys.cannotCreateArrow)
+            : t(labelTextKeys.createArrow)
         }
         onClick={() => setActive(ToolbarButtonType.CreateClassicArrow)}
         active={checkIfActive(ToolbarButtonType.CreateClassicArrow)}
