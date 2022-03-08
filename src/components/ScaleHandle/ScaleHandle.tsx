@@ -39,7 +39,6 @@ export const ScaleHandle: React.FC<ScaleHandleProps> = ({
   );
 
   const stopDrag = React.useCallback(() => {
-
     if (!isDragging) {
       return;
     }
