@@ -30,7 +30,6 @@ export const ScaleHandle: React.FC<ScaleHandleProps> = ({
 
   const startDrag = React.useCallback(
     (event: React.MouseEvent | React.TouchEvent) => {
-      console.info("Scalehandler startDrag");
       setIsDragging(true);
       onScaleStart();
 
@@ -40,7 +39,7 @@ export const ScaleHandle: React.FC<ScaleHandleProps> = ({
   );
 
   const stopDrag = React.useCallback(() => {
-    console.info("Scalehandler stopDrag", isDragging);
+
     if (!isDragging) {
       return;
     }

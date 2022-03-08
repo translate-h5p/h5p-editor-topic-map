@@ -319,7 +319,7 @@ export const Grid: FC<GridProps> = ({
             gridPosition,
             arrowType,
           );
-          console.info(adjustedStartGridPosition, adjustedEndGridPosition);
+
           const newItem = createClassicArrowItem(
             classicArrowStartId,
             elementId,
@@ -523,7 +523,6 @@ export const Grid: FC<GridProps> = ({
 
   const resizeBoxEnter = useCallback(
     (indicatorIndex: number) => {
-      console.info("resizeBoxEnter", indicatorIndex);
       const isResizing = resizedItemId != null;
       if (!isResizing) {
         return;
@@ -711,7 +710,6 @@ export const Grid: FC<GridProps> = ({
   const onGridIndicatorMouseEnter = useCallback(
     (indicatorIndex: number) => {
       const isResizing = resizedItemId != null;
-      console.info("onGridIndicatorMouseEnter", indicatorIndex, isResizing);
       if (isResizing) {
         resizeBoxEnter(indicatorIndex);
       }
@@ -820,7 +818,6 @@ export const Grid: FC<GridProps> = ({
 
   const startResize = useCallback(
     (item: TopicMapItemType, directionLock: ResizeDirection) => {
-      console.info("Grid: start resize", item, directionLock);
       const x = Math.floor((item.xPercentagePosition / 100) * numberOfColumns);
       const y = Math.floor((item.yPercentagePosition / 100) * numberOfRows);
       const cellIndex = x + y * numberOfColumns;
