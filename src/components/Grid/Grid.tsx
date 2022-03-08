@@ -104,7 +104,7 @@ export const Grid: FC<GridProps> = ({
   const [arrowItems, setArrowItems] = useState(initialArrowItems ?? []);
   const [classicArrowItems, setClassicArrowItems] = useState<
     Array<ClassicArrowItemType>
-  >([]);
+  >((initialArrowItems as ClassicArrowItemType[]) ?? []);
   const [occupiedCells, setOccupiedCells] = useState<Array<OccupiedCell>>([]);
   const [boxStartIndex, setBoxStartIndex] = useState<number | null>(null);
   const [isDragging, setIsDragging] = useState(false);
@@ -136,6 +136,7 @@ export const Grid: FC<GridProps> = ({
   useEffectOnce(() => {
     // eslint-disable-next-line no-param-reassign
     updateGrid.current = updateLocalGrid;
+    updateGridDimensions({ numberOfColumns, numberOfRows });
   });
 
   const elementRef = useRef<HTMLDivElement>(null);

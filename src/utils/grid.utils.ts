@@ -359,6 +359,8 @@ export const createArrowItem = (
     endElementId: endId,
     startPosition: { x: 0, y: 0 },
     endPosition: { x: 0, y: 0 },
+    startGridPosition: { x: 0, y: 0 },
+    endGridPosition: { x: 0, y: 0 },
   };
 
   return item;

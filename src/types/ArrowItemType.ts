@@ -17,4 +17,7 @@ export type ArrowItemType = CommonItemType & {
 
   startPosition: Position;
   endPosition: Position;
+
+  startGridPosition: Position;
+  endGridPosition: Position;
 };
