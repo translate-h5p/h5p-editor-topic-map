@@ -19,8 +19,8 @@ export type ContextMenuProps = {
   show: boolean;
   turnLeft: boolean;
   actions: Array<ContextMenuAction>;
-  x: number;
-  y: number;
+  x?: number;
+  y?: number;
 };
 
 export const ContextMenu: React.FC<ContextMenuProps> = ({
@@ -37,7 +37,7 @@ export const ContextMenu: React.FC<ContextMenuProps> = ({
       className={`${styles.contextMenu} ${className} ${
         show && styles.show
       } context-menu-button`}
-      style={{ left: x, top: y }}
+      style={x && y ? { left: x, top: y } : undefined}
     >
       {actions.map(({ icon, label, onClick }) => (
         <ContextMenuButton
