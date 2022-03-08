@@ -95,6 +95,36 @@ export const updateClassicArrowType = (
   return newItems;
 };
 
+export const updateArrowLabels = (
+  items: Array<ArrowItemType>,
+  topicMapItems: Array<TopicMapItemType>,
+): Array<ArrowItemType> => {
+  const newItems = items.map((item: ArrowItemType) => {
+    const startItem = findItem(item.startElementId, topicMapItems);
+    const endItem = findItem(item.endElementId, topicMapItems);
+
+    if (!startItem || !endItem) {
+      return item;
+    }
+
+    const label = getLabel(
+      startItem.id,
+      endItem.id,
+      item.arrowType,
+      topicMapItems,
+    );
+
+    const newItem: ArrowItemType = {
+      ...item,
+      label,
+    };
+
+    return newItem;
+  });
+
+  return newItems;
+};
+
 export const calculateIsHorizontal = (
   startPosition: Position,
   endPosition: Position,

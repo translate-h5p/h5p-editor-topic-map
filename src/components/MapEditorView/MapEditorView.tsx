@@ -7,6 +7,7 @@ import { H5PFieldGroup } from "../../types/H5P/H5PField";
 import { H5PForm } from "../../types/H5P/H5PForm";
 import { Params } from "../../types/H5P/Params";
 import { TopicMapItemType } from "../../types/TopicMapItemType";
+import { updateArrowLabels } from "../../utils/arrow.utils";
 import { findConnectedArrows } from "../../utils/grid.utils";
 import { getBackgroundImageField } from "../../utils/H5P/form.utils";
 import { ArrowItemForm } from "../ArrowItemForm/ArrowItemForm";
@@ -69,21 +70,26 @@ export const MapEditorView: React.FC<MapEditorViewProps> = ({
     [setParams],
   );
 
+  const updateArrows = React.useCallback(
+    (items: Array<ArrowItemType>) => {
+      setParams({ arrowItems: items });
+      setArrowItems(items);
+    },
+    [setParams],
+  );
+
   const updateItems = React.useCallback(
     (items: Array<TopicMapItemType>) => {
       setParams({ topicMapItems: items });
       setGridItems(items);
       updateGrid.current(items);
-    },
-    [setParams],
-  );
 
-  const updateArrows = React.useCallback(
-    (items: Array<ArrowItemType>) => {
-      // setParams({ arrowItems: items });
-      setArrowItems(items);
+      // Update arrow labels to match mapItem labels
+      const updatedArrows = updateArrowLabels(arrowItems, items);
+      updateArrows(updatedArrows);
+      setArrowItems(updatedArrows);
     },
-    [setParams],
+    [arrowItems, setParams, updateArrows],
   );
 
   const updateClassicArrows = React.useCallback(
