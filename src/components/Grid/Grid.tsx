@@ -1115,9 +1115,8 @@ export const Grid: FC<GridProps> = ({
         onMouseMove={moveAHPreview}
         onTouchMove={moveAHPreview}
       >
-        {/* childrenArrows */}
-        {childrenClassicArrows}
-        {/* arrowPreview ? renderArrow(arrowPreview) : null */}
+        {childrenClassicArrows ?? childrenArrows}
+        {arrowPreview ? renderArrow(arrowPreview) : null}
         {classicArrowPreview ? renderClassicArrow(classicArrowPreview) : null}
         {children}
         {gridIndicatorElements}
