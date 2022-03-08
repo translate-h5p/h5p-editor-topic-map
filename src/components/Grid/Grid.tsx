@@ -104,7 +104,7 @@ export const Grid: FC<GridProps> = ({
   const [arrowItems, setArrowItems] = useState(initialArrowItems ?? []);
   const [classicArrowItems, setClassicArrowItems] = useState<
     Array<ClassicArrowItemType>
-  >(initialArrowItems as ClassicArrowItemType[] ?? []);
+  >((initialArrowItems as ClassicArrowItemType[]) ?? []);
   const [occupiedCells, setOccupiedCells] = useState<Array<OccupiedCell>>([]);
   const [boxStartIndex, setBoxStartIndex] = useState<number | null>(null);
   const [isDragging, setIsDragging] = useState(false);
