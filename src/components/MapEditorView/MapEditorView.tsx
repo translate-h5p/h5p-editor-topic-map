@@ -7,7 +7,7 @@ import { H5PFieldGroup } from "../../types/H5P/H5PField";
 import { H5PForm } from "../../types/H5P/H5PForm";
 import { Params } from "../../types/H5P/Params";
 import { TopicMapItemType } from "../../types/TopicMapItemType";
-import { updateArrowLabels } from "../../utils/arrow.utils";
+import { updateClassicArrowLabels } from "../../utils/arrow.utils";
 import { findConnectedArrows } from "../../utils/grid.utils";
 import { getBackgroundImageField } from "../../utils/H5P/form.utils";
 import { ArrowItemForm } from "../ArrowItemForm/ArrowItemForm";
@@ -43,9 +43,10 @@ export const MapEditorView: React.FC<MapEditorViewProps> = ({
   const [activeTool, setActiveTool] = useState<ToolbarButtonType | null>(null);
   const [gridItems, setGridItems] = useState(params.topicMapItems ?? []);
   const [arrowItems, setArrowItems] = useState(params.arrowItems ?? []);
-  const [classicArrowItems, setClassicArrowItems] = useState(
-    params.classicArrowItems ?? [],
-  );
+  const [classicArrowItems, setClassicArrowItems] = useState<
+    Array<ClassicArrowItemType>
+  >((params.arrowItems as ClassicArrowItemType[]) ?? []);
+
   const [editedItem, setEditedItem] = useState<string | null>(null);
   const [deletedItem, setDeletedItem] = useState<string | null>(null);
   const [selectedItem, setSelectedItem] = useState<string | null>(null);
@@ -70,10 +71,10 @@ export const MapEditorView: React.FC<MapEditorViewProps> = ({
     [setParams],
   );
 
-  const updateArrows = React.useCallback(
-    (items: Array<ArrowItemType>) => {
+  const updateClassicArrows = React.useCallback(
+    (items: Array<ClassicArrowItemType>) => {
       setParams({ arrowItems: items });
-      setArrowItems(items);
+      setClassicArrowItems(items);
     },
     [setParams],
   );
@@ -85,20 +86,22 @@ export const MapEditorView: React.FC<MapEditorViewProps> = ({
       updateGrid.current(items);
 
       // Update arrow labels to match mapItem labels
-      const updatedArrows = updateArrowLabels(arrowItems, items);
-      updateArrows(updatedArrows);
-      setArrowItems(updatedArrows);
+      if (classicArrowItems.length > 0) {
+        const updatedClassicArrows = updateClassicArrowLabels(
+          classicArrowItems,
+          items,
+        );
+        updateClassicArrows(updatedClassicArrows);
+        setClassicArrowItems(updatedClassicArrows);
+      }
     },
-    [arrowItems, setParams, updateArrows],
+    [classicArrowItems, setParams, updateClassicArrows],
   );
 
-  const updateClassicArrows = React.useCallback(
-    (items: Array<ClassicArrowItemType>) => {
-      setParams({ arrowItems: items });
-      setClassicArrowItems(items);
-    },
-    [setParams],
-  );
+  const updateArrows = React.useCallback((items: Array<ArrowItemType>) => {
+    // setParams({ arrowItems: items });
+    setArrowItems(items);
+  }, []);
 
   const openDeleteDialogue = React.useCallback((itemId: string) => {
     setDeletedItem(itemId);

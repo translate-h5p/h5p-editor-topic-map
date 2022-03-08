@@ -746,7 +746,12 @@ export const Grid: FC<GridProps> = ({
           }}
         />
       )),
-    [gridIndicators, createBoxStart, onGridIndicatorMouseEnter],
+    [
+      gridIndicators,
+      numberOfColumns,
+      createBoxStart,
+      onGridIndicatorMouseEnter,
+    ],
   );
 
   const updateItemPosition = useCallback(
@@ -827,7 +832,7 @@ export const Grid: FC<GridProps> = ({
       setResizeDirectionLock(directionLock);
       updateGridDimensions({ numberOfColumns, numberOfRows });
     },
-    [numberOfColumns, numberOfRows],
+    [numberOfColumns, numberOfRows, updateGridDimensions],
   );
 
   const setArrowType = useCallback(
@@ -854,7 +859,13 @@ export const Grid: FC<GridProps> = ({
         setClassicArrowItems(newClassicItems);
       }
     },
-    [arrowItems, items, updateArrowItems],
+    [
+      arrowItems,
+      classicArrowItems,
+      items,
+      updateArrowItems,
+      updateClassicArrowItems,
+    ],
   );
 
   const children = useMemo(() => {
@@ -960,6 +971,7 @@ export const Grid: FC<GridProps> = ({
       cellSize,
       deleteArrow,
       editArrow,
+      gapSize,
       selectedItem,
       setArrowType,
       setSelectedItem,
@@ -1103,9 +1115,9 @@ export const Grid: FC<GridProps> = ({
         onMouseMove={moveAHPreview}
         onTouchMove={moveAHPreview}
       >
-        {childrenArrows}
+        {/* childrenArrows */}
         {childrenClassicArrows}
-        {arrowPreview ? renderArrow(arrowPreview) : null}
+        {/* arrowPreview ? renderArrow(arrowPreview) : null */}
         {classicArrowPreview ? renderClassicArrow(classicArrowPreview) : null}
         {children}
         {gridIndicatorElements}

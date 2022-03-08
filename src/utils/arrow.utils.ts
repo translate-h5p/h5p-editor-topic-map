@@ -95,11 +95,11 @@ export const updateClassicArrowType = (
   return newItems;
 };
 
-export const updateArrowLabels = (
-  items: Array<ArrowItemType>,
+export const updateClassicArrowLabels = (
+  items: Array<ClassicArrowItemType>,
   topicMapItems: Array<TopicMapItemType>,
-): Array<ArrowItemType> => {
-  const newItems = items.map((item: ArrowItemType) => {
+): Array<ClassicArrowItemType> => {
+  const newItems = items.map((item: ClassicArrowItemType) => {
     const startItem = findItem(item.startElementId, topicMapItems);
     const endItem = findItem(item.endElementId, topicMapItems);
 
@@ -114,7 +114,7 @@ export const updateArrowLabels = (
       topicMapItems,
     );
 
-    const newItem: ArrowItemType = {
+    const newItem: ClassicArrowItemType = {
       ...item,
       label,
     };

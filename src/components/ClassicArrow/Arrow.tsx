@@ -84,7 +84,7 @@ export const ClassicArrow: React.FC<ClassicArrowProps> = ({
       changeToNonDirectionalArrowAction,
       deleteAction,
     ];
-  }, [editItem, item.id]);
+  }, [editItem, item.id, updateArrowType]);
 
   const isHorizontal =
     Math.abs(item.startPosition.x - item.endPosition.x) >
