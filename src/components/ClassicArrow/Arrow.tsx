@@ -96,8 +96,15 @@ export const ClassicArrow: React.FC<ClassicArrowProps> = ({
     ? `translateY(-${gapSize / 2}px)`
     : `translateX(-${gapSize / 2}px)`;
 
-  let startPos = { x: 0, y: 0 };
-  let endPos = { x: 0, y: 0 };
+  // Make old arrows visible in grid, so that they can be deleted
+  let startPos = {
+    x: 0.5 * (cellSize + gapSize),
+    y: 1.5 * (cellSize + gapSize),
+  };
+  let endPos = {
+    x: 6.5 * (cellSize + gapSize),
+    y: 1.5 * (cellSize + gapSize),
+  };
 
   if (item.startGridPosition != null && item.endGridPosition != null) {
     const xAdjustStart = xAdjustmentStart(item, isHorizontal);
