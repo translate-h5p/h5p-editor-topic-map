@@ -188,13 +188,13 @@ export const ClassicArrow: React.FC<ClassicArrowProps> = ({
         turnLeft={false} // TODO: {checkIfRightSideOfGrid(position.x, gridSize.width)}
         x={
           isHorizontal
-            ? endPos.x - 1.5 * (cellSize + gapSize)
+            ? (startPos.x + endPos.x) / 2
             : endPos.x - 2 * (cellSize + gapSize)
         }
         y={
           isHorizontal
             ? endPos.y - 1 * (cellSize + gapSize)
-            : endPos.y + 2 * (cellSize + gapSize)
+            : (startPos.y + endPos.y) / 2
         }
       />
 
