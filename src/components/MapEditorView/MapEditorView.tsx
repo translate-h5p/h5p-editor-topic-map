@@ -7,6 +7,7 @@ import { H5PFieldGroup } from "../../types/H5P/H5PField";
 import { H5PForm } from "../../types/H5P/H5PForm";
 import { Params } from "../../types/H5P/Params";
 import { TopicMapItemType } from "../../types/TopicMapItemType";
+import { updateClassicArrowLabels } from "../../utils/arrow.utils";
 import { findConnectedArrows } from "../../utils/grid.utils";
 import { getBackgroundImageField } from "../../utils/H5P/form.utils";
 import { ArrowItemForm } from "../ArrowItemForm/ArrowItemForm";
@@ -42,9 +43,10 @@ export const MapEditorView: React.FC<MapEditorViewProps> = ({
   const [activeTool, setActiveTool] = useState<ToolbarButtonType | null>(null);
   const [gridItems, setGridItems] = useState(params.topicMapItems ?? []);
   const [arrowItems, setArrowItems] = useState(params.arrowItems ?? []);
-  const [classicArrowItems, setClassicArrowItems] = useState(
-    params.classicArrowItems ?? [],
-  );
+  const [classicArrowItems, setClassicArrowItems] = useState<
+    Array<ClassicArrowItemType>
+  >((params.arrowItems as ClassicArrowItemType[]) ?? []);
+
   const [editedItem, setEditedItem] = useState<string | null>(null);
   const [deletedItem, setDeletedItem] = useState<string | null>(null);
   const [selectedItem, setSelectedItem] = useState<string | null>(null);
@@ -69,23 +71,6 @@ export const MapEditorView: React.FC<MapEditorViewProps> = ({
     [setParams],
   );
 
-  const updateItems = React.useCallback(
-    (items: Array<TopicMapItemType>) => {
-      setParams({ topicMapItems: items });
-      setGridItems(items);
-      updateGrid.current(items);
-    },
-    [setParams],
-  );
-
-  const updateArrows = React.useCallback(
-    (items: Array<ArrowItemType>) => {
-      // setParams({ arrowItems: items });
-      setArrowItems(items);
-    },
-    [setParams],
-  );
-
   const updateClassicArrows = React.useCallback(
     (items: Array<ClassicArrowItemType>) => {
       setParams({ arrowItems: items });
@@ -93,6 +78,30 @@ export const MapEditorView: React.FC<MapEditorViewProps> = ({
     },
     [setParams],
   );
+
+  const updateItems = React.useCallback(
+    (items: Array<TopicMapItemType>) => {
+      setParams({ topicMapItems: items });
+      setGridItems(items);
+      updateGrid.current(items);
+
+      // Update arrow labels to match mapItem labels
+      if (classicArrowItems.length > 0) {
+        const updatedClassicArrows = updateClassicArrowLabels(
+          classicArrowItems,
+          items,
+        );
+        updateClassicArrows(updatedClassicArrows);
+        setClassicArrowItems(updatedClassicArrows);
+      }
+    },
+    [classicArrowItems, setParams, updateClassicArrows],
+  );
+
+  const updateArrows = React.useCallback((items: Array<ArrowItemType>) => {
+    // setParams({ arrowItems: items });
+    setArrowItems(items);
+  }, []);
 
   const openDeleteDialogue = React.useCallback((itemId: string) => {
     setDeletedItem(itemId);
