@@ -87,29 +87,35 @@ export const ClassicArrow: React.FC<ClassicArrowProps> = ({
   }, [editItem, item.id, updateArrowType]);
 
   const isHorizontal =
-    Math.abs(item.startPosition.x - item.endPosition.x) >
-    Math.abs(item.startPosition.y - item.endPosition.y);
+    item.startPosition != null && item.endPosition != null
+      ? Math.abs(item.startPosition.x - item.endPosition.x) >
+        Math.abs(item.startPosition.y - item.endPosition.y)
+      : true;
 
   const transform = isHorizontal
     ? `translateY(-${gapSize / 2}px)`
     : `translateX(-${gapSize / 2}px)`;
 
-  const xAdjustStart = xAdjustmentStart(item, isHorizontal);
-  const yAdjustStart = yAdjustmentStart(item, isHorizontal);
+  let startPos = { x: 0, y: 0 };
+  let endPos = { x: 0, y: 0 };
 
-  const startPos = {
-    x: (item.startGridPosition.x + xAdjustStart) * (cellSize + gapSize),
-    y: (item.startGridPosition.y + yAdjustStart) * (cellSize + gapSize),
-  };
+  if (item.startGridPosition != null && item.endGridPosition != null) {
+    const xAdjustStart = xAdjustmentStart(item, isHorizontal);
+    const yAdjustStart = yAdjustmentStart(item, isHorizontal);
 
-  const xAdjust = xAdjustmentEnd(item, isHorizontal);
+    const xAdjust = xAdjustmentEnd(item, isHorizontal);
+    const yAdjust = yAdjustmentEnd(item, isHorizontal);
 
-  const yAdjust = yAdjustmentEnd(item, isHorizontal);
+    startPos = {
+      x: (item.startGridPosition.x + xAdjustStart) * (cellSize + gapSize),
+      y: (item.startGridPosition.y + yAdjustStart) * (cellSize + gapSize),
+    };
 
-  const endPos = {
-    x: (item.endGridPosition.x + xAdjust) * (cellSize + gapSize),
-    y: (item.endGridPosition.y + yAdjust) * (cellSize + gapSize),
-  };
+    endPos = {
+      x: (item.endGridPosition.x + xAdjust) * (cellSize + gapSize),
+      y: (item.endGridPosition.y + yAdjust) * (cellSize + gapSize),
+    };
+  }
 
   const pathDef = `M ${startPos.x} ${startPos.y} L ${endPos.x} ${endPos.y}`;
   // Apply shadow around arrow
