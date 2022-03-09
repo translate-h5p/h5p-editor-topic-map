@@ -87,29 +87,44 @@ export const ClassicArrow: React.FC<ClassicArrowProps> = ({
   }, [editItem, item.id, updateArrowType]);
 
   const isHorizontal =
-    Math.abs(item.startPosition.x - item.endPosition.x) >
-    Math.abs(item.startPosition.y - item.endPosition.y);
+    item.startPosition != null && item.endPosition != null
+      ? Math.abs(item.startPosition.x - item.endPosition.x) >
+        Math.abs(item.startPosition.y - item.endPosition.y)
+      : true;
 
   const transform = isHorizontal
     ? `translateY(-${gapSize / 2}px)`
     : `translateX(-${gapSize / 2}px)`;
 
-  const xAdjustStart = xAdjustmentStart(item, isHorizontal);
-  const yAdjustStart = yAdjustmentStart(item, isHorizontal);
-
-  const startPos = {
-    x: (item.startGridPosition.x + xAdjustStart) * (cellSize + gapSize),
-    y: (item.startGridPosition.y + yAdjustStart) * (cellSize + gapSize),
+  // Make old arrows visible in grid, so that they can be deleted
+  // TODO: Create a new major/minor versjon, delete these arrows in `upgrades.json` and remove code
+  // that suggests that `startPosition`, `endPosition` `startGridPosition` and `endGridPosition` can be undefined
+  let startPos = {
+    x: 0.5 * (cellSize + gapSize),
+    y: 1.5 * (cellSize + gapSize),
+  };
+  let endPos = {
+    x: 6.5 * (cellSize + gapSize),
+    y: 1.5 * (cellSize + gapSize),
   };
 
-  const xAdjust = xAdjustmentEnd(item, isHorizontal);
+  if (item.startGridPosition != null && item.endGridPosition != null) {
+    const xAdjustStart = xAdjustmentStart(item, isHorizontal);
+    const yAdjustStart = yAdjustmentStart(item, isHorizontal);
 
-  const yAdjust = yAdjustmentEnd(item, isHorizontal);
+    const xAdjust = xAdjustmentEnd(item, isHorizontal);
+    const yAdjust = yAdjustmentEnd(item, isHorizontal);
 
-  const endPos = {
-    x: (item.endGridPosition.x + xAdjust) * (cellSize + gapSize),
-    y: (item.endGridPosition.y + yAdjust) * (cellSize + gapSize),
-  };
+    startPos = {
+      x: (item.startGridPosition.x + xAdjustStart) * (cellSize + gapSize),
+      y: (item.startGridPosition.y + yAdjustStart) * (cellSize + gapSize),
+    };
+
+    endPos = {
+      x: (item.endGridPosition.x + xAdjust) * (cellSize + gapSize),
+      y: (item.endGridPosition.y + yAdjust) * (cellSize + gapSize),
+    };
+  }
 
   const pathDef = `M ${startPos.x} ${startPos.y} L ${endPos.x} ${endPos.y}`;
   // Apply shadow around arrow
