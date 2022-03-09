@@ -97,6 +97,8 @@ export const ClassicArrow: React.FC<ClassicArrowProps> = ({
     : `translateX(-${gapSize / 2}px)`;
 
   // Make old arrows visible in grid, so that they can be deleted
+  // TODO: Create a new major/minor versjon, delete these arrows in `upgrades.json` and remove code
+  // that suggests that `startPosition`, `endPosition` `startGridPosition` and `endGridPosition` can be undefined
   let startPos = {
     x: 0.5 * (cellSize + gapSize),
     y: 1.5 * (cellSize + gapSize),
