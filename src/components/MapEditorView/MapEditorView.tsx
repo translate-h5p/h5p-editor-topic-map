@@ -81,19 +81,19 @@ export const MapEditorView: React.FC<MapEditorViewProps> = ({
 
   const updateItems = React.useCallback(
     (items: Array<TopicMapItemType>) => {
-      setParams({ topicMapItems: items });
-      setGridItems(items);
-      updateGrid.current(items);
-
       // Update arrow labels to match mapItem labels
       if (classicArrowItems.length > 0) {
         const updatedClassicArrows = updateClassicArrowLabels(
           classicArrowItems,
           items,
         );
+
         updateClassicArrows(updatedClassicArrows);
         setClassicArrowItems(updatedClassicArrows);
       }
+      setParams({ topicMapItems: items });
+      setGridItems(items);
+      updateGrid.current(items);
     },
     [classicArrowItems, setParams, updateClassicArrows],
   );
