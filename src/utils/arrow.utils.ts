@@ -1,10 +1,11 @@
 /* eslint-disable no-debugger */
+import { GridDimensions } from "../components/Grid/Grid";
 import { ArrowItemType } from "../types/ArrowItemType";
 import { ArrowType } from "../types/ArrowType";
 import { ClassicArrowItemType } from "../types/ClassicArrowItemType";
 import { Position } from "../types/Position";
 import { TopicMapItemType } from "../types/TopicMapItemType";
-import { findItem } from "./grid.utils";
+import { findItem, gridToPercentage } from "./grid.utils";
 
 const arrowLabelJoins: Record<ArrowType, string> = {
   [ArrowType.BiDirectional]: "↔",
@@ -52,38 +53,6 @@ export const updateArrowType = (
     );
 
     const newItem: ArrowItemType = {
-      ...item,
-      arrowType,
-      label,
-    };
-
-    return newItem;
-  });
-
-  return newItems;
-};
-
-export const updateClassicArrowType = (
-  items: Array<ClassicArrowItemType>,
-  updatedItem: ClassicArrowItemType,
-  arrowType: ArrowType,
-  topicMapItems: Array<TopicMapItemType>,
-): Array<ClassicArrowItemType> => {
-  const newItems = items.map((item: ClassicArrowItemType) => {
-    const isCorrectItem = item.id === updatedItem.id;
-
-    if (!isCorrectItem) {
-      return item;
-    }
-
-    const label = getLabel(
-      item.startElementId,
-      item.endElementId,
-      arrowType,
-      topicMapItems,
-    );
-
-    const newItem: ClassicArrowItemType = {
       ...item,
       arrowType,
       label,
@@ -306,4 +275,55 @@ export const adjustArrowEndPosition = (
         isHorizontal,
       ),
   } as Position;
+};
+
+export const updateClassicArrowType = (
+  items: Array<ClassicArrowItemType>,
+  updatedItem: ClassicArrowItemType,
+  arrowType: ArrowType,
+  topicMapItems: Array<TopicMapItemType>,
+  dimensions: GridDimensions,
+): Array<ClassicArrowItemType> => {
+  const newItems = items.map((item: ClassicArrowItemType) => {
+    const isCorrectItem = item.id === updatedItem.id;
+
+    if (!isCorrectItem) {
+      return item;
+    }
+
+    const label = getLabel(
+      item.startElementId,
+      item.endElementId,
+      arrowType,
+      topicMapItems,
+    );
+
+    const newItem: ClassicArrowItemType = {
+      ...item,
+      arrowType,
+      label,
+      startPosition: gridToPercentage(
+        adjustArrowStartPosition(
+          item.startGridPosition,
+          item.endGridPosition,
+          arrowType,
+        ),
+        dimensions.numberOfColumns,
+        dimensions.numberOfRows,
+      ),
+      endPosition: gridToPercentage(
+        adjustArrowEndPosition(
+          item.startGridPosition,
+          item.endGridPosition,
+          arrowType,
+        ),
+        dimensions.numberOfColumns,
+        dimensions.numberOfRows,
+      ),
+    };
+
+    return newItem;
+  });
+
+  return newItems;
 };

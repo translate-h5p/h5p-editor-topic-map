@@ -837,6 +837,7 @@ export const Grid: FC<GridProps> = ({
 
   const setArrowType = useCallback(
     (type: ArrowType, id: string) => {
+      console.info("Set Arrow Type", type, id);
       const updatedItem = arrowItems.find(item => item.id === id);
       const updatedClassicItem = classicArrowItems.find(item => item.id === id);
       if (!updatedItem && !updatedClassicItem) {
@@ -844,16 +845,21 @@ export const Grid: FC<GridProps> = ({
       }
 
       if (updatedItem) {
+        console.info("Set OLD Arrow Type", type, id, updatedItem);
         const newItems = updateArrowType(arrowItems, updatedItem, type, items);
-
+        console.info("Updated OLD Arrow Type", type, id, newItems);
         updateArrowItems(newItems);
         setArrowItems(newItems);
-      } else if (updatedClassicItem) {
+      }
+
+      if (updatedClassicItem) {
+        console.info("Set Classic Arrow Type", type, id, updatedClassicItem);
         const newClassicItems = updateClassicArrowType(
           classicArrowItems,
           updatedClassicItem,
           type,
           items,
+          { numberOfColumns, numberOfRows },
         );
         updateClassicArrowItems(newClassicItems);
         setClassicArrowItems(newClassicItems);
@@ -865,6 +871,8 @@ export const Grid: FC<GridProps> = ({
       items,
       updateArrowItems,
       updateClassicArrowItems,
+      numberOfColumns,
+      numberOfRows,
     ],
   );
 
