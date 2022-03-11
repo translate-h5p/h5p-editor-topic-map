@@ -35,8 +35,7 @@ import {
   mapTopicMapItemToElement,
   minimumSizeReached,
   resizeItems,
-  scaleX,
-  scaleY,
+  scaleItemLength,
   straightenArrowEnd,
   updateItem,
   positionIsFree,
@@ -466,8 +465,8 @@ export const Grid: FC<GridProps> = ({
         y: calculatePosition(yPercentagePosition, size.height),
       };
       const newSize = {
-        width: scaleX(widthPercentage, size.width, cellSize),
-        height: scaleY(heightPercentage, size.height, cellSize),
+        width: scaleItemLength(widthPercentage, size.width, cellSize),
+        height: scaleItemLength(heightPercentage, size.height, cellSize),
       };
 
       const lastItem = items[currentItemsLength];
@@ -611,8 +610,8 @@ export const Grid: FC<GridProps> = ({
         y: calculatePosition(yPercentagePosition, size.height),
       };
       const newSize = {
-        width: scaleX(widthPercentage, size.width, cellSize),
-        height: scaleY(heightPercentage, size.height, cellSize),
+        width: scaleItemLength(widthPercentage, size.width, cellSize),
+        height: scaleItemLength(heightPercentage, size.height, cellSize),
       };
 
       if (
