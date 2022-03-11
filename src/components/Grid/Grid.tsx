@@ -2,7 +2,6 @@ import { v4 as uuidV4 } from "uuid";
 import * as React from "react";
 import { FC, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useEffectOnce } from "react-use";
-import { useXarrow, Xwrapper } from "react-xarrows";
 import { t } from "../../H5P/H5P.util";
 import { ArrowItemType } from "../../types/ArrowItemType";
 import { ArrowType } from "../../types/ArrowType";
@@ -40,7 +39,6 @@ import {
   updateItem,
   positionIsFree,
 } from "../../utils/grid.utils";
-import { Arrow } from "../Arrow/Arrow";
 import { Draggable } from "../Draggable/Draggable";
 import { GridIndicator } from "../GridIndicator/GridIndicator";
 import { ToolbarButtonType } from "../Toolbar/Toolbar";
@@ -118,7 +116,6 @@ export const Grid: FC<GridProps> = ({
     null,
   );
   const [arrowPreview, setArrowPreview] = useState<ArrowItemType | null>(null);
-  const updateXarrow = useXarrow();
 
   const [classicArrowStartId, setClassicArrowStartId] = useState<string | null>(
     null,
@@ -936,29 +933,6 @@ export const Grid: FC<GridProps> = ({
     createArrow,
   ]);
 
-  const renderArrow = useCallback(
-    (item: ArrowItemType) => (
-      <Arrow
-        key={item.id}
-        cellSize={cellSize}
-        item={item}
-        deleteItem={deleteArrow}
-        editItem={editArrow}
-        selectedItemId={selectedItem}
-        setSelectedItemId={setSelectedItem}
-        updateArrowType={setArrowType}
-      />
-    ),
-    [
-      cellSize,
-      deleteArrow,
-      editArrow,
-      selectedItem,
-      setArrowType,
-      setSelectedItem,
-    ],
-  );
-
   const renderClassicArrow = useCallback(
     (item: ClassicArrowItemType) => (
       <ClassicArrow
@@ -982,11 +956,6 @@ export const Grid: FC<GridProps> = ({
       setArrowType,
       setSelectedItem,
     ],
-  );
-
-  const childrenArrows = useMemo(
-    () => arrowItems.map(item => renderArrow(item)),
-    [arrowItems, renderArrow],
   );
 
   const childrenClassicArrows = useMemo(
@@ -1067,16 +1036,6 @@ export const Grid: FC<GridProps> = ({
     }
   }, [activeTool]);
 
-  const moveAHPreview = (event: React.MouseEvent | React.TouchEvent): void => {
-    const showAhPreview = !!arrowStartId;
-    if (!showAhPreview) {
-      return;
-    }
-
-    setAhPreviewPosition(getPointerPositionFromEvent(event));
-    updateXarrow();
-  };
-
   let className = styles.grid;
 
   if (activeHoverOnGrid) {
@@ -1095,47 +1054,33 @@ export const Grid: FC<GridProps> = ({
   }, [selectedItem]);
 
   return (
-    <Xwrapper>
-      {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
-      <div
-        ref={elementRef}
-        role="application" /* https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/Application_Role */
-        className={className}
-        style={{
-          // @ts-expect-error Custom properties should be allowed
-          "--gap-size": `${gapSize}px`,
-          gridTemplateColumns: `repeat(${numberOfColumns}, 1fr)`,
-          gridTemplateRows: `repeat(${numberOfRows}, 1fr)`,
-          cursor: isDragging ? "pointer" : "auto",
-        }}
-        onMouseUp={() => {
-          createBoxEnd();
-          resizeBoxEnd();
-        }}
-        onMouseLeave={() => cancelActions()}
-        onMouseEnter={() => {
-          if (mouseOutsideGrid) {
-            setMouseOutsideGrid(false);
-          }
-        }}
-        onMouseMove={moveAHPreview}
-        onTouchMove={moveAHPreview}
-      >
-        {childrenClassicArrows ?? childrenArrows}
-        {arrowPreview ? renderArrow(arrowPreview) : null}
-        {classicArrowPreview ? renderClassicArrow(classicArrowPreview) : null}
-        {children}
-        {gridIndicatorElements}
-      </div>
-
-      <div
-        id="arrow-head-preview"
-        className={styles.arrowHeadPreview}
-        style={{
-          left: `${ahPreviewPosition?.x}px`,
-          top: `${ahPreviewPosition?.y}px`,
-        }}
-      />
-    </Xwrapper>
+    // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
+    <div
+      ref={elementRef}
+      role="application" /* https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/Application_Role */
+      className={className}
+      style={{
+        // @ts-expect-error Custom properties should be allowed
+        "--gap-size": `${gapSize}px`,
+        gridTemplateColumns: `repeat(${numberOfColumns}, 1fr)`,
+        gridTemplateRows: `repeat(${numberOfRows}, 1fr)`,
+        cursor: isDragging ? "pointer" : "auto",
+      }}
+      onMouseUp={() => {
+        createBoxEnd();
+        resizeBoxEnd();
+      }}
+      onMouseLeave={() => cancelActions()}
+      onMouseEnter={() => {
+        if (mouseOutsideGrid) {
+          setMouseOutsideGrid(false);
+        }
+      }}
+    >
+      {childrenClassicArrows}
+      {classicArrowPreview ? renderClassicArrow(classicArrowPreview) : null}
+      {children}
+      {gridIndicatorElements}
+    </div>
   );
 };
