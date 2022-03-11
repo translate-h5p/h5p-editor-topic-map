@@ -175,6 +175,13 @@ export const scaleY = (
   return newY > cellSize ? newY : cellSize;
 };
 
+export const calculatePosition = (
+  percentage: number,
+  length: number,
+): number => {
+  return (length * percentage) / 100;
+};
+
 export const minimumSizeReached = (
   xPercentage: number,
   gridWidth: number,
@@ -194,8 +201,8 @@ export const mapTopicMapItemToElement = (
   id: item.id,
   type: "item",
   position: {
-    x: scaleX(item.xPercentagePosition, gridSize.width, cellSize),
-    y: scaleY(item.yPercentagePosition, gridSize.height, cellSize),
+    x: calculatePosition(item.xPercentagePosition, gridSize.width),
+    y: calculatePosition(item.yPercentagePosition, gridSize.height),
   },
   size: {
     width: scaleX(item.widthPercentage, gridSize.width, cellSize),
