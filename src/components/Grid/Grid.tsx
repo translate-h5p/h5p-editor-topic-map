@@ -765,7 +765,6 @@ export const Grid: FC<GridProps> = ({
       }
 
       if (updatedClassicItem) {
-        console.info("Set Classic Arrow Type", type, id, updatedClassicItem);
         const newClassicItems = updateClassicArrowType(
           classicArrowItems,
           updatedClassicItem,
