@@ -1,4 +1,3 @@
-/* eslint-disable no-debugger */
 import { GridDimensions } from "../components/Grid/Grid";
 import { ArrowItemType } from "../types/ArrowItemType";
 import { ArrowType } from "../types/ArrowType";

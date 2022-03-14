@@ -42,7 +42,7 @@ export const MapEditorView: React.FC<MapEditorViewProps> = ({
   const [activeTool, setActiveTool] = useState<ToolbarButtonType | null>(null);
   const [gridItems, setGridItems] = useState(params.topicMapItems ?? []);
   const [arrowItems, setArrowItems] = useState<Array<ArrowItemType>>(
-    (params.arrowItems as ArrowItemType[]) ?? [],
+    params.arrowItems ?? [],
   );
 
   const [editedItem, setEditedItem] = useState<string | null>(null);

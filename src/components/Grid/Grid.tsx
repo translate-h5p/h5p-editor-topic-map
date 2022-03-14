@@ -1,7 +1,7 @@
-import { v4 as uuidV4 } from "uuid";
 import * as React from "react";
 import { FC, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useEffectOnce } from "react-use";
+import { v4 as uuidV4 } from "uuid";
 import { t } from "../../H5P/H5P.util";
 import { ArrowItemType } from "../../types/ArrowItemType";
 import { ArrowType } from "../../types/ArrowType";
@@ -15,9 +15,8 @@ import {
   adjustArrowEndPosition,
   adjustArrowStartPosition,
   getLabel,
-  updateArrowType,
+  updateArrowType
 } from "../../utils/arrow.utils";
-
 import {
   calculatePosition,
   createArrowItem,
@@ -30,20 +29,16 @@ import {
   isDraggingLeft,
   isDraggingUp,
   mapTopicMapItemToElement,
-  minimumSizeReached,
-  resizeItems,
-  scaleItemLength,
-  straightenArrowEnd,
-  updateItem,
-  positionIsFree,
+  minimumSizeReached, positionIsFree, resizeItems,
+  scaleItemLength, updateItem
 } from "../../utils/grid.utils";
+import { Arrow } from "../Arrow/Arrow";
 import { Draggable } from "../Draggable/Draggable";
 import { GridIndicator } from "../GridIndicator/GridIndicator";
 import { ToolbarButtonType } from "../Toolbar/Toolbar";
 import { TopicMapItem } from "../TopicMapItem/TopicMapItem";
 import styles from "./Grid.module.scss";
-import { ArrowDirection } from "../../types/ArrowDirection";
-import { Arrow } from "../Arrow/Arrow";
+
 
 export type GridDimensions = {
   numberOfColumns: number;
@@ -94,8 +89,8 @@ export const Grid: FC<GridProps> = ({
 }) => {
   const [size, setSize] = useState<Size | null>(null);
   const [items, setItems] = useState(initialItems);
-  const [ArrowItems, setArrowItems] = useState<Array<ArrowItemType>>(
-    (initialArrowItems as ArrowItemType[]) ?? [],
+  const [arrowItems, setArrowItems] = useState<Array<ArrowItemType>>(
+    initialArrowItems ?? [],
   );
   const [occupiedCells, setOccupiedCells] = useState<Array<OccupiedCell>>([]);
   const [boxStartIndex, setBoxStartIndex] = useState<number | null>(null);
@@ -106,10 +101,10 @@ export const Grid: FC<GridProps> = ({
   const [mouseOutsideGrid, setMouseOutsideGrid] = useState(false);
   const [prevIndex, setPrevIndex] = useState<number | null>(null);
 
-  const [ArrowStartId, setArrowStartId] = useState<string | null>(null);
+  const [arrowStartId, setArrowStartId] = useState<string | null>(null);
   const [ahPreviewGridPosition, setAhPreviewGridPosition] =
     useState<Position | null>(null);
-  const [ArrowPreview, setArrowPreview] = useState<ArrowItemType | null>(null);
+  const [arrowPreview, setArrowPreview] = useState<ArrowItemType | null>(null);
 
   const updateLocalGrid = (newItems: TopicMapItemType[]): void => {
     setItems(newItems);
@@ -196,7 +191,7 @@ export const Grid: FC<GridProps> = ({
           y: parseInt(gridIndicator.dataset.y as string, 10),
         } as Position;
 
-        const hasStartElementId = !!ArrowStartId;
+        const hasStartElementId = !!arrowStartId;
         if (!hasStartElementId) {
           setArrowStartId(elementId);
 
@@ -216,20 +211,20 @@ export const Grid: FC<GridProps> = ({
           return;
         }
 
-        const startsAndEndsAtSameElement = ArrowStartId === elementId;
+        const startsAndEndsAtSameElement = arrowStartId === elementId;
 
         const arrowExistsAlready =
-          ArrowItems.find(
+          arrowItems.find(
             ({ startElementId, endElementId }) =>
-              (startElementId === ArrowStartId && endElementId === elementId) ||
-              (startElementId === elementId && endElementId === ArrowStartId),
+              (startElementId === arrowStartId && endElementId === elementId) ||
+              (startElementId === elementId && endElementId === arrowStartId),
           ) != null;
 
         const shouldCreateArrow =
-          !arrowExistsAlready && !startsAndEndsAtSameElement && ArrowStartId;
+          !arrowExistsAlready && !startsAndEndsAtSameElement && arrowStartId;
         if (shouldCreateArrow) {
           const arrowType = ArrowType.Directional;
-          const label = getLabel(ArrowStartId, elementId, arrowType, items);
+          const label = getLabel(arrowStartId, elementId, arrowType, items);
           const adjustedStartGridPosition = adjustArrowStartPosition(
             ahPreviewGridPosition as Position,
             gridPosition,
@@ -242,7 +237,7 @@ export const Grid: FC<GridProps> = ({
           );
 
           const newItem = createArrowItem(
-            ArrowStartId,
+            arrowStartId,
             elementId,
             label,
             arrowType,
@@ -259,7 +254,7 @@ export const Grid: FC<GridProps> = ({
             ahPreviewGridPosition as Position,
             gridPosition,
           );
-          const newItems = [...ArrowItems, newItem];
+          const newItems = [...arrowItems, newItem];
 
           updateArrowItems(newItems);
           setArrowItems(newItems);
@@ -273,8 +268,8 @@ export const Grid: FC<GridProps> = ({
     [
       activeTool,
       items,
-      ArrowStartId,
-      ArrowItems,
+      arrowStartId,
+      arrowItems,
       numberOfColumns,
       numberOfRows,
       ahPreviewGridPosition,
@@ -718,11 +713,11 @@ export const Grid: FC<GridProps> = ({
 
   const deleteArrow = useCallback(
     (id: string) => {
-      const newArrowItems = ArrowItems.filter(item => item.id !== id);
+      const newArrowItems = arrowItems.filter(item => item.id !== id);
       updateArrowItems(newArrowItems);
       setArrowItems(newArrowItems);
     },
-    [ArrowItems, updateArrowItems],
+    [arrowItems, updateArrowItems],
   );
 
   const startResize = useCallback(
@@ -741,13 +736,13 @@ export const Grid: FC<GridProps> = ({
 
   const setArrowType = useCallback(
     (type: ArrowType, id: string) => {
-      const updatedItem = ArrowItems.find(item => item.id === id);
+      const updatedItem = arrowItems.find(item => item.id === id);
       if (!updatedItem) {
         throw new Error(`Updated arrow with id "${id}" does not exist`);
       }
 
       if (updatedItem) {
-        const newItem = updateArrowType(ArrowItems, updatedItem, type, items, {
+        const newItem = updateArrowType(arrowItems, updatedItem, type, items, {
           numberOfColumns,
           numberOfRows,
         });
@@ -755,7 +750,7 @@ export const Grid: FC<GridProps> = ({
         setArrowItems(newItem);
       }
     },
-    [ArrowItems, items, updateArrowItems, numberOfColumns, numberOfRows],
+    [arrowItems, items, updateArrowItems, numberOfColumns, numberOfRows],
   );
 
   const children = useMemo(() => {
@@ -844,8 +839,8 @@ export const Grid: FC<GridProps> = ({
   );
 
   const childrenArrows = useMemo(
-    () => ArrowItems.map(item => renderArrow(item)),
-    [ArrowItems, renderArrow],
+    () => arrowItems.map(item => renderArrow(item)),
+    [arrowItems, renderArrow],
   );
 
   const resize = useCallback(() => {
@@ -954,7 +949,7 @@ export const Grid: FC<GridProps> = ({
       }}
     >
       {childrenArrows}
-      {ArrowPreview ? renderArrow(ArrowPreview) : null}
+      {arrowPreview ? renderArrow(arrowPreview) : null}
       {children}
       {gridIndicatorElements}
     </div>
