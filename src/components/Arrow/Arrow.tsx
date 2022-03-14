@@ -1,7 +1,7 @@
 /* eslint-disable no-nested-ternary */
 import * as React from "react";
 import styles from "./Arrow.module.scss";
-import { ClassicArrowItemType } from "../../types/ClassicArrowItemType";
+import { ArrowItemType } from "../../types/ArrowItemType";
 import { ContextMenu, ContextMenuButtonType } from "../ContextMenu/ContextMenu";
 import { ContextMenuAction } from "../../types/ContextMenuAction";
 import { t } from "../../H5P/H5P.util";
@@ -14,10 +14,10 @@ import {
   yAdjustmentStart,
 } from "../../utils/arrow.utils";
 
-export type ClassicArrowProps = {
+export type ArrowProps = {
   cellSize: number;
   gapSize: number;
-  item: ClassicArrowItemType;
+  item: ArrowItemType;
   editItem: (itemId: string) => void;
   deleteItem: (itemId: string) => void;
   selectedItemId: string | null;
@@ -26,7 +26,7 @@ export type ClassicArrowProps = {
 };
 
 // TODO: Share code with h5p-topic-map instead of duplicating
-export const ClassicArrow: React.FC<ClassicArrowProps> = ({
+export const Arrow: React.FC<ArrowProps> = ({
   item,
   cellSize,
   gapSize,

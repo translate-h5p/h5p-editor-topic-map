@@ -1,13 +1,13 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import * as React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
-import { ClassicArrow } from "./Arrow";
+import { Arrow } from "./Arrow";
 import { ArrowType } from "../../types/ArrowType";
-import { ClassicArrowItemType } from "../../types/ClassicArrowItemType";
+import { ArrowItemType } from "../../types/ArrowItemType";
 
 export default {
-  title: "Molecules/ClassicArrow",
-  component: ClassicArrow,
+  title: "Molecules/Arrow",
+  component: Arrow,
   argTypes: {
     type: {
       options: {
@@ -22,18 +22,16 @@ export default {
     cellSize: 30,
     gapSize: 15,
   },
-} as ComponentMeta<typeof ClassicArrow>;
+} as ComponentMeta<typeof Arrow>;
 
-const Template: ComponentStory<typeof ClassicArrow> = args => (
-  <ClassicArrow {...args} />
-);
+const Template: ComponentStory<typeof Arrow> = args => <Arrow {...args} />;
 
 export const RightDirectionalEmptyArrow = Template.bind({});
 RightDirectionalEmptyArrow.args = {
   item: {
     startPosition: { x: 100, y: 0 },
     endPosition: { x: 0, y: 0 },
-  } as ClassicArrowItemType,
+  } as ArrowItemType,
 };
 
 export const LeftDirectionalCompletedArrow = Template.bind({});
@@ -41,7 +39,7 @@ LeftDirectionalCompletedArrow.args = {
   item: {
     startPosition: { x: 100, y: 0 },
     endPosition: { x: 0, y: 0 },
-  } as ClassicArrowItemType,
+  } as ArrowItemType,
 };
 
 export const BidirectionalHorizontalEmptyArrow = Template.bind({});
@@ -49,7 +47,7 @@ BidirectionalHorizontalEmptyArrow.args = {
   item: {
     startPosition: { x: 100, y: 0 },
     endPosition: { x: 0, y: 0 },
-  } as ClassicArrowItemType,
+  } as ArrowItemType,
 };
 
 export const UpDirectionalEditedArrow = Template.bind({});
@@ -57,7 +55,7 @@ UpDirectionalEditedArrow.args = {
   item: {
     startPosition: { x: 0, y: 100 },
     endPosition: { x: 0, y: 0 },
-  } as ClassicArrowItemType,
+  } as ArrowItemType,
 };
 
 export const NonDirectionalVerticalEmptyArrow = Template.bind({});
@@ -65,5 +63,5 @@ NonDirectionalVerticalEmptyArrow.args = {
   item: {
     startPosition: { x: 0, y: 0 },
     endPosition: { x: 0, y: 100 },
-  } as ClassicArrowItemType,
+  } as ArrowItemType,
 };

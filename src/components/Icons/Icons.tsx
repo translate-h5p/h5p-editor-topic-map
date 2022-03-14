@@ -19,7 +19,6 @@ export const Icon: React.FC<IconProps> = ({ icon, className }) => {
     [ToolbarButtonType.MapAppearance]: MapAppearance,
     [ToolbarButtonType.CreateBox]: CreateBox,
     [ToolbarButtonType.CreateArrow]: CreateArrow,
-    [ToolbarButtonType.CreateClassicArrow]: BiDirectionalArrow,
     [ContextMenuButtonType.Edit]: Edit,
     [ContextMenuButtonType.Delete]: Delete,
     [ContextMenuButtonType.ArrowDirectional]: CreateArrow,
