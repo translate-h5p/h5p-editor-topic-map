@@ -2,7 +2,6 @@ import { v4 as uuidV4 } from "uuid";
 import * as React from "react";
 import { FC, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useEffectOnce } from "react-use";
-import { useXarrow, Xwrapper } from "react-xarrows";
 import { t } from "../../H5P/H5P.util";
 import { ArrowItemType } from "../../types/ArrowItemType";
 import { ArrowType } from "../../types/ArrowType";
@@ -16,13 +15,11 @@ import {
   adjustArrowEndPosition,
   adjustArrowStartPosition,
   getLabel,
-  updateArrowType,
   updateClassicArrowType,
 } from "../../utils/arrow.utils";
-import { getPointerPositionFromEvent } from "../../utils/draggable.utils";
+
 import {
   calculatePosition,
-  createArrowItem,
   createClassicArrowItem,
   createTopicMapItem,
   findHeightPercentage,
@@ -40,7 +37,6 @@ import {
   updateItem,
   positionIsFree,
 } from "../../utils/grid.utils";
-import { Arrow } from "../Arrow/Arrow";
 import { Draggable } from "../Draggable/Draggable";
 import { GridIndicator } from "../GridIndicator/GridIndicator";
 import { ToolbarButtonType } from "../Toolbar/Toolbar";
@@ -61,7 +57,6 @@ export type GridProps = {
   initialItems: Array<TopicMapItemType>;
   updateItems: (items: Array<TopicMapItemType>) => void;
   initialArrowItems?: Array<ArrowItemType>;
-  updateArrowItems: (items: Array<ArrowItemType>) => void;
   updateClassicArrowItems: (items: Array<ClassicArrowItemType>) => void;
   updateGridDimensions: (dimensions: GridDimensions) => void;
   gapSize: number;
@@ -84,7 +79,6 @@ export const Grid: FC<GridProps> = ({
   initialItems,
   updateItems,
   initialArrowItems,
-  updateArrowItems,
   updateClassicArrowItems,
   updateGridDimensions,
   gapSize,
@@ -101,7 +95,6 @@ export const Grid: FC<GridProps> = ({
 }) => {
   const [size, setSize] = useState<Size | null>(null);
   const [items, setItems] = useState(initialItems);
-  const [arrowItems, setArrowItems] = useState(initialArrowItems ?? []);
   const [classicArrowItems, setClassicArrowItems] = useState<
     Array<ClassicArrowItemType>
   >((initialArrowItems as ClassicArrowItemType[]) ?? []);
@@ -113,18 +106,10 @@ export const Grid: FC<GridProps> = ({
     useState<ResizeDirection>("none");
   const [mouseOutsideGrid, setMouseOutsideGrid] = useState(false);
   const [prevIndex, setPrevIndex] = useState<number | null>(null);
-  const [arrowStartId, setArrowStartId] = useState<string | null>(null);
-  const [ahPreviewPosition, setAhPreviewPosition] = useState<Position | null>(
-    null,
-  );
-  const [arrowPreview, setArrowPreview] = useState<ArrowItemType | null>(null);
-  const updateXarrow = useXarrow();
 
   const [classicArrowStartId, setClassicArrowStartId] = useState<string | null>(
     null,
   );
-  const [classicAhPreviewPosition, setClassicAhPreviewPosition] =
-    useState<Position | null>(null);
   const [classicAhPreviewGridPosition, setClassicAhPreviewGridPosition] =
     useState<Position | null>(null);
   const [classicArrowPreview, setClassicArrowPreview] =
@@ -203,57 +188,9 @@ export const Grid: FC<GridProps> = ({
 
   const createArrow = useCallback(
     (elementId: string, pointerPosition: Position) => {
-      const isCreatingNewArrow = activeTool === ToolbarButtonType.CreateArrow;
       const isCreatingClassicArrow =
         activeTool === ToolbarButtonType.CreateClassicArrow;
-      if (isCreatingNewArrow) {
-        const hasStartElementId = !!arrowStartId;
-        if (!hasStartElementId) {
-          setArrowStartId(elementId);
-
-          const newItem = createArrowItem(
-            elementId,
-            "arrow-head-preview",
-            "",
-            ArrowType.Directional,
-          );
-          setArrowPreview(newItem);
-          setAhPreviewPosition(pointerPosition);
-
-          return;
-        }
-
-        const startsAndEndsAtSameElement = arrowStartId === elementId;
-
-        const arrowExistsAlready =
-          arrowItems.find(
-            ({ startElementId, endElementId }) =>
-              (startElementId === arrowStartId && endElementId === elementId) ||
-              (startElementId === elementId && endElementId === arrowStartId),
-          ) != null;
-
-        const shouldCreateArrow =
-          !arrowExistsAlready && !startsAndEndsAtSameElement && arrowStartId;
-        if (shouldCreateArrow) {
-          const arrowType = ArrowType.Directional;
-          const label = getLabel(arrowStartId, elementId, arrowType, items);
-
-          const newItem = createArrowItem(
-            arrowStartId,
-            elementId,
-            label,
-            arrowType,
-          );
-          const newItems = [...arrowItems, newItem];
-
-          updateArrowItems(newItems);
-          setArrowItems(newItems);
-        }
-
-        setArrowStartId(null);
-        setAhPreviewPosition(null);
-        setArrowPreview(null);
-      } else if (isCreatingClassicArrow) {
+      if (isCreatingClassicArrow) {
         const gridIndicator = document
           .elementsFromPoint(pointerPosition.x, pointerPosition.y)
           .find(element =>
@@ -280,7 +217,6 @@ export const Grid: FC<GridProps> = ({
             gridPosition,
           );
           setClassicArrowPreview(newItem);
-          setClassicAhPreviewPosition(pointerPosition);
           setClassicAhPreviewGridPosition(gridPosition);
 
           return;
@@ -346,17 +282,13 @@ export const Grid: FC<GridProps> = ({
         }
 
         setClassicArrowStartId(null);
-        setClassicAhPreviewPosition(null);
         setClassicAhPreviewGridPosition(null);
         setClassicArrowPreview(null);
       }
     },
     [
       activeTool,
-      arrowStartId,
-      arrowItems,
       items,
-      updateArrowItems,
       classicArrowStartId,
       classicArrowItems,
       numberOfColumns,
@@ -677,14 +609,10 @@ export const Grid: FC<GridProps> = ({
   const cancelActions = useCallback(() => {
     const isCreatingNewBox =
       activeTool === ToolbarButtonType.CreateBox && isDragging;
-    const isCreatingNewArrow =
-      activeTool === ToolbarButtonType.CreateArrow && isDragging;
     const isResizing = resizedItemId != null;
 
     if (isCreatingNewBox) {
       createBoxEnd();
-    } else if (isCreatingNewArrow) {
-      setArrowStartId(null);
     }
 
     if (isResizing) {
@@ -806,19 +734,13 @@ export const Grid: FC<GridProps> = ({
 
   const deleteArrow = useCallback(
     (id: string) => {
-      // eslint-disable-next-line no-console
-      console.log("delete arrow", id);
-      const newItems = arrowItems.filter(item => item.id !== id);
-      updateArrowItems(newItems);
-      setArrowItems(newItems);
-
       const newClassicArrowItems = classicArrowItems.filter(
         item => item.id !== id,
       );
       updateClassicArrowItems(newClassicArrowItems);
       setClassicArrowItems(newClassicArrowItems);
     },
-    [arrowItems, updateArrowItems, classicArrowItems, updateClassicArrowItems],
+    [classicArrowItems, updateClassicArrowItems],
   );
 
   const startResize = useCallback(
@@ -837,23 +759,12 @@ export const Grid: FC<GridProps> = ({
 
   const setArrowType = useCallback(
     (type: ArrowType, id: string) => {
-      console.info("Set Arrow Type", type, id);
-      const updatedItem = arrowItems.find(item => item.id === id);
       const updatedClassicItem = classicArrowItems.find(item => item.id === id);
-      if (!updatedItem && !updatedClassicItem) {
+      if (!updatedClassicItem) {
         throw new Error(`Updated arrow with id "${id}" does not exist`);
       }
 
-      if (updatedItem) {
-        console.info("Set OLD Arrow Type", type, id, updatedItem);
-        const newItems = updateArrowType(arrowItems, updatedItem, type, items);
-        console.info("Updated OLD Arrow Type", type, id, newItems);
-        updateArrowItems(newItems);
-        setArrowItems(newItems);
-      }
-
       if (updatedClassicItem) {
-        console.info("Set Classic Arrow Type", type, id, updatedClassicItem);
         const newClassicItems = updateClassicArrowType(
           classicArrowItems,
           updatedClassicItem,
@@ -866,10 +777,8 @@ export const Grid: FC<GridProps> = ({
       }
     },
     [
-      arrowItems,
       classicArrowItems,
       items,
-      updateArrowItems,
       updateClassicArrowItems,
       numberOfColumns,
       numberOfRows,
@@ -936,29 +845,6 @@ export const Grid: FC<GridProps> = ({
     createArrow,
   ]);
 
-  const renderArrow = useCallback(
-    (item: ArrowItemType) => (
-      <Arrow
-        key={item.id}
-        cellSize={cellSize}
-        item={item}
-        deleteItem={deleteArrow}
-        editItem={editArrow}
-        selectedItemId={selectedItem}
-        setSelectedItemId={setSelectedItem}
-        updateArrowType={setArrowType}
-      />
-    ),
-    [
-      cellSize,
-      deleteArrow,
-      editArrow,
-      selectedItem,
-      setArrowType,
-      setSelectedItem,
-    ],
-  );
-
   const renderClassicArrow = useCallback(
     (item: ClassicArrowItemType) => (
       <ClassicArrow
@@ -982,11 +868,6 @@ export const Grid: FC<GridProps> = ({
       setArrowType,
       setSelectedItem,
     ],
-  );
-
-  const childrenArrows = useMemo(
-    () => arrowItems.map(item => renderArrow(item)),
-    [arrowItems, renderArrow],
   );
 
   const childrenClassicArrows = useMemo(
@@ -1058,25 +939,6 @@ export const Grid: FC<GridProps> = ({
     );
   }, [gapSize, cellSize, items, size]);
 
-  useEffect(() => {
-    const isCreatingArrow = activeTool === ToolbarButtonType.CreateArrow;
-    if (!isCreatingArrow) {
-      setArrowStartId(null);
-      setAhPreviewPosition(null);
-      setArrowPreview(null);
-    }
-  }, [activeTool]);
-
-  const moveAHPreview = (event: React.MouseEvent | React.TouchEvent): void => {
-    const showAhPreview = !!arrowStartId;
-    if (!showAhPreview) {
-      return;
-    }
-
-    setAhPreviewPosition(getPointerPositionFromEvent(event));
-    updateXarrow();
-  };
-
   let className = styles.grid;
 
   if (activeHoverOnGrid) {
@@ -1095,47 +957,33 @@ export const Grid: FC<GridProps> = ({
   }, [selectedItem]);
 
   return (
-    <Xwrapper>
-      {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
-      <div
-        ref={elementRef}
-        role="application" /* https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/Application_Role */
-        className={className}
-        style={{
-          // @ts-expect-error Custom properties should be allowed
-          "--gap-size": `${gapSize}px`,
-          gridTemplateColumns: `repeat(${numberOfColumns}, 1fr)`,
-          gridTemplateRows: `repeat(${numberOfRows}, 1fr)`,
-          cursor: isDragging ? "pointer" : "auto",
-        }}
-        onMouseUp={() => {
-          createBoxEnd();
-          resizeBoxEnd();
-        }}
-        onMouseLeave={() => cancelActions()}
-        onMouseEnter={() => {
-          if (mouseOutsideGrid) {
-            setMouseOutsideGrid(false);
-          }
-        }}
-        onMouseMove={moveAHPreview}
-        onTouchMove={moveAHPreview}
-      >
-        {childrenClassicArrows ?? childrenArrows}
-        {arrowPreview ? renderArrow(arrowPreview) : null}
-        {classicArrowPreview ? renderClassicArrow(classicArrowPreview) : null}
-        {children}
-        {gridIndicatorElements}
-      </div>
-
-      <div
-        id="arrow-head-preview"
-        className={styles.arrowHeadPreview}
-        style={{
-          left: `${ahPreviewPosition?.x}px`,
-          top: `${ahPreviewPosition?.y}px`,
-        }}
-      />
-    </Xwrapper>
+    // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
+    <div
+      ref={elementRef}
+      role="application" /* https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/Application_Role */
+      className={className}
+      style={{
+        // @ts-expect-error Custom properties should be allowed
+        "--gap-size": `${gapSize}px`,
+        gridTemplateColumns: `repeat(${numberOfColumns}, 1fr)`,
+        gridTemplateRows: `repeat(${numberOfRows}, 1fr)`,
+        cursor: isDragging ? "pointer" : "auto",
+      }}
+      onMouseUp={() => {
+        createBoxEnd();
+        resizeBoxEnd();
+      }}
+      onMouseLeave={() => cancelActions()}
+      onMouseEnter={() => {
+        if (mouseOutsideGrid) {
+          setMouseOutsideGrid(false);
+        }
+      }}
+    >
+      {childrenClassicArrows}
+      {classicArrowPreview ? renderClassicArrow(classicArrowPreview) : null}
+      {children}
+      {gridIndicatorElements}
+    </div>
   );
 };

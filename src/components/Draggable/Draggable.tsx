@@ -1,6 +1,5 @@
 import * as React from "react";
 import { FC, useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { useXarrow } from "react-xarrows";
 import { t } from "../../H5P/H5P.util";
 import { ContextMenuAction } from "../../types/ContextMenuAction";
 import { OccupiedCell } from "../../types/OccupiedCell";
@@ -89,8 +88,6 @@ export const Draggable: FC<DraggableProps> = ({
   });
   const [previousPosition, setPreviousPosition] = useState(position);
   const [isResizing, setIsResizing] = useState(false);
-
-  const updateXarrow = useXarrow();
 
   // Update Draggable's size whenever the container's size changes
   useEffect(
@@ -246,10 +243,7 @@ export const Draggable: FC<DraggableProps> = ({
       );
 
       setPosition(newPosition);
-      window.requestAnimationFrame(() => updateXarrow());
     },
-    // Do not add `updateXarrow` to this list, as it generates maximum update errors
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [
       isDragging,
       pointerStartPosition,
@@ -339,7 +333,6 @@ export const Draggable: FC<DraggableProps> = ({
       aria-label={labelText}
       onMouseUp={stopDrag}
       onTouchEnd={stopDrag}
-      onTransitionEnd={() => updateXarrow()}
       onDoubleClick={() => editItem(id)}
       data-draggable
     >

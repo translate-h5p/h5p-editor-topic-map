@@ -177,7 +177,6 @@ export const MapEditorView: React.FC<MapEditorViewProps> = ({
           initialItems={gridItems}
           updateItems={updateItems}
           initialArrowItems={arrowItems}
-          updateArrowItems={updateArrows}
           updateClassicArrowItems={updateClassicArrows}
           updateGridDimensions={updateGridDimensions}
           gapSize={gapSize ?? defaultGapSize}
