@@ -41,9 +41,9 @@ export const MapEditorView: React.FC<MapEditorViewProps> = ({
 
   const [activeTool, setActiveTool] = useState<ToolbarButtonType | null>(null);
   const [gridItems, setGridItems] = useState(params.topicMapItems ?? []);
-  const [arrowItems, setArrowItems] = useState<
-    Array<ArrowItemType>
-  >((params.arrowItems as ArrowItemType[]) ?? []);
+  const [arrowItems, setArrowItems] = useState<Array<ArrowItemType>>(
+    (params.arrowItems as ArrowItemType[]) ?? [],
+  );
 
   const [editedItem, setEditedItem] = useState<string | null>(null);
   const [deletedItem, setDeletedItem] = useState<string | null>(null);
@@ -81,10 +81,7 @@ export const MapEditorView: React.FC<MapEditorViewProps> = ({
     (items: Array<TopicMapItemType>) => {
       // Update arrow labels to match mapItem labels
       if (arrowItems.length > 0) {
-        const updatedArrows = updateArrowLabels(
-          arrowItems,
-          items,
-        );
+        const updatedArrows = updateArrowLabels(arrowItems, items);
 
         updateArrows(updatedArrows);
         setArrowItems(updatedArrows);

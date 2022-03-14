@@ -94,9 +94,9 @@ export const Grid: FC<GridProps> = ({
 }) => {
   const [size, setSize] = useState<Size | null>(null);
   const [items, setItems] = useState(initialItems);
-  const [ArrowItems, setArrowItems] = useState<
-    Array<ArrowItemType>
-  >((initialArrowItems as ArrowItemType[]) ?? []);
+  const [ArrowItems, setArrowItems] = useState<Array<ArrowItemType>>(
+    (initialArrowItems as ArrowItemType[]) ?? [],
+  );
   const [occupiedCells, setOccupiedCells] = useState<Array<OccupiedCell>>([]);
   const [boxStartIndex, setBoxStartIndex] = useState<number | null>(null);
   const [isDragging, setIsDragging] = useState(false);
@@ -106,13 +106,10 @@ export const Grid: FC<GridProps> = ({
   const [mouseOutsideGrid, setMouseOutsideGrid] = useState(false);
   const [prevIndex, setPrevIndex] = useState<number | null>(null);
 
-  const [ArrowStartId, setArrowStartId] = useState<string | null>(
-    null,
-  );
+  const [ArrowStartId, setArrowStartId] = useState<string | null>(null);
   const [ahPreviewGridPosition, setAhPreviewGridPosition] =
     useState<Position | null>(null);
-  const [ArrowPreview, setArrowPreview] =
-    useState<ArrowItemType | null>(null);
+  const [ArrowPreview, setArrowPreview] = useState<ArrowItemType | null>(null);
 
   const updateLocalGrid = (newItems: TopicMapItemType[]): void => {
     setItems(newItems);
@@ -187,8 +184,7 @@ export const Grid: FC<GridProps> = ({
 
   const createArrow = useCallback(
     (elementId: string, pointerPosition: Position) => {
-      const isCreatingArrow =
-        activeTool === ToolbarButtonType.CreateArrow;
+      const isCreatingArrow = activeTool === ToolbarButtonType.CreateArrow;
       if (isCreatingArrow) {
         const gridIndicator = document
           .elementsFromPoint(pointerPosition.x, pointerPosition.y)
@@ -225,24 +221,15 @@ export const Grid: FC<GridProps> = ({
         const arrowExistsAlready =
           ArrowItems.find(
             ({ startElementId, endElementId }) =>
-              (startElementId === ArrowStartId &&
-                endElementId === elementId) ||
-              (startElementId === elementId &&
-                endElementId === ArrowStartId),
+              (startElementId === ArrowStartId && endElementId === elementId) ||
+              (startElementId === elementId && endElementId === ArrowStartId),
           ) != null;
 
         const shouldCreateArrow =
-          !arrowExistsAlready &&
-          !startsAndEndsAtSameElement &&
-          ArrowStartId;
+          !arrowExistsAlready && !startsAndEndsAtSameElement && ArrowStartId;
         if (shouldCreateArrow) {
           const arrowType = ArrowType.Directional;
-          const label = getLabel(
-            ArrowStartId,
-            elementId,
-            arrowType,
-            items,
-          );
+          const label = getLabel(ArrowStartId, elementId, arrowType, items);
           const adjustedStartGridPosition = adjustArrowStartPosition(
             ahPreviewGridPosition as Position,
             gridPosition,
@@ -731,9 +718,7 @@ export const Grid: FC<GridProps> = ({
 
   const deleteArrow = useCallback(
     (id: string) => {
-      const newArrowItems = ArrowItems.filter(
-        item => item.id !== id,
-      );
+      const newArrowItems = ArrowItems.filter(item => item.id !== id);
       updateArrowItems(newArrowItems);
       setArrowItems(newArrowItems);
     },
@@ -762,24 +747,15 @@ export const Grid: FC<GridProps> = ({
       }
 
       if (updatedItem) {
-        const newItem = updateArrowType(
-          ArrowItems,
-          updatedItem,
-          type,
-          items,
-          { numberOfColumns, numberOfRows },
-        );
+        const newItem = updateArrowType(ArrowItems, updatedItem, type, items, {
+          numberOfColumns,
+          numberOfRows,
+        });
         updateArrowItems(newItem);
         setArrowItems(newItem);
       }
     },
-    [
-      ArrowItems,
-      items,
-      updateArrowItems,
-      numberOfColumns,
-      numberOfRows,
-    ],
+    [ArrowItems, items, updateArrowItems, numberOfColumns, numberOfRows],
   );
 
   const children = useMemo(() => {
