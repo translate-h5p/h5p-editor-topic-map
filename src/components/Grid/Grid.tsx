@@ -15,7 +15,7 @@ import {
   adjustArrowEndPosition,
   adjustArrowStartPosition,
   getLabel,
-  updateArrowType
+  updateArrowType,
 } from "../../utils/arrow.utils";
 import {
   calculatePosition,
@@ -29,8 +29,11 @@ import {
   isDraggingLeft,
   isDraggingUp,
   mapTopicMapItemToElement,
-  minimumSizeReached, positionIsFree, resizeItems,
-  scaleItemLength, updateItem
+  minimumSizeReached,
+  positionIsFree,
+  resizeItems,
+  scaleItemLength,
+  updateItem,
 } from "../../utils/grid.utils";
 import { Arrow } from "../Arrow/Arrow";
 import { Draggable } from "../Draggable/Draggable";
@@ -38,7 +41,6 @@ import { GridIndicator } from "../GridIndicator/GridIndicator";
 import { ToolbarButtonType } from "../Toolbar/Toolbar";
 import { TopicMapItem } from "../TopicMapItem/TopicMapItem";
 import styles from "./Grid.module.scss";
-
 
 export type GridDimensions = {
   numberOfColumns: number;
