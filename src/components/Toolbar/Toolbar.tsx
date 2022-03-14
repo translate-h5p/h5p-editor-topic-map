@@ -13,7 +13,6 @@ const labelTextKeys: Record<string, TranslationKey> = {
   createBox: "toolbar-button-type_create-box",
   createArrow: "toolbar-button-type_create-arrow",
   cannotCreateArrow: "toolbar-button-type_cannot-create-arrow",
-  createClassicArrow: "toolbar-button-type_create-arrow",
 };
 
 /*
@@ -24,7 +23,6 @@ export enum ToolbarButtonType {
   MapAppearance = "mapAppearance",
   CreateBox = "createBox",
   CreateArrow = "createArrow",
-  CreateClassicArrow = "createClassicArrow",
 }
 
 export type ToolBarProps = {
@@ -89,7 +87,7 @@ export const Toolbar: React.FC<ToolBarProps> = ({
         showActive
         isDisabled={false}
       />
-      {/* <ToolbarButton
+      <ToolbarButton
         icon={ToolbarButtonType.CreateArrow}
         label={
           isArrowButtonDisabled
@@ -98,18 +96,6 @@ export const Toolbar: React.FC<ToolBarProps> = ({
         }
         onClick={() => setActive(ToolbarButtonType.CreateArrow)}
         active={checkIfActive(ToolbarButtonType.CreateArrow)}
-        showActive
-        isDisabled={isArrowButtonDisabled}
-      /> */}
-      <ToolbarButton
-        icon={ToolbarButtonType.CreateClassicArrow}
-        label={
-          isArrowButtonDisabled
-            ? t(labelTextKeys.cannotCreateArrow)
-            : t(labelTextKeys.createArrow)
-        }
-        onClick={() => setActive(ToolbarButtonType.CreateClassicArrow)}
-        active={checkIfActive(ToolbarButtonType.CreateClassicArrow)}
         showActive
         isDisabled={isArrowButtonDisabled}
       />

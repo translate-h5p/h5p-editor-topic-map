@@ -2,12 +2,11 @@ import * as React from "react";
 import { useState } from "react";
 import { getImageUrl, t } from "../../H5P/H5P.util";
 import { ArrowItemType } from "../../types/ArrowItemType";
-import { ClassicArrowItemType } from "../../types/ClassicArrowItemType";
 import { H5PFieldGroup } from "../../types/H5P/H5PField";
 import { H5PForm } from "../../types/H5P/H5PForm";
 import { Params } from "../../types/H5P/Params";
 import { TopicMapItemType } from "../../types/TopicMapItemType";
-import { updateClassicArrowLabels } from "../../utils/arrow.utils";
+import { updateArrowLabels } from "../../utils/arrow.utils";
 import { findConnectedArrows } from "../../utils/grid.utils";
 import { getBackgroundImageField } from "../../utils/H5P/form.utils";
 import { ArrowItemForm } from "../ArrowItemForm/ArrowItemForm";
@@ -42,10 +41,9 @@ export const MapEditorView: React.FC<MapEditorViewProps> = ({
 
   const [activeTool, setActiveTool] = useState<ToolbarButtonType | null>(null);
   const [gridItems, setGridItems] = useState(params.topicMapItems ?? []);
-  const [arrowItems, setArrowItems] = useState(params.arrowItems ?? []);
-  const [classicArrowItems, setClassicArrowItems] = useState<
-    Array<ClassicArrowItemType>
-  >((params.arrowItems as ClassicArrowItemType[]) ?? []);
+  const [arrowItems, setArrowItems] = useState<
+    Array<ArrowItemType>
+  >((params.arrowItems as ArrowItemType[]) ?? []);
 
   const [editedItem, setEditedItem] = useState<string | null>(null);
   const [deletedItem, setDeletedItem] = useState<string | null>(null);
@@ -71,10 +69,10 @@ export const MapEditorView: React.FC<MapEditorViewProps> = ({
     [setParams],
   );
 
-  const updateClassicArrows = React.useCallback(
-    (items: Array<ClassicArrowItemType>) => {
+  const updateArrows = React.useCallback(
+    (items: Array<ArrowItemType>) => {
       setParams({ arrowItems: items });
-      setClassicArrowItems(items);
+      setArrowItems(items);
     },
     [setParams],
   );
@@ -82,26 +80,21 @@ export const MapEditorView: React.FC<MapEditorViewProps> = ({
   const updateItems = React.useCallback(
     (items: Array<TopicMapItemType>) => {
       // Update arrow labels to match mapItem labels
-      if (classicArrowItems.length > 0) {
-        const updatedClassicArrows = updateClassicArrowLabels(
-          classicArrowItems,
+      if (arrowItems.length > 0) {
+        const updatedArrows = updateArrowLabels(
+          arrowItems,
           items,
         );
 
-        updateClassicArrows(updatedClassicArrows);
-        setClassicArrowItems(updatedClassicArrows);
+        updateArrows(updatedArrows);
+        setArrowItems(updatedArrows);
       }
       setParams({ topicMapItems: items });
       setGridItems(items);
       updateGrid.current(items);
     },
-    [classicArrowItems, setParams, updateClassicArrows],
+    [arrowItems, setParams, updateArrows],
   );
-
-  const updateArrows = React.useCallback((items: Array<ArrowItemType>) => {
-    // setParams({ arrowItems: items });
-    setArrowItems(items);
-  }, []);
 
   const openDeleteDialogue = React.useCallback((itemId: string) => {
     setDeletedItem(itemId);
@@ -177,7 +170,7 @@ export const MapEditorView: React.FC<MapEditorViewProps> = ({
           initialItems={gridItems}
           updateItems={updateItems}
           initialArrowItems={arrowItems}
-          updateClassicArrowItems={updateClassicArrows}
+          updateArrowItems={updateArrows}
           updateGridDimensions={updateGridDimensions}
           gapSize={gapSize ?? defaultGapSize}
           setActiveTool={setActive}

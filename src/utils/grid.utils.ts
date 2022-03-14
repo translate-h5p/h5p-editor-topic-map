@@ -1,6 +1,5 @@
 import { v4 as uuidV4 } from "uuid";
 import { ArrowItemType } from "../types/ArrowItemType";
-import { ClassicArrowItemType } from "../types/ClassicArrowItemType";
 import { ArrowType } from "../types/ArrowType";
 import { Cell } from "../types/Cell";
 import { Element } from "../types/Element";
@@ -9,7 +8,6 @@ import { Position } from "../types/Position";
 import { Size } from "../types/Size";
 import { TopicMapItemType } from "../types/TopicMapItemType";
 import { arraysHaveSomeOverlap } from "./array.utils";
-import { ArrowDirection } from "../types/ArrowDirection";
 
 export const resizeItem = (
   item: TopicMapItemType,
@@ -345,6 +343,10 @@ export const createArrowItem = (
   endId: string,
   label: string,
   arrowType: ArrowType,
+  startPosition: Position,
+  endPosition: Position,
+  startGridPosition: Position,
+  endGridPosition: Position,
 ): ArrowItemType => {
   const id = uuidV4();
 
@@ -355,36 +357,6 @@ export const createArrowItem = (
     description: "",
     startElementId: startId,
     endElementId: endId,
-    startPosition: { x: 0, y: 0 },
-    endPosition: { x: 0, y: 0 },
-    startGridPosition: { x: 0, y: 0 },
-    endGridPosition: { x: 0, y: 0 },
-  };
-
-  return item;
-};
-
-export const createClassicArrowItem = (
-  startId: string,
-  endId: string,
-  label: string,
-  arrowType: ArrowType,
-  arrowDirection: ArrowDirection,
-  startPosition: Position,
-  endPosition: Position,
-  startGridPosition: Position,
-  endGridPosition: Position,
-): ClassicArrowItemType => {
-  const id = uuidV4();
-
-  const item: ClassicArrowItemType = {
-    id,
-    label,
-    arrowType,
-    description: "",
-    startElementId: startId,
-    endElementId: endId,
-    arrowDirection,
     startPosition,
     endPosition,
     startGridPosition,

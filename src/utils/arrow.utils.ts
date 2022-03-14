@@ -2,7 +2,6 @@
 import { GridDimensions } from "../components/Grid/Grid";
 import { ArrowItemType } from "../types/ArrowItemType";
 import { ArrowType } from "../types/ArrowType";
-import { ClassicArrowItemType } from "../types/ClassicArrowItemType";
 import { Position } from "../types/Position";
 import { TopicMapItemType } from "../types/TopicMapItemType";
 import { findItem, gridToPercentage } from "./grid.utils";
@@ -32,43 +31,11 @@ export const getLabel = (
   return `${startItem.label} ${arrowLabelJoins[arrowType]} ${endItem.label}`;
 };
 
-export const updateArrowType = (
+export const updateArrowLabels = (
   items: Array<ArrowItemType>,
-  updatedItem: ArrowItemType,
-  arrowType: ArrowType,
   topicMapItems: Array<TopicMapItemType>,
 ): Array<ArrowItemType> => {
   const newItems = items.map((item: ArrowItemType) => {
-    const isCorrectItem = item.id === updatedItem.id;
-
-    if (!isCorrectItem) {
-      return item;
-    }
-
-    const label = getLabel(
-      item.startElementId,
-      item.endElementId,
-      arrowType,
-      topicMapItems,
-    );
-
-    const newItem: ArrowItemType = {
-      ...item,
-      arrowType,
-      label,
-    };
-
-    return newItem;
-  });
-
-  return newItems;
-};
-
-export const updateClassicArrowLabels = (
-  items: Array<ClassicArrowItemType>,
-  topicMapItems: Array<TopicMapItemType>,
-): Array<ClassicArrowItemType> => {
-  const newItems = items.map((item: ClassicArrowItemType) => {
     const startItem = findItem(item.startElementId, topicMapItems);
     const endItem = findItem(item.endElementId, topicMapItems);
 
@@ -83,7 +50,7 @@ export const updateClassicArrowLabels = (
       topicMapItems,
     );
 
-    const newItem: ClassicArrowItemType = {
+    const newItem: ArrowItemType = {
       ...item,
       label,
     };
@@ -277,14 +244,14 @@ export const adjustArrowEndPosition = (
   } as Position;
 };
 
-export const updateClassicArrowType = (
-  items: Array<ClassicArrowItemType>,
-  updatedItem: ClassicArrowItemType,
+export const updateArrowType = (
+  items: Array<ArrowItemType>,
+  updatedItem: ArrowItemType,
   arrowType: ArrowType,
   topicMapItems: Array<TopicMapItemType>,
   dimensions: GridDimensions,
-): Array<ClassicArrowItemType> => {
-  const newItems = items.map((item: ClassicArrowItemType) => {
+): Array<ArrowItemType> => {
+  const newItems = items.map((item: ArrowItemType) => {
     const isCorrectItem = item.id === updatedItem.id;
 
     if (!isCorrectItem) {
@@ -298,7 +265,7 @@ export const updateClassicArrowType = (
       topicMapItems,
     );
 
-    const newItem: ClassicArrowItemType = {
+    const newItem: ArrowItemType = {
       ...item,
       arrowType,
       label,

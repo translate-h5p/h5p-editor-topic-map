@@ -3,7 +3,7 @@ import { ArrowDirection } from "./ArrowDirection";
 import { CommonItemType } from "./CommonItemType";
 import { Position } from "./Position";
 
-export type ClassicArrowItemType = CommonItemType & {
+export type ArrowItemType = CommonItemType & {
   /**
    * This index is used for manually sort the items' tab order
    * Arrow item indeces will only be set by the program - not the user
