@@ -109,7 +109,7 @@ export const Grid: FC<GridProps> = ({
   const [ArrowStartId, setArrowStartId] = useState<string | null>(
     null,
   );
-  const [classicAhPreviewGridPosition, setClassicAhPreviewGridPosition] =
+  const [ahPreviewGridPosition, setAhPreviewGridPosition] =
     useState<Position | null>(null);
   const [ArrowPreview, setArrowPreview] =
     useState<ArrowItemType | null>(null);
@@ -215,7 +215,7 @@ export const Grid: FC<GridProps> = ({
             gridPosition,
           );
           setArrowPreview(newItem);
-          setClassicAhPreviewGridPosition(gridPosition);
+          setAhPreviewGridPosition(gridPosition);
 
           return;
         }
@@ -244,12 +244,12 @@ export const Grid: FC<GridProps> = ({
             items,
           );
           const adjustedStartGridPosition = adjustArrowStartPosition(
-            classicAhPreviewGridPosition as Position,
+            ahPreviewGridPosition as Position,
             gridPosition,
             arrowType,
           );
           const adjustedEndGridPosition = adjustArrowEndPosition(
-            classicAhPreviewGridPosition as Position,
+            ahPreviewGridPosition as Position,
             gridPosition,
             arrowType,
           );
@@ -269,7 +269,7 @@ export const Grid: FC<GridProps> = ({
               numberOfColumns,
               numberOfRows,
             ),
-            classicAhPreviewGridPosition as Position,
+            ahPreviewGridPosition as Position,
             gridPosition,
           );
           const newItems = [...ArrowItems, newItem];
@@ -279,7 +279,7 @@ export const Grid: FC<GridProps> = ({
         }
 
         setArrowStartId(null);
-        setClassicAhPreviewGridPosition(null);
+        setAhPreviewGridPosition(null);
         setArrowPreview(null);
       }
     },
@@ -290,7 +290,7 @@ export const Grid: FC<GridProps> = ({
       ArrowItems,
       numberOfColumns,
       numberOfRows,
-      classicAhPreviewGridPosition,
+      ahPreviewGridPosition,
       updateArrowItems,
     ],
   );
@@ -756,21 +756,21 @@ export const Grid: FC<GridProps> = ({
 
   const setArrowType = useCallback(
     (type: ArrowType, id: string) => {
-      const updatedClassicItem = ArrowItems.find(item => item.id === id);
-      if (!updatedClassicItem) {
+      const updatedItem = ArrowItems.find(item => item.id === id);
+      if (!updatedItem) {
         throw new Error(`Updated arrow with id "${id}" does not exist`);
       }
 
-      if (updatedClassicItem) {
-        const newClassicItems = updateArrowType(
+      if (updatedItem) {
+        const newItem = updateArrowType(
           ArrowItems,
-          updatedClassicItem,
+          updatedItem,
           type,
           items,
           { numberOfColumns, numberOfRows },
         );
-        updateArrowItems(newClassicItems);
-        setArrowItems(newClassicItems);
+        updateArrowItems(newItem);
+        setArrowItems(newItem);
       }
     },
     [
