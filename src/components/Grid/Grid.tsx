@@ -21,6 +21,7 @@ import {
 } from "../../utils/arrow.utils";
 import { getPointerPositionFromEvent } from "../../utils/draggable.utils";
 import {
+  calculatePosition,
   createArrowItem,
   createClassicArrowItem,
   createTopicMapItem,
@@ -33,12 +34,11 @@ import {
   isDraggingUp,
   mapTopicMapItemToElement,
   minimumSizeReached,
-  positionIsFree,
   resizeItems,
-  scaleX,
-  scaleY,
+  scaleItemLength,
   straightenArrowEnd,
   updateItem,
+  positionIsFree,
 } from "../../utils/grid.utils";
 import { Arrow } from "../Arrow/Arrow";
 import { Draggable } from "../Draggable/Draggable";
@@ -461,12 +461,12 @@ export const Grid: FC<GridProps> = ({
       newItem.heightPercentage = heightPercentage;
 
       const newPosition = {
-        x: scaleX(xPercentagePosition, size.width, cellSize),
-        y: scaleY(yPercentagePosition, size.height, cellSize),
+        x: calculatePosition(xPercentagePosition, size.width),
+        y: calculatePosition(yPercentagePosition, size.height),
       };
       const newSize = {
-        width: scaleX(widthPercentage, size.width, cellSize),
-        height: scaleY(heightPercentage, size.height, cellSize),
+        width: scaleItemLength(widthPercentage, size.width, cellSize),
+        height: scaleItemLength(heightPercentage, size.height, cellSize),
       };
 
       const lastItem = items[currentItemsLength];
@@ -606,12 +606,12 @@ export const Grid: FC<GridProps> = ({
       );
 
       let newPosition = {
-        x: scaleX(xPercentagePosition, size.width, cellSize),
-        y: scaleY(yPercentagePosition, size.height, cellSize),
+        x: calculatePosition(xPercentagePosition, size.width),
+        y: calculatePosition(yPercentagePosition, size.height),
       };
       const newSize = {
-        width: scaleX(widthPercentage, size.width, cellSize),
-        height: scaleY(heightPercentage, size.height, cellSize),
+        width: scaleItemLength(widthPercentage, size.width, cellSize),
+        height: scaleItemLength(heightPercentage, size.height, cellSize),
       };
 
       if (
@@ -623,8 +623,8 @@ export const Grid: FC<GridProps> = ({
         )
       ) {
         newPosition = {
-          x: scaleX(existingItem.xPercentagePosition, size.width, cellSize),
-          y: scaleX(existingItem.yPercentagePosition, size.height, cellSize),
+          x: calculatePosition(existingItem.xPercentagePosition, size.width),
+          y: calculatePosition(existingItem.yPercentagePosition, size.height),
         };
       }
 
@@ -885,22 +885,20 @@ export const Grid: FC<GridProps> = ({
       <Draggable
         key={item.id}
         id={item.id}
-        initialXPosition={scaleX(
+        initialXPosition={calculatePosition(
           item.xPercentagePosition,
           size.width,
-          cellSize,
         )}
-        initialYPosition={scaleY(
+        initialYPosition={calculatePosition(
           item.yPercentagePosition,
           size.height,
-          cellSize,
         )}
         updatePosition={newPosition => updateItemPosition(item, newPosition)}
         initialWidth={Math.abs(
-          scaleX(item.widthPercentage, size.width, cellSize),
+          calculatePosition(item.widthPercentage, size.width),
         )}
         initialHeight={Math.abs(
-          scaleY(item.heightPercentage, size.height, cellSize),
+          calculatePosition(item.heightPercentage, size.height),
         )}
         gapSize={gapSize}
         cellSize={cellSize}

@@ -157,22 +157,20 @@ export const findOccupiedCells = (
   return occupiedCells;
 };
 
-export const scaleX = (
-  xPercentage: number,
-  gridWidth: number,
+export const scaleItemLength = (
+  percentage: number,
+  length: number,
   cellSize: number,
 ): number => {
-  const newX = (gridWidth * xPercentage) / 100;
-  return newX > cellSize ? newX : cellSize;
+  const newL = (length * percentage) / 100;
+  return newL > cellSize ? newL : cellSize;
 };
 
-export const scaleY = (
-  yPercentage: number,
-  height: number,
-  cellSize: number,
+export const calculatePosition = (
+  percentage: number,
+  length: number,
 ): number => {
-  const newY = (height * yPercentage) / 100;
-  return newY > cellSize ? newY : cellSize;
+  return (length * percentage) / 100;
 };
 
 export const minimumSizeReached = (
@@ -194,12 +192,12 @@ export const mapTopicMapItemToElement = (
   id: item.id,
   type: "item",
   position: {
-    x: scaleX(item.xPercentagePosition, gridSize.width, cellSize),
-    y: scaleY(item.yPercentagePosition, gridSize.height, cellSize),
+    x: calculatePosition(item.xPercentagePosition, gridSize.width),
+    y: calculatePosition(item.yPercentagePosition, gridSize.height),
   },
   size: {
-    width: scaleX(item.widthPercentage, gridSize.width, cellSize),
-    height: scaleY(item.heightPercentage, gridSize.height, cellSize),
+    width: scaleItemLength(item.widthPercentage, gridSize.width, cellSize),
+    height: scaleItemLength(item.heightPercentage, gridSize.height, cellSize),
   },
 });
 
