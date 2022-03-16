@@ -208,8 +208,7 @@ export const Grid: FC<GridProps> = ({
 
         const startsAndEndsAtSameElement = arrowStartId === elementId;
 
-        const shouldCreateArrow =
-          !startsAndEndsAtSameElement && arrowStartId;
+        const shouldCreateArrow = !startsAndEndsAtSameElement && arrowStartId;
         if (shouldCreateArrow) {
           const arrowType = ArrowType.Directional;
           const label = getLabel(arrowStartId, elementId, arrowType, items);
