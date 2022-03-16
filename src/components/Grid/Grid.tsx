@@ -106,7 +106,6 @@ export const Grid: FC<GridProps> = ({
   const [arrowStartId, setArrowStartId] = useState<string | null>(null);
   const [ahPreviewGridPosition, setAhPreviewGridPosition] =
     useState<Position | null>(null);
-  const [arrowPreview, setArrowPreview] = useState<ArrowItemType | null>(null);
 
   const updateLocalGrid = (newItems: TopicMapItemType[]): void => {
     setItems(newItems);
@@ -118,6 +117,11 @@ export const Grid: FC<GridProps> = ({
   });
 
   const elementRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setAhPreviewGridPosition(null);
+    setArrowStartId(null);
+  }, [activeTool]);
 
   const getCellSize = useCallback(() => {
     if (!elementRef.current) {
@@ -197,17 +201,6 @@ export const Grid: FC<GridProps> = ({
         if (!hasStartElementId) {
           setArrowStartId(elementId);
 
-          const newItem = createArrowItem(
-            elementId,
-            "arrow-head-preview",
-            "",
-            ArrowType.Directional,
-            gridToPercentage(gridPosition, numberOfColumns, numberOfRows),
-            gridToPercentage(gridPosition, numberOfColumns, numberOfRows),
-            gridPosition,
-            gridPosition,
-          );
-          setArrowPreview(newItem);
           setAhPreviewGridPosition(gridPosition);
 
           return;
@@ -215,15 +208,7 @@ export const Grid: FC<GridProps> = ({
 
         const startsAndEndsAtSameElement = arrowStartId === elementId;
 
-        const arrowExistsAlready =
-          arrowItems.find(
-            ({ startElementId, endElementId }) =>
-              (startElementId === arrowStartId && endElementId === elementId) ||
-              (startElementId === elementId && endElementId === arrowStartId),
-          ) != null;
-
-        const shouldCreateArrow =
-          !arrowExistsAlready && !startsAndEndsAtSameElement && arrowStartId;
+        const shouldCreateArrow = !startsAndEndsAtSameElement && arrowStartId;
         if (shouldCreateArrow) {
           const arrowType = ArrowType.Directional;
           const label = getLabel(arrowStartId, elementId, arrowType, items);
@@ -260,11 +245,13 @@ export const Grid: FC<GridProps> = ({
 
           updateArrowItems(newItems);
           setArrowItems(newItems);
+        } else {
+          setArrowStartId(null);
+          setAhPreviewGridPosition(null);
         }
 
         setArrowStartId(null);
         setAhPreviewGridPosition(null);
-        setArrowPreview(null);
       }
     },
     [
@@ -951,7 +938,6 @@ export const Grid: FC<GridProps> = ({
       }}
     >
       {childrenArrows}
-      {arrowPreview ? renderArrow(arrowPreview) : null}
       {children}
       {gridIndicatorElements}
     </div>
