@@ -34,9 +34,19 @@ export const ContextMenu: React.FC<ContextMenuProps> = ({
 }) => {
   const className = turnLeft ? styles.left : styles.right;
 
-  const leftPosition = x && !turnLeft ? x : undefined;
-  const rightPosition =
-    x && gridWidth && turnLeft ? gridWidth - x - gridWidth / 20 : undefined;
+  let rightPosition: number | undefined;
+  let leftPosition: number | undefined;
+
+  const isDynamicallyPositioned = x && gridWidth;
+  if (isDynamicallyPositioned) {
+    
+    if (turnLeft) {
+      const horizontalOffset = gridWidth / 14;
+      rightPosition = gridWidth - x - horizontalOffset;
+    } else {
+      leftPosition = Math.max(x, 0);
+    }
+  }
 
   return (
     <div
