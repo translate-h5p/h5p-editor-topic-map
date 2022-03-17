@@ -1,6 +1,7 @@
 import { GridDimensions } from "../components/Grid/Grid";
 import { ArrowItemType } from "../types/ArrowItemType";
 import { ArrowType } from "../types/ArrowType";
+import { OccupiedCell } from "../types/OccupiedCell";
 import { Position } from "../types/Position";
 import { TopicMapItemType } from "../types/TopicMapItemType";
 import { findItem, gridToPercentage } from "./grid.utils";
@@ -292,4 +293,55 @@ export const updateArrowType = (
   });
 
   return newItems;
+};
+
+
+export const findBoxEdgePosition = (ahPreviewGridPosition: Position, gridPosition: Position, cellsOfItem:OccupiedCell[],numberOfColumns:number, numberOfRows:number):Position => {
+  if(calculateIsHorizontal(ahPreviewGridPosition as Position, gridPosition)) {
+    if(ahPreviewGridPosition.x < gridPosition.x) { // arrow is trending to right
+      // find lowest y in cellsOfItem
+      const newx = cellsOfItem.sort((a, b) => a.x - b.x)[0];
+      
+      console.info("newx r", newx);
+      const newxPosition = {
+        y: Math.floor(newx.index / numberOfColumns) + 1,
+        x: (newx.index % numberOfColumns) + 1,
+      };
+      return {y: gridPosition.y, x: newxPosition.x};
+    }
+     // arrow is trending to left
+      // find highest y in cellsOfItem
+      const newx = cellsOfItem.sort((a, b) => b.x - a.x)[0];
+      console.info("newx l", newx);
+      const newxPosition = {
+        y: Math.floor(newx.index / numberOfColumns) + 1,
+        x: (newx.index % numberOfColumns) + 1,
+      };
+      return {y: gridPosition.y, x: newxPosition.x};
+  }
+
+  if(ahPreviewGridPosition.y < gridPosition.y) { // arrow is trending downwards
+    // find lowest y in cellsOfItem
+    const newy = cellsOfItem.sort((a, b) => a.y - b.y)[0];
+    console.info("newy", newy);
+    const newyPosition = {
+      y: Math.floor(newy.index / numberOfColumns) + 1,
+      x: (newy.index % numberOfColumns) + 1,
+    };
+    console.info("newy position d", newyPosition);
+    return {x: gridPosition.x, y: newyPosition.y};
+    
+  } 
+  // arrow is trending upwards
+  // find highest y in cellsOfItem
+  const newy = cellsOfItem.sort((a, b) => b.y - a.y)[0];
+  console.info("newy", newy);
+  const newyPosition = {
+    y: Math.floor(newy.index / numberOfColumns) + 1,
+    x: (newy.index % numberOfColumns) + 1,
+  };
+  console.info("newy position u", newyPosition);
+  return {x: gridPosition.x, y: newyPosition.y};
+   
+    
 };

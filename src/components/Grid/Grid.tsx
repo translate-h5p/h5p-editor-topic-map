@@ -14,6 +14,8 @@ import { TopicMapItemType } from "../../types/TopicMapItemType";
 import {
   adjustArrowEndPosition,
   adjustArrowStartPosition,
+  calculateIsHorizontal,
+  findBoxEdgePosition,
   getLabel,
   updateArrowType,
 } from "../../utils/arrow.utils";
@@ -209,7 +211,7 @@ export const Grid: FC<GridProps> = ({
         const startsAndEndsAtSameElement = arrowStartId === elementId;
 
         const shouldCreateArrow = !startsAndEndsAtSameElement && arrowStartId;
-        if (shouldCreateArrow) {
+        if (shouldCreateArrow && ahPreviewGridPosition !== null) {
           const arrowType = ArrowType.Directional;
           const label = getLabel(arrowStartId, elementId, arrowType, items);
           const adjustedStartGridPosition = adjustArrowStartPosition(
@@ -217,12 +219,19 @@ export const Grid: FC<GridProps> = ({
             gridPosition,
             arrowType,
           );
+
+          const cellsOfItem = occupiedCells.filter(c => c.occupiedById === elementId);
+          console.info("cellsOfItem", cellsOfItem)
+          const endPosition = findBoxEdgePosition(ahPreviewGridPosition, gridPosition, cellsOfItem, numberOfColumns, numberOfRows);
+
+
           const adjustedEndGridPosition = adjustArrowEndPosition(
             ahPreviewGridPosition as Position,
-            gridPosition,
+            endPosition,
             arrowType,
           );
 
+          
           const newItem = createArrowItem(
             arrowStartId,
             elementId,
@@ -239,7 +248,7 @@ export const Grid: FC<GridProps> = ({
               numberOfRows,
             ),
             ahPreviewGridPosition as Position,
-            gridPosition,
+            endPosition,
           );
           const newItems = [...arrowItems, newItem];
 
