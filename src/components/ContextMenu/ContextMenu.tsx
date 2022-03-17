@@ -21,6 +21,7 @@ export type ContextMenuProps = {
   actions: Array<ContextMenuAction>;
   x?: number;
   y?: number;
+  gridWidth?: number;
 };
 
 export const ContextMenu: React.FC<ContextMenuProps> = ({
@@ -29,15 +30,33 @@ export const ContextMenu: React.FC<ContextMenuProps> = ({
   actions,
   x,
   y,
+  gridWidth,
 }) => {
   const className = turnLeft ? styles.left : styles.right;
+
+  let rightPosition: number | undefined;
+  let leftPosition: number | undefined;
+
+  const isDynamicallyPositioned = x && gridWidth;
+  if (isDynamicallyPositioned) {
+    if (turnLeft) {
+      const horizontalOffset = gridWidth / 14;
+      rightPosition = gridWidth - x - horizontalOffset;
+    } else {
+      leftPosition = Math.max(x, 0);
+    }
+  }
 
   return (
     <div
       className={`${styles.contextMenu} ${className} ${
         show && styles.show
       } context-menu-button`}
-      style={x && y ? { left: x, top: y } : undefined}
+      style={
+        x && y
+          ? { left: leftPosition, right: rightPosition, top: y }
+          : undefined
+      }
     >
       {actions.map(({ icon, label, onClick }) => (
         <ContextMenuButton

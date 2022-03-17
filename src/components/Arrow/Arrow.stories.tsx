@@ -21,6 +21,7 @@ export default {
   args: {
     cellSize: 30,
     gapSize: 15,
+    gridWidth: 1000,
   },
 } as ComponentMeta<typeof Arrow>;
 
