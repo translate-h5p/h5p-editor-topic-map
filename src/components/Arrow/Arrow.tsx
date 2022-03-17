@@ -1,18 +1,20 @@
 /* eslint-disable no-nested-ternary */
 import * as React from "react";
-import styles from "./Arrow.module.scss";
-import { ArrowItemType } from "../../types/ArrowItemType";
-import { ContextMenu, ContextMenuButtonType } from "../ContextMenu/ContextMenu";
-import { ContextMenuAction } from "../../types/ContextMenuAction";
 import { t } from "../../H5P/H5P.util";
-import { Dialog } from "../Dialog/Dialog";
+import { ArrowItemType } from "../../types/ArrowItemType";
 import { ArrowType } from "../../types/ArrowType";
+import { ContextMenuAction } from "../../types/ContextMenuAction";
+import { Position } from "../../types/Position";
 import {
   xAdjustmentEnd,
   xAdjustmentStart,
   yAdjustmentEnd,
   yAdjustmentStart,
 } from "../../utils/arrow.utils";
+import { checkIfRightSideOfGrid } from "../../utils/grid.utils";
+import { ContextMenu, ContextMenuButtonType } from "../ContextMenu/ContextMenu";
+import { Dialog } from "../Dialog/Dialog";
+import styles from "./Arrow.module.scss";
 
 export type ArrowProps = {
   cellSize: number;
@@ -23,6 +25,7 @@ export type ArrowProps = {
   selectedItemId: string | null;
   setSelectedItemId: (itemId: string) => void;
   updateArrowType: (type: ArrowType, itemId: string) => void;
+  gridWidth: number;
 };
 
 // TODO: Share code with h5p-topic-map instead of duplicating
@@ -35,6 +38,7 @@ export const Arrow: React.FC<ArrowProps> = ({
   selectedItemId,
   setSelectedItemId,
   updateArrowType,
+  gridWidth,
 }) => {
   const [showDeleteConfirmationDialog, setShowDeleteConfirmationDialog] =
     React.useState(false);
@@ -47,6 +51,7 @@ export const Arrow: React.FC<ArrowProps> = ({
   const denyDeletion = React.useCallback(() => {
     setShowDeleteConfirmationDialog(false);
   }, []);
+
   const contextMenuActions: Array<ContextMenuAction> = React.useMemo(() => {
     const editAction: ContextMenuAction = {
       icon: ContextMenuButtonType.Edit,
@@ -121,7 +126,16 @@ export const Arrow: React.FC<ArrowProps> = ({
   }
 
   const pathDef = `M ${startPos.x} ${startPos.y} L ${endPos.x} ${endPos.y}`;
-  // Apply shadow around arrow
+
+  const contextMenuPosition: Position = {
+    x: isHorizontal
+      ? (startPos.x + endPos.x) / 2
+      : endPos.x - 2 * (cellSize + gapSize),
+    y: isHorizontal
+      ? endPos.y - 1 * (cellSize + gapSize)
+      : (startPos.y + endPos.y) / 2,
+  };
+
   return (
     <div className={styles.arrow}>
       <svg className={styles.arrowSvg}>
@@ -180,17 +194,10 @@ export const Arrow: React.FC<ArrowProps> = ({
       <ContextMenu
         actions={contextMenuActions}
         show={selectedItemId === item.id}
-        turnLeft={false} // TODO: {checkIfRightSideOfGrid(position.x, gridSize.width)}
-        x={
-          isHorizontal
-            ? (startPos.x + endPos.x) / 2
-            : endPos.x - 2 * (cellSize + gapSize)
-        }
-        y={
-          isHorizontal
-            ? endPos.y - 1 * (cellSize + gapSize)
-            : (startPos.y + endPos.y) / 2
-        }
+        turnLeft={checkIfRightSideOfGrid(contextMenuPosition.x, gridWidth)}
+        x={contextMenuPosition.x}
+        y={contextMenuPosition.y}
+        gridWidth={gridWidth}
       />
 
       <Dialog

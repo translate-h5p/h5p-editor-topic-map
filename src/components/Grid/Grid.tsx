@@ -803,19 +803,26 @@ export const Grid: FC<GridProps> = ({
   ]);
 
   const renderArrow = useCallback(
-    (item: ArrowItemType) => (
-      <Arrow
-        key={item.id}
-        cellSize={cellSize}
-        gapSize={gapSize}
-        item={item}
-        editItem={editArrow}
-        deleteItem={deleteArrow}
-        selectedItemId={selectedItem}
-        setSelectedItemId={setSelectedItem}
-        updateArrowType={setArrowType}
-      />
-    ),
+    (item: ArrowItemType) => {
+      if (!size) {
+        return null;
+      }
+
+      return (
+        <Arrow
+          key={item.id}
+          cellSize={cellSize}
+          gapSize={gapSize}
+          item={item}
+          editItem={editArrow}
+          deleteItem={deleteArrow}
+          selectedItemId={selectedItem}
+          setSelectedItemId={setSelectedItem}
+          updateArrowType={setArrowType}
+          gridWidth={size.width}
+        />
+      );
+    },
     [
       cellSize,
       deleteArrow,
@@ -824,6 +831,7 @@ export const Grid: FC<GridProps> = ({
       selectedItem,
       setArrowType,
       setSelectedItem,
+      size,
     ],
   );
 
