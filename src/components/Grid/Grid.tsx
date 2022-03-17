@@ -14,7 +14,6 @@ import { TopicMapItemType } from "../../types/TopicMapItemType";
 import {
   adjustArrowEndPosition,
   adjustArrowStartPosition,
-  calculateIsHorizontal,
   findBoxEdgePosition,
   getLabel,
   updateArrowType,
@@ -220,10 +219,17 @@ export const Grid: FC<GridProps> = ({
             arrowType,
           );
 
-          const cellsOfItem = occupiedCells.filter(c => c.occupiedById === elementId);
-          console.info("cellsOfItem", cellsOfItem)
-          const endPosition = findBoxEdgePosition(ahPreviewGridPosition, gridPosition, cellsOfItem, numberOfColumns, numberOfRows);
-
+          const cellsOfItem = occupiedCells.filter(
+            c => c.occupiedById === elementId,
+          );
+          console.info("cellsOfItem", cellsOfItem);
+          const endPosition = findBoxEdgePosition(
+            ahPreviewGridPosition,
+            gridPosition,
+            cellsOfItem,
+            numberOfColumns,
+            numberOfRows,
+          );
 
           const adjustedEndGridPosition = adjustArrowEndPosition(
             ahPreviewGridPosition as Position,
@@ -231,7 +237,6 @@ export const Grid: FC<GridProps> = ({
             arrowType,
           );
 
-          
           const newItem = createArrowItem(
             arrowStartId,
             elementId,
@@ -271,6 +276,7 @@ export const Grid: FC<GridProps> = ({
       numberOfColumns,
       numberOfRows,
       ahPreviewGridPosition,
+      occupiedCells,
       updateArrowItems,
     ],
   );
