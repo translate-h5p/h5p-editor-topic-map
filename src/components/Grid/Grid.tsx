@@ -228,7 +228,6 @@ export const Grid: FC<GridProps> = ({
             gridPosition,
             cellsOfItem,
             numberOfColumns,
-            numberOfRows,
           );
 
           const adjustedEndGridPosition = adjustArrowEndPosition(
