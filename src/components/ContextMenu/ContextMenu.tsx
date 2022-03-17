@@ -39,7 +39,6 @@ export const ContextMenu: React.FC<ContextMenuProps> = ({
 
   const isDynamicallyPositioned = x && gridWidth;
   if (isDynamicallyPositioned) {
-    
     if (turnLeft) {
       const horizontalOffset = gridWidth / 14;
       rightPosition = gridWidth - x - horizontalOffset;
