@@ -222,7 +222,6 @@ export const Grid: FC<GridProps> = ({
           const cellsOfItem = occupiedCells.filter(
             c => c.occupiedById === elementId,
           );
-          console.info("cellsOfItem", cellsOfItem);
           const endPosition = findBoxEdgePosition(
             ahPreviewGridPosition,
             gridPosition,
