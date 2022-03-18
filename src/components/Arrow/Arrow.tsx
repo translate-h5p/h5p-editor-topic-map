@@ -176,7 +176,7 @@ export const Arrow: React.FC<ArrowProps> = ({
           d={pathDef}
           fill="transparent"
           stroke="var(--theme-color-4)"
-          strokeWidth={cellSize}
+          strokeWidth={cellSize * 0.66}
           markerEnd={
             item.arrowType === ArrowType.BiDirectional ||
             item.arrowType === ArrowType.Directional
