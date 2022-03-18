@@ -1,6 +1,7 @@
 import { GridDimensions } from "../components/Grid/Grid";
 import { ArrowItemType } from "../types/ArrowItemType";
 import { ArrowType } from "../types/ArrowType";
+import { OccupiedCell } from "../types/OccupiedCell";
 import { Position } from "../types/Position";
 import { TopicMapItemType } from "../types/TopicMapItemType";
 import { findItem, gridToPercentage } from "./grid.utils";
@@ -292,4 +293,53 @@ export const updateArrowType = (
   });
 
   return newItems;
+};
+
+export const findBoxEdgePosition = (
+  ahPreviewGridPosition: Position,
+  gridPosition: Position,
+  cellsOfItem: OccupiedCell[],
+  numberOfColumns: number,
+): Position => {
+  if (calculateIsHorizontal(ahPreviewGridPosition as Position, gridPosition)) {
+    if (ahPreviewGridPosition.x < gridPosition.x) {
+      // arrow is trending to right
+      const newx = cellsOfItem.sort((a, b) => a.x - b.x)[0];
+
+      const newxPosition = {
+        y: Math.floor(newx.index / numberOfColumns) + 1,
+        x: (newx.index % numberOfColumns) + 1,
+      };
+      return { y: gridPosition.y, x: newxPosition.x };
+    }
+    // arrow is trending to left
+    const newx = cellsOfItem.sort((a, b) => b.x - a.x)[0];
+
+    const newxPosition = {
+      y: Math.floor(newx.index / numberOfColumns) + 1,
+      x: (newx.index % numberOfColumns) + 1,
+    };
+    return { y: gridPosition.y, x: newxPosition.x };
+  }
+
+  if (ahPreviewGridPosition.y < gridPosition.y) {
+    // arrow is trending downwards
+    const newy = cellsOfItem.sort((a, b) => a.y - b.y)[0];
+
+    const newyPosition = {
+      y: Math.floor(newy.index / numberOfColumns) + 1,
+      x: (newy.index % numberOfColumns) + 1,
+    };
+
+    return { x: gridPosition.x, y: newyPosition.y };
+  }
+  // arrow is trending upwards
+  const newy = cellsOfItem.sort((a, b) => b.y - a.y)[0];
+
+  const newyPosition = {
+    y: Math.floor(newy.index / numberOfColumns) + 1,
+    x: (newy.index % numberOfColumns) + 1,
+  };
+
+  return { x: gridPosition.x, y: newyPosition.y };
 };

@@ -3,7 +3,7 @@ import type { CommonItemType } from "./CommonItemType";
 export type TopicMapItemType = CommonItemType & {
   /*
    * This index is used for manually sort the items' tab order
-   * Topic map item indeces will be set manually by the user
+   * Topic map item indices will be set manually by the user
    */
   index?: number;
 
