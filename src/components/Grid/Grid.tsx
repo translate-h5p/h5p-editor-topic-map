@@ -862,6 +862,7 @@ export const Grid: FC<GridProps> = ({
       arrowIndicators.map(position => {
         return (
           <ArrowIndicator
+            key={`${position.x}-${position.y}`}
             position={position}
             cellSize={cellSize}
             gapSize={gapSize}
