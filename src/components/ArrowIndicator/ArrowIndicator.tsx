@@ -7,7 +7,6 @@ export type ArrowIndicatorProps = {
   gapSize: number;
 };
 
-// TODO: Share code with h5p-topic-map instead of duplicating
 export const ArrowIndicator: React.FC<ArrowIndicatorProps> = ({
   position,
   cellSize,
