@@ -225,19 +225,19 @@ export const Grid: FC<GridProps> = ({
           const cellsOfItem = occupiedCells.filter(
             c => c.occupiedById === elementId,
           );
+          // const cellOfItem = findCellsElementOccupies(elementId, gridW)
           const endPosition = findBoxEdgePosition(
-            ahPreviewGridPosition,
+            arrowIndicators.slice(-1)[0],
             gridPosition,
             cellsOfItem,
             numberOfColumns,
           );
 
           const adjustedEndGridPosition = adjustArrowEndPosition(
-            ahPreviewGridPosition as Position,
+            arrowIndicators.slice(-1)[0],
             endPosition,
             arrowType,
           );
-
           const newItem = createArrowItem(
             arrowStartId,
             elementId,
@@ -255,6 +255,7 @@ export const Grid: FC<GridProps> = ({
             ),
             ahPreviewGridPosition as Position,
             endPosition,
+            arrowIndicators.slice(1),
           );
           const newItems = [...arrowItems, newItem];
 
@@ -272,13 +273,14 @@ export const Grid: FC<GridProps> = ({
     },
     [
       activeTool,
-      items,
       arrowStartId,
-      arrowItems,
-      numberOfColumns,
-      numberOfRows,
       ahPreviewGridPosition,
+      items,
       occupiedCells,
+      numberOfColumns,
+      arrowIndicators,
+      numberOfRows,
+      arrowItems,
       updateArrowItems,
     ],
   );
@@ -300,6 +302,25 @@ export const Grid: FC<GridProps> = ({
       setCurrentItemsLength(items.length);
     }
   }, [activeTool, items.length, setCurrentItemsLength]);
+
+  const indicatorClicked = useCallback(
+    (index: number) => {
+      if (activeTool === ToolbarButtonType.CreateBox) {
+        createBoxStart(index);
+      }
+      if (activeTool === ToolbarButtonType.CreateArrow) {
+        const newArrowIndicators = [
+          ...arrowIndicators,
+          {
+            y: Math.floor(index / numberOfColumns) + 1,
+            x: (index % numberOfColumns) + 1,
+          },
+        ];
+        setArrowIndicators(newArrowIndicators);
+      }
+    },
+    [activeTool, arrowIndicators, createBoxStart, numberOfColumns],
+  );
 
   const resizeBoxEnd = useCallback(() => {
     setPrevIndex(null);
@@ -650,7 +671,7 @@ export const Grid: FC<GridProps> = ({
       gridIndicators.map(({ id, index, label }) => (
         <GridIndicator
           key={id}
-          onMouseDown={() => createBoxStart(index)}
+          onMouseDown={() => indicatorClicked(index)}
           onMouseEnter={() => onGridIndicatorMouseEnter(index)}
           label={label}
           position={{
@@ -662,7 +683,7 @@ export const Grid: FC<GridProps> = ({
     [
       gridIndicators,
       numberOfColumns,
-      createBoxStart,
+      indicatorClicked,
       onGridIndicatorMouseEnter,
     ],
   );
@@ -672,7 +693,9 @@ export const Grid: FC<GridProps> = ({
       if (!size) {
         throw new Error("Grid has no size.");
       }
-
+      if (activeTool === ToolbarButtonType.CreateArrow) {
+        return;
+      }
       const newItems = updateItem(items, updatedItem, size.width, size.height, {
         newPosition,
       });
@@ -691,10 +714,9 @@ export const Grid: FC<GridProps> = ({
         gapSize,
         cellSize,
       );
-
       setOccupiedCells(newOccupiedCells);
     },
-    [size, items, updateItems, gapSize, cellSize],
+    [size, activeTool, items, updateItems, gapSize, cellSize],
   );
 
   const editItem = useCallback(
