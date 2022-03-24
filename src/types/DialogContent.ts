@@ -1,9 +1,10 @@
 import { Audio } from "./H5P/Audio";
 import { Video } from "./H5P/Video";
+import { Link } from "./Link";
 
 export type DialogContent = {
   hasNote: boolean;
-  links?: Array<string>;
+  links?: Array<Link>;
   text?: string;
   video?: Video;
   audio?: {

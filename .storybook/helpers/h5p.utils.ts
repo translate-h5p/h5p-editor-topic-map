@@ -17,7 +17,10 @@ export const params: Params = {
       topicImage: { path: "", alt: "" },
       dialog: {
         hasNote: true,
-        links: ["https://example.com", "https://example.com/2"],
+        links: [
+          { label: "Example", url: "https://example.com" },
+          { label: "Example 2", url: "https://example.com/2" },
+        ],
       },
       description: "",
     },
@@ -37,7 +40,10 @@ export const params: Params = {
       id: "arrow-1",
       dialog: {
         hasNote: true,
-        links: ["https://example.com", "https://example.com/2"],
+        links: [
+          { label: "Example", url: "https://example.com" },
+          { label: "Example 2", url: "https://example.com/2" },
+        ],
       },
       arrowType: ArrowType.Directional,
       startElementId: "box-1",
@@ -180,7 +186,19 @@ export const semantics: H5PFieldGroup = {
                 field: {
                   label: "Link",
                   name: "link",
-                  type: H5PFieldType.Text,
+                  type: H5PFieldType.Group,
+                  fields: [
+                    {
+                      label: "Label",
+                      name: "label",
+                      type: H5PFieldType.Text,
+                    },
+                    {
+                      label: "Url",
+                      name: "url",
+                      type: H5PFieldType.Text,
+                    },
+                  ],
                 },
               },
             ],
@@ -318,7 +336,19 @@ export const semantics: H5PFieldGroup = {
                 field: {
                   label: "Link",
                   name: "link",
-                  type: H5PFieldType.Text,
+                  type: H5PFieldType.Group,
+                  fields: [
+                    {
+                      label: "Label",
+                      name: "label",
+                      type: H5PFieldType.Text,
+                    },
+                    {
+                      label: "Url",
+                      name: "url",
+                      type: H5PFieldType.Text,
+                    },
+                  ],
                 },
               },
             ],
