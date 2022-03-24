@@ -319,7 +319,11 @@ export const Draggable: FC<DraggableProps> = ({
       /* Prevent default because we implement drag ourselves */
       onDragStart={preventDefault}
       aria-grabbed={isDragging}
-      className={`${styles.draggable} ${isPreview && styles.preview} draggable`}
+      className={`${styles.draggable} ${
+        isPreview && styles.preview
+      } draggable ${
+        activeTool === ToolbarButtonType.CreateArrow && styles.arrow_mode
+      }`}
       onMouseDown={startDrag}
       onTouchStart={startDrag}
       style={{
@@ -340,7 +344,7 @@ export const Draggable: FC<DraggableProps> = ({
         {children}
       </div>
 
-      {showScaleHandles && (
+      {activeTool !== ToolbarButtonType.CreateArrow && showScaleHandles && (
         <ScaleHandles
           setIsResizing={setIsResizing}
           startResize={startResize}
