@@ -18,8 +18,8 @@ export const params: Params = {
       dialog: {
         hasNote: true,
         links: [
-          { label: "Example", url: "https://example.com" },
-          { label: "Example 2", url: "https://example.com/2" },
+          { id: "link-1", label: "Example", url: "https://example.com" },
+          { id: "link-2", label: "Example 2", url: "https://example.com/2" },
         ],
       },
       description: "",
@@ -41,8 +41,8 @@ export const params: Params = {
       dialog: {
         hasNote: true,
         links: [
-          { label: "Example", url: "https://example.com" },
-          { label: "Example 2", url: "https://example.com/2" },
+          { id: "link-3", label: "Example", url: "https://example.com" },
+          { id: "link-4", label: "Example 2", url: "https://example.com/2" },
         ],
       },
       arrowType: ArrowType.Directional,
@@ -188,6 +188,12 @@ export const semantics: H5PFieldGroup = {
                   name: "link",
                   type: H5PFieldType.Group,
                   fields: [
+                    {
+                      label: "Id",
+                      name: "id",
+                      type: H5PFieldType.Text,
+                      widget: "uuid",
+                    },
                     {
                       label: "Label",
                       name: "label",
@@ -338,6 +344,12 @@ export const semantics: H5PFieldGroup = {
                   name: "link",
                   type: H5PFieldType.Group,
                   fields: [
+                    {
+                      label: "Id",
+                      name: "id",
+                      type: H5PFieldType.Text,
+                      widget: "uuid",
+                    },
                     {
                       label: "Label",
                       name: "label",
