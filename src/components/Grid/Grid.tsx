@@ -37,6 +37,8 @@ import {
   updateItem,
 } from "../../utils/grid.utils";
 import { Arrow } from "../Arrow/Arrow";
+import { ArrowIndicator } from "../ArrowIndicator/ArrowIndicator";
+import { ArrowIndicatorContainer } from "../ArrowIndicator/ArrowIndicatorContainer";
 import { Draggable } from "../Draggable/Draggable";
 import { GridIndicator } from "../GridIndicator/GridIndicator";
 import { ToolbarButtonType } from "../Toolbar/Toolbar";
@@ -103,7 +105,7 @@ export const Grid: FC<GridProps> = ({
     useState<ResizeDirection>("none");
   const [mouseOutsideGrid, setMouseOutsideGrid] = useState(false);
   const [prevIndex, setPrevIndex] = useState<number | null>(null);
-
+  const [arrowIndicators, setArrowIndicators] = useState<Array<Position>>([]);
   const [arrowStartId, setArrowStartId] = useState<string | null>(null);
   const [ahPreviewGridPosition, setAhPreviewGridPosition] =
     useState<Position | null>(null);
@@ -122,6 +124,7 @@ export const Grid: FC<GridProps> = ({
   useEffect(() => {
     setAhPreviewGridPosition(null);
     setArrowStartId(null);
+    setArrowIndicators([]);
   }, [activeTool]);
 
   const getCellSize = useCallback(() => {
@@ -203,7 +206,7 @@ export const Grid: FC<GridProps> = ({
           setArrowStartId(elementId);
 
           setAhPreviewGridPosition(gridPosition);
-
+          setArrowIndicators([gridPosition]);
           return;
         }
 
@@ -260,8 +263,9 @@ export const Grid: FC<GridProps> = ({
         } else {
           setArrowStartId(null);
           setAhPreviewGridPosition(null);
+          setArrowIndicators([]);
         }
-
+        setArrowIndicators([]);
         setArrowStartId(null);
         setAhPreviewGridPosition(null);
       }
@@ -853,6 +857,21 @@ export const Grid: FC<GridProps> = ({
     [arrowItems, renderArrow],
   );
 
+  const childrenArrowIndicators = useMemo(
+    () =>
+      arrowIndicators.map(position => {
+        return (
+          <ArrowIndicator
+            key={`${position.x}-${position.y}`}
+            position={position}
+            cellSize={cellSize}
+            gapSize={gapSize}
+          />
+        );
+      }),
+    [arrowIndicators, cellSize, gapSize],
+  );
+
   const resize = useCallback(() => {
     window.requestAnimationFrame(() => {
       if (!elementRef.current) {
@@ -961,6 +980,7 @@ export const Grid: FC<GridProps> = ({
       {childrenArrows}
       {children}
       {gridIndicatorElements}
+      <ArrowIndicatorContainer arrowIndicators={childrenArrowIndicators} />
     </div>
   );
 };
