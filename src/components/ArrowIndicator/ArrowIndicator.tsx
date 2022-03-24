@@ -21,10 +21,10 @@ export const ArrowIndicator: React.FC<ArrowIndicatorProps> = ({
     <circle
       cx={placement.x}
       cy={placement.y}
-      r={cellSize / 2}
-      strokeWidth="3"
-      stroke="black"
-      fill="red"
+      r={cellSize / 3}
+      strokeWidth="2"
+      stroke="var(--theme-color-4)"
+      fill="var(--theme-color-3)"
     />
   );
 };
