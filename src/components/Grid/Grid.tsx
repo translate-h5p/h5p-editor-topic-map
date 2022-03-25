@@ -256,6 +256,16 @@ export const Grid: FC<GridProps> = ({
             ahPreviewGridPosition as Position,
             endPosition,
             arrowIndicators.slice(1),
+            arrowIndicators.slice(1).map(breakpointPosition => {
+              return gridToPercentage(
+                {
+                  x: breakpointPosition.x - 0.5,
+                  y: breakpointPosition.y - 0.5,
+                },
+                numberOfColumns,
+                numberOfRows,
+              );
+            }),
           );
           const newItems = [...arrowItems, newItem];
 

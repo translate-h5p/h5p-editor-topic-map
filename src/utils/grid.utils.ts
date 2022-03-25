@@ -348,6 +348,7 @@ export const createArrowItem = (
   startGridPosition: Position,
   endGridPosition: Position,
   breakpoints: Array<Position>,
+  relativeBreakpoints: Array<Position>,
 ): ArrowItemType => {
   const id = uuidV4();
 
@@ -363,6 +364,7 @@ export const createArrowItem = (
     startGridPosition,
     endGridPosition,
     breakpoints,
+    relativeBreakpoints,
   };
 
   return item;

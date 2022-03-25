@@ -21,4 +21,5 @@ export type ArrowItemType = CommonItemType & {
   startGridPosition: Position;
   endGridPosition: Position;
   breakpoints: Array<Position>;
+  relativeBreakpoints: Array<Position>;
 };
