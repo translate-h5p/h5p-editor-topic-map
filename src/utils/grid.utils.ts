@@ -103,9 +103,9 @@ export const cellIsOccupiedByElement = (
   elementSize: Size,
   cellPosition: Position,
 ): boolean =>
-  cellPosition.x >= elementPosition.x - 0.1 &&
+  cellPosition.x >= elementPosition.x - 5 &&
   cellPosition.x <= elementPosition.x + elementSize.width &&
-  cellPosition.y >= elementPosition.y - 0.1 &&
+  cellPosition.y >= elementPosition.y - 5 &&
   cellPosition.y <= elementPosition.y + elementSize.height;
 
 export const findCellsElementOccupies = (
