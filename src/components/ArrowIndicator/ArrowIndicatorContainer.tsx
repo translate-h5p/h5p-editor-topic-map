@@ -7,6 +7,7 @@ export type ArrowIndicatorProps = {
   breakpoints: Position[];
   cellSize: number;
   gapSize: number;
+  currentMousePosition: Position | null;
 };
 
 // TODO: Share code with h5p-topic-map instead of duplicating
@@ -15,6 +16,7 @@ export const ArrowIndicatorContainer: React.FC<ArrowIndicatorProps> = ({
   breakpoints,
   cellSize,
   gapSize,
+  currentMousePosition,
 }) => {
   const toPathElement = (position: Position): string => {
     return `${(position.x - 0.5) * (cellSize + gapSize)} ${
@@ -23,7 +25,7 @@ export const ArrowIndicatorContainer: React.FC<ArrowIndicatorProps> = ({
   };
   const pathDef = breakpoints && breakpoints.length > 0 ? `M ${toPathElement(breakpoints[0])} ${breakpoints
     .map((pos) => `L ${toPathElement(pos)}`)
-    .join(" ")}` : "";
+    .join(" ")} ${currentMousePosition ? `L ${toPathElement(currentMousePosition)}`:""}` : "";
   return (
     <svg className={styles.arrowSvg}>
       {arrowIndicators}

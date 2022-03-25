@@ -113,6 +113,8 @@ export const Grid: FC<GridProps> = ({
   const updateLocalGrid = (newItems: TopicMapItemType[]): void => {
     setItems(newItems);
   };
+  const [currentMousePosition, setCurrentMousePosition] = useState<Position | null>(null);
+
   useEffectOnce(() => {
     // eslint-disable-next-line no-param-reassign
     updateGrid.current = updateLocalGrid;
@@ -125,6 +127,7 @@ export const Grid: FC<GridProps> = ({
     setAhPreviewGridPosition(null);
     setArrowStartId(null);
     setArrowIndicators([]);
+    setCurrentMousePosition(null);
   }, [activeTool]);
 
   const getCellSize = useCallback(() => {
@@ -660,8 +663,14 @@ export const Grid: FC<GridProps> = ({
       if (activeTool === ToolbarButtonType.CreateBox) {
         createBoxEnter(indicatorIndex);
       }
+      if(activeTool === ToolbarButtonType.CreateArrow && arrowStartId != null) {
+        setCurrentMousePosition({
+          y: Math.floor(indicatorIndex / numberOfColumns) + 1,
+          x: (indicatorIndex % numberOfColumns) + 1,
+        });
+      }
     },
-    [activeTool, createBoxEnter, resizeBoxEnter, resizedItemId],
+    [activeTool, arrowStartId, createBoxEnter, numberOfColumns, resizeBoxEnter, resizedItemId],
   );
 
   const gridIndicators = useMemo(() => {
@@ -869,6 +878,7 @@ export const Grid: FC<GridProps> = ({
           setSelectedItemId={setSelectedItem}
           updateArrowType={setArrowType}
           gridWidth={size.width}
+          arrowStartId={arrowStartId}
         />
       );
     },
@@ -881,6 +891,7 @@ export const Grid: FC<GridProps> = ({
       setArrowType,
       setSelectedItem,
       size,
+      arrowStartId
     ],
   );
 
@@ -1017,6 +1028,7 @@ export const Grid: FC<GridProps> = ({
         cellSize={cellSize}
         gapSize={gapSize}
         breakpoints={arrowIndicators}
+        currentMousePosition={currentMousePosition}
       />
     </div>
   );
