@@ -113,7 +113,8 @@ export const Grid: FC<GridProps> = ({
   const updateLocalGrid = (newItems: TopicMapItemType[]): void => {
     setItems(newItems);
   };
-  const [currentMousePosition, setCurrentMousePosition] = useState<Position | null>(null);
+  const [currentMousePosition, setCurrentMousePosition] =
+    useState<Position | null>(null);
 
   useEffectOnce(() => {
     // eslint-disable-next-line no-param-reassign
@@ -663,14 +664,24 @@ export const Grid: FC<GridProps> = ({
       if (activeTool === ToolbarButtonType.CreateBox) {
         createBoxEnter(indicatorIndex);
       }
-      if(activeTool === ToolbarButtonType.CreateArrow && arrowStartId != null) {
+      if (
+        activeTool === ToolbarButtonType.CreateArrow &&
+        arrowStartId != null
+      ) {
         setCurrentMousePosition({
           y: Math.floor(indicatorIndex / numberOfColumns) + 1,
           x: (indicatorIndex % numberOfColumns) + 1,
         });
       }
     },
-    [activeTool, arrowStartId, createBoxEnter, numberOfColumns, resizeBoxEnter, resizedItemId],
+    [
+      activeTool,
+      arrowStartId,
+      createBoxEnter,
+      numberOfColumns,
+      resizeBoxEnter,
+      resizedItemId,
+    ],
   );
 
   const gridIndicators = useMemo(() => {
@@ -891,7 +902,7 @@ export const Grid: FC<GridProps> = ({
       setArrowType,
       setSelectedItem,
       size,
-      arrowStartId
+      arrowStartId,
     ],
   );
 

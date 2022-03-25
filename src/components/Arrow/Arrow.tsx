@@ -183,9 +183,7 @@ export const Arrow: React.FC<ArrowProps> = ({
         <path
           className={`${
             selectedItemId === null ? styles.path : styles.pathSelected
-          } ${
-            arrowStartId === null ? styles.selectable : ""
-          }`}
+          } ${arrowStartId === null ? styles.selectable : ""}`}
           d={pathDef}
           fill="transparent"
           stroke="var(--theme-color-4)"

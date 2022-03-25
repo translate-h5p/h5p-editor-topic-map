@@ -23,9 +23,14 @@ export const ArrowIndicatorContainer: React.FC<ArrowIndicatorProps> = ({
       (position.y - 0.5) * (cellSize + gapSize)
     }`;
   };
-  const pathDef = breakpoints && breakpoints.length > 0 ? `M ${toPathElement(breakpoints[0])} ${breakpoints
-    .map((pos) => `L ${toPathElement(pos)}`)
-    .join(" ")} ${currentMousePosition ? `L ${toPathElement(currentMousePosition)}`:""}` : "";
+  const pathDef =
+    breakpoints && breakpoints.length > 0
+      ? `M ${toPathElement(breakpoints[0])} ${breakpoints
+          .map(pos => `L ${toPathElement(pos)}`)
+          .join(" ")} ${
+          currentMousePosition ? `L ${toPathElement(currentMousePosition)}` : ""
+        }`
+      : "";
   return (
     <svg className={styles.arrowSvg}>
       {arrowIndicators}
