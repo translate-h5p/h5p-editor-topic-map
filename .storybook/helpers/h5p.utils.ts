@@ -54,6 +54,7 @@ export const params: Params = {
       startGridPosition: { x: 0, y: 0 },
       endGridPosition: { x: 0, y: 0 },
       breakpoints: [],
+      relativeBreakpoints: [],
     },
   ],
   colorTheme: ColorTheme.Blue,

@@ -51,6 +51,7 @@ WithArrows.args = {
           y: 5,
         },
         breakpoints: [],
+        relativeBreakpoints: [],
       },
       {
         id: "b1f1e4d8-45f5-4ee4-8cd4-05d976a83327",
@@ -76,6 +77,7 @@ WithArrows.args = {
           y: 1,
         },
         breakpoints: [],
+        relativeBreakpoints: [],
       },
       {
         id: "416fa662-26ac-46f5-b1e7-e1888000c0f1",
@@ -101,6 +103,7 @@ WithArrows.args = {
           y: 12,
         },
         breakpoints: [],
+        relativeBreakpoints: [],
       },
       {
         id: "8fdbe0f1-774c-4c0a-9070-404e1820ebc6",
@@ -126,6 +129,7 @@ WithArrows.args = {
           y: 19,
         },
         breakpoints: [],
+        relativeBreakpoints: [],
       },
       {
         id: "fbefc064-2b54-4c39-a752-ff56a0f0feac",
@@ -151,6 +155,7 @@ WithArrows.args = {
           y: 7,
         },
         breakpoints: [],
+        relativeBreakpoints: [],
       },
       {
         id: "f9863d3b-9c61-42f8-b3c5-4eebf613ff03",
@@ -176,6 +181,7 @@ WithArrows.args = {
           y: 5,
         },
         breakpoints: [],
+        relativeBreakpoints: [],
       },
     ],
     topicMapItems: [
