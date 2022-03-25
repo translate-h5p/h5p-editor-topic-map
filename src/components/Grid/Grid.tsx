@@ -1012,7 +1012,12 @@ export const Grid: FC<GridProps> = ({
       {childrenArrows}
       {children}
       {gridIndicatorElements}
-      <ArrowIndicatorContainer arrowIndicators={childrenArrowIndicators} />
+      <ArrowIndicatorContainer
+        arrowIndicators={childrenArrowIndicators}
+        cellSize={cellSize}
+        gapSize={gapSize}
+        breakpoints={arrowIndicators}
+      />
     </div>
   );
 };
