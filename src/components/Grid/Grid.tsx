@@ -336,7 +336,13 @@ export const Grid: FC<GridProps> = ({
         setArrowIndicators(newArrowIndicators);
       }
     },
-    [activeTool, arrowIndicators, arrowStartId, createBoxStart, numberOfColumns],
+    [
+      activeTool,
+      arrowIndicators,
+      arrowStartId,
+      createBoxStart,
+      numberOfColumns,
+    ],
   );
 
   const resizeBoxEnd = useCallback(() => {
