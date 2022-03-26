@@ -98,14 +98,16 @@ export const getAllCells = (
   return cells;
 };
 
+const marginOfErrorForPositioning = 5;
+
 export const cellIsOccupiedByElement = (
   elementPosition: Position,
   elementSize: Size,
   cellPosition: Position,
 ): boolean =>
-  cellPosition.x >= elementPosition.x - 5 &&
+  cellPosition.x >= elementPosition.x - marginOfErrorForPositioning &&
   cellPosition.x <= elementPosition.x + elementSize.width &&
-  cellPosition.y >= elementPosition.y - 5 &&
+  cellPosition.y >= elementPosition.y - marginOfErrorForPositioning &&
   cellPosition.y <= elementPosition.y + elementSize.height;
 
 export const findCellsElementOccupies = (
