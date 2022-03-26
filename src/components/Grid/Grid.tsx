@@ -322,7 +322,10 @@ export const Grid: FC<GridProps> = ({
       if (activeTool === ToolbarButtonType.CreateBox) {
         createBoxStart(index);
       }
-      if (activeTool === ToolbarButtonType.CreateArrow) {
+      if (
+        activeTool === ToolbarButtonType.CreateArrow &&
+        arrowStartId !== null
+      ) {
         const newArrowIndicators = [
           ...arrowIndicators,
           {
@@ -333,7 +336,7 @@ export const Grid: FC<GridProps> = ({
         setArrowIndicators(newArrowIndicators);
       }
     },
-    [activeTool, arrowIndicators, createBoxStart, numberOfColumns],
+    [activeTool, arrowIndicators, arrowStartId, createBoxStart, numberOfColumns],
   );
 
   const resizeBoxEnd = useCallback(() => {
