@@ -110,19 +110,23 @@ export const yAdjustmentStart = (
   return -0.5;
 };
 
-export const xAdjustmentEnd = (
-  item: {
-    arrowType: ArrowType;
-    startGridPosition: Position;
-    endGridPosition: Position;
-  },
-  isHorizontal: boolean,
-): number => {
+export const xAdjustmentEnd = (item: {
+  arrowType: ArrowType;
+  startGridPosition: Position;
+  endGridPosition: Position;
+  breakpoints: Array<Position> | undefined;
+}): number => {
+  const sourcePosition =
+    item.breakpoints?.slice(-1)[0] ?? item.startGridPosition;
+  const isHorizontal = calculateIsHorizontal(
+    sourcePosition,
+    item.endGridPosition,
+  );
   if (
     item.arrowType === ArrowType.Directional ||
     item.arrowType === ArrowType.BiDirectional
   ) {
-    if (isHorizontal && item.startGridPosition.x <= item.endGridPosition.x) {
+    if (isHorizontal && sourcePosition.x <= item.endGridPosition.x) {
       return -1.75;
     }
 
@@ -134,7 +138,7 @@ export const xAdjustmentEnd = (
   }
 
   if (item.arrowType === ArrowType.NonDirectional) {
-    if (isHorizontal && item.startGridPosition.x <= item.endGridPosition.x) {
+    if (isHorizontal && sourcePosition.x <= item.endGridPosition.x) {
       return -0.5;
     }
 
@@ -147,14 +151,18 @@ export const xAdjustmentEnd = (
   return 0;
 };
 
-export const yAdjustmentEnd = (
-  item: {
-    arrowType: ArrowType;
-    startGridPosition: Position;
-    endGridPosition: Position;
-  },
-  isHorizontal: boolean,
-): number => {
+export const yAdjustmentEnd = (item: {
+  arrowType: ArrowType;
+  startGridPosition: Position;
+  endGridPosition: Position;
+  breakpoints: Array<Position> | undefined;
+}): number => {
+  const sourcePosition =
+    item.breakpoints?.slice(-1)[0] ?? item.startGridPosition;
+  const isHorizontal = calculateIsHorizontal(
+    sourcePosition,
+    item.endGridPosition,
+  );
   if (
     item.arrowType === ArrowType.Directional ||
     item.arrowType === ArrowType.BiDirectional
@@ -162,14 +170,14 @@ export const yAdjustmentEnd = (
     if (isHorizontal) {
       return -0.5;
     }
-    if (item.startGridPosition.y <= item.endGridPosition.y) {
+    if (sourcePosition.y <= item.endGridPosition.y) {
       return -1.75;
     }
     return 0.5;
   }
 
   if (item.arrowType === ArrowType.NonDirectional) {
-    if (!isHorizontal && item.startGridPosition.y <= item.endGridPosition.y) {
+    if (!isHorizontal && sourcePosition.y <= item.endGridPosition.y) {
       return -0.5;
     }
 
@@ -218,29 +226,23 @@ export const adjustArrowEndPosition = (
   endPosition: Position,
   arrowType: ArrowType,
 ): Position => {
-  const isHorizontal = calculateIsHorizontal(startPosition, endPosition);
-
   return {
     x:
       endPosition.x +
-      xAdjustmentEnd(
-        {
-          arrowType,
-          startGridPosition: startPosition,
-          endGridPosition: endPosition,
-        },
-        isHorizontal,
-      ),
+      xAdjustmentEnd({
+        arrowType,
+        startGridPosition: startPosition,
+        endGridPosition: endPosition,
+        breakpoints: [],
+      }),
     y:
       endPosition.y +
-      yAdjustmentEnd(
-        {
-          arrowType,
-          startGridPosition: startPosition,
-          endGridPosition: endPosition,
-        },
-        isHorizontal,
-      ),
+      yAdjustmentEnd({
+        arrowType,
+        startGridPosition: startPosition,
+        endGridPosition: endPosition,
+        breakpoints: [],
+      }),
   } as Position;
 };
 
@@ -296,21 +298,22 @@ export const updateArrowType = (
 };
 
 export const findBoxEdgePosition = (
-  ahPreviewGridPosition: Position,
+  sourcePosition: Position,
   gridPosition: Position,
   cellsOfItem: OccupiedCell[],
   numberOfColumns: number,
 ): Position => {
-  if (calculateIsHorizontal(ahPreviewGridPosition as Position, gridPosition)) {
-    if (ahPreviewGridPosition.x < gridPosition.x) {
+  if (calculateIsHorizontal(sourcePosition as Position, gridPosition)) {
+    if (sourcePosition.x < gridPosition.x) {
       // arrow is trending to right
-      const newx = cellsOfItem.sort((a, b) => a.x - b.x)[0];
+      const cells = cellsOfItem.sort((a, b) => a.x - b.x);
+      const newx = cells[0];
 
-      const newxPosition = {
-        y: Math.floor(newx.index / numberOfColumns) + 1,
+      const newPosition = {
+        y: gridPosition.y,
         x: (newx.index % numberOfColumns) + 1,
       };
-      return { y: gridPosition.y, x: newxPosition.x };
+      return newPosition;
     }
     // arrow is trending to left
     const newx = cellsOfItem.sort((a, b) => b.x - a.x)[0];
@@ -322,7 +325,7 @@ export const findBoxEdgePosition = (
     return { y: gridPosition.y, x: newxPosition.x };
   }
 
-  if (ahPreviewGridPosition.y < gridPosition.y) {
+  if (sourcePosition.y < gridPosition.y) {
     // arrow is trending downwards
     const newy = cellsOfItem.sort((a, b) => a.y - b.y)[0];
 
@@ -340,6 +343,5 @@ export const findBoxEdgePosition = (
     y: Math.floor(newy.index / numberOfColumns) + 1,
     x: (newy.index % numberOfColumns) + 1,
   };
-
   return { x: gridPosition.x, y: newyPosition.y };
 };

@@ -26,6 +26,7 @@ export type ArrowProps = {
   setSelectedItemId: (itemId: string) => void;
   updateArrowType: (type: ArrowType, itemId: string) => void;
   gridWidth: number;
+  arrowStartId: string | null;
 };
 
 // TODO: Share code with h5p-topic-map instead of duplicating
@@ -39,6 +40,7 @@ export const Arrow: React.FC<ArrowProps> = ({
   setSelectedItemId,
   updateArrowType,
   gridWidth,
+  arrowStartId,
 }) => {
   const [showDeleteConfirmationDialog, setShowDeleteConfirmationDialog] =
     React.useState(false);
@@ -111,8 +113,8 @@ export const Arrow: React.FC<ArrowProps> = ({
     const xAdjustStart = xAdjustmentStart(item, isHorizontal);
     const yAdjustStart = yAdjustmentStart(item, isHorizontal);
 
-    const xAdjust = xAdjustmentEnd(item, isHorizontal);
-    const yAdjust = yAdjustmentEnd(item, isHorizontal);
+    const xAdjust = xAdjustmentEnd(item);
+    const yAdjust = yAdjustmentEnd(item);
 
     startPos = {
       x: (item.startGridPosition.x + xAdjustStart) * (cellSize + gapSize),
@@ -125,7 +127,15 @@ export const Arrow: React.FC<ArrowProps> = ({
     };
   }
 
-  const pathDef = `M ${startPos.x} ${startPos.y} L ${endPos.x} ${endPos.y}`;
+  const toPathElement = (position: Position): string => {
+    return `L ${(position.x - 0.5) * (cellSize + gapSize)} ${
+      (position.y - 0.5) * (cellSize + gapSize)
+    }`;
+  };
+
+  const pathDef = `M ${startPos.x} ${startPos.y} ${
+    item.breakpoints?.map(toPathElement).join(" ") ?? ""
+  } L ${endPos.x} ${endPos.y}`;
 
   const contextMenuPosition: Position = {
     x: isHorizontal
@@ -170,9 +180,9 @@ export const Arrow: React.FC<ArrowProps> = ({
           </marker>
         </defs>
         <path
-          className={
+          className={`${
             selectedItemId === null ? styles.path : styles.pathSelected
-          }
+          } ${arrowStartId === null ? styles.selectable : ""}`}
           d={pathDef}
           fill="transparent"
           stroke="var(--theme-color-4)"
