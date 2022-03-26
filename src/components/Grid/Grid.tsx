@@ -229,7 +229,6 @@ export const Grid: FC<GridProps> = ({
           const cellsOfItem = occupiedCells.filter(
             c => c.occupiedById === elementId,
           );
-          // const cellOfItem = findCellsElementOccupies(elementId, gridW)
           const endPosition = findBoxEdgePosition(
             arrowIndicators.slice(-1)[0],
             gridPosition,
