@@ -42,7 +42,6 @@ export const Arrow: React.FC<ArrowProps> = ({
   gridWidth,
   arrowStartId,
 }) => {
-  console.info("arrowStartId", arrowStartId);
   const [showDeleteConfirmationDialog, setShowDeleteConfirmationDialog] =
     React.useState(false);
 
