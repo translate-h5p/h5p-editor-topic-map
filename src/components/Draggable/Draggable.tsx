@@ -44,6 +44,7 @@ export type DraggableProps = {
   showScaleHandles: boolean;
   onPointerDown: (pointerPosition: Position) => void;
   activeTool: ToolbarButtonType | null;
+  children: React.ReactElement | Array<React.ReactElement>;
 };
 
 export const Draggable: FC<DraggableProps> = ({

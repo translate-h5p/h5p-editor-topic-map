@@ -220,7 +220,7 @@ export const MapEditorView: React.FC<MapEditorViewProps> = ({
             }
           }}
         >
-          {editedItem && (
+          {editedItem ? (
             <TopicMapItemForm
               itemId={editedItem}
               semantics={semantics}
@@ -232,9 +232,9 @@ export const MapEditorView: React.FC<MapEditorViewProps> = ({
                 setEditedItem(null);
               }}
             />
-          )}
+          ) : null}
 
-          {editedArrow && (
+          {editedArrow ? (
             <ArrowItemForm
               itemId={editedArrow}
               semantics={semantics}
@@ -245,7 +245,7 @@ export const MapEditorView: React.FC<MapEditorViewProps> = ({
                 setEditedArrow(null);
               }}
             />
-          )}
+          ) : null}
         </Dialog>
       </div>
     </div>
