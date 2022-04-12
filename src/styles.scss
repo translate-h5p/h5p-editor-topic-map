@@ -44,7 +44,8 @@
  *     default forced `pointer-events: auto` to prevent the effect
  *     whenever Radix UI dialogs open H5P dialogs.
  */
-.h5p-confirmation-dialog-background {
+.h5p-confirmation-dialog-background,
+.cke_combopanel {
   pointer-events: auto; /* {1} */
 }
 
