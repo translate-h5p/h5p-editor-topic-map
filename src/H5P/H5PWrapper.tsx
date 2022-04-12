@@ -1,5 +1,5 @@
 import * as React from "react";
-import * as ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
 import { IH5PEditorWrapper } from "../../H5P";
 import { App } from "../App";
 import { H5PFieldGroup } from "../types/H5P/H5PField";
@@ -23,14 +23,14 @@ export class H5PWrapper
     super();
     this.wrapper = H5PWrapper.createWrapperElement();
 
-    ReactDOM.render(
+    const root = createRoot(this.wrapper);
+    root.render(
       <App
         setValue={newParams => setValue(semantics, newParams)}
         semantics={semantics}
         initialParams={params}
         parent={parent}
       />,
-      this.wrapper,
     );
   }
 

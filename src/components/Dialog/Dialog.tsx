@@ -19,6 +19,7 @@ export type DialogProps = {
   description?: string | undefined;
   onOpenChange: (open: boolean) => void;
   size: DialogSize;
+  children: React.ReactElement | null | Array<React.ReactElement | null>;
 };
 
 const maxWidths: Record<DialogSize, number> = {
