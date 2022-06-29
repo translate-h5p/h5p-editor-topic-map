@@ -1,0 +1,20 @@
+{
+  "libraryStrings": {
+    "dialog_close": "Харилцах цонхыг хаах",
+    "semantics-form_save": "Хадгалах",
+    "draggable_delete-confirmation": "Та энэ зүйлийг устгахдаа итгэлтэй байна уу?",
+    "draggable_delete-negative": "Цуцлах",
+    "draggable_delete-positive": "Зүйлийг устгах",
+    "draggable_not-selected": "Идэвхжүүлэхийн тулд enter дарна уу",
+    "draggable_selected": "Зөөх бол сум товчийг дарна уу. Сонголтыг болиулахын тулд товчийг дарна уу.",
+    "grid-indicator_label": "Шинэ элемент үүсгэхийн тулд чирэх болон дарна уу",
+    "map-editor-view_item-dialog-title": "Item",
+    "toolbar-button-type_create-arrow": "Үүсгэх",
+    "toolbar-button-type_create-box": "Create box",
+    "context-menu_arrow-bi-directional": "Хоёр үзүүртэй сум",
+    "context-menu_arrow-directional": "Нэг үзүүртэй сум",
+    "context-menu_arrow-non-directional": "Нэг мөр",
+    "context-menu_delete": "Устгах",
+    "context-menu_edit": "Засварлах"
+  }
+}
