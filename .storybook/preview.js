@@ -1,4 +1,4 @@
-import "!style-loader!css-loader!sass-loader!../src/styles.scss";
+import "../src/styles.scss";
 import language from "../language/en.json";
 
 export const parameters = {
