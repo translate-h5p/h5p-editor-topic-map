@@ -1,10 +1,9 @@
 import useResizeObserver from "@react-hook/resize-observer";
+import type { H5PFieldGroup, H5PForm } from "h5p-types";
 import * as React from "react";
 import { MapEditorView } from "./components/MapEditorView/MapEditorView";
 import { AppWidthContext } from "./contexts/AppWidthContext";
-import { H5PFieldGroup } from "./types/H5P/H5PField";
-import { H5PForm } from "./types/H5P/H5PForm";
-import { Params } from "./types/H5P/Params";
+import { Params } from "./types/Params";
 import {
   fillInMissingParamsProperties,
   getEmptyParams,

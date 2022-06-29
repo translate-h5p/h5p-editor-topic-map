@@ -1,7 +1,6 @@
+import type { H5PField, H5PFieldGroup, H5PForm } from "h5p-types";
 import * as React from "react";
-import { H5PField, H5PFieldGroup } from "../../types/H5P/H5PField";
-import { H5PForm } from "../../types/H5P/H5PForm";
-import { Params } from "../../types/H5P/Params";
+import { Params } from "../../types/Params";
 import { getArrowItemsField } from "../../utils/H5P/form.utils";
 import { SemanticsForm } from "../SemanticsForm/SemanticsForm";
 import "./ArrowItemForm.scss";

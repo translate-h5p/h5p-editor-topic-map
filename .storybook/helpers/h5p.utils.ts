@@ -1,9 +1,7 @@
+import { H5PFieldGroup, H5PForm } from "h5p-types";
 import { ArrowType } from "../../src/types/ArrowType";
 import { ColorTheme } from "../../src/types/ColorTheme";
-import { H5PFieldGroup } from "../../src/types/H5P/H5PField";
-import { H5PFieldType } from "../../src/types/H5P/H5PFieldType";
-import { H5PForm } from "../../src/types/H5P/H5PForm";
-import { Params } from "../../src/types/H5P/Params";
+import { Params } from "../../src/types/Params";
 
 export const params: Params = {
   topicMapItems: [
@@ -63,64 +61,64 @@ export const params: Params = {
 export const semantics: H5PFieldGroup = {
   label: "Topic map editor",
   name: "topicMap",
-  type: H5PFieldType.Group,
+  type: "group",
   widget: "topicMap",
   importance: "high",
   fields: [
     {
       label: "Topic map items",
       name: "topicMapItems",
-      type: H5PFieldType.List,
+      type: "list",
       entity: "Topic map item",
       importance: "low",
       field: {
         label: "Item",
         name: "topicMapItem",
         importance: "low",
-        type: H5PFieldType.Group,
+        type: "group",
         fields: [
           {
             name: "id",
             label: "Id",
-            type: H5PFieldType.Text,
+            type: "text",
             widget: "none",
           },
           {
             name: "xPercentagePosition",
             label: "X-position as a percentage of the container width",
-            type: H5PFieldType.Number,
+            type: "number",
             widget: "none",
           },
           {
             name: "yPercentagePosition",
             label: "Y-position as a percentage of the container height",
-            type: H5PFieldType.Number,
+            type: "number",
             widget: "none",
           },
           {
             name: "widthPercentage",
             label: "Width as a percentage of the container width",
-            type: H5PFieldType.Number,
+            type: "number",
             widget: "none",
           },
           {
             name: "heightPercentage",
             label: "Height as a percentage of the container height",
-            type: H5PFieldType.Number,
+            type: "number",
             widget: "none",
           },
           {
             label: "Label",
             description: "The label is shown on top of the background image",
             name: "label",
-            type: H5PFieldType.Text,
+            type: "text",
           },
           {
             label: "Description",
             description:
               "The description is shown on top of the background image, below the label",
             name: "description",
-            type: H5PFieldType.Text,
+            type: "text",
             optional: true,
           },
           {
@@ -128,50 +126,50 @@ export const semantics: H5PFieldGroup = {
             description:
               "Background image for card and image above text in dialog",
             name: "topicImage",
-            type: H5PFieldType.Image,
+            type: "image",
           },
           {
             label: "Topic image alt text",
             description:
               "Alternative text for the image that is used by screen readers",
             name: "topicImageAltText",
-            type: H5PFieldType.Text,
+            type: "text",
             optional: true,
           },
           {
             label: "Dialog",
             name: "dialog",
-            type: H5PFieldType.Group,
+            type: "group",
             fields: [
               {
                 label: "Text",
                 name: "text",
-                type: H5PFieldType.Text,
+                type: "text",
                 widget: "html",
                 optional: true,
               },
               {
                 label: "Video",
                 name: "video",
-                type: H5PFieldType.Video,
+                type: "video",
                 optional: true,
               },
               {
                 label: "Audio",
                 name: "audio",
-                type: H5PFieldType.Group,
+                type: "group",
                 optional: true,
                 importance: "low",
                 fields: [
                   {
                     label: "Audio",
                     name: "audioFile",
-                    type: H5PFieldType.Audio,
+                    type: "audio",
                   },
                   {
                     label: "Subtext",
                     name: "subtext",
-                    type: H5PFieldType.Text,
+                    type: "text",
                     widget: "html",
                     optional: true,
                   },
@@ -182,29 +180,29 @@ export const semantics: H5PFieldGroup = {
                 name: "links",
                 description:
                   "These links are as auxiliary links for the user in the element's modal window",
-                type: H5PFieldType.List,
+                type: "list",
                 optional: true,
                 entity: "linkItem",
                 field: {
                   label: "Link",
                   name: "link",
-                  type: H5PFieldType.Group,
+                  type: "group",
                   fields: [
                     {
                       label: "Id",
                       name: "id",
-                      type: H5PFieldType.Text,
+                      type: "text",
                       widget: "uuid",
                     },
                     {
                       label: "Label",
                       name: "label",
-                      type: H5PFieldType.Text,
+                      type: "text",
                     },
                     {
                       label: "Url",
                       name: "url",
-                      type: H5PFieldType.Text,
+                      type: "text",
                     },
                   ],
                 },
@@ -216,7 +214,7 @@ export const semantics: H5PFieldGroup = {
             description:
               "⚠️ Advanced feature: Used for manually setting tab order.",
             name: "index",
-            type: H5PFieldType.Number,
+            type: "number",
             optional: true,
           },
         ],
@@ -225,29 +223,29 @@ export const semantics: H5PFieldGroup = {
     {
       label: "Arrows",
       name: "arrowItems",
-      type: H5PFieldType.List,
+      type: "list",
       entity: "arrowItem",
       field: {
         label: "Arrow",
         name: "arrow",
-        type: H5PFieldType.Group,
+        type: "group",
         fields: [
           {
             name: "id",
             label: "Id",
-            type: H5PFieldType.Text,
+            type: "text",
             widget: "none",
           },
           {
             name: "startElementId",
             label: "Id of start element",
-            type: H5PFieldType.Text,
+            type: "text",
             widget: "none",
           },
           {
             name: "endElementId",
             label: "Id of end element",
-            type: H5PFieldType.Text,
+            type: "text",
             widget: "none",
           },
           {
@@ -255,7 +253,7 @@ export const semantics: H5PFieldGroup = {
             description:
               "The label is used by screen readers and on the summary page",
             name: "label",
-            type: H5PFieldType.Text,
+            type: "text",
             widget: "none",
           },
           {
@@ -263,71 +261,71 @@ export const semantics: H5PFieldGroup = {
             description:
               "The description is shown on top of the background image, below the label",
             name: "description",
-            type: H5PFieldType.Text,
+            type: "text",
             optional: true,
           },
           {
             label: "Topic image",
             description: "Image above text in dialog",
             name: "topicImage",
-            type: H5PFieldType.Image,
+            type: "image",
           },
           {
             label: "Topic image alt text",
             description:
               "Alternative text for the image that is used by screen readers",
             name: "topicImageAltText",
-            type: H5PFieldType.Text,
+            type: "text",
             optional: true,
           },
           {
             label: "Show start arrow-head",
             name: "showStartHead",
-            type: H5PFieldType.Boolean,
+            type: "boolean",
             widget: "none",
             default: false,
           },
           {
             label: "Show end arrow-head",
             name: "showEndHead",
-            type: H5PFieldType.Boolean,
+            type: "boolean",
             widget: "none",
             default: true,
           },
           {
             label: "Dialog",
             name: "dialog",
-            type: H5PFieldType.Group,
+            type: "group",
             fields: [
               {
                 label: "Text",
                 name: "text",
-                type: H5PFieldType.Text,
+                type: "text",
                 widget: "html",
                 optional: true,
               },
               {
                 label: "Video",
                 name: "video",
-                type: H5PFieldType.Video,
+                type: "video",
                 optional: true,
               },
               {
                 label: "Audio",
                 name: "audio",
-                type: H5PFieldType.Group,
+                type: "group",
                 optional: true,
                 importance: "low",
                 fields: [
                   {
                     label: "Audio",
                     name: "audioFile",
-                    type: H5PFieldType.Audio,
+                    type: "audio",
                   },
                   {
                     label: "Subtext",
                     name: "subtext",
-                    type: H5PFieldType.Text,
+                    type: "text",
                     widget: "html",
                     optional: true,
                   },
@@ -338,29 +336,29 @@ export const semantics: H5PFieldGroup = {
                 name: "links",
                 description:
                   "These links are as auxiliary links for the user in the element's modal window",
-                type: H5PFieldType.List,
+                type: "list",
                 optional: true,
                 entity: "linkItem",
                 field: {
                   label: "Link",
                   name: "link",
-                  type: H5PFieldType.Group,
+                  type: "group",
                   fields: [
                     {
                       label: "Id",
                       name: "id",
-                      type: H5PFieldType.Text,
+                      type: "text",
                       widget: "uuid",
                     },
                     {
                       label: "Label",
                       name: "label",
-                      type: H5PFieldType.Text,
+                      type: "text",
                     },
                     {
                       label: "Url",
                       name: "url",
-                      type: H5PFieldType.Text,
+                      type: "text",
                     },
                   ],
                 },
@@ -370,7 +368,7 @@ export const semantics: H5PFieldGroup = {
           {
             label: "Index",
             name: "index",
-            type: H5PFieldType.Number,
+            type: "number",
             optional: true,
             widget: "none",
           },
@@ -380,20 +378,20 @@ export const semantics: H5PFieldGroup = {
     {
       label: "Background image",
       name: "gridBackgroundImage",
-      type: H5PFieldType.Image,
+      type: "image",
       optional: true,
     },
     {
       label: "Appearance",
       name: "appearance",
-      type: H5PFieldType.Group,
+      type: "group",
       importance: "low",
       widget: "none",
       fields: [
         {
           label: "Color theme",
           name: "colorTheme",
-          type: H5PFieldType.Select,
+          type: "select",
           default: ColorTheme.Blue,
           options: Object.entries(ColorTheme).map(([label, value]) => ({
             label,

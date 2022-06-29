@@ -1,9 +1,9 @@
+import type { H5PField, H5PForm } from "h5p-types";
+import { H5PEditor } from "h5p-utils";
 import * as React from "react";
+import { t } from "../../H5P/H5P.util";
+import { Params } from "../../types/Params";
 import styles from "./SemanticsForm.module.scss";
-import { H5PEditor, t } from "../../H5P/H5P.util";
-import { H5PField } from "../../types/H5P/H5PField";
-import { H5PForm } from "../../types/H5P/H5PForm";
-import { Params } from "../../types/H5P/Params";
 
 export type SemanticsFormProps = {
   fields: Array<H5PField>;

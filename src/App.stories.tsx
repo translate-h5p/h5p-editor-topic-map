@@ -5,7 +5,7 @@ import { params, parent, semantics } from "../.storybook/helpers/h5p.utils";
 import { App } from "./App";
 import { ArrowType } from "./types/ArrowType";
 import { ColorTheme } from "./types/ColorTheme";
-import { Params } from "./types/H5P/Params";
+import { Params } from "./types/Params";
 
 export default {
   title: "App",

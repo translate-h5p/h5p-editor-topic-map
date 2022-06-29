@@ -3,11 +3,11 @@ import { ComponentMeta, ComponentStory } from "@storybook/react";
 import * as React from "react";
 import {
   params,
-  semantics,
   parent,
+  semantics,
 } from "../../../.storybook/helpers/h5p.utils";
 import { ArrowItemType } from "../../types/ArrowItemType";
-import { Params } from "../../types/H5P/Params";
+import { Params } from "../../types/Params";
 import { TopicMapItemType } from "../../types/TopicMapItemType";
 import { MapEditorView } from "./MapEditorView";
 

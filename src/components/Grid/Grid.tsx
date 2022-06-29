@@ -1,7 +1,7 @@
+import { H5P } from "h5p-utils";
 import * as React from "react";
 import { FC, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useEffectOnce } from "react-use";
-import { v4 as uuidV4 } from "uuid";
 import { t } from "../../H5P/H5P.util";
 import { ArrowItemType } from "../../types/ArrowItemType";
 import { ArrowType } from "../../types/ArrowType";
@@ -698,7 +698,7 @@ export const Grid: FC<GridProps> = ({
     return Array(numberOfColumns * numberOfRows)
       .fill(null)
       .map((_, index) => ({
-        id: uuidV4(),
+        id: H5P.createUUID(),
         label,
         index,
       }));

@@ -1,10 +1,10 @@
+import type { H5PForm, H5PFieldGroup } from "h5p-types";
+import { getImageUrl } from "h5p-utils";
 import * as React from "react";
 import { useState } from "react";
-import { getImageUrl, t } from "../../H5P/H5P.util";
+import { t } from "../../H5P/H5P.util";
 import { ArrowItemType } from "../../types/ArrowItemType";
-import { H5PFieldGroup } from "../../types/H5P/H5PField";
-import { H5PForm } from "../../types/H5P/H5PForm";
-import { Params } from "../../types/H5P/Params";
+import { Params } from "../../types/Params";
 import { TopicMapItemType } from "../../types/TopicMapItemType";
 import { updateArrowLabels } from "../../utils/arrow.utils";
 import { findConnectedArrows } from "../../utils/grid.utils";

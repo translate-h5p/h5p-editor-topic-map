@@ -1,39 +1,14 @@
+import type { H5PFieldGroup, IH5PWidget } from "h5p-types";
+import { H5PWidget } from "h5p-utils";
 import * as React from "react";
 import { createRoot } from "react-dom/client";
-import { IH5PEditorWrapper } from "../../H5P";
 import { App } from "../App";
-import { H5PFieldGroup } from "../types/H5P/H5PField";
-import { H5PForm } from "../types/H5P/H5PForm";
-import { H5PSetValue } from "../types/H5P/H5PSetValue";
-import { Params } from "../types/H5P/Params";
-import { H5P } from "./H5P.util";
+import { Params } from "../types/Params";
 
 export class H5PWrapper
-  extends H5P.EventDispatcher
-  implements IH5PEditorWrapper
+  extends H5PWidget<H5PFieldGroup, Params>
+  implements IH5PWidget
 {
-  private wrapper: HTMLElement;
-
-  constructor(
-    parent: H5PForm,
-    semantics: H5PFieldGroup,
-    params: Params,
-    setValue: H5PSetValue,
-  ) {
-    super();
-    this.wrapper = H5PWrapper.createWrapperElement();
-
-    const root = createRoot(this.wrapper);
-    root.render(
-      <App
-        setValue={newParams => setValue(semantics, newParams)}
-        semantics={semantics}
-        initialParams={params}
-        parent={parent}
-      />,
-    );
-  }
-
   appendTo($container: JQuery<HTMLElement>): void {
     const containerElement = $container.get(0);
     if (!containerElement) {
@@ -42,6 +17,18 @@ export class H5PWrapper
       );
       return;
     }
+
+    const { setValue, field, params, parent } = this;
+
+    const root = createRoot(this.wrapper);
+    root.render(
+      <App
+        setValue={newParams => setValue(field, newParams)}
+        semantics={field}
+        initialParams={params}
+        parent={parent}
+      />,
+    );
 
     containerElement.appendChild(this.wrapper);
     containerElement.classList.add("h5p-editor-topic-map");
@@ -53,8 +40,4 @@ export class H5PWrapper
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   remove(): void {}
-
-  private static createWrapperElement(): HTMLDivElement {
-    return document.createElement("div");
-  }
 }
