@@ -1,5 +1,4 @@
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-
 module.exports = {
   stories: [
     "../src/App.stories.tsx",
@@ -11,21 +10,25 @@ module.exports = {
     "@storybook/addon-essentials",
     "storybook-addon-themes",
   ],
-  core: {
-    builder: "webpack5",
-  },
   webpackFinal: async config => {
+    // Removing the global alias as it conflicts with the global npm pkg (https://github.com/storybookjs/storybook/issues/21242)
+    const { global, ...alias } = config.resolve.alias;
+    config.resolve.alias = alias;
+
     addScssSupport(config);
+
     return config;
   },
   framework: {
-    name: "@storybook/react",
-  }
+    name: "@storybook/react-webpack5",
+    options: {},
+  },
+  docs: {
+    autodocs: true,
+  },
 };
-
 function addScssSupport(config) {
   config.plugins.push(new MiniCssExtractPlugin());
-
   config.module.rules.push({
     test: /\.module.scss$/,
     use: [
@@ -41,7 +44,6 @@ function addScssSupport(config) {
       "sass-loader",
     ],
   });
-
   config.module.rules.push({
     test: /\.scss$/,
     use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],

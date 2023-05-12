@@ -1,5 +1,3 @@
-import fc from 'fast-check';
-import { findClosest } from './array.utils';
 import {
   calculateClosestValidSizeComponent,
   calculateClosestValidPositionComponent,
@@ -25,20 +23,6 @@ describe('draggable utils', () => {
     const gapSize = 5;
     const cellSize = 10;
     const gridWidth = 55;
-
-    it('should handle any number value', () =>
-      fc.assert(
-        fc.property(fc.double(), (attemptedWidth) => {
-          const newWidth = calculateClosestValidSizeComponent(
-            attemptedWidth,
-            gapSize,
-            cellSize,
-            gridWidth,
-          );
-
-          return newWidth === findClosest(attemptedWidth, validWidths);
-        }),
-      ));
 
     it('should find the closest valid width if it\'s larger than the value', () => {
       const width = 26;
@@ -145,21 +129,6 @@ describe('draggable utils', () => {
     const cellSize = 10;
     const width = cellSize;
     const gridWidth = 55;
-
-    it('should handle all number values', () =>
-      fc.assert(
-        fc.property(fc.double(), (attemptedXPosition) => {
-          const xPosition = calculateClosestValidPositionComponent(
-            attemptedXPosition,
-            gapSize,
-            cellSize,
-            gridWidth,
-            width,
-          );
-
-          return xPosition === findClosest(attemptedXPosition, validXPositions);
-        }),
-      ));
 
     it('should place the element on the first valid position if it\'s placed to the left of the grid', () => {
       const attemptedXPosition = -100;

@@ -1,4 +1,3 @@
-import { v4 as uuidV4 } from 'uuid';
 import { ArrowItemType } from '../types/ArrowItemType';
 import { ArrowType } from '../types/ArrowType';
 import { Cell } from '../types/Cell';
@@ -322,7 +321,7 @@ export const findHeightPercentage = (
 };
 
 export const createTopicMapItem = (): TopicMapItemType => {
-  const id = uuidV4();
+  const id = crypto.randomUUID();
 
   // backgroundImage is intentionally set to undefined here
   // to correctly make the image field empty on item creation
@@ -352,7 +351,7 @@ export const createArrowItem = (
   breakpoints: Array<Position>,
   relativeBreakpoints: Array<Position>,
 ): ArrowItemType => {
-  const id = uuidV4();
+  const id = crypto.randomUUID();
 
   const item: ArrowItemType = {
     id,
