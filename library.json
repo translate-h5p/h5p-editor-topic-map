@@ -5,6 +5,7 @@
   "minorVersion": 1,
   "patchVersion": 54,
   "runnable": 0,
+  "license": "MIT",
   "preloadedJs": [
     {
       "path": "dist/h5p-editor-topic-map.js"
