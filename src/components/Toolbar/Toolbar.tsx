@@ -1,17 +1,17 @@
-import type { H5PFieldImage, H5PForm } from "h5p-types";
-import * as React from "react";
-import { t } from "../../H5P/H5P.util";
-import { Params } from "../../types/Params";
-import { TranslationKey } from "../../types/TranslationKey";
-import { AppearanceDialog } from "../AppearanceDialog/AppearanceDialog";
-import { ToolbarButton } from "../ToolbarButton/ToolbarButton";
-import styles from "./Toolbar.module.scss";
+import type { H5PFieldImage, H5PForm } from 'h5p-types';
+import * as React from 'react';
+import { t } from '../../H5P/H5P.util';
+import { Params } from '../../types/Params';
+import { TranslationKey } from '../../types/TranslationKey';
+import { AppearanceDialog } from '../AppearanceDialog/AppearanceDialog';
+import { ToolbarButton } from '../ToolbarButton/ToolbarButton';
+import styles from './Toolbar.module.scss';
 
 const labelTextKeys: Record<string, TranslationKey> = {
-  mapAppearance: "toolbar-button-type_map-appearance",
-  createBox: "toolbar-button-type_create-box",
-  createArrow: "toolbar-button-type_create-arrow",
-  cannotCreateArrow: "toolbar-button-type_cannot-create-arrow",
+  mapAppearance: 'toolbar-button-type_map-appearance',
+  createBox: 'toolbar-button-type_create-box',
+  createArrow: 'toolbar-button-type_create-arrow',
+  cannotCreateArrow: 'toolbar-button-type_cannot-create-arrow',
 };
 
 /*
@@ -19,9 +19,9 @@ const labelTextKeys: Record<string, TranslationKey> = {
   specify the svg icon in icons.tsx
 */
 export enum ToolbarButtonType {
-  MapAppearance = "mapAppearance",
-  CreateBox = "createBox",
-  CreateArrow = "createArrow",
+  MapAppearance = 'mapAppearance',
+  CreateBox = 'createBox',
+  CreateArrow = 'createArrow',
 }
 
 export type ToolBarProps = {
@@ -73,7 +73,7 @@ export const Toolbar: React.FC<ToolBarProps> = ({
       <ToolbarButton
         icon={ToolbarButtonType.MapAppearance}
         label={t(labelTextKeys.mapAppearance)}
-        onClick={() => setAppearanceDialogOpen(wasOpen => !wasOpen)}
+        onClick={() => setAppearanceDialogOpen((wasOpen) => !wasOpen)}
         active={false}
         showActive={false}
         isDisabled={false}

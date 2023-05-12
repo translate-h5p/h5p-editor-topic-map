@@ -1,13 +1,13 @@
-import { v4 as uuidV4 } from "uuid";
-import { ArrowItemType } from "../types/ArrowItemType";
-import { ArrowType } from "../types/ArrowType";
-import { Cell } from "../types/Cell";
-import { Element } from "../types/Element";
-import { OccupiedCell } from "../types/OccupiedCell";
-import { Position } from "../types/Position";
-import { Size } from "../types/Size";
-import { TopicMapItemType } from "../types/TopicMapItemType";
-import { arraysHaveSomeOverlap } from "./array.utils";
+import { v4 as uuidV4 } from 'uuid';
+import { ArrowItemType } from '../types/ArrowItemType';
+import { ArrowType } from '../types/ArrowType';
+import { Cell } from '../types/Cell';
+import { Element } from '../types/Element';
+import { OccupiedCell } from '../types/OccupiedCell';
+import { Position } from '../types/Position';
+import { Size } from '../types/Size';
+import { TopicMapItemType } from '../types/TopicMapItemType';
+import { arraysHaveSomeOverlap } from './array.utils';
 
 export const resizeItem = (
   item: TopicMapItemType,
@@ -27,7 +27,7 @@ export const resizeItem = (
 export const resizeItems = (
   items: Array<TopicMapItemType>,
   scaleFactor: number,
-): Array<TopicMapItemType> => items.map(item => resizeItem(item, scaleFactor));
+): Array<TopicMapItemType> => items.map((item) => resizeItem(item, scaleFactor));
 
 export const calculateXPercentage = (xPx: number, width: number): number => {
   return (xPx / width) * 100;
@@ -120,7 +120,7 @@ export const findCellsElementOccupies = (
   const allCells = getAllCells(gridWidth, gridHeight, gapSize, cellSize);
 
   const occupiedCells = allCells
-    .filter(cell => cellIsOccupiedByElement(position, size, cell))
+    .filter((cell) => cellIsOccupiedByElement(position, size, cell))
     .map(({ x, y, index }) => ({
       occupiedById: id,
       occupiedByType: type,
@@ -190,7 +190,7 @@ export const mapTopicMapItemToElement = (
   cellSize: number,
 ): Element => ({
   id: item.id,
-  type: "item",
+  type: 'item',
   position: {
     x: calculatePosition(item.xPercentagePosition, gridSize.width),
     y: calculatePosition(item.yPercentagePosition, gridSize.height),
@@ -213,7 +213,7 @@ export const positionIsFree = (
   const cellsThisElementWillOccupy = findCellsElementOccupies(
     {
       id: elementId,
-      type: "item",
+      type: 'item',
       position: newPosition,
       size: elementSize,
     },
@@ -224,7 +224,7 @@ export const positionIsFree = (
   );
 
   const cellsOccupiedByOtherElements = occupiedCells.filter(
-    cell => cell.occupiedById !== elementId,
+    (cell) => cell.occupiedById !== elementId,
   );
 
   const posIsFree = !arraysHaveSomeOverlap(
@@ -333,8 +333,8 @@ export const createTopicMapItem = (): TopicMapItemType => {
     widthPercentage: 0,
     heightPercentage: 0,
     topicImage: undefined,
-    label: "",
-    description: "",
+    label: '',
+    description: '',
   };
 
   return item;
@@ -358,7 +358,7 @@ export const createArrowItem = (
     id,
     label,
     arrowType,
-    description: "",
+    description: '',
     startElementId: startId,
     endElementId: endId,
     startPosition,
@@ -380,7 +380,7 @@ export const findItem = (
     return null;
   }
 
-  return items.find(item => item.id === id) ?? null;
+  return items.find((item) => item.id === id) ?? null;
 };
 
 export const checkIfRightSideOfGrid = (
@@ -392,7 +392,7 @@ export const findConnectedArrows = (
   itemId: string,
   arrows: Array<ArrowItemType>,
 ): Array<ArrowItemType> => {
-  return arrows.filter(arrow =>
+  return arrows.filter((arrow) =>
     [arrow.startElementId, arrow.endElementId].includes(itemId),
   );
 };

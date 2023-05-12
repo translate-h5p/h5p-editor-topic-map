@@ -1,10 +1,10 @@
-import type { H5PField, H5PFieldGroup, H5PForm } from "h5p-types";
-import * as React from "react";
-import { Params } from "../../types/Params";
-import { getLabel } from "../../utils/arrow.utils";
-import { getTopicMapItemsField } from "../../utils/H5P/form.utils";
-import { SemanticsForm } from "../SemanticsForm/SemanticsForm";
-import "./TopicMapItemForm.scss";
+import type { H5PField, H5PFieldGroup, H5PForm } from 'h5p-types';
+import * as React from 'react';
+import { Params } from '../../types/Params';
+import { getLabel } from '../../utils/arrow.utils';
+import { getTopicMapItemsField } from '../../utils/H5P/form.utils';
+import { SemanticsForm } from '../SemanticsForm/SemanticsForm';
+import './TopicMapItemForm.scss';
 
 export type TopicMapItemFormProps = {
   semantics: H5PFieldGroup;
@@ -35,7 +35,7 @@ export const TopicMapItemForm: React.FC<TopicMapItemFormProps> = ({
 
     setFormParams({
       ...params,
-      topicMapItems: params.topicMapItems.filter(item => item.id === itemId),
+      topicMapItems: params.topicMapItems.filter((item) => item.id === itemId),
     });
   }, [itemId, params, semantics]);
 
@@ -47,12 +47,12 @@ export const TopicMapItemForm: React.FC<TopicMapItemFormProps> = ({
 
       const updatedItem = newParams.topicMapItems[0];
       const updatedItems =
-        params.topicMapItems?.map(item =>
+        params.topicMapItems?.map((item) =>
           item.id === updatedItem.id ? updatedItem : item,
         ) ?? [];
 
       const unaffectedArrows =
-        params.arrowItems?.filter(arrow => {
+        params.arrowItems?.filter((arrow) => {
           return (
             arrow.startElementId !== updatedItem.id &&
             arrow.endElementId !== updatedItem.id
@@ -61,13 +61,13 @@ export const TopicMapItemForm: React.FC<TopicMapItemFormProps> = ({
 
       const affectedArrows =
         params.arrowItems
-          ?.filter(arrow => {
+          ?.filter((arrow) => {
             return (
               arrow.startElementId === updatedItem.id ||
               arrow.endElementId === updatedItem.id
             );
           })
-          .map(arrow => {
+          .map((arrow) => {
             return {
               ...arrow,
               label: getLabel(

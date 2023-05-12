@@ -1,23 +1,23 @@
-import { H5P } from "h5p-utils";
-import * as React from "react";
-import { FC, useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { useEffectOnce } from "react-use";
-import { t } from "../../H5P/H5P.util";
-import { ArrowItemType } from "../../types/ArrowItemType";
-import { ArrowType } from "../../types/ArrowType";
-import { Element } from "../../types/Element";
-import { OccupiedCell } from "../../types/OccupiedCell";
-import { Position } from "../../types/Position";
-import { ResizeDirection } from "../../types/ResizeDirection";
-import { Size } from "../../types/Size";
-import { TopicMapItemType } from "../../types/TopicMapItemType";
+import { H5P } from 'h5p-utils';
+import * as React from 'react';
+import { FC, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useEffectOnce } from 'react-use';
+import { t } from '../../H5P/H5P.util';
+import { ArrowItemType } from '../../types/ArrowItemType';
+import { ArrowType } from '../../types/ArrowType';
+import { Element } from '../../types/Element';
+import { OccupiedCell } from '../../types/OccupiedCell';
+import { Position } from '../../types/Position';
+import { ResizeDirection } from '../../types/ResizeDirection';
+import { Size } from '../../types/Size';
+import { TopicMapItemType } from '../../types/TopicMapItemType';
 import {
   adjustArrowEndPosition,
   adjustArrowStartPosition,
   findBoxEdgePosition,
   getLabel,
   updateArrowType,
-} from "../../utils/arrow.utils";
+} from '../../utils/arrow.utils';
 import {
   calculatePosition,
   createArrowItem,
@@ -35,15 +35,15 @@ import {
   resizeItems,
   scaleItemLength,
   updateItem,
-} from "../../utils/grid.utils";
-import { Arrow } from "../Arrow/Arrow";
-import { ArrowIndicator } from "../ArrowIndicator/ArrowIndicator";
-import { ArrowIndicatorContainer } from "../ArrowIndicator/ArrowIndicatorContainer";
-import { Draggable } from "../Draggable/Draggable";
-import { GridIndicator } from "../GridIndicator/GridIndicator";
-import { ToolbarButtonType } from "../Toolbar/Toolbar";
-import { TopicMapItem } from "../TopicMapItem/TopicMapItem";
-import styles from "./Grid.module.scss";
+} from '../../utils/grid.utils';
+import { Arrow } from '../Arrow/Arrow';
+import { ArrowIndicator } from '../ArrowIndicator/ArrowIndicator';
+import { ArrowIndicatorContainer } from '../ArrowIndicator/ArrowIndicatorContainer';
+import { Draggable } from '../Draggable/Draggable';
+import { GridIndicator } from '../GridIndicator/GridIndicator';
+import { ToolbarButtonType } from '../Toolbar/Toolbar';
+import { TopicMapItem } from '../TopicMapItem/TopicMapItem';
+import styles from './Grid.module.scss';
 
 export type GridDimensions = {
   numberOfColumns: number;
@@ -102,7 +102,7 @@ export const Grid: FC<GridProps> = ({
   const [isDragging, setIsDragging] = useState(false);
   const [resizedItemId, setResizedItemId] = useState<string | null>(null);
   const [resizeDirectionLock, setResizeDirectionLock] =
-    useState<ResizeDirection>("none");
+    useState<ResizeDirection>('none');
   const [mouseOutsideGrid, setMouseOutsideGrid] = useState(false);
   const [prevIndex, setPrevIndex] = useState<number | null>(null);
   const [arrowIndicators, setArrowIndicators] = useState<Array<Position>>([]);
@@ -136,9 +136,9 @@ export const Grid: FC<GridProps> = ({
       return 0;
     }
 
-    const gridIndicator = elementRef.current.querySelector(".grid-indicator");
+    const gridIndicator = elementRef.current.querySelector('.grid-indicator');
     if (!gridIndicator) {
-      throw new Error("No grid indicators were rendered.");
+      throw new Error('No grid indicators were rendered.');
     }
 
     const { width } = gridIndicator.getBoundingClientRect();
@@ -156,7 +156,6 @@ export const Grid: FC<GridProps> = ({
 
     // The grid's size is updated by external factors,
     // but still affects the grid indicator size
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [size]);
 
   const cellSize = useMemo(getCellSize, [
@@ -168,7 +167,7 @@ export const Grid: FC<GridProps> = ({
   const updateItemSize = useCallback(
     (updatedItem: TopicMapItemType, newSize: Size) => {
       if (!size) {
-        throw new Error("Grid has no size.");
+        throw new Error('Grid has no size.');
       }
 
       const newItems = updateItem(items, updatedItem, size.width, size.height, {
@@ -180,7 +179,7 @@ export const Grid: FC<GridProps> = ({
 
       setOccupiedCells(
         findOccupiedCells(
-          items.map(item => mapTopicMapItemToElement(item, size, cellSize)),
+          items.map((item) => mapTopicMapItemToElement(item, size, cellSize)),
           size.width,
           size.height,
           gapSize,
@@ -197,8 +196,8 @@ export const Grid: FC<GridProps> = ({
       if (isCreatingArrow) {
         const gridIndicator = document
           .elementsFromPoint(pointerPosition.x, pointerPosition.y)
-          .find(element =>
-            element.classList.contains("grid-indicator"),
+          .find((element) =>
+            element.classList.contains('grid-indicator'),
           ) as HTMLElement;
         const gridPosition = {
           x: parseInt(gridIndicator.dataset.x as string, 10),
@@ -227,7 +226,7 @@ export const Grid: FC<GridProps> = ({
           );
 
           const cellsOfItem = occupiedCells.filter(
-            c => c.occupiedById === elementId,
+            (c) => c.occupiedById === elementId,
           );
           const endPosition = findBoxEdgePosition(
             arrowIndicators.slice(-1)[0],
@@ -259,7 +258,7 @@ export const Grid: FC<GridProps> = ({
             ahPreviewGridPosition as Position,
             endPosition,
             arrowIndicators.slice(1),
-            arrowIndicators.slice(1).map(breakpointPosition => {
+            arrowIndicators.slice(1).map((breakpointPosition) => {
               return gridToPercentage(
                 {
                   x: breakpointPosition.x - 0.5,
@@ -274,7 +273,8 @@ export const Grid: FC<GridProps> = ({
 
           updateArrowItems(newItems);
           setArrowItems(newItems);
-        } else {
+        }
+        else {
           setArrowStartId(null);
           setAhPreviewGridPosition(null);
           setArrowIndicators([]);
@@ -348,7 +348,7 @@ export const Grid: FC<GridProps> = ({
     setPrevIndex(null);
     setResizedItemId(null);
     setBoxStartIndex(null);
-    setResizeDirectionLock("none");
+    setResizeDirectionLock('none');
   }, []);
 
   const createBoxEnter = useCallback(
@@ -360,11 +360,11 @@ export const Grid: FC<GridProps> = ({
       }
 
       if (boxStartIndex == null) {
-        throw new Error("Box start position is not defined.");
+        throw new Error('Box start position is not defined.');
       }
 
       if (!size) {
-        throw new Error("Grid has no size.");
+        throw new Error('Grid has no size.');
       }
 
       const dragLeft = isDraggingLeft(
@@ -459,7 +459,8 @@ export const Grid: FC<GridProps> = ({
 
           updateItems(newItems);
           setItems(newItems);
-        } else {
+        }
+        else {
           updateItemSize(lastItem, newSize);
         }
       }
@@ -489,11 +490,11 @@ export const Grid: FC<GridProps> = ({
       }
 
       if (boxStartIndex == null) {
-        throw new Error("Box start position is not defined.");
+        throw new Error('Box start position is not defined.');
       }
 
       if (!size) {
-        throw new Error("Grid has no size.");
+        throw new Error('Grid has no size.');
       }
 
       const existingItem = findItem(resizedItemId, items);
@@ -508,11 +509,11 @@ export const Grid: FC<GridProps> = ({
         (prevIndex ?? indicatorIndex) % numberOfColumns;
       const dragUp = (prevIndex ?? indicatorIndex) >= indicatorIndex;
 
-      const onlyScaleVertically = resizeDirectionLock.includes("horizontal");
-      const onlyScaleHorizontally = resizeDirectionLock.includes("vertical");
+      const onlyScaleVertically = resizeDirectionLock.includes('horizontal');
+      const onlyScaleHorizontally = resizeDirectionLock.includes('vertical');
 
-      const leftHandle = resizeDirectionLock.includes("left");
-      const topHandle = resizeDirectionLock.includes("top");
+      const leftHandle = resizeDirectionLock.includes('left');
+      const topHandle = resizeDirectionLock.includes('top');
 
       // Get x and y percentage position
       const x = leftHandle
@@ -533,8 +534,8 @@ export const Grid: FC<GridProps> = ({
       // Get height percentage
       const yEnd = topHandle
         ? Math.floor(
-            (boxStartIndex + existingItem.widthPercentage) / numberOfColumns,
-          )
+          (boxStartIndex + existingItem.widthPercentage) / numberOfColumns,
+        )
         : Math.floor(indicatorIndex / numberOfColumns);
       const yEndPercentagePosition = ((yEnd + 1) / numberOfRows) * 100;
 
@@ -612,7 +613,8 @@ export const Grid: FC<GridProps> = ({
 
           updateItems(newItems);
           setItems(newItems);
-        } else {
+        }
+        else {
           updateItemSize(existingItem, newSize);
         }
       }
@@ -693,7 +695,7 @@ export const Grid: FC<GridProps> = ({
   );
 
   const gridIndicators = useMemo(() => {
-    const label = t("grid-indicator_label");
+    const label = t('grid-indicator_label');
 
     return Array(numberOfColumns * numberOfRows)
       .fill(null)
@@ -729,7 +731,7 @@ export const Grid: FC<GridProps> = ({
   const updateItemPosition = useCallback(
     (updatedItem: TopicMapItemType, newPosition: Position) => {
       if (!size) {
-        throw new Error("Grid has no size.");
+        throw new Error('Grid has no size.');
       }
       if (activeTool === ToolbarButtonType.CreateArrow) {
         return;
@@ -741,7 +743,7 @@ export const Grid: FC<GridProps> = ({
       updateItems(newItems);
       setItems(newItems);
 
-      const elements: Array<Element> = items.map(item =>
+      const elements: Array<Element> = items.map((item) =>
         mapTopicMapItemToElement(item, size, cellSize),
       );
 
@@ -779,7 +781,7 @@ export const Grid: FC<GridProps> = ({
 
   const deleteArrow = useCallback(
     (id: string) => {
-      const newArrowItems = arrowItems.filter(item => item.id !== id);
+      const newArrowItems = arrowItems.filter((item) => item.id !== id);
       updateArrowItems(newArrowItems);
       setArrowItems(newArrowItems);
     },
@@ -802,7 +804,7 @@ export const Grid: FC<GridProps> = ({
 
   const setArrowType = useCallback(
     (type: ArrowType, id: string) => {
-      const updatedItem = arrowItems.find(item => item.id === id);
+      const updatedItem = arrowItems.find((item) => item.id === id);
       if (!updatedItem) {
         throw new Error(`Updated arrow with id "${id}" does not exist`);
       }
@@ -824,7 +826,7 @@ export const Grid: FC<GridProps> = ({
       return null;
     }
 
-    return items.map(item => (
+    return items.map((item) => (
       <Draggable
         key={item.id}
         id={item.id}
@@ -836,7 +838,7 @@ export const Grid: FC<GridProps> = ({
           item.yPercentagePosition,
           size.height,
         )}
-        updatePosition={newPosition => updateItemPosition(item, newPosition)}
+        updatePosition={(newPosition) => updateItemPosition(item, newPosition)}
         initialWidth={Math.abs(
           calculatePosition(item.widthPercentage, size.width),
         )}
@@ -852,10 +854,10 @@ export const Grid: FC<GridProps> = ({
         openDeleteDialogue={openDeleteDialogue}
         setSelectedItem={setSelectedItem}
         selectedItem={selectedItem}
-        startResize={directionLock => startResize(item, directionLock)}
+        startResize={(directionLock) => startResize(item, directionLock)}
         mouseOutsideGrid={mouseOutsideGrid}
         showScaleHandles
-        onPointerDown={pointerPosition => createArrow(item.id, pointerPosition)}
+        onPointerDown={(pointerPosition) => createArrow(item.id, pointerPosition)}
         activeTool={activeTool}
       >
         <TopicMapItem item={item} />
@@ -915,13 +917,13 @@ export const Grid: FC<GridProps> = ({
   );
 
   const childrenArrows = useMemo(
-    () => arrowItems.map(item => renderArrow(item)),
+    () => arrowItems.map((item) => renderArrow(item)),
     [arrowItems, renderArrow],
   );
 
   const childrenArrowIndicators = useMemo(
     () =>
-      arrowIndicators.map(position => {
+      arrowIndicators.map((position) => {
         return (
           <ArrowIndicator
             key={`${position.x}-${position.y}`}
@@ -958,7 +960,7 @@ export const Grid: FC<GridProps> = ({
   useEffectOnce(() => {
     const windowClickListener = (event: MouseEvent | TouchEvent): void => {
       const draggableWasClicked = !!(event.target as HTMLElement).closest(
-        ".draggable, .arrow-item, .context-menu-button, .scaleHandle",
+        '.draggable, .arrow-item, .context-menu-button, .scaleHandle',
       );
 
       if (!draggableWasClicked) {
@@ -966,9 +968,9 @@ export const Grid: FC<GridProps> = ({
       }
     };
 
-    window.addEventListener("resize", resize);
-    window.addEventListener("mousedown", windowClickListener);
-    window.addEventListener("touchstart", windowClickListener);
+    window.addEventListener('resize', resize);
+    window.addEventListener('mousedown', windowClickListener);
+    window.addEventListener('touchstart', windowClickListener);
 
     // Resize once on first render
     resize();
@@ -979,7 +981,6 @@ export const Grid: FC<GridProps> = ({
 
     // The grid's number of rows/columns might be updated by external factors,
     // but still affects the cell size
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [numberOfColumns, numberOfRows]);
 
   useEffect(() => {
@@ -989,7 +990,7 @@ export const Grid: FC<GridProps> = ({
 
     setOccupiedCells(
       findOccupiedCells(
-        items.map(item => mapTopicMapItemToElement(item, size, cellSize)),
+        items.map((item) => mapTopicMapItemToElement(item, size, cellSize)),
         size.width,
         size.height,
         gapSize,
@@ -1016,17 +1017,16 @@ export const Grid: FC<GridProps> = ({
   }, [selectedItem]);
 
   return (
-    // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
     <div
       ref={elementRef}
       role="application" /* https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/Application_Role */
       className={className}
       style={{
         // @ts-expect-error Custom properties should be allowed
-        "--gap-size": `${gapSize}px`,
+        '--gap-size': `${gapSize}px`,
         gridTemplateColumns: `repeat(${numberOfColumns}, 1fr)`,
         gridTemplateRows: `repeat(${numberOfRows}, 1fr)`,
-        cursor: isDragging ? "pointer" : "auto",
+        cursor: isDragging ? 'pointer' : 'auto',
       }}
       onMouseUp={() => {
         createBoxEnd();

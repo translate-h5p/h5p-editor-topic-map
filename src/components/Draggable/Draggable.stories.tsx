@@ -1,13 +1,13 @@
-/* eslint-disable react/jsx-props-no-spreading */
-import { ComponentMeta, ComponentStory } from "@storybook/react";
-import * as React from "react";
-import { Draggable } from "./Draggable";
+/* eslint-disable no-console */
+import { ComponentMeta, ComponentStory } from '@storybook/react';
+import * as React from 'react';
+import { Draggable } from './Draggable';
 
 export default {
-  title: "Molecules/Draggable",
+  title: 'Molecules/Draggable',
   component: Draggable,
   args: {
-    updatePosition: newPos => console.info("New position", newPos),
+    updatePosition: (newPos) => console.info('New position', newPos),
     initialXPosition: 200,
     initialYPosition: 200,
     height: 100,
@@ -20,16 +20,16 @@ export default {
     },
     initialHeight: 45,
     initialWidth: 95,
-    id: "1",
+    id: '1',
     occupiedCells: [],
     backgroundImage:
-      "https://images.unsplash.com/photo-1518701005037-d53b1f67bb1c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1326&q=80",
-    editItem: (id: string) => console.info("Edit item", id),
-    deleteItem: (id: string) => console.info("Delete item", id),
+      'https://images.unsplash.com/photo-1518701005037-d53b1f67bb1c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1326&q=80',
+    editItem: (id: string) => console.info('Edit item', id),
+    deleteItem: (id: string) => console.info('Delete item', id),
   },
 } as ComponentMeta<typeof Draggable>;
 
-const Template: ComponentStory<typeof Draggable> = args => (
+const Template: ComponentStory<typeof Draggable> = (args) => (
   <Draggable {...args} />
 );
 

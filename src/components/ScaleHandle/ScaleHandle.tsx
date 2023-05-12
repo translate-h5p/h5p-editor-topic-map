@@ -1,18 +1,18 @@
-import * as React from "react";
-import { capitalize } from "../../utils/string.utils";
-import styles from "./ScaleHandle.module.scss";
+import * as React from 'react';
+import { capitalize } from '../../utils/string.utils';
+import styles from './ScaleHandle.module.scss';
 
 export type ScaleHandleProps = {
   labelText: string;
   position:
-    | "top"
-    | "bottom"
-    | "left"
-    | "right"
-    | "top-right"
-    | "bottom-right"
-    | "bottom-left"
-    | "top-left";
+    | 'top'
+    | 'bottom'
+    | 'left'
+    | 'right'
+    | 'top-right'
+    | 'bottom-right'
+    | 'bottom-left'
+    | 'top-left';
   onScaleStop: () => void;
   onScaleStart: () => void;
 };
@@ -26,7 +26,7 @@ export const ScaleHandle: React.FC<ScaleHandleProps> = ({
   const [isDragging, setIsDragging] = React.useState(false);
   const elementRef = React.useRef<HTMLDivElement>(null);
   const className =
-    styles[`scaleHandle${position.split("-").map(capitalize).join("")}`];
+    styles[`scaleHandle${position.split('-').map(capitalize).join('')}`];
 
   const startDrag = React.useCallback(
     (event: React.MouseEvent | React.TouchEvent) => {
@@ -53,12 +53,12 @@ export const ScaleHandle: React.FC<ScaleHandleProps> = ({
       cursor might not be on top of the element
       when the drag action ends.
     */
-    window.addEventListener("mouseup", stopDrag);
-    window.addEventListener("touchend", stopDrag);
+    window.addEventListener('mouseup', stopDrag);
+    window.addEventListener('touchend', stopDrag);
 
     return () => {
-      window.removeEventListener("mouseup", stopDrag);
-      window.removeEventListener("touchend", stopDrag);
+      window.removeEventListener('mouseup', stopDrag);
+      window.removeEventListener('touchend', stopDrag);
     };
   }, [stopDrag]);
 

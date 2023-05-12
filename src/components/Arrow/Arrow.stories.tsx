@@ -1,21 +1,20 @@
-/* eslint-disable react/jsx-props-no-spreading */
-import * as React from "react";
-import { ComponentStory, ComponentMeta } from "@storybook/react";
-import { Arrow } from "./Arrow";
-import { ArrowType } from "../../types/ArrowType";
-import { ArrowItemType } from "../../types/ArrowItemType";
+import * as React from 'react';
+import { ComponentStory, ComponentMeta } from '@storybook/react';
+import { Arrow } from './Arrow';
+import { ArrowType } from '../../types/ArrowType';
+import { ArrowItemType } from '../../types/ArrowItemType';
 
 export default {
-  title: "Molecules/Arrow",
+  title: 'Molecules/Arrow',
   component: Arrow,
   argTypes: {
     type: {
       options: {
         Directional: ArrowType.Directional,
-        "Bi-directional": ArrowType.BiDirectional,
-        "Non-directional": ArrowType.NonDirectional,
+        'Bi-directional': ArrowType.BiDirectional,
+        'Non-directional': ArrowType.NonDirectional,
       },
-      control: { type: "radio" },
+      control: { type: 'radio' },
     },
   },
   args: {
@@ -25,7 +24,7 @@ export default {
   },
 } as ComponentMeta<typeof Arrow>;
 
-const Template: ComponentStory<typeof Arrow> = args => <Arrow {...args} />;
+const Template: ComponentStory<typeof Arrow> = (args) => <Arrow {...args} />;
 
 export const RightDirectionalEmptyArrow = Template.bind({});
 RightDirectionalEmptyArrow.args = {

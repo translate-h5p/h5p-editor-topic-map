@@ -1,5 +1,5 @@
-import * as React from "react";
-import styles from "./ArrowParts.module.scss";
+import * as React from 'react';
+import styles from './ArrowParts.module.scss';
 
 const bodySizePercentage = 38;
 const bodyPositionPercentage = (100 - bodySizePercentage) / 2;

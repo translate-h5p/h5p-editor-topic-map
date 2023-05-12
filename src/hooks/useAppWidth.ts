@@ -1,6 +1,6 @@
-import { useContext } from "react";
-import { AppWidthContext } from "../contexts/AppWidthContext";
-import { BreakpointSize } from "../types/BreakpointSize";
+import { useContext } from 'react';
+import { AppWidthContext } from '../contexts/AppWidthContext';
+import { BreakpointSize } from '../types/BreakpointSize';
 
 const breakpointSize = {
   [BreakpointSize.Large]: 1440,

@@ -1,20 +1,20 @@
-import type { H5PForm, H5PFieldGroup } from "h5p-types";
-import { getImageUrl } from "h5p-utils";
-import * as React from "react";
-import { useState } from "react";
-import { t } from "../../H5P/H5P.util";
-import { ArrowItemType } from "../../types/ArrowItemType";
-import { Params } from "../../types/Params";
-import { TopicMapItemType } from "../../types/TopicMapItemType";
-import { updateArrowLabels } from "../../utils/arrow.utils";
-import { findConnectedArrows } from "../../utils/grid.utils";
-import { getBackgroundImageField } from "../../utils/H5P/form.utils";
-import { ArrowItemForm } from "../ArrowItemForm/ArrowItemForm";
-import { Dialog } from "../Dialog/Dialog";
-import { Grid, GridDimensions } from "../Grid/Grid";
-import { Toolbar, ToolbarButtonType } from "../Toolbar/Toolbar";
-import { TopicMapItemForm } from "../TopicMapItemForm/TopicMapItemForm";
-import styles from "./MapEditorView.module.scss";
+import type { H5PForm, H5PFieldGroup } from 'h5p-types';
+import { getImageUrl } from 'h5p-utils';
+import * as React from 'react';
+import { useState } from 'react';
+import { t } from '../../H5P/H5P.util';
+import { ArrowItemType } from '../../types/ArrowItemType';
+import { Params } from '../../types/Params';
+import { TopicMapItemType } from '../../types/TopicMapItemType';
+import { updateArrowLabels } from '../../utils/arrow.utils';
+import { findConnectedArrows } from '../../utils/grid.utils';
+import { getBackgroundImageField } from '../../utils/H5P/form.utils';
+import { ArrowItemForm } from '../ArrowItemForm/ArrowItemForm';
+import { Dialog } from '../Dialog/Dialog';
+import { Grid, GridDimensions } from '../Grid/Grid';
+import { Toolbar, ToolbarButtonType } from '../Toolbar/Toolbar';
+import { TopicMapItemForm } from '../TopicMapItemForm/TopicMapItemForm';
+import styles from './MapEditorView.module.scss';
 
 export type MapEditorViewProps = {
   gapSize?: number;
@@ -100,7 +100,7 @@ export const MapEditorView: React.FC<MapEditorViewProps> = ({
 
   const deleteArrow = React.useCallback(
     (id: string) => {
-      const newItems = arrowItems.filter(item => item.id !== id);
+      const newItems = arrowItems.filter((item) => item.id !== id);
 
       updateArrows(newItems);
       setArrowItems(newItems);
@@ -109,10 +109,10 @@ export const MapEditorView: React.FC<MapEditorViewProps> = ({
   );
 
   const deleteItem = React.useCallback(() => {
-    const newItems = gridItems.filter(item => item.id !== deletedItem);
+    const newItems = gridItems.filter((item) => item.id !== deletedItem);
 
-    const connectedArrows = findConnectedArrows(deletedItem ?? "", arrowItems);
-    connectedArrows.forEach(item => deleteArrow(item.id));
+    const connectedArrows = findConnectedArrows(deletedItem ?? '', arrowItems);
+    connectedArrows.forEach((item) => deleteArrow(item.id));
 
     updateItems(newItems);
     setGridItems(newItems);
@@ -127,13 +127,13 @@ export const MapEditorView: React.FC<MapEditorViewProps> = ({
     setSelectedItem(null);
   }, []);
 
-  const topicMapItemFormDialogTitle = t("map-editor-view_item-dialog-title");
+  const topicMapItemFormDialogTitle = t('map-editor-view_item-dialog-title');
   const backgroundImageField = React.useMemo(() => {
     const bgImgField = getBackgroundImageField(semantics);
 
     if (!bgImgField) {
       throw new Error(
-        "Background image field not found. Was it removed from semantics, or did its name change?",
+        'Background image field not found. Was it removed from semantics, or did its name change?',
       );
     }
 
@@ -157,7 +157,7 @@ export const MapEditorView: React.FC<MapEditorViewProps> = ({
       />
       <div
         className={`${styles.gridBorder} ${
-          backgroundImage ? styles.backgroundImage : ""
+          backgroundImage ? styles.backgroundImage : ''
         }`}
         style={{ backgroundImage }}
       >
@@ -183,8 +183,8 @@ export const MapEditorView: React.FC<MapEditorViewProps> = ({
         />
         <Dialog
           isOpen={showDeleteConfirmationDialog}
-          title={t("draggable_delete-confirmation")}
-          onOpenChange={isOpen => {
+          title={t('draggable_delete-confirmation')}
+          onOpenChange={(isOpen) => {
             if (!isOpen) {
               setDeletedItem(null);
               denyDeletion();
@@ -198,14 +198,14 @@ export const MapEditorView: React.FC<MapEditorViewProps> = ({
               className={styles.deleteConfirmationPositive}
               onClick={deleteItem}
             >
-              {t("draggable_delete-positive")}
+              {t('draggable_delete-positive')}
             </button>
             <button
               type="button"
               className={styles.deleteConfirmationNegative}
               onClick={denyDeletion}
             >
-              {t("draggable_delete-negative")}
+              {t('draggable_delete-negative')}
             </button>
           </div>
         </Dialog>
@@ -213,7 +213,7 @@ export const MapEditorView: React.FC<MapEditorViewProps> = ({
           isOpen={Boolean(semantics && (editedItem || editedArrow))}
           title={topicMapItemFormDialogTitle}
           size="large"
-          onOpenChange={isOpen => {
+          onOpenChange={(isOpen) => {
             if (!isOpen) {
               setEditedItem(null);
               setEditedArrow(null);
@@ -226,7 +226,7 @@ export const MapEditorView: React.FC<MapEditorViewProps> = ({
               semantics={semantics}
               params={params}
               parent={parent}
-              onSave={newParams => {
+              onSave={(newParams) => {
                 updateItems(newParams.topicMapItems ?? []);
                 updateArrows(newParams.arrowItems ?? []);
                 setEditedItem(null);
@@ -240,7 +240,7 @@ export const MapEditorView: React.FC<MapEditorViewProps> = ({
               semantics={semantics}
               params={params}
               parent={parent}
-              onSave={newParams => {
+              onSave={(newParams) => {
                 updateArrows(newParams.arrowItems ?? []);
                 setEditedArrow(null);
               }}

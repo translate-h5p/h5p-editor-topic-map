@@ -1,14 +1,14 @@
-import useResizeObserver from "@react-hook/resize-observer";
-import type { H5PFieldGroup, H5PForm } from "h5p-types";
-import * as React from "react";
-import { MapEditorView } from "./components/MapEditorView/MapEditorView";
-import { AppWidthContext } from "./contexts/AppWidthContext";
-import { Params } from "./types/Params";
+import useResizeObserver from '@react-hook/resize-observer';
+import type { H5PFieldGroup, H5PForm } from 'h5p-types';
+import * as React from 'react';
+import { MapEditorView } from './components/MapEditorView/MapEditorView';
+import { AppWidthContext } from './contexts/AppWidthContext';
+import { Params } from './types/Params';
 import {
   fillInMissingParamsProperties,
   getEmptyParams,
-} from "./utils/H5P/form.utils";
-import { defaultTheme } from "./utils/theme.utils";
+} from './utils/H5P/form.utils';
+import { defaultTheme } from './utils/theme.utils';
 
 export type AppProps = {
   setValue: (params: Params) => void;

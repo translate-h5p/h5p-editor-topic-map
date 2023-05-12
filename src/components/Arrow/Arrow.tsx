@@ -1,20 +1,20 @@
 /* eslint-disable no-nested-ternary */
-import * as React from "react";
-import { t } from "../../H5P/H5P.util";
-import { ArrowItemType } from "../../types/ArrowItemType";
-import { ArrowType } from "../../types/ArrowType";
-import { ContextMenuAction } from "../../types/ContextMenuAction";
-import { Position } from "../../types/Position";
+import * as React from 'react';
+import { t } from '../../H5P/H5P.util';
+import { ArrowItemType } from '../../types/ArrowItemType';
+import { ArrowType } from '../../types/ArrowType';
+import { ContextMenuAction } from '../../types/ContextMenuAction';
+import { Position } from '../../types/Position';
 import {
   xAdjustmentEnd,
   xAdjustmentStart,
   yAdjustmentEnd,
   yAdjustmentStart,
-} from "../../utils/arrow.utils";
-import { checkIfRightSideOfGrid } from "../../utils/grid.utils";
-import { ContextMenu, ContextMenuButtonType } from "../ContextMenu/ContextMenu";
-import { Dialog } from "../Dialog/Dialog";
-import styles from "./Arrow.module.scss";
+} from '../../utils/arrow.utils';
+import { checkIfRightSideOfGrid } from '../../utils/grid.utils';
+import { ContextMenu, ContextMenuButtonType } from '../ContextMenu/ContextMenu';
+import { Dialog } from '../Dialog/Dialog';
+import styles from './Arrow.module.scss';
 
 export type ArrowProps = {
   cellSize: number;
@@ -57,30 +57,30 @@ export const Arrow: React.FC<ArrowProps> = ({
   const contextMenuActions: Array<ContextMenuAction> = React.useMemo(() => {
     const editAction: ContextMenuAction = {
       icon: ContextMenuButtonType.Edit,
-      label: t("context-menu_edit"),
+      label: t('context-menu_edit'),
       onClick: () => editItem(item.id),
     };
     const deleteAction: ContextMenuAction = {
       icon: ContextMenuButtonType.Delete,
-      label: t("context-menu_delete"),
+      label: t('context-menu_delete'),
       onClick: () => setShowDeleteConfirmationDialog(true),
     };
 
     const changeToDirectionalArrowAction: ContextMenuAction = {
       icon: ContextMenuButtonType.ArrowDirectional,
-      label: t("context-menu_arrow-directional"),
+      label: t('context-menu_arrow-directional'),
       onClick: () => updateArrowType(ArrowType.Directional, item.id),
     };
 
     const changeToBiDirectionalArrowAction: ContextMenuAction = {
       icon: ContextMenuButtonType.ArrowBiDirectional,
-      label: t("context-menu_arrow-bi-directional"),
+      label: t('context-menu_arrow-bi-directional'),
       onClick: () => updateArrowType(ArrowType.BiDirectional, item.id),
     };
 
     const changeToNonDirectionalArrowAction: ContextMenuAction = {
       icon: ContextMenuButtonType.ArrowNonDirectional,
-      label: t("context-menu_arrow-non-directional"),
+      label: t('context-menu_arrow-non-directional'),
       onClick: () => updateArrowType(ArrowType.NonDirectional, item.id),
     };
 
@@ -134,7 +134,7 @@ export const Arrow: React.FC<ArrowProps> = ({
   };
 
   const pathDef = `M ${startPos.x} ${startPos.y} ${
-    item.breakpoints?.map(toPathElement).join(" ") ?? ""
+    item.breakpoints?.map(toPathElement).join(' ') ?? ''
   } L ${endPos.x} ${endPos.y}`;
 
   const contextMenuPosition: Position = {
@@ -182,7 +182,7 @@ export const Arrow: React.FC<ArrowProps> = ({
         <path
           className={`${
             selectedItemId === null ? styles.path : styles.pathSelected
-          } ${arrowStartId === null ? styles.selectable : ""}`}
+          } ${arrowStartId === null ? styles.selectable : ''}`}
           d={pathDef}
           fill="transparent"
           stroke="var(--theme-color-4)"
@@ -190,11 +190,11 @@ export const Arrow: React.FC<ArrowProps> = ({
           markerEnd={
             item.arrowType === ArrowType.BiDirectional ||
             item.arrowType === ArrowType.Directional
-              ? "url(#arrowhead)"
-              : ""
+              ? 'url(#arrowhead)'
+              : ''
           }
           markerStart={
-            item.arrowType === ArrowType.BiDirectional ? "url(#arrowtail)" : ""
+            item.arrowType === ArrowType.BiDirectional ? 'url(#arrowtail)' : ''
           }
           onClick={() => setSelectedItemId(item.id)}
           onDoubleClick={() => editItem(item.id)}
@@ -212,7 +212,7 @@ export const Arrow: React.FC<ArrowProps> = ({
 
       <Dialog
         isOpen={showDeleteConfirmationDialog}
-        title={t("draggable_delete-confirmation")}
+        title={t('draggable_delete-confirmation')}
         onOpenChange={setShowDeleteConfirmationDialog}
         size="medium"
       >
@@ -222,14 +222,14 @@ export const Arrow: React.FC<ArrowProps> = ({
             className={styles.deleteConfirmationPositive}
             onClick={confirmDeletion}
           >
-            {t("draggable_delete-positive")}
+            {t('draggable_delete-positive')}
           </button>
           <button
             type="button"
             className={styles.deleteConfirmationNegative}
             onClick={denyDeletion}
           >
-            {t("draggable_delete-negative")}
+            {t('draggable_delete-negative')}
           </button>
         </div>
       </Dialog>

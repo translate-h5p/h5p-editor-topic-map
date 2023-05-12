@@ -1,7 +1,7 @@
-import * as React from "react";
-import styles from "./ContextMenuButton.module.scss";
-import { Icon } from "../Icons/Icons";
-import { ContextMenuButtonType } from "../ContextMenu/ContextMenu";
+import * as React from 'react';
+import styles from './ContextMenuButton.module.scss';
+import { Icon } from '../Icons/Icons';
+import { ContextMenuButtonType } from '../ContextMenu/ContextMenu';
 
 export type ContextMenuButtonProps = {
   icon: ContextMenuButtonType;

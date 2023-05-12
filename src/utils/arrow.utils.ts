@@ -1,15 +1,15 @@
-import { GridDimensions } from "../components/Grid/Grid";
-import { ArrowItemType } from "../types/ArrowItemType";
-import { ArrowType } from "../types/ArrowType";
-import { OccupiedCell } from "../types/OccupiedCell";
-import { Position } from "../types/Position";
-import { TopicMapItemType } from "../types/TopicMapItemType";
-import { findItem, gridToPercentage } from "./grid.utils";
+import { GridDimensions } from '../components/Grid/Grid';
+import { ArrowItemType } from '../types/ArrowItemType';
+import { ArrowType } from '../types/ArrowType';
+import { OccupiedCell } from '../types/OccupiedCell';
+import { Position } from '../types/Position';
+import { TopicMapItemType } from '../types/TopicMapItemType';
+import { findItem, gridToPercentage } from './grid.utils';
 
 const arrowLabelJoins: Record<ArrowType, string> = {
-  [ArrowType.BiDirectional]: "↔",
-  [ArrowType.Directional]: "⟶",
-  [ArrowType.NonDirectional]: "―",
+  [ArrowType.BiDirectional]: '↔',
+  [ArrowType.Directional]: '⟶',
+  [ArrowType.NonDirectional]: '―',
 } as const;
 
 export const getLabel = (
@@ -22,10 +22,10 @@ export const getLabel = (
   const endItem = findItem(endItemId, items);
 
   if (!startItem) {
-    throw new Error("Start item not found");
+    throw new Error('Start item not found');
   }
   if (!endItem) {
-    throw new Error("End item not found");
+    throw new Error('End item not found');
   }
 
   return `${startItem.label} ${arrowLabelJoins[arrowType]} ${endItem.label}`;

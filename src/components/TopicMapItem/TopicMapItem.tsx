@@ -1,16 +1,16 @@
-import { getImageUrl } from "h5p-utils";
-import * as React from "react";
-import { useAppWidth } from "../../hooks/useAppWidth";
-import { BreakpointSize } from "../../types/BreakpointSize";
-import { TopicMapItemType } from "../../types/TopicMapItemType";
-import styles from "./TopicMapItem.module.scss";
+import { getImageUrl } from 'h5p-utils';
+import * as React from 'react';
+import { useAppWidth } from '../../hooks/useAppWidth';
+import { BreakpointSize } from '../../types/BreakpointSize';
+import { TopicMapItemType } from '../../types/TopicMapItemType';
+import styles from './TopicMapItem.module.scss';
 
 type TopicMapItemTypeWithoutPositions = Omit<
   TopicMapItemType,
-  | "xPercentagePosition"
-  | "yPercentagePosition"
-  | "widthPercentage"
-  | "heightPercentage"
+  | 'xPercentagePosition'
+  | 'yPercentagePosition'
+  | 'widthPercentage'
+  | 'heightPercentage'
 >;
 
 const sizeClassname = {
@@ -28,7 +28,7 @@ export const TopicMapItem: React.FC<TopicMapItemProps> = ({ item }) => {
   const AppWidth = useAppWidth();
 
   const className = React.useMemo(
-    () => [styles.topicMapItem, sizeClassname[AppWidth]].join(" "),
+    () => [styles.topicMapItem, sizeClassname[AppWidth]].join(' '),
     [AppWidth],
   );
 
@@ -38,7 +38,7 @@ export const TopicMapItem: React.FC<TopicMapItemProps> = ({ item }) => {
         <img
           className={styles.image}
           src={imageUrl}
-          alt={item.topicImageAltText ?? ""}
+          alt={item.topicImageAltText ?? ''}
           width={item.topicImage.width}
           height={item.topicImage.height}
         />
@@ -46,18 +46,16 @@ export const TopicMapItem: React.FC<TopicMapItemProps> = ({ item }) => {
 
       <div
         className={`${styles.inner} ${
-          item.topicImage?.path ? "" : styles.noImage
+          item.topicImage?.path ? '' : styles.noImage
         }`}
       >
         <div
           className={styles.label}
-          // eslint-disable-next-line react/no-danger
           dangerouslySetInnerHTML={{ __html: item.label }}
         />
         {item.description && (
           <div
             className={styles.description}
-            // eslint-disable-next-line react/no-danger
             dangerouslySetInnerHTML={{ __html: item.description }}
           />
         )}

@@ -1,5 +1,5 @@
-import type { Audio, Video } from "h5p-types";
-import { Link } from "./Link";
+import type { Audio, Video } from 'h5p-types';
+import { Link } from './Link';
 
 export type DialogContent = {
   hasNote: boolean;

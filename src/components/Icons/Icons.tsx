@@ -1,13 +1,13 @@
-import * as React from "react";
-import { MapAppearance } from "../../icons/MapAppearance";
-import { CreateBox } from "../../icons/CreateBox";
-import { CreateArrow } from "../../icons/CreateArrow";
-import { Edit } from "../../icons/Edit";
-import { Delete } from "../../icons/Delete";
-import { BiDirectionalArrow } from "../../icons/BiDirectionalArrow";
-import { SingleLine } from "../../icons/SingleLine";
-import { ToolbarButtonType } from "../Toolbar/Toolbar";
-import { ContextMenuButtonType } from "../ContextMenu/ContextMenu";
+import * as React from 'react';
+import { MapAppearance } from '../../icons/MapAppearance';
+import { CreateBox } from '../../icons/CreateBox';
+import { CreateArrow } from '../../icons/CreateArrow';
+import { Edit } from '../../icons/Edit';
+import { Delete } from '../../icons/Delete';
+import { BiDirectionalArrow } from '../../icons/BiDirectionalArrow';
+import { SingleLine } from '../../icons/SingleLine';
+import { ToolbarButtonType } from '../Toolbar/Toolbar';
+import { ContextMenuButtonType } from '../ContextMenu/ContextMenu';
 
 export type IconProps = {
   icon: ToolbarButtonType | ContextMenuButtonType;

@@ -1,4 +1,4 @@
-import { ElementType } from "./ElementType";
+import { ElementType } from './ElementType';
 
 export type OccupiedCell = {
   occupiedById: string;

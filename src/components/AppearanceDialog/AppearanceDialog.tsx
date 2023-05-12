@@ -1,13 +1,13 @@
-import type { H5PFieldImage, H5PForm } from "h5p-types";
-import * as React from "react";
-import { t } from "../../H5P/H5P.util";
-import { ColorTheme } from "../../types/ColorTheme";
-import { Params } from "../../types/Params";
-import { defaultTheme } from "../../utils/theme.utils";
-import { Dialog } from "../Dialog/Dialog";
-import { SemanticsForm } from "../SemanticsForm/SemanticsForm";
-import { ThemePicker } from "../ThemePicker/ThemePicker";
-import styles from "./AppearanceDialog.module.scss";
+import type { H5PFieldImage, H5PForm } from 'h5p-types';
+import * as React from 'react';
+import { t } from '../../H5P/H5P.util';
+import { ColorTheme } from '../../types/ColorTheme';
+import { Params } from '../../types/Params';
+import { defaultTheme } from '../../utils/theme.utils';
+import { Dialog } from '../Dialog/Dialog';
+import { SemanticsForm } from '../SemanticsForm/SemanticsForm';
+import { ThemePicker } from '../ThemePicker/ThemePicker';
+import styles from './AppearanceDialog.module.scss';
 
 export type AppearanceDialogProps = {
   isOpen: boolean;
@@ -26,7 +26,7 @@ export const AppearanceDialog: React.FC<AppearanceDialogProps> = ({
   parent,
   setIsOpen,
 }) => {
-  const dialogTitle = t("appearance-dialog_title");
+  const dialogTitle = t('appearance-dialog_title');
 
   const setTheme = (colorTheme: ColorTheme): void => {
     onSave({
@@ -55,7 +55,7 @@ export const AppearanceDialog: React.FC<AppearanceDialogProps> = ({
             fields={[backgroundImageField]}
             params={params}
             parent={parent}
-            onSave={newParams => {
+            onSave={(newParams) => {
               onSave(newParams);
               setIsOpen(false);
             }}

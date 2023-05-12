@@ -1,11 +1,11 @@
-import fc from "fast-check";
-import { clamp } from "./number.utils";
+import fc from 'fast-check';
+import { clamp } from './number.utils';
 
-describe("number utils", () => {
+describe('number utils', () => {
   describe(clamp.name, () => {
-    it("should return the value if it's larger than the minimum and smaller than the maximum", () =>
+    it('should return the value if it\'s larger than the minimum and smaller than the maximum', () =>
       fc.assert(
-        fc.property(fc.double(), value => {
+        fc.property(fc.double(), (value) => {
           const expectedValue = value;
           const actualValue = clamp(value - 1, value, value + 1);
 
@@ -13,7 +13,7 @@ describe("number utils", () => {
         }),
       ));
 
-    it("should return the minimum if the value is smaller than the minimum", () => {
+    it('should return the minimum if the value is smaller than the minimum', () => {
       const minimum = 0;
       const value = -1;
       const maximum = 2;
@@ -24,7 +24,7 @@ describe("number utils", () => {
       expect(actual).toBe(expected);
     });
 
-    it("should return the maximum if the value is larger than the maximum", () => {
+    it('should return the maximum if the value is larger than the maximum', () => {
       const minimum = 0;
       const value = 3;
       const maximum = 2;

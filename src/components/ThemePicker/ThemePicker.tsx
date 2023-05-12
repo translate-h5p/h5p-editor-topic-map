@@ -1,8 +1,8 @@
-import * as React from "react";
-import { t } from "../../H5P/H5P.util";
-import { ColorTheme } from "../../types/ColorTheme";
-import { themes } from "../../utils/theme.utils";
-import styles from "./ThemePicker.module.scss";
+import * as React from 'react';
+import { t } from '../../H5P/H5P.util';
+import { ColorTheme } from '../../types/ColorTheme';
+import { themes } from '../../utils/theme.utils';
+import styles from './ThemePicker.module.scss';
 
 export type ThemePickerProps = {
   activeTheme: ColorTheme;
@@ -18,7 +18,6 @@ export const ThemePicker: React.FC<ThemePickerProps> = ({
       Array.from({ length: 4 }).map((_, index) => (
         <span
           className={styles.colorCircle}
-          // eslint-disable-next-line react/no-array-index-key
           key={index}
           style={{ backgroundColor: `var(--theme-color-${index + 1})` }}
         />
@@ -33,7 +32,7 @@ export const ThemePicker: React.FC<ThemePickerProps> = ({
           type="button"
           key={value}
           className={`theme-${value} ${styles.button}${
-            value === activeTheme ? ` ${styles.buttonActive}` : ""
+            value === activeTheme ? ` ${styles.buttonActive}` : ''
           }`}
           onClick={() => setTheme(value)}
         >
@@ -44,7 +43,7 @@ export const ThemePicker: React.FC<ThemePickerProps> = ({
     [activeTheme, renderColorCircles, setTheme],
   );
 
-  const themePickerLabel = t("theme-picker_label");
+  const themePickerLabel = t('theme-picker_label');
 
   return (
     <>

@@ -1,7 +1,7 @@
-import * as React from "react";
-import styles from "./ToolbarButton.module.scss";
-import { Icon } from "../Icons/Icons";
-import { ToolbarButtonType } from "../Toolbar/Toolbar";
+import * as React from 'react';
+import styles from './ToolbarButton.module.scss';
+import { Icon } from '../Icons/Icons';
+import { ToolbarButtonType } from '../Toolbar/Toolbar';
 
 export type ToolbarButtonProps = {
   icon: ToolbarButtonType;

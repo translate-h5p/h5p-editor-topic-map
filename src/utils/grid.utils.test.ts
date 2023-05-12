@@ -1,10 +1,10 @@
-import fc from "fast-check";
-import { Cell } from "../types/Cell";
-import { Element } from "../types/Element";
-import { OccupiedCell } from "../types/OccupiedCell";
-import { Position } from "../types/Position";
-import { Size } from "../types/Size";
-import { TopicMapItemType } from "../types/TopicMapItemType";
+import fc from 'fast-check';
+import { Cell } from '../types/Cell';
+import { Element } from '../types/Element';
+import { OccupiedCell } from '../types/OccupiedCell';
+import { Position } from '../types/Position';
+import { Size } from '../types/Size';
+import { TopicMapItemType } from '../types/TopicMapItemType';
 import {
   calculateXPercentage,
   calculateYPercentage,
@@ -15,32 +15,32 @@ import {
   positionIsFree,
   resizeItem,
   updateItem,
-} from "./grid.utils";
+} from './grid.utils';
 
 describe(resizeItem.name, () => {
-  it("should scale the item down if the scale factor is lower than 1", () => {
+  it('should scale the item down if the scale factor is lower than 1', () => {
     const item: TopicMapItemType = {
-      id: "test",
+      id: 'test',
       xPercentagePosition: 10,
       yPercentagePosition: 10,
       widthPercentage: 20,
       heightPercentage: 20,
-      topicImage: { path: "", alt: "" },
-      label: "Label",
-      description: "",
+      topicImage: { path: '', alt: '' },
+      label: 'Label',
+      description: '',
     };
 
     const scaleFactor = 0.5;
 
     const expectedItem: TopicMapItemType = {
-      id: "test",
+      id: 'test',
       xPercentagePosition: 5,
       yPercentagePosition: 5,
       widthPercentage: 10,
       heightPercentage: 10,
-      topicImage: { path: "", alt: "" },
-      label: "Label",
-      description: "",
+      topicImage: { path: '', alt: '' },
+      label: 'Label',
+      description: '',
     };
 
     const actualItem = resizeItem(item, scaleFactor);
@@ -48,29 +48,29 @@ describe(resizeItem.name, () => {
     expect(actualItem).toEqual(expectedItem);
   });
 
-  it("should scale the item down if the scale factor is greater than 1", () => {
+  it('should scale the item down if the scale factor is greater than 1', () => {
     const item: TopicMapItemType = {
-      id: "test",
+      id: 'test',
       xPercentagePosition: 10,
       yPercentagePosition: 10,
       widthPercentage: 20,
       heightPercentage: 20,
-      topicImage: { path: "", alt: "" },
-      label: "Label",
-      description: "",
+      topicImage: { path: '', alt: '' },
+      label: 'Label',
+      description: '',
     };
 
     const scaleFactor = 2;
 
     const expectedItem: TopicMapItemType = {
-      id: "test",
+      id: 'test',
       xPercentagePosition: 20,
       yPercentagePosition: 20,
       widthPercentage: 40,
       heightPercentage: 40,
-      topicImage: { path: "", alt: "" },
-      label: "Label",
-      description: "",
+      topicImage: { path: '', alt: '' },
+      label: 'Label',
+      description: '',
     };
 
     const actualItem = resizeItem(item, scaleFactor);
@@ -78,29 +78,29 @@ describe(resizeItem.name, () => {
     expect(actualItem).toEqual(expectedItem);
   });
 
-  it("should do nothing if the scale factor is 1", () => {
+  it('should do nothing if the scale factor is 1', () => {
     const item: TopicMapItemType = {
-      id: "test",
+      id: 'test',
       xPercentagePosition: 10,
       yPercentagePosition: 10,
       widthPercentage: 20,
       heightPercentage: 20,
-      topicImage: { path: "", alt: "" },
-      label: "Label",
-      description: "",
+      topicImage: { path: '', alt: '' },
+      label: 'Label',
+      description: '',
     };
 
     const scaleFactor = 1;
 
     const expectedItem: TopicMapItemType = {
-      id: "test",
+      id: 'test',
       xPercentagePosition: 10,
       yPercentagePosition: 10,
       widthPercentage: 20,
       heightPercentage: 20,
-      topicImage: { path: "", alt: "" },
-      label: "Label",
-      description: "",
+      topicImage: { path: '', alt: '' },
+      label: 'Label',
+      description: '',
     };
 
     const actualItem = resizeItem(item, scaleFactor);
@@ -108,37 +108,37 @@ describe(resizeItem.name, () => {
     expect(actualItem).toEqual(expectedItem);
   });
 
-  it("should handle any number", () =>
+  it('should handle any number', () =>
     fc.assert(
-      fc.property(fc.double(), scaleFactor => {
+      fc.property(fc.double(), (scaleFactor) => {
         const item: TopicMapItemType = {
-          id: "test",
+          id: 'test',
           xPercentagePosition: 10,
           yPercentagePosition: 10,
           widthPercentage: 20,
           heightPercentage: 20,
-          topicImage: { path: "", alt: "" },
-          label: "Label",
+          topicImage: { path: '', alt: '' },
+          label: 'Label',
           dialog: {
             hasNote: true,
             links: [],
           },
-          description: "",
+          description: '',
         };
 
         const expectedItem: TopicMapItemType = {
-          id: "test",
+          id: 'test',
           xPercentagePosition: 10 * scaleFactor,
           yPercentagePosition: 10 * scaleFactor,
           widthPercentage: 20 * scaleFactor,
           heightPercentage: 20 * scaleFactor,
-          topicImage: { path: "", alt: "" },
-          label: "Label",
+          topicImage: { path: '', alt: '' },
+          label: 'Label',
           dialog: {
             hasNote: true,
             links: [],
           },
-          description: "",
+          description: '',
         };
 
         const actualItem = resizeItem(item, scaleFactor);
@@ -150,7 +150,7 @@ describe(resizeItem.name, () => {
 });
 
 describe(calculateXPercentage.name, () => {
-  it("should calculate the x value's percentage of the total width", () => {
+  it('should calculate the x value\'s percentage of the total width', () => {
     const xValue = 10;
     const width = 100;
 
@@ -162,7 +162,7 @@ describe(calculateXPercentage.name, () => {
 });
 
 describe(calculateYPercentage.name, () => {
-  it("should calculate the y value's percentage of the total height", () => {
+  it('should calculate the y value\'s percentage of the total height', () => {
     const xValue = 10;
     const height = 100;
 
@@ -174,29 +174,29 @@ describe(calculateYPercentage.name, () => {
 });
 
 describe(updateItem.name, () => {
-  it("should find the item in the items list and update the position and size based on the grid's width and height", () => {
+  it('should find the item in the items list and update the position and size based on the grid\'s width and height', () => {
     const item: TopicMapItemType = {
-      id: "1",
+      id: '1',
       xPercentagePosition: 25,
       yPercentagePosition: 20,
       widthPercentage: 10,
       heightPercentage: 10,
-      topicImage: { path: "", alt: "" },
-      label: "Label",
-      description: "",
+      topicImage: { path: '', alt: '' },
+      label: 'Label',
+      description: '',
     };
 
     const items: Array<TopicMapItemType> = [
       item,
       {
-        id: "2",
+        id: '2',
         xPercentagePosition: 25,
         yPercentagePosition: 60,
         widthPercentage: 65,
         heightPercentage: 32,
-        topicImage: { path: "", alt: "" },
-        label: "Label",
-        description: "",
+        topicImage: { path: '', alt: '' },
+        label: 'Label',
+        description: '',
       },
     ];
 
@@ -214,14 +214,14 @@ describe(updateItem.name, () => {
     const height = 1000;
 
     const expectedItem: TopicMapItemType = {
-      id: "1",
+      id: '1',
       xPercentagePosition: 5,
       yPercentagePosition: 10,
       widthPercentage: 20,
       heightPercentage: 20,
-      topicImage: { path: "", alt: "" },
-      label: "Label",
-      description: "",
+      topicImage: { path: '', alt: '' },
+      label: 'Label',
+      description: '',
     };
 
     const actualItems = updateItem(items, item, width, height, {
@@ -232,41 +232,41 @@ describe(updateItem.name, () => {
     expect(actualItems).toEqual<Array<TopicMapItemType>>([
       expectedItem,
       {
-        id: "2",
+        id: '2',
         xPercentagePosition: 25,
         yPercentagePosition: 60,
         widthPercentage: 65,
         heightPercentage: 32,
-        topicImage: { path: "", alt: "" },
-        label: "Label",
-        description: "",
+        topicImage: { path: '', alt: '' },
+        label: 'Label',
+        description: '',
       },
     ]);
   });
 
-  it("should update without changing the list, and without changing the item object itself", () => {
+  it('should update without changing the list, and without changing the item object itself', () => {
     const item: TopicMapItemType = {
-      id: "1",
+      id: '1',
       xPercentagePosition: 25,
       yPercentagePosition: 20,
       widthPercentage: 10,
       heightPercentage: 10,
-      topicImage: { path: "", alt: "" },
-      label: "Label",
-      description: "",
+      topicImage: { path: '', alt: '' },
+      label: 'Label',
+      description: '',
     };
 
     const items: Array<TopicMapItemType> = [
       item,
       {
-        id: "2",
+        id: '2',
         xPercentagePosition: 25,
         yPercentagePosition: 60,
         widthPercentage: 65,
         heightPercentage: 32,
-        topicImage: { path: "", alt: "" },
-        label: "Label",
-        description: "",
+        topicImage: { path: '', alt: '' },
+        label: 'Label',
+        description: '',
       },
     ];
 
@@ -286,66 +286,66 @@ describe(updateItem.name, () => {
     updateItem(items, item, width, height, { newPosition, newSize });
 
     expect(item).toEqual<TopicMapItemType>({
-      id: "1",
+      id: '1',
       xPercentagePosition: 25,
       yPercentagePosition: 20,
       widthPercentage: 10,
       heightPercentage: 10,
-      topicImage: { path: "", alt: "" },
-      label: "Label",
-      description: "",
+      topicImage: { path: '', alt: '' },
+      label: 'Label',
+      description: '',
     });
 
     expect(items[0]).toEqual<TopicMapItemType>({
-      id: "1",
+      id: '1',
       xPercentagePosition: 25,
       yPercentagePosition: 20,
       widthPercentage: 10,
       heightPercentage: 10,
-      topicImage: { path: "", alt: "" },
-      label: "Label",
-      description: "",
+      topicImage: { path: '', alt: '' },
+      label: 'Label',
+      description: '',
     });
 
     expect(items[1]).toEqual<TopicMapItemType>({
-      id: "2",
+      id: '2',
       xPercentagePosition: 25,
       yPercentagePosition: 60,
       widthPercentage: 65,
       heightPercentage: 32,
-      topicImage: { path: "", alt: "" },
-      label: "Label",
-      description: "",
+      topicImage: { path: '', alt: '' },
+      label: 'Label',
+      description: '',
     });
   });
 
-  it("should be able to update only the size", () => {
+  it('should be able to update only the size', () => {
     const item: TopicMapItemType = {
-      id: "1",
+      id: '1',
       xPercentagePosition: 25,
       yPercentagePosition: 20,
       widthPercentage: 10,
       heightPercentage: 10,
-      topicImage: { path: "", alt: "" },
-      label: "Label",
-      description: "",
+      topicImage: { path: '', alt: '' },
+      label: 'Label',
+      description: '',
     };
 
     const items: Array<TopicMapItemType> = [
       item,
       {
-        id: "2",
+        id: '2',
         xPercentagePosition: 25,
         yPercentagePosition: 60,
         widthPercentage: 65,
         heightPercentage: 32,
-        topicImage: { path: "", alt: "" },
-        label: "Label",
+        topicImage: { path: '', alt: '' },
+        label: 'Label',
         dialog: {
           hasNote: true,
           links: [],
         },
-        description: "",
+        description: '',
       },
     ];
 
@@ -358,14 +358,14 @@ describe(updateItem.name, () => {
     const height = 1000;
 
     const expectedItem: TopicMapItemType = {
-      id: "1",
+      id: '1',
       xPercentagePosition: 25,
       yPercentagePosition: 20,
       widthPercentage: 20,
       heightPercentage: 20,
-      topicImage: { path: "", alt: "" },
-      label: "Label",
-      description: "",
+      topicImage: { path: '', alt: '' },
+      label: 'Label',
+      description: '',
     };
 
     const actualItems = updateItem(items, item, width, height, {
@@ -375,49 +375,49 @@ describe(updateItem.name, () => {
     expect(actualItems).toEqual<Array<TopicMapItemType>>([
       expectedItem,
       {
-        id: "2",
+        id: '2',
         xPercentagePosition: 25,
         yPercentagePosition: 60,
         widthPercentage: 65,
         heightPercentage: 32,
-        topicImage: { path: "", alt: "" },
-        label: "Label",
+        topicImage: { path: '', alt: '' },
+        label: 'Label',
         dialog: {
           hasNote: true,
           links: [],
         },
-        description: "",
+        description: '',
       },
     ]);
   });
 
-  it("should be able to update only the position", () => {
+  it('should be able to update only the position', () => {
     const item: TopicMapItemType = {
-      id: "1",
+      id: '1',
       xPercentagePosition: 25,
       yPercentagePosition: 20,
       widthPercentage: 10,
       heightPercentage: 10,
-      topicImage: { path: "", alt: "" },
-      label: "Label",
-      description: "",
+      topicImage: { path: '', alt: '' },
+      label: 'Label',
+      description: '',
     };
 
     const items: Array<TopicMapItemType> = [
       item,
       {
-        id: "2",
+        id: '2',
         xPercentagePosition: 25,
         yPercentagePosition: 60,
         widthPercentage: 65,
         heightPercentage: 32,
-        topicImage: { path: "", alt: "" },
-        label: "Label",
+        topicImage: { path: '', alt: '' },
+        label: 'Label',
         dialog: {
           hasNote: true,
           links: [],
         },
-        description: "",
+        description: '',
       },
     ];
 
@@ -430,14 +430,14 @@ describe(updateItem.name, () => {
     const height = 1000;
 
     const expectedItem: TopicMapItemType = {
-      id: "1",
+      id: '1',
       xPercentagePosition: 5,
       yPercentagePosition: 10,
       widthPercentage: 10,
       heightPercentage: 10,
-      topicImage: { path: "", alt: "" },
-      label: "Label",
-      description: "",
+      topicImage: { path: '', alt: '' },
+      label: 'Label',
+      description: '',
     };
 
     const actualItems = updateItem(items, item, width, height, {
@@ -447,18 +447,18 @@ describe(updateItem.name, () => {
     expect(actualItems).toEqual<Array<TopicMapItemType>>([
       expectedItem,
       {
-        id: "2",
+        id: '2',
         xPercentagePosition: 25,
         yPercentagePosition: 60,
         widthPercentage: 65,
         heightPercentage: 32,
-        topicImage: { path: "", alt: "" },
-        label: "Label",
+        topicImage: { path: '', alt: '' },
+        label: 'Label',
         dialog: {
           hasNote: true,
           links: [],
         },
-        description: "",
+        description: '',
       },
     ]);
   });
@@ -480,18 +480,18 @@ describe(findCellsElementOccupies.name, () => {
   const gridWidth = 55;
   const gridHeight = 55;
 
-  it("should return an array of all the cells that the element occupies (1*1)", () => {
+  it('should return an array of all the cells that the element occupies (1*1)', () => {
     const element: Element = {
-      id: "1",
-      type: "item",
+      id: '1',
+      type: 'item',
       position: { x: 0, y: 0 },
       size: { width: 10, height: 10 },
     };
 
     const expectedCells: Array<OccupiedCell> = [
       {
-        occupiedById: "1",
-        occupiedByType: "item",
+        occupiedById: '1',
+        occupiedByType: 'item',
         x: 0,
         y: 0,
         index: 0,
@@ -509,39 +509,39 @@ describe(findCellsElementOccupies.name, () => {
     expect(actualCells).toEqual(expectedCells);
   });
 
-  it("should return an array of all the cells that the element occupies (2*2)", () => {
+  it('should return an array of all the cells that the element occupies (2*2)', () => {
     const element: Element = {
-      id: "1",
-      type: "item",
+      id: '1',
+      type: 'item',
       position: { x: 0, y: 0 },
       size: { width: 25, height: 25 },
     };
 
     const expectedCells: Array<OccupiedCell> = [
       {
-        occupiedById: "1",
-        occupiedByType: "item",
+        occupiedById: '1',
+        occupiedByType: 'item',
         x: 0,
         y: 0,
         index: 0,
       },
       {
-        occupiedById: "1",
-        occupiedByType: "item",
+        occupiedById: '1',
+        occupiedByType: 'item',
         x: 15,
         y: 0,
         index: 1,
       },
       {
-        occupiedById: "1",
-        occupiedByType: "item",
+        occupiedById: '1',
+        occupiedByType: 'item',
         x: 0,
         y: 15,
         index: 4,
       },
       {
-        occupiedById: "1",
-        occupiedByType: "item",
+        occupiedById: '1',
+        occupiedByType: 'item',
         x: 15,
         y: 15,
         index: 5,
@@ -559,25 +559,25 @@ describe(findCellsElementOccupies.name, () => {
     expect(actualCells).toEqual(expectedCells);
   });
 
-  it("should return an array of all the cells that the element occupies (2*1 translated)", () => {
+  it('should return an array of all the cells that the element occupies (2*1 translated)', () => {
     const element: Element = {
-      id: "1",
-      type: "item",
+      id: '1',
+      type: 'item',
       position: { x: 30, y: 45 },
       size: { width: 25, height: 10 },
     };
 
     const expectedCells: Array<OccupiedCell> = [
       {
-        occupiedById: "1",
-        occupiedByType: "item",
+        occupiedById: '1',
+        occupiedByType: 'item',
         x: 30,
         y: 45,
         index: 14,
       },
       {
-        occupiedById: "1",
-        occupiedByType: "item",
+        occupiedById: '1',
+        occupiedByType: 'item',
         x: 45,
         y: 45,
         index: 15,
@@ -597,7 +597,7 @@ describe(findCellsElementOccupies.name, () => {
 });
 
 describe(getAllCells.name, () => {
-  it("should return exactly as many cells as there should be", () => {
+  it('should return exactly as many cells as there should be', () => {
     /*
       The grid looks like this:
       ([ ] = cell)
@@ -649,7 +649,7 @@ describe(cellIsOccupiedByElement.name, () => {
     height: 2 * gapSize + 3 * cellSize,
   };
 
-  it("should return true if the cell is in the top left corner of the element", () => {
+  it('should return true if the cell is in the top left corner of the element', () => {
     /*
       Current cell: C
 
@@ -675,7 +675,7 @@ describe(cellIsOccupiedByElement.name, () => {
     expect(actual).toBe(expected);
   });
 
-  it("should return true if the cell is at the top edge of the element", () => {
+  it('should return true if the cell is at the top edge of the element', () => {
     /*
       Current cell: C
 
@@ -701,7 +701,7 @@ describe(cellIsOccupiedByElement.name, () => {
     expect(actual).toBe(expected);
   });
 
-  it("should return true if the cell is in the top right corner of the element", () => {
+  it('should return true if the cell is in the top right corner of the element', () => {
     /*
       Current cell: C
 
@@ -727,7 +727,7 @@ describe(cellIsOccupiedByElement.name, () => {
     expect(actual).toBe(expected);
   });
 
-  it("should return true if the cell is at the right edge of the element", () => {
+  it('should return true if the cell is at the right edge of the element', () => {
     /*
       Current cell: C
 
@@ -753,7 +753,7 @@ describe(cellIsOccupiedByElement.name, () => {
     expect(actual).toBe(expected);
   });
 
-  it("should return true if the cell is in the lower right corner of the element", () => {
+  it('should return true if the cell is in the lower right corner of the element', () => {
     /*
       Current cell: C
 
@@ -779,7 +779,7 @@ describe(cellIsOccupiedByElement.name, () => {
     expect(actual).toBe(expected);
   });
 
-  it("should return true if the cell is at the lower edge of the element", () => {
+  it('should return true if the cell is at the lower edge of the element', () => {
     /*
       Current cell: C
 
@@ -805,7 +805,7 @@ describe(cellIsOccupiedByElement.name, () => {
     expect(actual).toBe(expected);
   });
 
-  it("should return true if the cell is in the lower left corner of the element", () => {
+  it('should return true if the cell is in the lower left corner of the element', () => {
     /*
       Current cell: C
 
@@ -831,7 +831,7 @@ describe(cellIsOccupiedByElement.name, () => {
     expect(actual).toBe(expected);
   });
 
-  it("should return true if the cell is at the left edge of the element", () => {
+  it('should return true if the cell is at the left edge of the element', () => {
     /*
       Current cell: C
 
@@ -857,7 +857,7 @@ describe(cellIsOccupiedByElement.name, () => {
     expect(actual).toBe(expected);
   });
 
-  it("should return true if the cell is in the middle of the element", () => {
+  it('should return true if the cell is in the middle of the element', () => {
     /*
       Current cell: C
 
@@ -883,7 +883,7 @@ describe(cellIsOccupiedByElement.name, () => {
     expect(actual).toBe(expected);
   });
 
-  it("should return false if the cell is above the element", () => {
+  it('should return false if the cell is above the element', () => {
     /*
       Current cell: C
 
@@ -909,7 +909,7 @@ describe(cellIsOccupiedByElement.name, () => {
     expect(actual).toBe(expected);
   });
 
-  it("should return false if the cell is to the right of the element", () => {
+  it('should return false if the cell is to the right of the element', () => {
     /*
       Current cell: C
 
@@ -935,7 +935,7 @@ describe(cellIsOccupiedByElement.name, () => {
     expect(actual).toBe(expected);
   });
 
-  it("should return false if the cell is below the element", () => {
+  it('should return false if the cell is below the element', () => {
     /*
       Current cell: C
 
@@ -961,7 +961,7 @@ describe(cellIsOccupiedByElement.name, () => {
     expect(actual).toBe(expected);
   });
 
-  it("should return false if the cell is to the left of the element", () => {
+  it('should return false if the cell is to the left of the element', () => {
     /*
       Current cell: C
 
@@ -1009,52 +1009,52 @@ describe(positionIsFree.name, () => {
   const occupiedCells: Array<OccupiedCell> = [
     {
       index: 6,
-      occupiedById: "1",
-      occupiedByType: "item",
+      occupiedById: '1',
+      occupiedByType: 'item',
       x: coordinatePosToPx(2, gapSize, cellSize),
       y: coordinatePosToPx(1, gapSize, cellSize),
     },
     {
       index: 7,
-      occupiedById: "1",
-      occupiedByType: "item",
+      occupiedById: '1',
+      occupiedByType: 'item',
       x: coordinatePosToPx(3, gapSize, cellSize),
       y: coordinatePosToPx(1, gapSize, cellSize),
     },
     {
       index: 10,
-      occupiedById: "1",
-      occupiedByType: "item",
+      occupiedById: '1',
+      occupiedByType: 'item',
       x: coordinatePosToPx(2, gapSize, cellSize),
       y: coordinatePosToPx(2, gapSize, cellSize),
     },
     {
       index: 11,
-      occupiedById: "1",
-      occupiedByType: "item",
+      occupiedById: '1',
+      occupiedByType: 'item',
       x: coordinatePosToPx(3, gapSize, cellSize),
       y: coordinatePosToPx(2, gapSize, cellSize),
     },
     {
       index: 14,
-      occupiedById: "1",
-      occupiedByType: "item",
+      occupiedById: '1',
+      occupiedByType: 'item',
       x: coordinatePosToPx(2, gapSize, cellSize),
       y: coordinatePosToPx(3, gapSize, cellSize),
     },
     {
       index: 15,
-      occupiedById: "1",
-      occupiedByType: "item",
+      occupiedById: '1',
+      occupiedByType: 'item',
       x: coordinatePosToPx(3, gapSize, cellSize),
       y: coordinatePosToPx(3, gapSize, cellSize),
     },
   ];
 
   const gridSize: Size = { width: 55, height: 55 };
-  const elementId = "2";
+  const elementId = '2';
 
-  it("should return true if the element fits in the proposed location", () => {
+  it('should return true if the element fits in the proposed location', () => {
     /*
       New element: 2
 
@@ -1081,7 +1081,7 @@ describe(positionIsFree.name, () => {
     expect(actual).toBe(expected);
   });
 
-  it("should return false if the element does not fit in the proposed location", () => {
+  it('should return false if the element does not fit in the proposed location', () => {
     /*
       New element: 2
 

@@ -1,6 +1,6 @@
-import * as React from "react";
-import { Position } from "../../types/Position";
-import styles from "./ArrowIndicator.module.scss";
+import * as React from 'react';
+import { Position } from '../../types/Position';
+import styles from './ArrowIndicator.module.scss';
 
 export type ArrowIndicatorProps = {
   arrowIndicators: JSX.Element[];
@@ -26,11 +26,11 @@ export const ArrowIndicatorContainer: React.FC<ArrowIndicatorProps> = ({
   const pathDef =
     breakpoints && breakpoints.length > 0
       ? `M ${toPathElement(breakpoints[0])} ${breakpoints
-          .map(pos => `L ${toPathElement(pos)}`)
-          .join(" ")} ${
-          currentMousePosition ? `L ${toPathElement(currentMousePosition)}` : ""
-        }`
-      : "";
+        .map((pos) => `L ${toPathElement(pos)}`)
+        .join(' ')} ${
+        currentMousePosition ? `L ${toPathElement(currentMousePosition)}` : ''
+      }`
+      : '';
   return (
     <svg className={styles.arrowSvg}>
       {arrowIndicators}

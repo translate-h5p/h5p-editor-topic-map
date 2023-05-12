@@ -1,38 +1,37 @@
-/* eslint-disable react/jsx-props-no-spreading */
-import * as React from "react";
-import { ComponentStory, ComponentMeta } from "@storybook/react";
-import { ContextMenu, ContextMenuButtonType } from "./ContextMenu";
+import * as React from 'react';
+import { ComponentStory, ComponentMeta } from '@storybook/react';
+import { ContextMenu, ContextMenuButtonType } from './ContextMenu';
 
 export default {
-  title: "Molecules/ContextMenu",
+  title: 'Molecules/ContextMenu',
   component: ContextMenu,
   args: {
     show: true,
     actions: [
       {
         icon: ContextMenuButtonType.Edit,
-        label: "Edit",
+        label: 'Edit',
         // eslint-disable-next-line no-alert
-        onClick: () => alert("Edit"),
+        onClick: () => alert('Edit'),
       },
       {
         icon: ContextMenuButtonType.Delete,
-        label: "Delete",
+        label: 'Delete',
         // eslint-disable-next-line no-alert
-        onClick: () => alert("Delete"),
+        onClick: () => alert('Delete'),
       },
     ],
   },
 } as ComponentMeta<typeof ContextMenu>;
 
-const Template: ComponentStory<typeof ContextMenu> = args => (
+const Template: ComponentStory<typeof ContextMenu> = (args) => (
   <div
     style={{
-      position: "absolute",
-      left: "0px",
-      top: "0px",
-      transform: "translate(10%, 10%) translate(16px, 80px)",
-      display: "inline-flex",
+      position: 'absolute',
+      left: '0px',
+      top: '0px',
+      transform: 'translate(10%, 10%) translate(16px, 80px)',
+      display: 'inline-flex',
     }}
   >
     <ContextMenu {...args} />
@@ -47,35 +46,35 @@ ManyActions.args = {
   actions: [
     {
       icon: ContextMenuButtonType.Edit,
-      label: "Edit",
+      label: 'Edit',
       // eslint-disable-next-line no-alert
-      onClick: () => alert("Edit"),
+      onClick: () => alert('Edit'),
     },
     {
       icon: ContextMenuButtonType.ArrowDirectional,
-      label: "Directional arrow",
+      label: 'Directional arrow',
       // eslint-disable-next-line no-alert
-      onClick: () => alert("Directional arrow"),
+      onClick: () => alert('Directional arrow'),
     },
 
     {
       icon: ContextMenuButtonType.ArrowBiDirectional,
-      label: "Bi-directional arrow",
+      label: 'Bi-directional arrow',
       // eslint-disable-next-line no-alert
-      onClick: () => alert("Bi-directional arrow"),
+      onClick: () => alert('Bi-directional arrow'),
     },
 
     {
       icon: ContextMenuButtonType.ArrowNonDirectional,
-      label: "Arrow without direction",
+      label: 'Arrow without direction',
       // eslint-disable-next-line no-alert
-      onClick: () => alert("Arrow without direction"),
+      onClick: () => alert('Arrow without direction'),
     },
     {
       icon: ContextMenuButtonType.Delete,
-      label: "Delete",
+      label: 'Delete',
       // eslint-disable-next-line no-alert
-      onClick: () => alert("Delete"),
+      onClick: () => alert('Delete'),
     },
   ],
 };

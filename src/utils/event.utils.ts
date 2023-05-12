@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 export const isMouseEvent = (
   event: MouseEvent | TouchEvent | React.MouseEvent | React.TouchEvent,

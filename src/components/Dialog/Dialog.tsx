@@ -1,4 +1,4 @@
-import * as React from "react";
+import * as React from 'react';
 import {
   Root,
   Overlay,
@@ -6,12 +6,12 @@ import {
   Title,
   Description,
   Close,
-} from "@radix-ui/react-dialog";
-import { Cross2Icon } from "@radix-ui/react-icons";
-import styles from "./Dialog.module.scss";
-import { t } from "../../H5P/H5P.util";
+} from '@radix-ui/react-dialog';
+import { Cross2Icon } from '@radix-ui/react-icons';
+import styles from './Dialog.module.scss';
+import { t } from '../../H5P/H5P.util';
 
-type DialogSize = "medium" | "large";
+type DialogSize = 'medium' | 'large';
 
 export type DialogProps = {
   isOpen: boolean;
@@ -35,7 +35,7 @@ export const Dialog: React.FC<DialogProps> = ({
   children,
   size,
 }) => {
-  const closeButtonLabel = t("dialog_close");
+  const closeButtonLabel = t('dialog_close');
 
   const maxWidth = maxWidths[size];
 

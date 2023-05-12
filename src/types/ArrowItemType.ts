@@ -1,6 +1,6 @@
-import { ArrowType } from "./ArrowType";
-import { CommonItemType } from "./CommonItemType";
-import { Position } from "./Position";
+import { ArrowType } from './ArrowType';
+import { CommonItemType } from './CommonItemType';
+import { Position } from './Position';
 
 export type ArrowItemType = CommonItemType & {
   /**

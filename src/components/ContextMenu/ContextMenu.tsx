@@ -1,18 +1,18 @@
-import * as React from "react";
-import styles from "./ContextMenu.module.scss";
-import { ContextMenuButton } from "../ContextMenuButton/ContextMenuButton";
-import { ContextMenuAction } from "../../types/ContextMenuAction";
+import * as React from 'react';
+import styles from './ContextMenu.module.scss';
+import { ContextMenuButton } from '../ContextMenuButton/ContextMenuButton';
+import { ContextMenuAction } from '../../types/ContextMenuAction';
 
 /*
   Name of svg icon should be similar to this,
   specify the svg icon in icons.tsx
 */
 export enum ContextMenuButtonType {
-  Edit = "edit",
-  Delete = "delete",
-  ArrowDirectional = "directional",
-  ArrowBiDirectional = "biDirectional",
-  ArrowNonDirectional = "nonDirectional",
+  Edit = 'edit',
+  Delete = 'delete',
+  ArrowDirectional = 'directional',
+  ArrowBiDirectional = 'biDirectional',
+  ArrowNonDirectional = 'nonDirectional',
 }
 
 export type ContextMenuProps = {
@@ -42,7 +42,8 @@ export const ContextMenu: React.FC<ContextMenuProps> = ({
     if (turnLeft) {
       const horizontalOffset = gridWidth / 14;
       rightPosition = gridWidth - x - horizontalOffset;
-    } else {
+    }
+    else {
       leftPosition = Math.max(x, 0);
     }
   }

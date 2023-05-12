@@ -1,9 +1,9 @@
-import type { H5PField, H5PForm } from "h5p-types";
-import { H5PEditor } from "h5p-utils";
-import * as React from "react";
-import { t } from "../../H5P/H5P.util";
-import { Params } from "../../types/Params";
-import styles from "./SemanticsForm.module.scss";
+import type { H5PField, H5PForm } from 'h5p-types';
+import { H5PEditor } from 'h5p-utils';
+import * as React from 'react';
+import { t } from '../../H5P/H5P.util';
+import { Params } from '../../types/Params';
+import styles from './SemanticsForm.module.scss';
 
 export type SemanticsFormProps = {
   fields: Array<H5PField>;
@@ -21,7 +21,7 @@ export const SemanticsForm: React.FC<SemanticsFormProps> = ({
   onSave,
 }) => {
   const generatedFormRef = React.useRef<HTMLDivElement>(null);
-  const saveLabel = t("semantics-form_save");
+  const saveLabel = t('semantics-form_save');
   const [hasRendered, setHasRendered] = React.useState(false);
 
   React.useEffect(() => {
@@ -40,7 +40,7 @@ export const SemanticsForm: React.FC<SemanticsFormProps> = ({
   return (
     <form
       className={`${formClassName} h5peditor`}
-      onSubmit={event => event.preventDefault()}
+      onSubmit={(event) => event.preventDefault()}
     >
       <div ref={generatedFormRef} />
       <button

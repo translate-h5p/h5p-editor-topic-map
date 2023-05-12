@@ -1,26 +1,26 @@
-import * as React from "react";
-import { FC, useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { t } from "../../H5P/H5P.util";
-import { ContextMenuAction } from "../../types/ContextMenuAction";
-import { OccupiedCell } from "../../types/OccupiedCell";
-import { Position } from "../../types/Position";
-import { ResizeDirection } from "../../types/ResizeDirection";
-import { Size } from "../../types/Size";
-import { TranslationKey } from "../../types/TranslationKey";
+import * as React from 'react';
+import { FC, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { t } from '../../H5P/H5P.util';
+import { ContextMenuAction } from '../../types/ContextMenuAction';
+import { OccupiedCell } from '../../types/OccupiedCell';
+import { Position } from '../../types/Position';
+import { ResizeDirection } from '../../types/ResizeDirection';
+import { Size } from '../../types/Size';
+import { TranslationKey } from '../../types/TranslationKey';
 import {
   calculateClosestValidPositionComponent,
   calculateClosestValidSizeComponent,
   getPointerPositionFromEvent,
-} from "../../utils/draggable.utils";
-import { checkIfRightSideOfGrid, positionIsFree } from "../../utils/grid.utils";
-import { ContextMenu, ContextMenuButtonType } from "../ContextMenu/ContextMenu";
-import { ScaleHandles } from "../ScaleHandles/ScaleHandles";
-import { ToolbarButtonType } from "../Toolbar/Toolbar";
-import styles from "./Draggable.module.scss";
+} from '../../utils/draggable.utils';
+import { checkIfRightSideOfGrid, positionIsFree } from '../../utils/grid.utils';
+import { ContextMenu, ContextMenuButtonType } from '../ContextMenu/ContextMenu';
+import { ScaleHandles } from '../ScaleHandles/ScaleHandles';
+import { ToolbarButtonType } from '../Toolbar/Toolbar';
+import styles from './Draggable.module.scss';
 
 const labelTextKeys: Record<string, TranslationKey> = {
-  selected: "draggable_selected",
-  notSelected: "draggable_not-selected",
+  selected: 'draggable_selected',
+  notSelected: 'draggable_not-selected',
 };
 
 export type DraggableProps = {
@@ -76,15 +76,11 @@ export const Draggable: FC<DraggableProps> = ({
   const [pointerStartPosition, setPointerStartPosition] =
     useState<Position | null>(null);
   const [{ width, height }, setSize] = useState<Size>({
-    // prettier-ignore
     width: calculateClosestValidSizeComponent(initialWidth, gapSize, cellSize, gridSize.width),
-    // prettier-ignore
     height: calculateClosestValidSizeComponent(initialHeight, gapSize, cellSize, gridSize.height),
   });
   const [position, setPosition] = useState<Position>({
-    // prettier-ignore
     x: calculateClosestValidPositionComponent(initialXPosition, gapSize, cellSize, gridSize.width, width),
-    // prettier-ignore
     y: calculateClosestValidPositionComponent(initialYPosition, gapSize, cellSize, gridSize.height, height),
   });
   const [previousPosition, setPreviousPosition] = useState(position);
@@ -94,9 +90,7 @@ export const Draggable: FC<DraggableProps> = ({
   useEffect(
     () =>
       setSize({
-        // prettier-ignore
         width: calculateClosestValidSizeComponent(initialWidth, gapSize, cellSize, gridSize.width),
-        // prettier-ignore
         height: calculateClosestValidSizeComponent(initialHeight, gapSize, cellSize, gridSize.height),
       }),
     [
@@ -111,9 +105,7 @@ export const Draggable: FC<DraggableProps> = ({
   // Update Draggable's position whenever the container's size changes
   useEffect(() => {
     setPosition({
-      // prettier-ignore
       x: calculateClosestValidPositionComponent(initialXPosition, gapSize, cellSize, gridSize.width, width),
-      // prettier-ignore
       y: calculateClosestValidPositionComponent(initialYPosition, gapSize, cellSize, gridSize.height, height),
     });
   }, [
@@ -208,7 +200,8 @@ export const Draggable: FC<DraggableProps> = ({
         setPosition(newPosition);
         updatePosition(newPosition);
         setPreviousPosition(newPosition);
-      } else {
+      }
+      else {
         setPosition(previousPosition);
       }
     }
@@ -264,8 +257,8 @@ export const Draggable: FC<DraggableProps> = ({
     );
   }, [isSelected]);
 
-  const horizontalScaleHandleLabelText = "";
-  const verticalScaleHandleLabelText = "";
+  const horizontalScaleHandleLabelText = '';
+  const verticalScaleHandleLabelText = '';
 
   useEffect(() => {
     /* 
@@ -273,12 +266,12 @@ export const Draggable: FC<DraggableProps> = ({
       cursor might not be on top of the element
       when the drag action ends.
     */
-    window.addEventListener("mousemove", drag);
-    window.addEventListener("touchmove", drag);
+    window.addEventListener('mousemove', drag);
+    window.addEventListener('touchmove', drag);
 
     return () => {
-      window.removeEventListener("mousemove", drag);
-      window.removeEventListener("touchmove", drag);
+      window.removeEventListener('mousemove', drag);
+      window.removeEventListener('touchmove', drag);
     };
   }, [drag]);
 
@@ -290,13 +283,13 @@ export const Draggable: FC<DraggableProps> = ({
   const contextMenuActions: Array<ContextMenuAction> = useMemo(() => {
     const editAction: ContextMenuAction = {
       icon: ContextMenuButtonType.Edit,
-      label: t("context-menu_edit"),
+      label: t('context-menu_edit'),
       onClick: () => editItem(id),
     };
 
     const deleteAction: ContextMenuAction = {
       icon: ContextMenuButtonType.Delete,
-      label: t("context-menu_delete"),
+      label: t('context-menu_delete'),
       onClick: () => openDeleteDialogue(id),
     };
 
@@ -332,8 +325,8 @@ export const Draggable: FC<DraggableProps> = ({
         width: width + offset,
         height: height + offset,
         zIndex: isDragging || selectedItem === id ? 2 : undefined,
-        pointerEvents: isPreview || isResizing ? "none" : undefined,
-        transition: isPreview || isResizing ? "none" : undefined,
+        pointerEvents: isPreview || isResizing ? 'none' : undefined,
+        transition: isPreview || isResizing ? 'none' : undefined,
       }}
       aria-label={labelText}
       onMouseUp={stopDrag}

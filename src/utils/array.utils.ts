@@ -1,5 +1,5 @@
-import intersectionBy from "lodash.intersectionby";
-import { OccupiedCell } from "../types/OccupiedCell";
+import intersectionBy from 'lodash.intersectionby';
+import { OccupiedCell } from '../types/OccupiedCell';
 
 export const findClosest = (
   value: number,
@@ -7,7 +7,7 @@ export const findClosest = (
 ): number => {
   const noValuesInArray = arr.length === 0;
   if (noValuesInArray) {
-    throw new Error("No values in array");
+    throw new Error('No values in array');
   }
 
   let closestNumber: number = arr[0];
@@ -31,5 +31,5 @@ export const arraysHaveSomeOverlap = (
   arr1: Array<OccupiedCell>,
   arr2: Array<OccupiedCell>,
 ): boolean => {
-  return intersectionBy(arr1, arr2, "index").length > 0;
+  return intersectionBy(arr1, arr2, 'index').length > 0;
 };

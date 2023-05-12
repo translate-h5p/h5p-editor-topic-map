@@ -1,5 +1,5 @@
-import * as React from "react";
-import { Position } from "../../types/Position";
+import * as React from 'react';
+import { Position } from '../../types/Position';
 
 export type ArrowIndicatorProps = {
   position: Position;

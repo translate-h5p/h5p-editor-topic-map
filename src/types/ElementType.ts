@@ -1,1 +1,1 @@
-export type ElementType = "arrow" | "item";
+export type ElementType = 'arrow' | 'item';

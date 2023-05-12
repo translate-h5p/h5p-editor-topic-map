@@ -1,9 +1,9 @@
-import type { H5PField, H5PFieldGroup, H5PForm } from "h5p-types";
-import * as React from "react";
-import { Params } from "../../types/Params";
-import { getArrowItemsField } from "../../utils/H5P/form.utils";
-import { SemanticsForm } from "../SemanticsForm/SemanticsForm";
-import "./ArrowItemForm.scss";
+import type { H5PField, H5PFieldGroup, H5PForm } from 'h5p-types';
+import * as React from 'react';
+import { Params } from '../../types/Params';
+import { getArrowItemsField } from '../../utils/H5P/form.utils';
+import { SemanticsForm } from '../SemanticsForm/SemanticsForm';
+import './ArrowItemForm.scss';
 
 export type ArrowItemFormProps = {
   semantics: H5PFieldGroup;
@@ -33,7 +33,7 @@ export const ArrowItemForm: React.FC<ArrowItemFormProps> = ({
 
     setFormParams({
       ...params,
-      arrowItems: params.arrowItems.filter(item => item.id === itemId),
+      arrowItems: params.arrowItems.filter((item) => item.id === itemId),
     });
   }, [itemId, params, semantics]);
 
@@ -45,7 +45,7 @@ export const ArrowItemForm: React.FC<ArrowItemFormProps> = ({
 
       const updatedItem = newParams.arrowItems[0];
       const updatedItems =
-        params.arrowItems?.map(item =>
+        params.arrowItems?.map((item) =>
           item.id === updatedItem.id ? updatedItem : item,
         ) ?? [];
 

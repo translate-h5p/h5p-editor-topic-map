@@ -1,6 +1,6 @@
-import * as React from "react";
-import { ResizeDirection } from "../../types/ResizeDirection";
-import { ScaleHandle } from "../ScaleHandle/ScaleHandle";
+import * as React from 'react';
+import { ResizeDirection } from '../../types/ResizeDirection';
+import { ScaleHandle } from '../ScaleHandle/ScaleHandle';
 
 export type ScaleHandlesProps = {
   setIsResizing: (isResizing: boolean) => void;
@@ -23,7 +23,7 @@ export const ScaleHandles: React.FC<ScaleHandlesProps> = ({
         position="top"
         onScaleStart={() => {
           setIsResizing(true);
-          startResize("horizontal-top");
+          startResize('horizontal-top');
         }}
         onScaleStop={() => stopResize()}
         labelText={verticalScaleHandleLabelText}
@@ -33,7 +33,7 @@ export const ScaleHandles: React.FC<ScaleHandlesProps> = ({
         position="top-right"
         onScaleStart={() => {
           setIsResizing(true);
-          startResize("top");
+          startResize('top');
         }}
         onScaleStop={() => stopResize()}
         labelText={verticalScaleHandleLabelText}
@@ -42,7 +42,7 @@ export const ScaleHandles: React.FC<ScaleHandlesProps> = ({
         position="right"
         onScaleStart={() => {
           setIsResizing(true);
-          startResize("vertical");
+          startResize('vertical');
         }}
         onScaleStop={() => stopResize()}
         labelText={horizontalScaleHandleLabelText}
@@ -51,7 +51,7 @@ export const ScaleHandles: React.FC<ScaleHandlesProps> = ({
         position="bottom-right"
         onScaleStart={() => {
           setIsResizing(true);
-          startResize("none");
+          startResize('none');
         }}
         onScaleStop={() => stopResize()}
         labelText={horizontalScaleHandleLabelText}
@@ -61,7 +61,7 @@ export const ScaleHandles: React.FC<ScaleHandlesProps> = ({
         position="bottom"
         onScaleStart={() => {
           setIsResizing(true);
-          startResize("horizontal");
+          startResize('horizontal');
         }}
         onScaleStop={() => stopResize()}
         labelText={verticalScaleHandleLabelText}
@@ -71,7 +71,7 @@ export const ScaleHandles: React.FC<ScaleHandlesProps> = ({
         position="bottom-left"
         onScaleStart={() => {
           setIsResizing(true);
-          startResize("left");
+          startResize('left');
         }}
         onScaleStop={() => stopResize()}
         labelText={verticalScaleHandleLabelText}
@@ -81,7 +81,7 @@ export const ScaleHandles: React.FC<ScaleHandlesProps> = ({
         position="left"
         onScaleStart={() => {
           setIsResizing(true);
-          startResize("vertical-left");
+          startResize('vertical-left');
         }}
         onScaleStop={() => stopResize()}
         labelText={horizontalScaleHandleLabelText}
@@ -91,7 +91,7 @@ export const ScaleHandles: React.FC<ScaleHandlesProps> = ({
         position="top-left"
         onScaleStart={() => {
           setIsResizing(true);
-          startResize("top-left");
+          startResize('top-left');
         }}
         onScaleStop={() => stopResize()}
         labelText={horizontalScaleHandleLabelText}

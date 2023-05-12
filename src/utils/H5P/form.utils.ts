@@ -1,6 +1,6 @@
-import type { H5PField, H5PFieldGroup, H5PFieldImage } from "h5p-types";
-import { H5PEditor } from "h5p-utils";
-import { Params } from "../../types/Params";
+import type { H5PField, H5PFieldGroup, H5PFieldImage } from 'h5p-types';
+import { H5PEditor } from 'h5p-utils';
+import { Params } from '../../types/Params';
 
 const getSingleField = <Type extends H5PField>(
   fieldName: string,
@@ -32,15 +32,15 @@ const getSingleField = <Type extends H5PField>(
 
 export const getTopicMapItemsField = (
   semantics: H5PFieldGroup,
-): H5PField | null => getSingleField("topicMapItems", semantics);
+): H5PField | null => getSingleField('topicMapItems', semantics);
 
 export const getArrowItemsField = (semantics: H5PFieldGroup): H5PField | null =>
-  getSingleField("arrowItems", semantics);
+  getSingleField('arrowItems', semantics);
 
 export const getBackgroundImageField = (
   semantics: H5PFieldGroup,
 ): H5PFieldImage | null =>
-  getSingleField<H5PFieldImage>("gridBackgroundImage", semantics);
+  getSingleField<H5PFieldImage>('gridBackgroundImage', semantics);
 
 export const getEmptyParams = (): Params => {
   return {
