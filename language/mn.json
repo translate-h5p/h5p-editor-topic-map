@@ -15,6 +15,14 @@
     "context-menu_arrow-directional": "Нэг үзүүртэй сум",
     "context-menu_arrow-non-directional": "Нэг мөр",
     "context-menu_delete": "Устгах",
-    "context-menu_edit": "Засварлах"
+    "context-menu_edit": "Засварлах",
+    "appearance-dialog_title": "Change the topic map's appearance",
+    "global_theme-1": "Blue",
+    "global_theme-4": "Gray",
+    "theme-picker_label": "Color theme",
+    "toolbar-button-type_cannot-create-arrow": "There must be at least two boxes before an arrow can be added",
+    "toolbar-button-type_map-appearance": "Map appearance",
+    "global_theme-2": "Green",
+    "global_theme-3": "Red"
   }
 }

@@ -16,6 +16,13 @@
     "context-menu_edit": "Bewerken",
     "context-menu_arrow-non-directional": "Enkele lijn",
     "dialog_close": "Dialoog sluiten",
-    "draggable_delete-confirmation": "Weet je zeker dat je dit onderdeel wilt verwijderen?"
+    "draggable_delete-confirmation": "Weet je zeker dat je dit onderdeel wilt verwijderen?",
+    "appearance-dialog_title": "Change the topic map's appearance",
+    "global_theme-1": "Blue",
+    "global_theme-3": "Red",
+    "global_theme-2": "Green",
+    "theme-picker_label": "Color theme",
+    "toolbar-button-type_cannot-create-arrow": "There must be at least two boxes before an arrow can be added",
+    "global_theme-4": "Gray"
   }
 }

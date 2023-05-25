@@ -15,6 +15,14 @@
     "map-editor-view_item-dialog-title": "Item",
     "semantics-form_save": "Salvar",
     "toolbar-button-type_create-arrow": "Criar seta",
-    "toolbar-button-type_create-box": "Criar caixa"
+    "toolbar-button-type_create-box": "Criar caixa",
+    "appearance-dialog_title": "Change the topic map's appearance",
+    "global_theme-1": "Blue",
+    "global_theme-4": "Gray",
+    "theme-picker_label": "Color theme",
+    "toolbar-button-type_cannot-create-arrow": "There must be at least two boxes before an arrow can be added",
+    "global_theme-2": "Green",
+    "global_theme-3": "Red",
+    "toolbar-button-type_map-appearance": "Map appearance"
   }
 }

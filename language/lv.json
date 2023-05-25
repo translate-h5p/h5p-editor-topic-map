@@ -16,6 +16,13 @@
     "semantics-form_save": "Saglabāt",
     "toolbar-button-type_map-appearance": "Kartes izskats",
     "toolbar-button-type_create-box": "Izveidot rāmi",
-    "toolbar-button-type_create-arrow": "Izveidot bultu"
+    "toolbar-button-type_create-arrow": "Izveidot bultu",
+    "global_theme-3": "Red",
+    "appearance-dialog_title": "Change the topic map's appearance",
+    "global_theme-1": "Blue",
+    "global_theme-2": "Green",
+    "global_theme-4": "Gray",
+    "toolbar-button-type_cannot-create-arrow": "There must be at least two boxes before an arrow can be added",
+    "theme-picker_label": "Color theme"
   }
 }

@@ -15,6 +15,14 @@
     "map-editor-view_item-dialog-title": "Elemento",
     "semantics-form_save": "Gardar",
     "toolbar-button-type_create-arrow": "Crear frecha",
-    "toolbar-button-type_create-box": "Crear caixa"
+    "toolbar-button-type_create-box": "Crear caixa",
+    "appearance-dialog_title": "Change the topic map's appearance",
+    "global_theme-2": "Green",
+    "global_theme-3": "Red",
+    "global_theme-4": "Gray",
+    "theme-picker_label": "Color theme",
+    "toolbar-button-type_cannot-create-arrow": "There must be at least two boxes before an arrow can be added",
+    "toolbar-button-type_map-appearance": "Map appearance",
+    "global_theme-1": "Blue"
   }
 }
