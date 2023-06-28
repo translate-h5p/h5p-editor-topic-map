@@ -1,12 +1,19 @@
 .topicMapItem {
-  background-color: var(--theme-color-3);
+  background-color: var(--theme-color-2);
   border-radius: 0.5rem;
   box-shadow: 0 0 0 2px var(--theme-color-4), 0 1px 4px rgba(0, 0, 0, 0.3);
+  color: white;
   display: flex;
   flex-direction: column;
   height: 100%;
+  outline-offset: 4px;
   overflow: hidden;
   width: 100%;
+
+  &:hover {
+    background-color: var(--theme-color-3);
+    box-shadow: 0 0 0 2px var(--theme-color-5), 0 1px 4px rgba(0, 0, 0, 0.3);
+  }
 
   &.large {
     font-size: 1.125rem;
@@ -41,8 +48,8 @@
 }
 
 .inner {
-  background-color: var(--theme-color-2);
-  color: #fff;
+  background-color: inherit;
+  color: inherit;
   display: flex;
   flex-direction: column;
   justify-content: center;

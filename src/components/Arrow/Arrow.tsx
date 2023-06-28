@@ -1,5 +1,6 @@
 /* eslint-disable no-nested-ternary */
 import * as React from 'react';
+import { H5P } from 'h5p-utils';
 import { t } from '../../H5P/H5P.util';
 import { ArrowItemType } from '../../types/ArrowItemType';
 import { ArrowType } from '../../types/ArrowType';
@@ -42,6 +43,9 @@ export const Arrow: React.FC<ArrowProps> = ({
   gridWidth,
   arrowStartId,
 }) => {
+  const arrowHeadID = H5P.createUUID();
+  const arrowTailID = H5P.createUUID();
+
   const [showDeleteConfirmationDialog, setShowDeleteConfirmationDialog] =
     React.useState(false);
 
@@ -96,7 +100,7 @@ export const Arrow: React.FC<ArrowProps> = ({
   const isHorizontal =
     item.startPosition != null && item.endPosition != null
       ? Math.abs(item.startPosition.x - item.endPosition.x) >
-        Math.abs(item.startPosition.y - item.endPosition.y)
+      Math.abs(item.startPosition.y - item.endPosition.y)
       : true;
 
   let startPos = {
@@ -128,13 +132,11 @@ export const Arrow: React.FC<ArrowProps> = ({
   }
 
   const toPathElement = (position: Position): string => {
-    return `L ${(position.x - 0.5) * (cellSize + gapSize)} ${
-      (position.y - 0.5) * (cellSize + gapSize)
+    return `L ${(position.x - 0.5) * (cellSize + gapSize)} ${(position.y - 0.5) * (cellSize + gapSize)
     }`;
   };
 
-  const pathDef = `M ${startPos.x} ${startPos.y} ${
-    item.breakpoints?.map(toPathElement).join(' ') ?? ''
+  const pathDef = `M ${startPos.x} ${startPos.y} ${item.breakpoints?.map(toPathElement).join(' ') ?? ''
   } L ${endPos.x} ${endPos.y}`;
 
   const contextMenuPosition: Position = {
@@ -151,7 +153,7 @@ export const Arrow: React.FC<ArrowProps> = ({
       <svg className={styles.arrowSvg}>
         <defs>
           <marker
-            id="arrowhead"
+            id={arrowHeadID}
             markerWidth="10"
             markerHeight="10"
             refX="0.7"
@@ -161,11 +163,12 @@ export const Arrow: React.FC<ArrowProps> = ({
             <path
               d="M0,0 L0,2 L1.5,1 z"
               fill="var(--theme-color-4)"
+              className={styles.arrowPath}
               onClick={() => setSelectedItemId(item.id)}
             />
           </marker>
           <marker
-            id="arrowtail"
+            id={arrowTailID}
             markerWidth="10"
             markerHeight="10"
             refX="0.7"
@@ -175,13 +178,13 @@ export const Arrow: React.FC<ArrowProps> = ({
             <path
               d="M0,0 L0,2 L1.5,1 z"
               fill="var(--theme-color-4)"
+              className={styles.arrowPath}
               onClick={() => setSelectedItemId(item.id)}
             />
           </marker>
         </defs>
         <path
-          className={`${
-            selectedItemId === null ? styles.path : styles.pathSelected
+          className={`${selectedItemId === null ? styles.path : styles.pathSelected
           } ${arrowStartId === null ? styles.selectable : ''}`}
           d={pathDef}
           fill="transparent"
@@ -189,12 +192,12 @@ export const Arrow: React.FC<ArrowProps> = ({
           strokeWidth={cellSize * 0.66}
           markerEnd={
             item.arrowType === ArrowType.BiDirectional ||
-            item.arrowType === ArrowType.Directional
-              ? 'url(#arrowhead)'
+              item.arrowType === ArrowType.Directional
+              ? `url(#${arrowHeadID})`
               : ''
           }
           markerStart={
-            item.arrowType === ArrowType.BiDirectional ? 'url(#arrowtail)' : ''
+            item.arrowType === ArrowType.BiDirectional ? `url(#${arrowTailID})` : ''
           }
           onClick={() => setSelectedItemId(item.id)}
           onDoubleClick={() => editItem(item.id)}

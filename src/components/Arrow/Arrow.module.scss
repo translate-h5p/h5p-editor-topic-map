@@ -4,6 +4,17 @@
   height: 100%;
   width: 100%;
   pointer-events: none;
+
+  &:hover {
+    .arrowPath {
+      fill: var(--theme-color-5);
+    }
+
+    .path,
+    .pathSelected {
+      stroke: var(--theme-color-5);
+    }
+  }
 }
 
 .arrowSvg {
