@@ -1,10 +1,10 @@
-import * as React from 'react';
+import { FC } from 'react';
 
 export type MapAppearanceProps = {
   className: string;
 };
 
-export const MapAppearance: React.FC<MapAppearanceProps> = ({ className }) => {
+export const MapAppearance: FC<MapAppearanceProps> = ({ className }) => {
   return (
     <svg
       className={className}

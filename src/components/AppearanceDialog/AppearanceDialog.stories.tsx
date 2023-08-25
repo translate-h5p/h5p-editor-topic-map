@@ -1,7 +1,5 @@
 /* eslint-disable no-console */
-import * as React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-
 import { AppearanceDialog } from './AppearanceDialog';
 import { getBackgroundImageField } from '../../utils/H5P/form.utils';
 import {

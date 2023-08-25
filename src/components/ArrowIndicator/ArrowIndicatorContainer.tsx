@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { FC } from 'react';
 import { Position } from '../../types/Position';
 import styles from './ArrowIndicator.module.scss';
 
@@ -11,7 +11,7 @@ export type ArrowIndicatorProps = {
 };
 
 // TODO: Share code with h5p-topic-map instead of duplicating
-export const ArrowIndicatorContainer: React.FC<ArrowIndicatorProps> = ({
+export const ArrowIndicatorContainer: FC<ArrowIndicatorProps> = ({
   arrowIndicators,
   breakpoints,
   cellSize,

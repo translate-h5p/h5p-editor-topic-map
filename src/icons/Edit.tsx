@@ -1,10 +1,10 @@
-import * as React from 'react';
+import { FC } from 'react';
 
 export type EditProps = {
   className: string;
 };
 
-export const Edit: React.FC<EditProps> = ({ className }) => {
+export const Edit: FC<EditProps> = ({ className }) => {
   return (
     <svg
       className={className}

@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { Arrow } from './Arrow';
 import { ArrowType } from '../../types/ArrowType';

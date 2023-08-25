@@ -1,10 +1,10 @@
-import * as React from 'react';
+import { FC } from 'react';
 
 export type CreateBoxProps = {
   className: string;
 };
 
-export const CreateBox: React.FC<CreateBoxProps> = ({ className }) => {
+export const CreateBox: FC<CreateBoxProps> = ({ className }) => {
   return (
     <svg
       className={className}

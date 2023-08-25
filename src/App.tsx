@@ -1,6 +1,6 @@
 import useResizeObserver from '@react-hook/resize-observer';
 import type { H5PFieldGroup, H5PForm } from 'h5p-types';
-import * as React from 'react';
+import { FC, useCallback, useLayoutEffect, useRef, useState } from 'react';
 import { MapEditorView } from './components/MapEditorView/MapEditorView';
 import { AppWidthContext } from './contexts/AppWidthContext';
 import { Params } from './types/Params';
@@ -17,16 +17,16 @@ export type AppProps = {
   parent: H5PForm;
 };
 
-export const App: React.FC<AppProps> = ({
+export const App: FC<AppProps> = ({
   setValue,
   semantics,
   initialParams,
   parent,
 }) => {
-  const containerRef = React.useRef<HTMLDivElement>(null);
-  const [width, setWidth] = React.useState(0);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [width, setWidth] = useState(0);
 
-  React.useLayoutEffect(() => {
+  useLayoutEffect(() => {
     const initialWidth =
       containerRef.current?.getBoundingClientRect().width ?? 0;
     setWidth(initialWidth);
@@ -36,13 +36,13 @@ export const App: React.FC<AppProps> = ({
     setWidth(contentRect.width);
   });
 
-  const [params, setParams] = React.useState<Params>(
+  const [params, setParams] = useState<Params>(
     initialParams
       ? fillInMissingParamsProperties(initialParams)
       : getEmptyParams(),
   );
 
-  const updateParams = React.useCallback(
+  const updateParams = useCallback(
     (updatedParams: Partial<Params>) => {
       const newParams: Params = {
         ...params,

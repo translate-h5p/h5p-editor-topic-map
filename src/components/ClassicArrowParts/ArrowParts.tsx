@@ -1,10 +1,10 @@
-import * as React from 'react';
+import { FC } from 'react';
 import styles from './ArrowParts.module.scss';
 
 const bodySizePercentage = 38;
 const bodyPositionPercentage = (100 - bodySizePercentage) / 2;
 
-export const ArrowBody: React.FC = (): JSX.Element => {
+export const ArrowBody: FC = (): JSX.Element => {
   return (
     <svg
       className={styles.bodyHorizontal}
@@ -21,7 +21,7 @@ export const ArrowBody: React.FC = (): JSX.Element => {
   );
 };
 
-export const ArrowBodyVertical: React.FC = (): JSX.Element => {
+export const ArrowBodyVertical: FC = (): JSX.Element => {
   return (
     <svg
       className={styles.bodyVertical}
@@ -38,7 +38,7 @@ export const ArrowBodyVertical: React.FC = (): JSX.Element => {
   );
 };
 
-export const ArrowHead: React.FC = (): JSX.Element => {
+export const ArrowHead: FC = (): JSX.Element => {
   return (
     <svg
       className={styles.headHorizontal}
@@ -50,7 +50,7 @@ export const ArrowHead: React.FC = (): JSX.Element => {
   );
 };
 
-export const ArrowHeadVertical: React.FC = (): JSX.Element => {
+export const ArrowHeadVertical: FC = (): JSX.Element => {
   return (
     <svg
       className={styles.headVertical}
@@ -62,7 +62,7 @@ export const ArrowHeadVertical: React.FC = (): JSX.Element => {
   );
 };
 
-export const MirroredArrowHead: React.FC = (): JSX.Element => {
+export const MirroredArrowHead: FC = (): JSX.Element => {
   return (
     <svg
       className={`${styles.headHorizontal} ${styles.mirrorX}`}
@@ -74,7 +74,7 @@ export const MirroredArrowHead: React.FC = (): JSX.Element => {
   );
 };
 
-export const MirroredArrowHeadVertical: React.FC = (): JSX.Element => {
+export const MirroredArrowHeadVertical: FC = (): JSX.Element => {
   return (
     <svg
       className={`${styles.headVertical} ${styles.mirrorY}`}

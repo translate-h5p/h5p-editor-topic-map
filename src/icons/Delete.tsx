@@ -1,10 +1,10 @@
-import * as React from 'react';
+import { FC } from 'react';
 
 export type DeleteProps = {
   className: string;
 };
 
-export const Delete: React.FC<DeleteProps> = ({ className }) => {
+export const Delete: FC<DeleteProps> = ({ className }) => {
   return (
     <svg
       className={className}

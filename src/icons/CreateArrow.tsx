@@ -1,10 +1,10 @@
-import * as React from 'react';
+import { FC } from 'react';
 
 export type CreateArrowProps = {
   className: string;
 };
 
-export const CreateArrow: React.FC<CreateArrowProps> = ({ className }) => {
+export const CreateArrow: FC<CreateArrowProps> = ({ className }) => {
   return (
     <svg
       className={className}

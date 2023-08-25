@@ -1,8 +1,8 @@
 import type { H5PField, H5PFieldGroup, H5PForm } from 'h5p-types';
-import * as React from 'react';
+import {FC, useCallback, useEffect, useState } from 'react';
 import { Params } from '../../types/Params';
-import { getLabel } from '../../utils/arrow.utils';
 import { getTopicMapItemsField } from '../../utils/H5P/form.utils';
+import { getLabel } from '../../utils/arrow.utils';
 import { SemanticsForm } from '../SemanticsForm/SemanticsForm';
 import './TopicMapItemForm.scss';
 
@@ -14,18 +14,17 @@ export type TopicMapItemFormProps = {
   onSave: (params: Params) => void;
 };
 
-export const TopicMapItemForm: React.FC<TopicMapItemFormProps> = ({
+export const TopicMapItemForm: FC<TopicMapItemFormProps> = ({
   semantics,
   params,
   parent,
   itemId,
   onSave,
 }) => {
-  const [topicMapItemsField, setTopicMapItemsField] =
-    React.useState<H5PField | null>();
-  const [formParams, setFormParams] = React.useState<Params>();
+  const [topicMapItemsField, setTopicMapItemsField] = useState<H5PField | null>();
+  const [formParams, setFormParams] = useState<Params>();
 
-  React.useEffect(() => {
+  useEffect(() => {
     const field = getTopicMapItemsField(semantics);
     setTopicMapItemsField(field);
 
@@ -39,7 +38,7 @@ export const TopicMapItemForm: React.FC<TopicMapItemFormProps> = ({
     });
   }, [itemId, params, semantics]);
 
-  const onUpdate = React.useCallback(
+  const onUpdate = useCallback(
     (newParams: Params) => {
       if (!newParams.topicMapItems) {
         return;

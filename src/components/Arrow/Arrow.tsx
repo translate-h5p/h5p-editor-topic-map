@@ -1,6 +1,6 @@
 /* eslint-disable no-nested-ternary */
-import * as React from 'react';
 import { H5P } from 'h5p-utils';
+import { FC, useCallback, useMemo, useState } from 'react';
 import { t } from '../../H5P/H5P.util';
 import { ArrowItemType } from '../../types/ArrowItemType';
 import { ArrowType } from '../../types/ArrowType';
@@ -31,7 +31,7 @@ export type ArrowProps = {
 };
 
 // TODO: Share code with h5p-topic-map instead of duplicating
-export const Arrow: React.FC<ArrowProps> = ({
+export const Arrow: FC<ArrowProps> = ({
   item,
   cellSize,
   gapSize,
@@ -46,19 +46,18 @@ export const Arrow: React.FC<ArrowProps> = ({
   const arrowHeadID = H5P.createUUID();
   const arrowTailID = H5P.createUUID();
 
-  const [showDeleteConfirmationDialog, setShowDeleteConfirmationDialog] =
-    React.useState(false);
+  const [showDeleteConfirmationDialog, setShowDeleteConfirmationDialog] = useState(false);
 
-  const confirmDeletion = React.useCallback(() => {
+  const confirmDeletion = useCallback(() => {
     deleteItem(item.id);
     setShowDeleteConfirmationDialog(false);
   }, [deleteItem, item.id]);
 
-  const denyDeletion = React.useCallback(() => {
+  const denyDeletion = useCallback(() => {
     setShowDeleteConfirmationDialog(false);
   }, []);
 
-  const contextMenuActions: Array<ContextMenuAction> = React.useMemo(() => {
+  const contextMenuActions: Array<ContextMenuAction> = useMemo(() => {
     const editAction: ContextMenuAction = {
       icon: ContextMenuButtonType.Edit,
       label: t('context-menu_edit'),

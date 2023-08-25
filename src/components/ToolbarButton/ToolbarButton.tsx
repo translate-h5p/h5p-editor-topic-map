@@ -1,7 +1,7 @@
-import * as React from 'react';
-import styles from './ToolbarButton.module.scss';
+import { FC } from 'react';
 import { Icon } from '../Icons/Icons';
 import { ToolbarButtonType } from '../Toolbar/Toolbar';
+import styles from './ToolbarButton.module.scss';
 
 export type ToolbarButtonProps = {
   icon: ToolbarButtonType;
@@ -12,7 +12,7 @@ export type ToolbarButtonProps = {
   isDisabled: boolean;
 };
 
-export const ToolbarButton: React.FC<ToolbarButtonProps> = ({
+export const ToolbarButton: FC<ToolbarButtonProps> = ({
   icon,
   label,
   onClick,

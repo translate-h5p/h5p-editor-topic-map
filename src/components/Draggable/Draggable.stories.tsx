@@ -1,6 +1,5 @@
 /* eslint-disable no-console */
 import { ComponentMeta, ComponentStory } from '@storybook/react';
-import * as React from 'react';
 import { Draggable } from './Draggable';
 
 export default {

@@ -1,5 +1,5 @@
 import type { H5PField, H5PFieldGroup, H5PForm } from 'h5p-types';
-import * as React from 'react';
+import { FC, useCallback, useEffect, useState } from 'react';
 import { Params } from '../../types/Params';
 import { getArrowItemsField } from '../../utils/H5P/form.utils';
 import { SemanticsForm } from '../SemanticsForm/SemanticsForm';
@@ -13,17 +13,17 @@ export type ArrowItemFormProps = {
   onSave: (params: Params) => void;
 };
 
-export const ArrowItemForm: React.FC<ArrowItemFormProps> = ({
+export const ArrowItemForm: FC<ArrowItemFormProps> = ({
   semantics,
   params,
   parent,
   itemId,
   onSave,
 }) => {
-  const [arrowItemField, setArrowItemField] = React.useState<H5PField | null>();
-  const [formParams, setFormParams] = React.useState<Params>();
+  const [arrowItemField, setArrowItemField] = useState<H5PField | null>();
+  const [formParams, setFormParams] = useState<Params>();
 
-  React.useEffect(() => {
+  useEffect(() => {
     const field = getArrowItemsField(semantics);
     setArrowItemField(field);
 
@@ -37,7 +37,7 @@ export const ArrowItemForm: React.FC<ArrowItemFormProps> = ({
     });
   }, [itemId, params, semantics]);
 
-  const onUpdate = React.useCallback(
+  const onUpdate = useCallback(
     (newParams: Params) => {
       if (!newParams.arrowItems) {
         return;

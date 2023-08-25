@@ -1,5 +1,5 @@
 import type { H5PFieldImage, H5PForm } from 'h5p-types';
-import * as React from 'react';
+import { FC } from 'react';
 import { t } from '../../H5P/H5P.util';
 import { ColorTheme } from '../../types/ColorTheme';
 import { Params } from '../../types/Params';
@@ -18,7 +18,7 @@ export type AppearanceDialogProps = {
   onSave: (params: Params) => void;
 };
 
-export const AppearanceDialog: React.FC<AppearanceDialogProps> = ({
+export const AppearanceDialog: FC<AppearanceDialogProps> = ({
   backgroundImageField,
   isOpen,
   onSave,

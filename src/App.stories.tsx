@@ -1,5 +1,4 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
-import * as React from 'react';
 import { params, parent, semantics } from '../.storybook/helpers/h5p.utils';
 import { App } from './App';
 import { ArrowType } from './types/ArrowType';

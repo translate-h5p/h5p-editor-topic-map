@@ -1,6 +1,5 @@
 /* eslint-disable no-console */
 import { ComponentMeta, ComponentStory } from '@storybook/react';
-import * as React from 'react';
 import { Dialog } from './Dialog';
 
 const componentMeta: ComponentMeta<typeof Dialog> = {

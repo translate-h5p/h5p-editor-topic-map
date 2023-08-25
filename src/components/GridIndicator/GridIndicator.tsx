@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { FC, memo } from 'react';
 import { Position } from '../../types/Position';
 import styles from './GridIndicator.module.scss';
 
@@ -9,7 +9,7 @@ export type GridIndicatorProps = {
   position: Position;
 };
 
-export const GridIndicator: React.FC<GridIndicatorProps> = React.memo(
+export const GridIndicator: FC<GridIndicatorProps> = memo(
   ({ onMouseDown, onMouseEnter, label, position }) => {
     return (
       <button

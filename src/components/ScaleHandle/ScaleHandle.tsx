@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { FC, useCallback, useEffect, useRef, useState, MouseEvent, TouchEvent } from 'react';
 import { capitalize } from '../../utils/string.utils';
 import styles from './ScaleHandle.module.scss';
 
@@ -17,19 +17,19 @@ export type ScaleHandleProps = {
   onScaleStart: () => void;
 };
 
-export const ScaleHandle: React.FC<ScaleHandleProps> = ({
+export const ScaleHandle: FC<ScaleHandleProps> = ({
   labelText,
   position,
   onScaleStop,
   onScaleStart,
 }) => {
-  const [isDragging, setIsDragging] = React.useState(false);
-  const elementRef = React.useRef<HTMLDivElement>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const elementRef = useRef<HTMLDivElement>(null);
   const className =
     styles[`scaleHandle${position.split('-').map(capitalize).join('')}`];
 
-  const startDrag = React.useCallback(
-    (event: React.MouseEvent | React.TouchEvent) => {
+  const startDrag = useCallback(
+    (event: MouseEvent | TouchEvent) => {
       setIsDragging(true);
       onScaleStart();
 
@@ -38,7 +38,7 @@ export const ScaleHandle: React.FC<ScaleHandleProps> = ({
     [onScaleStart],
   );
 
-  const stopDrag = React.useCallback(() => {
+  const stopDrag = useCallback(() => {
     if (!isDragging) {
       return;
     }
@@ -47,7 +47,7 @@ export const ScaleHandle: React.FC<ScaleHandleProps> = ({
     onScaleStop();
   }, [isDragging, onScaleStop]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     /* 
       These are tied to `window`, because the
       cursor might not be on top of the element

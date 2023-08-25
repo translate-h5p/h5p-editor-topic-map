@@ -1,10 +1,10 @@
-import * as React from 'react';
+import { FC } from 'react';
 
 export type SingleLineProps = {
   className: string;
 };
 
-export const SingleLine: React.FC<SingleLineProps> = ({ className }) => {
+export const SingleLine: FC<SingleLineProps> = ({ className }) => {
   return (
     <svg
       className={className}

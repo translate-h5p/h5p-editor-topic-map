@@ -1,15 +1,15 @@
-import * as React from 'react';
 import {
-  Root,
-  Overlay,
-  Content,
-  Title,
-  Description,
   Close,
+  Content,
+  Description,
+  Overlay,
+  Root,
+  Title,
 } from '@radix-ui/react-dialog';
 import { Cross2Icon } from '@radix-ui/react-icons';
-import styles from './Dialog.module.scss';
+import { FC, ReactElement } from 'react';
 import { t } from '../../H5P/H5P.util';
+import styles from './Dialog.module.scss';
 
 type DialogSize = 'medium' | 'large';
 
@@ -19,7 +19,7 @@ export type DialogProps = {
   description?: string | undefined;
   onOpenChange: (open: boolean) => void;
   size: DialogSize;
-  children: React.ReactElement | null | Array<React.ReactElement | null>;
+  children: ReactElement | null | Array<ReactElement | null>;
 };
 
 const maxWidths: Record<DialogSize, number> = {
@@ -27,7 +27,7 @@ const maxWidths: Record<DialogSize, number> = {
   large: 750,
 };
 
-export const Dialog: React.FC<DialogProps> = ({
+export const Dialog: FC<DialogProps> = ({
   isOpen,
   title,
   description,

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { FC } from 'react';
 import { ResizeDirection } from '../../types/ResizeDirection';
 import { ScaleHandle } from '../ScaleHandle/ScaleHandle';
 
@@ -10,7 +10,7 @@ export type ScaleHandlesProps = {
   horizontalScaleHandleLabelText: string;
 };
 
-export const ScaleHandles: React.FC<ScaleHandlesProps> = ({
+export const ScaleHandles: FC<ScaleHandlesProps> = ({
   setIsResizing,
   startResize,
   stopResize,

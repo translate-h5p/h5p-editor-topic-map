@@ -1,5 +1,5 @@
 import type { H5PFieldImage, H5PForm } from 'h5p-types';
-import * as React from 'react';
+import { FC, useCallback, useState } from 'react';
 import { t } from '../../H5P/H5P.util';
 import { Params } from '../../types/Params';
 import { TranslationKey } from '../../types/TranslationKey';
@@ -34,7 +34,7 @@ export type ToolBarProps = {
   parent: H5PForm;
 };
 
-export const Toolbar: React.FC<ToolBarProps> = ({
+export const Toolbar: FC<ToolBarProps> = ({
   setActiveTool,
   activeTool,
   isArrowButtonDisabled,
@@ -43,15 +43,15 @@ export const Toolbar: React.FC<ToolBarProps> = ({
   params,
   parent,
 }) => {
-  const [activeButton, setActiveButton] = React.useState(activeTool);
-  const [appearanceDialogOpen, setAppearanceDialogOpen] = React.useState(false);
+  const [activeButton, setActiveButton] = useState(activeTool);
+  const [appearanceDialogOpen, setAppearanceDialogOpen] = useState(false);
 
   const setActive = (newValue: ToolbarButtonType): void => {
     setActiveButton(activeButton !== newValue ? newValue : null);
     setActiveTool(activeButton !== newValue ? newValue : null);
   };
 
-  const checkIfActive = React.useCallback(
+  const checkIfActive = useCallback(
     (type: ToolbarButtonType) => {
       const activeB = activeButton === type;
       const activeT = activeTool === type;

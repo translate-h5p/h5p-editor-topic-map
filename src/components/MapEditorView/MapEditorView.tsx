@@ -1,14 +1,13 @@
-import type { H5PForm, H5PFieldGroup } from 'h5p-types';
+import type { H5PFieldGroup, H5PForm } from 'h5p-types';
 import { getImageUrl } from 'h5p-utils';
-import * as React from 'react';
-import { useState } from 'react';
+import { FC, useCallback, useMemo, useRef, useState } from 'react';
 import { t } from '../../H5P/H5P.util';
 import { ArrowItemType } from '../../types/ArrowItemType';
 import { Params } from '../../types/Params';
 import { TopicMapItemType } from '../../types/TopicMapItemType';
+import { getBackgroundImageField } from '../../utils/H5P/form.utils';
 import { updateArrowLabels } from '../../utils/arrow.utils';
 import { findConnectedArrows } from '../../utils/grid.utils';
-import { getBackgroundImageField } from '../../utils/H5P/form.utils';
 import { ArrowItemForm } from '../ArrowItemForm/ArrowItemForm';
 import { Dialog } from '../Dialog/Dialog';
 import { Grid, GridDimensions } from '../Grid/Grid';
@@ -26,7 +25,7 @@ export type MapEditorViewProps = {
   setParams: (updatedParams: Partial<Params>) => void;
 };
 
-export const MapEditorView: React.FC<MapEditorViewProps> = ({
+export const MapEditorView: FC<MapEditorViewProps> = ({
   gapSize,
   numberOfColumns,
   numberOfRows,
@@ -54,7 +53,7 @@ export const MapEditorView: React.FC<MapEditorViewProps> = ({
   const [editedArrow, setEditedArrow] = useState<string | null>(null);
   const [showDeleteConfirmationDialog, setShowDeleteConfirmationDialog] =
     useState(false);
-  const updateGrid = React.useRef((newItems: TopicMapItemType[]): void =>
+  const updateGrid = useRef((newItems: TopicMapItemType[]): void =>
     updateGrid.current(newItems),
   );
 
@@ -62,14 +61,14 @@ export const MapEditorView: React.FC<MapEditorViewProps> = ({
     setActiveTool(newValue);
   };
 
-  const updateGridDimensions = React.useCallback(
+  const updateGridDimensions = useCallback(
     (newGrid: GridDimensions): void => {
       setParams({ grid: newGrid });
     },
     [setParams],
   );
 
-  const updateArrows = React.useCallback(
+  const updateArrows = useCallback(
     (items: Array<ArrowItemType>) => {
       setParams({ arrowItems: items });
       setArrowItems(items);
@@ -77,7 +76,7 @@ export const MapEditorView: React.FC<MapEditorViewProps> = ({
     [setParams],
   );
 
-  const updateItems = React.useCallback(
+  const updateItems = useCallback(
     (items: Array<TopicMapItemType>) => {
       // Update arrow labels to match mapItem labels
       if (arrowItems.length > 0) {
@@ -93,12 +92,12 @@ export const MapEditorView: React.FC<MapEditorViewProps> = ({
     [arrowItems, setParams, updateArrows],
   );
 
-  const openDeleteDialogue = React.useCallback((itemId: string) => {
+  const openDeleteDialogue = useCallback((itemId: string) => {
     setDeletedItem(itemId);
     setShowDeleteConfirmationDialog(true);
   }, []);
 
-  const deleteArrow = React.useCallback(
+  const deleteArrow = useCallback(
     (id: string) => {
       const newItems = arrowItems.filter((item) => item.id !== id);
 
@@ -108,7 +107,7 @@ export const MapEditorView: React.FC<MapEditorViewProps> = ({
     [arrowItems, updateArrows],
   );
 
-  const deleteItem = React.useCallback(() => {
+  const deleteItem = useCallback(() => {
     const newItems = gridItems.filter((item) => item.id !== deletedItem);
 
     const connectedArrows = findConnectedArrows(deletedItem ?? '', arrowItems);
@@ -122,13 +121,13 @@ export const MapEditorView: React.FC<MapEditorViewProps> = ({
     setCurrentItemsLength(newItems.length);
   }, [arrowItems, deleteArrow, deletedItem, gridItems, updateItems]);
 
-  const denyDeletion = React.useCallback(() => {
+  const denyDeletion = useCallback(() => {
     setShowDeleteConfirmationDialog(false);
     setSelectedItem(null);
   }, []);
 
   const topicMapItemFormDialogTitle = t('map-editor-view_item-dialog-title');
-  const backgroundImageField = React.useMemo(() => {
+  const backgroundImageField = useMemo(() => {
     const bgImgField = getBackgroundImageField(semantics);
 
     if (!bgImgField) {

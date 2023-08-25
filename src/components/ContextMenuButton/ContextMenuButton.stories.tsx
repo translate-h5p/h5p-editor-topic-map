@@ -1,5 +1,4 @@
 /* eslint-disable no-console */
-import * as React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { ContextMenuButtonType } from '../ContextMenu/ContextMenu';
 

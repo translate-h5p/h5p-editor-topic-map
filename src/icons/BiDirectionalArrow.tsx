@@ -1,10 +1,10 @@
-import * as React from 'react';
+import { FC } from 'react';
 
 export type BiDirectionalArrowProps = {
   className: string;
 };
 
-export const BiDirectionalArrow: React.FC<BiDirectionalArrowProps> = ({
+export const BiDirectionalArrow: FC<BiDirectionalArrowProps> = ({
   className,
 }) => {
   return (

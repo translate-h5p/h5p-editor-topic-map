@@ -1,5 +1,4 @@
 import { H5P } from 'h5p-utils';
-import * as React from 'react';
 import { FC, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useEffectOnce } from 'react-use';
 import { t } from '../../H5P/H5P.util';
@@ -199,10 +198,11 @@ export const Grid: FC<GridProps> = ({
           .find((element) =>
             element.classList.contains('grid-indicator'),
           ) as HTMLElement;
-        const gridPosition = {
+          
+        const gridPosition: Position = {
           x: parseInt(gridIndicator.dataset.x as string, 10),
           y: parseInt(gridIndicator.dataset.y as string, 10),
-        } as Position;
+        };
 
         const hasStartElementId = !!arrowStartId;
         if (!hasStartElementId) {

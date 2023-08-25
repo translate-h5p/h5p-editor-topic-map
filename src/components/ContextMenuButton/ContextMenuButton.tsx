@@ -1,15 +1,15 @@
-import * as React from 'react';
 import styles from './ContextMenuButton.module.scss';
 import { Icon } from '../Icons/Icons';
 import { ContextMenuButtonType } from '../ContextMenu/ContextMenu';
+import { FC, MouseEventHandler } from 'react';
 
 export type ContextMenuButtonProps = {
   icon: ContextMenuButtonType;
   label: string;
-  onClick: React.MouseEventHandler;
+  onClick: MouseEventHandler;
 };
 
-export const ContextMenuButton: React.FC<ContextMenuButtonProps> = ({
+export const ContextMenuButton: FC<ContextMenuButtonProps> = ({
   icon,
   label,
   onClick,

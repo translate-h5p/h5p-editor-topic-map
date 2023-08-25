@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { FC } from 'react';
 import { Position } from '../../types/Position';
 
 export type ArrowIndicatorProps = {
@@ -7,7 +7,7 @@ export type ArrowIndicatorProps = {
   gapSize: number;
 };
 
-export const ArrowIndicator: React.FC<ArrowIndicatorProps> = ({
+export const ArrowIndicator: FC<ArrowIndicatorProps> = ({
   position,
   cellSize,
   gapSize,

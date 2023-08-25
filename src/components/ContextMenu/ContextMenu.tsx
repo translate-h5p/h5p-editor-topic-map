@@ -1,7 +1,7 @@
-import * as React from 'react';
-import styles from './ContextMenu.module.scss';
-import { ContextMenuButton } from '../ContextMenuButton/ContextMenuButton';
+import { FC } from 'react';
 import { ContextMenuAction } from '../../types/ContextMenuAction';
+import { ContextMenuButton } from '../ContextMenuButton/ContextMenuButton';
+import styles from './ContextMenu.module.scss';
 
 /*
   Name of svg icon should be similar to this,
@@ -24,7 +24,7 @@ export type ContextMenuProps = {
   gridWidth?: number;
 };
 
-export const ContextMenu: React.FC<ContextMenuProps> = ({
+export const ContextMenu: FC<ContextMenuProps> = ({
   show,
   turnLeft,
   actions,

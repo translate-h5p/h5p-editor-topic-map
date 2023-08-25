@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { FC, useCallback, useMemo } from 'react';
 import { t } from '../../H5P/H5P.util';
 import { ColorTheme } from '../../types/ColorTheme';
 import { themes } from '../../utils/theme.utils';
@@ -9,11 +9,11 @@ export type ThemePickerProps = {
   setTheme: (theme: ColorTheme) => void;
 };
 
-export const ThemePicker: React.FC<ThemePickerProps> = ({
+export const ThemePicker: FC<ThemePickerProps> = ({
   setTheme,
   activeTheme,
 }) => {
-  const renderColorCircles = React.useCallback(
+  const renderColorCircles = useCallback(
     () =>
       Array.from({ length: 4 }).map((_, index) => (
         <span
@@ -25,7 +25,7 @@ export const ThemePicker: React.FC<ThemePickerProps> = ({
     [],
   );
 
-  const colorThemes = React.useMemo(
+  const colorThemes = useMemo(
     () =>
       themes.map(({ labelKey, value }) => (
         <button
