@@ -5,7 +5,7 @@ describe('number utils', () => {
   describe(clamp.name, () => {
     it('should return the value if it\'s larger than the minimum and smaller than the maximum', () =>
       fc.assert(
-        fc.property(fc.double(), (value) => {
+        fc.property(fc.double({ noNaN: true }), (value) => {
           const expectedValue = value;
           const actualValue = clamp(value - 1, value, value + 1);
 
