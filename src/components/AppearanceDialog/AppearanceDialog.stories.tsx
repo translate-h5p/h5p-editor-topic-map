@@ -1,12 +1,8 @@
 /* eslint-disable no-console */
-import { ComponentStory, ComponentMeta } from '@storybook/react';
-import { AppearanceDialog } from './AppearanceDialog';
+import { Meta } from '@storybook/react';
+import { params, parent, semantics } from '../../../.storybook/helpers/h5p.utils';
 import { getBackgroundImageField } from '../../utils/H5P/form.utils';
-import {
-  params,
-  parent,
-  semantics,
-} from '../../../.storybook/helpers/h5p.utils';
+import { AppearanceDialog } from './AppearanceDialog';
 
 export default {
   title: 'Organisms/Appearance dialog',
@@ -14,16 +10,13 @@ export default {
   args: {
     isOpen: true,
     setIsOpen: (isOpen) => console.info({ isOpen }),
-    backgroundImageField: getBackgroundImageField(semantics),
+    backgroundImageField: getBackgroundImageField(semantics)!,
     onSave: (newParams) => console.info({ params: newParams }),
     parent,
     params,
   },
-} as ComponentMeta<typeof AppearanceDialog>;
+} satisfies Meta<typeof AppearanceDialog>;
 
-const Template: ComponentStory<typeof AppearanceDialog> = (args) => (
-  <AppearanceDialog {...args} />
-);
-
-export const Primary = Template.bind({});
-Primary.args = {};
+export const Primary = {
+  args: {},
+};

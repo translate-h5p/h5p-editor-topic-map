@@ -1,7 +1,6 @@
-import { ComponentStory, ComponentMeta } from '@storybook/react';
-
-import { ThemePicker } from './ThemePicker';
+import { Meta } from '@storybook/react';
 import { ColorTheme } from '../../types/ColorTheme';
+import { ThemePicker } from './ThemePicker';
 
 export default {
   title: 'Atoms/ThemePicker',
@@ -10,17 +9,12 @@ export default {
     setTheme: (theme: ColorTheme) =>
       // eslint-disable-next-line no-console
       console.info(
-        `Set theme to ${
-          Object.entries(ColorTheme).find(([, value]) => theme === value)?.[0]
-        }`,
+        `Set theme to ${Object.entries(ColorTheme).find(([, value]) => theme === value)?.[0]}`
       ),
     activeTheme: ColorTheme.Red,
   },
-} as ComponentMeta<typeof ThemePicker>;
+} satisfies Meta<typeof ThemePicker>;
 
-const Template: ComponentStory<typeof ThemePicker> = (args) => (
-  <ThemePicker {...args} />
-);
-
-export const Primary = Template.bind({});
-Primary.args = {};
+export const Primary = {
+  args: {},
+};

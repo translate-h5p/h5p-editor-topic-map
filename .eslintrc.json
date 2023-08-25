@@ -1,4 +1,7 @@
 {
-  "extends": ["eslint-config-ndla-h5p"],
+  "extends": [
+    "eslint-config-ndla-h5p",
+    "plugin:storybook/recommended"
+  ],
   "parser": "@typescript-eslint/parser"
 }

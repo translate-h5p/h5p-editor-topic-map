@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { ComponentStory, ComponentMeta } from '@storybook/react';
+import { Meta } from '@storybook/react';
 import { ContextMenuButtonType } from '../ContextMenu/ContextMenu';
 
 import { ContextMenuButton } from './ContextMenuButton';
@@ -12,11 +12,8 @@ export default {
     onClick: () => console.info('Toolbar button clicked'),
     label: 'Delete',
   },
-} as ComponentMeta<typeof ContextMenuButton>;
+} satisfies Meta<typeof ContextMenuButton>;
 
-const Template: ComponentStory<typeof ContextMenuButton> = (args) => (
-  <ContextMenuButton {...args} />
-);
-
-export const Primary = Template.bind({});
-Primary.args = {};
+export const Primary = {
+  args: {},
+};

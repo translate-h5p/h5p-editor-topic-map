@@ -1,13 +1,13 @@
-import { ComponentStory, ComponentMeta } from '@storybook/react';
-import { Arrow } from './Arrow';
-import { ArrowType } from '../../types/ArrowType';
+import { Meta } from '@storybook/react';
 import { ArrowItemType } from '../../types/ArrowItemType';
+import { ArrowType } from '../../types/ArrowType';
+import { Arrow } from './Arrow';
 
 export default {
   title: 'Molecules/Arrow',
   component: Arrow,
   argTypes: {
-    type: {
+    updateArrowType: {
       options: {
         Directional: ArrowType.Directional,
         'Bi-directional': ArrowType.BiDirectional,
@@ -21,46 +21,49 @@ export default {
     gapSize: 15,
     gridWidth: 1000,
   },
-} as ComponentMeta<typeof Arrow>;
+} satisfies Meta<typeof Arrow>;
 
-const Template: ComponentStory<typeof Arrow> = (args) => <Arrow {...args} />;
-
-export const RightDirectionalEmptyArrow = Template.bind({});
-RightDirectionalEmptyArrow.args = {
-  item: {
-    startPosition: { x: 100, y: 0 },
-    endPosition: { x: 0, y: 0 },
-  } as ArrowItemType,
+export const RightDirectionalEmptyArrow = {
+  args: {
+    item: {
+      startPosition: { x: 100, y: 0 },
+      endPosition: { x: 0, y: 0 },
+    } as ArrowItemType,
+  },
 };
 
-export const LeftDirectionalCompletedArrow = Template.bind({});
-LeftDirectionalCompletedArrow.args = {
-  item: {
-    startPosition: { x: 100, y: 0 },
-    endPosition: { x: 0, y: 0 },
-  } as ArrowItemType,
+export const LeftDirectionalCompletedArrow = {
+  args: {
+    item: {
+      startPosition: { x: 100, y: 0 },
+      endPosition: { x: 0, y: 0 },
+    } as ArrowItemType,
+  },
 };
 
-export const BidirectionalHorizontalEmptyArrow = Template.bind({});
-BidirectionalHorizontalEmptyArrow.args = {
-  item: {
-    startPosition: { x: 100, y: 0 },
-    endPosition: { x: 0, y: 0 },
-  } as ArrowItemType,
+export const BidirectionalHorizontalEmptyArrow = {
+  args: {
+    item: {
+      startPosition: { x: 100, y: 0 },
+      endPosition: { x: 0, y: 0 },
+    } as ArrowItemType,
+  },
 };
 
-export const UpDirectionalEditedArrow = Template.bind({});
-UpDirectionalEditedArrow.args = {
-  item: {
-    startPosition: { x: 0, y: 100 },
-    endPosition: { x: 0, y: 0 },
-  } as ArrowItemType,
+export const UpDirectionalEditedArrow = {
+  args: {
+    item: {
+      startPosition: { x: 0, y: 100 },
+      endPosition: { x: 0, y: 0 },
+    } as ArrowItemType,
+  },
 };
 
-export const NonDirectionalVerticalEmptyArrow = Template.bind({});
-NonDirectionalVerticalEmptyArrow.args = {
-  item: {
-    startPosition: { x: 0, y: 0 },
-    endPosition: { x: 0, y: 100 },
-  } as ArrowItemType,
+export const NonDirectionalVerticalEmptyArrow = {
+  args: {
+    item: {
+      startPosition: { x: 0, y: 0 },
+      endPosition: { x: 0, y: 100 },
+    } as ArrowItemType,
+  },
 };

@@ -1,6 +1,5 @@
 /* eslint-disable no-console */
-import { ComponentStory, ComponentMeta } from '@storybook/react';
-
+import { Meta } from '@storybook/react';
 import { Toolbar } from './Toolbar';
 
 export default {
@@ -9,9 +8,8 @@ export default {
   args: {
     setActiveTool: () => console.info('new active tool'),
   },
-} as ComponentMeta<typeof Toolbar>;
+} satisfies Meta<typeof Toolbar>;
 
-const Template: ComponentStory<typeof Toolbar> = (args) => <Toolbar {...args} />;
-
-export const Primary = Template.bind({});
-Primary.args = {};
+export const Primary = {
+  args: {},
+};

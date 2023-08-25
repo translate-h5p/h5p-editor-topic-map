@@ -1,8 +1,8 @@
 /* eslint-disable no-console */
-import { ComponentMeta, ComponentStory } from '@storybook/react';
+import { Meta } from '@storybook/react';
 import { Dialog } from './Dialog';
 
-const componentMeta: ComponentMeta<typeof Dialog> = {
+const componentMeta: Meta<typeof Dialog> = {
   title: 'Molecules/Dialog',
   component: Dialog,
   args: {
@@ -16,14 +16,14 @@ const componentMeta: ComponentMeta<typeof Dialog> = {
 
 export default componentMeta;
 
-const Template: ComponentStory<typeof Dialog> = (args) => <Dialog {...args} />;
-
-export const SizeMedium = Template.bind({});
-SizeMedium.args = {
-  size: 'medium',
+export const SizeMedium = {
+  args: {
+    size: 'medium',
+  },
 };
 
-export const SizeLarge = Template.bind({});
-SizeLarge.args = {
-  size: 'large',
+export const SizeLarge = {
+  args: {
+    size: 'large',
+  },
 };
