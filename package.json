@@ -39,7 +39,7 @@
     "@types/jquery": "^3.5.16",
     "@types/lodash": "^4.14.195",
     "@types/lodash.intersectionby": "^4.7.7",
-    "@types/react": "^18.2.15",
+    "@types/react": "^18.2.21",
     "@types/react-dom": "^18.2.7",
     "@types/uuid": "^9.0.2",
     "@typescript-eslint/eslint-plugin": "^6.4.1",
