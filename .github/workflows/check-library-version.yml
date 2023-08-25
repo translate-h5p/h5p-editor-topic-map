@@ -8,6 +8,11 @@ on:
       - unlabeled # A label is removed from PR
       - synchronize # A commit is added - i.e. the PR's code is changed
 
+permissions:
+  contents: read
+  checks: write
+  pull-requests: write
+      
 jobs:
   check-h5p-library-version:
     name: Check H5P if library version is updated
