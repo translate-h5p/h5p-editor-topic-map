@@ -1,4 +1,4 @@
-import { Meta } from '@storybook/react';
+import { Meta, StoryObj } from '@storybook/react';
 import { GridIndicator } from './GridIndicator';
 
 export default {
@@ -6,6 +6,10 @@ export default {
   component: GridIndicator,
 } satisfies Meta<typeof GridIndicator>;
 
-export const Primary = {
-  args: {},
+type Story = StoryObj<typeof GridIndicator>;
+
+export const Primary: Story = {
+  args: {
+    position: { x: 0, y: 0},
+  },
 };
