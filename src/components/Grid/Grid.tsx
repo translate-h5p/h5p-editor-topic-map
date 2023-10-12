@@ -1,5 +1,5 @@
 import { H5P } from 'h5p-utils';
-import { FC, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { FC, useCallback, useDeferredValue, useEffect, useMemo, useRef, useState } from 'react';
 import { useEffectOnce } from 'react-use';
 import { t } from '../../H5P/H5P.util';
 import { ArrowItemType } from '../../types/ArrowItemType';
@@ -156,7 +156,7 @@ export const Grid: FC<GridProps> = ({
     // The grid's size is updated by external factors,
     // but still affects the grid indicator size
   }, [size]);
-
+  
   const cellSize = useMemo(getCellSize, [
     gapSize,
     getCellSize,
@@ -727,6 +727,7 @@ export const Grid: FC<GridProps> = ({
       onGridIndicatorMouseEnter,
     ],
   );
+  const deferredGridIndicatorElements = useDeferredValue(gridIndicatorElements);
 
   const updateItemPosition = useCallback(
     (updatedItem: TopicMapItemType, newPosition: Position) => {
@@ -1041,7 +1042,7 @@ export const Grid: FC<GridProps> = ({
     >
       {childrenArrows}
       {children}
-      {gridIndicatorElements}
+      {deferredGridIndicatorElements}
       <ArrowIndicatorContainer
         arrowIndicators={childrenArrowIndicators}
         cellSize={cellSize}
