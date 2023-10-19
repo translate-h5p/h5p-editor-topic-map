@@ -10,6 +10,6 @@ type Story = StoryObj<typeof GridIndicator>;
 
 export const Primary: Story = {
   args: {
-    position: { x: 0, y: 0},
+    position: { x: 0, y: 0 },
   },
 };

@@ -1,5 +1,5 @@
 import type { H5PField, H5PFieldGroup, H5PForm } from 'h5p-types';
-import {FC, useCallback, useEffect, useState } from 'react';
+import { FC, useCallback, useEffect, useState } from 'react';
 import { Params } from '../../types/Params';
 import { getTopicMapItemsField } from '../../utils/H5P/form.utils';
 import { getLabel } from '../../utils/arrow.utils';
